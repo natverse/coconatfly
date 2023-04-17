@@ -22,6 +22,9 @@ cf_partners(
 keeping only the common columns (default \code{TRUE} for convenience but
 note that some columns will be dropped).}
 }
+\value{
+A data.frame or a named list (when \code{bind.rows=FALSE})
+}
 \description{
 Flexible function for fetching partner data across datasets
 }

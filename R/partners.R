@@ -7,7 +7,7 @@
 #'   keeping only the common columns (default \code{TRUE} for convenience but
 #'   note that some columns will be dropped).
 #'
-#' @return
+#' @return A data.frame or a named list (when \code{bind.rows=FALSE})
 #'
 #' @examples
 #' \dontrun{
