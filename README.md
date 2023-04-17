@@ -25,7 +25,8 @@ do not have access to all datasets if you are not a collaborator of the
 
 For installation of private packages (currently restricted to in preparation 
 datasets being developed with our collaborators at the 
-[FlyEM Team at Janelia]()) you will need a GITHUB_PAT. This should work
+[FlyEM Team at Janelia](https://www.janelia.org/project-team/flyem))
+you will need a GITHUB_PAT. This should work
 
 ```
 natmanager::check_pat()
