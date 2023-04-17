@@ -31,7 +31,8 @@ Imports:
 Suggests: 
     malevnc (> 0.2.7),
     malecns (> 0.1),
-    fancr
+    fancr,
+    testthat (>= 3.0.0)
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,
@@ -46,3 +47,4 @@ Remotes:
 RoxygenNote: 7.2.3
 URL: https://github.com/flyconnectome/coconatfly
 BugReports: https://github.com/flyconnectome/coconatfly/issues
+Config/testthat/edition: 3
