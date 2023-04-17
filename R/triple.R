@@ -36,22 +36,9 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
 
   commoncols=intersect(colnames(hb), colnames(fw))
   x=do.call(rbind, list(hb[commoncols],fw[commoncols]))
+
   if(is.character(group)) {
-    # right now we only support type as the grouping variable
-    stopifnot(length(group)==1 && group=='type')
-    xg <- x %>%
-      dplyr::group_by(type) %>%
-      dplyr::mutate(nd=dplyr::n_distinct(dataset)) %>%
-      dplyr::ungroup()
-    todrop <- xg %>%
-      dplyr::filter(nd==1)
-    message("Matching types across datasets. Dropping ",
-            nrow(todrop), "/", nrow(x),
-            " ", substr(partners,1,nchar(partners)-1),
-            " partner types with total weight ", sum(todrop$weight), "/", sum(x$weight))
-    x <- xg %>%
-      dplyr::filter(nd>1) %>%
-      dplyr::select(-nd)
+    x <- match_types(x, group, partners=partners)
   }
   x
 }
