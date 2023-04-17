@@ -8,6 +8,14 @@
 \description{
 Experimental package to enable comparative connectomics analysis of multiple Drosophila connectomics datasets, including some private ones still under development.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/flyconnectome/coconatfly}
+  \item Report bugs at \url{https://github.com/flyconnectome/coconatfly/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
 
