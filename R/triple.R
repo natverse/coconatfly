@@ -67,7 +67,7 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
   x
 }
 
-triple_meta <- function(ids, version=flywire_connectome_data_version()) {
+triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version()) {
   ids <- fafbseg::flywire_ids(ids, integer64 = T)
   ishb <- ids<2^53
 
@@ -128,6 +128,7 @@ triple_meta <- function(ids, version=flywire_connectome_data_version()) {
 #' # both hemibrain types
 #' triple_cosine_plot('LAL074,LAL084', partners = 'i')
 #' }
+#' @importFrom fafbseg flywire_connectome_data_version flytable_meta flywire_partner_summary2
 triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
                                partners = c("outputs", "inputs"),
                                labRow='{type}_{side}',
