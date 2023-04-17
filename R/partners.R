@@ -33,7 +33,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres=flywire_partner_summary2(ids[[n]], partners = partners, threshold = threshold)
       tres$side=toupper(substr(tres$side,1,1))
     } else if(n=='hemibrain') {
-      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE)
+      # a bit inelegant but not sure how else to insist
+      hbconn=neuprintr::neuprint_login(dataset='hemibrain:v1.2.1')
+      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = hbconn)
       tres <- tres %>%
         dplyr::mutate(
           type=dplyr::case_when(
