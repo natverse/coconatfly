@@ -39,3 +39,5 @@ Remotes:
     natverse/nat.h5reg,
     natverse/coconat
 RoxygenNote: 7.2.3
+URL: https://github.com/flyconnectome/coconatfly
+BugReports: https://github.com/flyconnectome/coconatfly/issues
