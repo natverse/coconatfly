@@ -1,0 +1,40 @@
+Package: coconatfly
+Type: Package
+Title: Comparative Connectomics of Public and In Progress Drosophila Datasets
+Version: 0.1.0
+Authors@R:
+    c(person(given = "Gregory",
+           family = "Jefferis",
+           role = c("aut", "cre"),
+           email = "jefferis@gmail.com",
+           comment = c(ORCID = "0000-0002-0587-9355"))
+      )
+Description: Experimental package to enable comparative connectomics analysis of
+    multiple Drosophila connectomics datasets, including some private ones still
+    under development.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    fafbseg (>= 0.9.4),
+    nat.templatebrains (>= 1.0),
+    pbapply,
+    neuprintr (>= 1.3.1.9000),
+    glue,
+    checkmate,
+    dplyr,
+    coconat (> 0.1.1),
+    stringr
+Suggests: 
+    malevnc (> 0.2.7),
+    malecns (> 0.1)
+Remotes: 
+    flyconnectome/malevnc,
+    flyconnectome/malecns,
+    natverse/fafbseg,
+    natverse/nat,
+    natverse/nat.templatebrains,
+    natverse/neuprintr,
+    natverse/rcatmaid,
+    natverse/nat.h5reg,
+    natverse/coconat
