@@ -19,23 +19,13 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
       triple_connection_table(hbtype, fwtype, partners=p, threshold = threshold, version=version, hbdetails = hbdetails, fwtypefield = fwtypefield, group=group))
     return(l)
   }
+  stopifnot(isTRUE(hbdetails))
+  hb=cf_partners(list(hemibrain=hbtype), partners = partners, threshold=threshold)[[1]]
+  fw=cf_partners(list(flywire=fwtype), partners = partners, threshold = threshold)[[1]]
+  stopifnot(isTRUE(version==fafbseg::flywire_connectome_data_version()))
 
-  hb=neuprintr::neuprint_connection_table(hbtype, partners = partners, threshold=threshold, details = hbdetails)
-  fw=flywire_partner_summary2(fwtype, partners = partners, threshold = threshold, version=version)
-  hb=coconat:::standardise_partner_summary(hb)
-  fw=coconat:::standardise_partner_summary(fw)
   if(fwtypefield=='hemibrain_type')
     fw$type=fw$hemibrain_type
-  hb <- hb %>%
-    dplyr::mutate(
-      type=dplyr::case_when(
-        is.na(type) ~ paste0('hb', bodyid),
-        T ~ type),
-      side=stringr::str_match(name, '_([LR])$')[,2],
-      side=dplyr::case_when(
-        is.na(side) ~ 'R',
-        T ~ side),
-      dataset='hemibrain')
   compoundtypes <- unique(grep(",", fw$type, value = T))
   if(length(compoundtypes)>0) {
     # replace simple type in hb data with compound type
@@ -43,8 +33,7 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
       hb[grepl(compound2regex(ct, prefix=FALSE), hb$type),'type']=ct
     }
   }
-  fw$dataset='FAFB'
-  fw$side=toupper(substr(fw$side,1,1))
+
   commoncols=intersect(colnames(hb), colnames(fw))
   x=do.call(rbind, list(hb[commoncols],fw[commoncols]))
   if(is.character(group)) {
