@@ -46,7 +46,16 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
             is.na(side) ~ 'R',
             T ~ side))
     } else if(n=='malecns') {
-      stop("malecns not yet supported!")
+      tres=malecns::mcns_connection_table(ids[[n]], partners = partners, threshold=threshold)
+      # nb the type information we care about here is for partners
+      tres2=tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
+      tres$type <- malecns::mcns_predict_type(tres2)
+      # set the soma side either from manually reviewed data
+      tres <-  tres %>%
+        dplyr::mutate(side=dplyr::case_when(
+          !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ somaSide,
+          T ~ malecns::mcns_soma_side(., method = "instance")
+        ))
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
