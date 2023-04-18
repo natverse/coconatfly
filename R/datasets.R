@@ -17,3 +17,9 @@ abbreviate_datasets <- function(ds) {
   abbrevlist=c(hemibrain='hb', flywire='fw', malevnc='mv', fanc='fv', malecns='mc')
   unname(abbrevlist[ds])
 }
+
+lengthen_datasets <- function(ds) {
+  longlist=c(hb="hemibrain", fw="flywire", mv="malevnc", fv="fanc", mc="malecns")
+  ds=match.arg(ds, names(longlist), several.ok = T)
+  unname(longlist[ds])
+}

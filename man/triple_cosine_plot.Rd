@@ -11,7 +11,7 @@ triple_cosine_plot(
   ...,
   threshold = 5,
   partners = c("outputs", "inputs"),
-  labRow = "{type}_{side}",
+  labRow = "{type}_{abbreviate_datasets(dataset)}{side}",
   group = "type",
   heatmap = TRUE,
   interactive = FALSE,

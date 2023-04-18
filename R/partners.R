@@ -58,6 +58,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
+    tres$pre_key=paste0(abbreviate_datasets(tres$dataset), ":", tres$pre_id)
+    tres$post_key=paste0(abbreviate_datasets(tres$dataset), ":", tres$post_id)
     res[[n]]=tres
   }
   if(isTRUE(bind.rows)) bind_rows2(res) else res
@@ -92,97 +94,39 @@ match_types <- function(x, group, partners="", min_datasets=Inf) {
   x
 }
 
-npconn <- function(dataset) {
-  dataset=match_datasets(dataset)
-  if(dataset=='hemibrain')
-    return(neuprintr::neuprint_login(dataset='hemibrain:v1.2.1'))
-  else if(dataset=='malecns')
-    return(malecns::mcns_neuprint())
-  else if(dataset=='malevnc')
-    return(malevnc::manc_neuprint())
-  else stop("neuprint connection unavailable for dataset: ", dataset)
-}
 
-#' @importFrom dplyr mutate rename rename_with select case_when
-#' @importFrom fafbseg flywire_ids
-cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_type","hemibrain_type")) {
-  flywire_type=match.arg(flywire_type)
-  ids <- checkmate::assert_named(ids, type = 'unique')
-  names(ids)=match_datasets(names(ids))
-  stopifnot(all(names(ids) %in% cf_datasets('all')))
-
-  res=vector(mode = 'list', length = length(ids))
-  names(res)=names(ids)
-
-  for(n in names(ids)) {
-    if(n=='flywire'){
-      tres=flytable_meta(ids[[n]],
-                         version = fafbseg::flywire_connectome_data_version(),
-                         unique = T)
-      tres <- tres %>%
-        rename(id=root_id) %>%
-        mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
-        mutate(side=toupper(substr(side,1,1))) %>%
-        rename_with(~ sub(".+_", "", .x), .cols=flywire_type) %>%
-        rename(class=super_class)
-    } else if(n=='hemibrain') {
-      tres=neuprintr::neuprint_get_meta(ids[[n]], conn = npconn('hemibrain'))
-      tres <- tres %>%
-        rename(id=bodyid) %>%
-        mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
-    } else if(n=='malecns') {
-      tres=malecns::mcns_neuprint_meta(ids[[n]])
-      tres <- tres %>%
-        mutate(side=malecns::mcns_soma_side(.)) %>%
-        mutate(pgroup=malecns::mcns_predict_group(.)) %>%
-        mutate(ptype=malecns::mcns_predict_type(.)) %>%
-        rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
-        rename(id=bodyid)
-    } else if(n=='malevnc'){
-      tres <- malevnc::manc_neuprint_meta(ids[[n]]) %>%
-        mutate(side=dplyr::case_when(
-          !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
-          !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
-          T ~ NA_character_
-        )) %>%
-        rename(id=bodyid)
-    } else if(n=='fanc')
-      stop("metadata is not currently supported for fanc!")
-
-    tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "type", 'side', 'group', "instance")
-    missing_cols=setdiff(cols_we_want, colnames(tres))
-    if('class' %in% missing_cols)
-      tres$class=NA_character_
-    if('group' %in% missing_cols)
-      tres$group=bit64::as.integer64(NA)
-    if('instance' %in% missing_cols) {
-      tres <-if('name' %in% colnames(tres))
-        tres %>% rename(instance=name)
-      else
-        tres %>%
-        mutate(instance=case_when(
-          !is.na(type) ~ paste0(type, "_", side),
-          T ~ NA_character_))
-    }
-    tres$group=flywire_ids(tres$group, integer64 = integer64)
-    missing_cols=setdiff(cols_we_want, colnames(tres))
-    if(length(missing_cols)>0)
-      stop("We are missing columns: ", paste(missing_cols, collapse = ','))
-    tres$dataset=n
-    res[[n]]=tres
+#' @importFrom dplyr distinct all_of
+multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
+                                    threshold=1L, version=NULL,
+                                    group='type') {
+  partners=match.arg(partners, several.ok = T)
+  if(length(partners)>1) {
+    l=sapply(partners, simplify = F, function(p)
+      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
+    return(l)
   }
-  if(bind.rows) bind_rows2(res) else res
+  x <- cf_partners(ids, threshold = threshold, partners = partners)
+  if(is.character(group))
+    x <- match_types(x, group, partners=partners)
+  # now we need to recover query ids; in our current design we don't know this
+  # for certain as we rely on downstream functions to process queries like "DA2_lPN"
+  querycol=ifelse(partners=='inputs', 'post_id', 'pre_id')
+  qx=x %>%
+    select(all_of(querycol), dataset) %>%
+    rename_with(~sub(".+_", "", .x)) %>%
+    # mutate(id=as.character(id)) %>%
+    distinct(id, dataset)
+  attr(x, 'queryids')=qx
+  x
 }
 
-# private function to bind rows keeping common columns
-bind_rows2 <- function(l) {
-  if(length(l)==1) return(l[[1]])
-
-  nn=lapply(l, names)
-  commoncols=Reduce(intersect, nn[-1], init=nn[[1]])
-  l=lapply(l, "[", commoncols)
-
-  l <- do.call(function(...) rbind(..., make.row.names=FALSE), l)
-  l
+connection_table2queryids <- function(x) {
+  if(is.data.frame(x)) {
+    qx=attr(x, 'queryids')
+    stopifnot(is.data.frame(qx))
+    return(qx)
+  } else {
+    l=lapply(x, connection_table2queryids)
+    qx=dplyr::bind_rows(l) %>% distinct(id, dataset)
+  }
 }
