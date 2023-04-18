@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^\.github$
 package-secrets.txt
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
