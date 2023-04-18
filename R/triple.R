@@ -46,19 +46,7 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
 }
 
 triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version()) {
-  ids <- fafbseg::flywire_ids(ids, integer64 = T)
-  ishb <- ids<2^53
-
-  fm=flytable_meta(ids, version = version)
-  fm$instance=NA_character_
-  colnames(fm)[colnames(fm)=='cell_type']='type'
-  if(any(ishb)) {
-    hbm <- neuprintr::neuprint_get_meta(ids[ishb])
-    hbm$side=stringr::str_match(hbm$name, "_([LR])")[,2]
-    hbm$side=ifelse(is.na(hbm$side), 'hb', paste0("hb", hbm$side))
-    fm[ishb, c("type", "instance", "side")]=hbm[c("type", "name", "side")]
-  }
-  fm
+  cf_meta(separate_ids(ids))
 }
 
 #' Cosine cluster across hemibrain and flywire
@@ -109,7 +97,7 @@ triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version())
 #' @importFrom fafbseg flywire_connectome_data_version flytable_meta flywire_partner_summary2
 triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
                                partners = c("outputs", "inputs"),
-                               labRow='{type}_{side}',
+                               labRow='{type}_{abbreviate_datasets(dataset)}{side}',
                                group='type',
                                heatmap=TRUE,
                                interactive=FALSE,
@@ -179,5 +167,5 @@ separate_ids <- function(ids, integer64 = TRUE) {
   ishb <- ids<2^53
   # will convert to char if necessary
   ids <- fafbseg::flywire_ids(ids, integer64 = integer64)
-  list(fw=ids[!ishb], hb=ids[ishb])
+  list(flywire=ids[!ishb], hemibrain=ids[ishb])
 }

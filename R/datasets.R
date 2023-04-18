@@ -9,6 +9,11 @@ cf_datasets <- function(rval=c("all", 'available')) {
 
 match_datasets <- function(ds) {
   ds=tolower(ds)
-  match.arg(ds, cf_datasets('all'), several.ok = TRUE)
+  match.arg(ds, choices = cf_datasets('all'), several.ok = TRUE)
 }
 
+abbreviate_datasets <- function(ds) {
+  ds=match_datasets(ds)
+  abbrevlist=c(hemibrain='hb', flywire='fw', malevnc='mv', fanc='fv', malecns='mc')
+  unname(abbrevlist[ds])
+}
