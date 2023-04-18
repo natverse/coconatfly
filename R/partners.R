@@ -8,7 +8,7 @@
 #'   note that some columns will be dropped).
 #'
 #' @return A data.frame or a named list (when \code{bind.rows=FALSE})
-#'
+#' @export
 #' @examples
 #' \dontrun{
 #' cf_partners(list(flywire='DA2_lPN'))
