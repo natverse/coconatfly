@@ -12,6 +12,7 @@ Experimental package to enable comparative connectomics analysis of multiple Dro
 Useful links:
 \itemize{
   \item \url{https://github.com/flyconnectome/coconatfly}
+  \item \url{https://flyconnectome.github.io/coconatfly/}
   \item Report bugs at \url{https://github.com/flyconnectome/coconatfly/issues}
 }
 

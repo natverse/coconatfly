@@ -23,7 +23,8 @@ cf_cosine_plot(
 
 \item{...}{Additional arguments passed to \code{\link{heatmap}}}
 
-\item{threshold}{return only edges with at least this many matches}
+\item{threshold}{return only edges with at least this many matches. 0 is an
+option since neuprint sometimes returns 0 weight edges.}
 
 \item{partners}{Whether to return inputs or outputs}
 
