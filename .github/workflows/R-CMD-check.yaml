@@ -12,7 +12,7 @@ jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
     env:
-      GITHUB_PAT: ${{ secrets.FLYCONNECTOME_PAT4 }}
+      GITHUB_PAT: ${{ secrets.GJPAT2 }}
       # GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
     steps:
