@@ -11,6 +11,12 @@
 #' @return A data.frame or a named list (when \code{bind.rows=FALSE})
 #' @export
 #' @examples
+#' \donttest{
+#' da2ds=cf_partners(list(hemibrain='DA2_lPN'), threshold=5)
+#' library(dplyr)
+#' da2ds %>%
+#'   count(type, wt=weight, sort=TRUE)
+#' }
 #' \dontrun{
 #' cf_partners(list(flywire='DA2_lPN'))
 #'
