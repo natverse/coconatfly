@@ -22,6 +22,12 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install custom R dependencies
+        run: |
+          install.packages('remotes')
+          remotes::install_github('natverse/rcatmaid')
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
