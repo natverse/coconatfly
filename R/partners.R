@@ -1,7 +1,8 @@
 #' Flexible function for fetching partner data across datasets
 #'
 #' @param ids A list of ids named by the relevant datasets
-#' @param threshold return only edges with at least this many matches
+#' @param threshold return only edges with at least this many matches. 0 is an
+#'   option since neuprint sometimes returns 0 weight edges.
 #' @param partners Whether to return inputs or outputs
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
@@ -19,7 +20,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                         bind.rows=TRUE) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
-    threshold, lower=1L,len = 1, null.ok = F, all.missing = F)
+    threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
   if(is.character(ids))
     ids=idvec2iddf(ids)
