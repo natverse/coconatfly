@@ -106,7 +106,7 @@ match_types <- function(x, group, partners="", min_datasets=Inf) {
           " ", substr(partners,1,nchar(partners)-1),
           " partner types with total weight ", sum(todrop$weight), "/", sum(x$weight))
   x <- xg %>%
-    dplyr::filter(nd>1) %>%
+    dplyr::filter(nd>=min_datasets) %>%
     dplyr::select(-nd)
   x
 }
