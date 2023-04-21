@@ -9,8 +9,25 @@ npconn <- function(dataset) {
   else stop("neuprint connection unavailable for dataset: ", dataset)
 }
 
+#' Fetch metadata for neurons from connectome datasets
+#'
+#' @param integer64 Whether ids should be character vectors (default) or 64 bit
+#'   ints (more compact but a little fragile as they rely on the \code{bit64}
+#'   extension package.)
+#' @param flywire_type Which metadata column to use from flytable info table
+#' @inheritParams cf_partners
+#'
 #' @importFrom dplyr mutate rename rename_with select case_when
 #' @importFrom fafbseg flywire_ids
+#' @export
+#' @seealso \code{\link{neuprint_ids}}
+#' @examples
+#' \donttest{
+#' da2meta=cf_meta(list(hemibrain='DA2_lPN'))
+#' da2meta
+#' # / introduces a regular expression
+#' mbonmeta=cf_meta(list(hemibrain='/MBON.+'))
+#' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_type","hemibrain_type")) {
   flywire_type=match.arg(flywire_type)
   if(is.character(ids))

@@ -19,7 +19,7 @@ cf_cosine_plot(
 )
 }
 \arguments{
-\item{ids}{A list of ids named by the relevant datasets}
+\item{ids}{A list of ids named by the relevant datasets (see examples)}
 
 \item{...}{Additional arguments passed to \code{\link{heatmap}}}
 

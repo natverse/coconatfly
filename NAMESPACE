@@ -2,6 +2,7 @@
 
 export("%>%")
 export(cf_cosine_plot)
+export(cf_meta)
 export(cf_partners)
 export(triple_cosine_plot)
 import(nat)

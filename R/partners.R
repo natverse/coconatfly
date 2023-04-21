@@ -1,6 +1,6 @@
 #' Flexible function for fetching partner data across datasets
 #'
-#' @param ids A list of ids named by the relevant datasets
+#' @param ids A list of ids named by the relevant datasets (see examples)
 #' @param threshold return only edges with at least this many matches. 0 is an
 #'   option since neuprint sometimes returns 0 weight edges.
 #' @param partners Whether to return inputs or outputs
