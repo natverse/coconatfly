@@ -12,6 +12,16 @@ match_datasets <- function(ds) {
   match.arg(ds, choices = cf_datasets('all'), several.ok = TRUE)
 }
 
+
+#' Abbreviate fly connectomics dataset names
+#'
+#' @param ds One or more dataset long names
+#'
+#' @return a character vector of 2 letter abbreviations
+#' @export
+#'
+#' @examples
+#' abbreviate_datasets(c("flywire", "flywire", "hemibrain"))
 abbreviate_datasets <- function(ds) {
   ds=match_datasets(ds)
   abbrevlist=c(hemibrain='hb', flywire='fw', manc='mv', fanc='fv', malecns='mc')
