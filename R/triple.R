@@ -46,7 +46,7 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
 }
 
 triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version()) {
-  cf_meta(separate_ids(ids))
+  cf_meta(ids)
 }
 
 #' Cosine cluster across hemibrain and flywire
@@ -114,7 +114,7 @@ triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
-    tm=triple_meta(colnames(cm))
+    tm=cf_meta(colnames(cm))
     labRow <- glue::glue(labRow, .envir = tm)
   }
   if(interactive) {
@@ -125,12 +125,4 @@ triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
   }
   coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
                            method = method, heatmap=heatmap, ...)
-}
-
-separate_ids <- function(ids, integer64 = TRUE) {
-  ids <- fafbseg::flywire_ids(ids, integer64 = T)
-  ishb <- ids<2^53
-  # will convert to char if necessary
-  ids <- fafbseg::flywire_ids(ids, integer64 = integer64)
-  list(flywire=ids[!ishb], hemibrain=ids[ishb])
 }
