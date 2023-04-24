@@ -1,3 +1,4 @@
+<img src="man/figures/coconatfly-200.jpg" align="right" height="200" />
 
 # coconatfly
 
@@ -18,7 +19,7 @@ install.packages('natmanager')
 natmanager::install(pkgs = 'flyconnectome/coconatfly')
 ```
 
-Some of the datasets exposed by coconatfly require authentication for access or
+Some of the datasets exposed by *coconatfly* require authentication for access or
 are still being annotated in private pre-release. Please consult individual 
 package dependencies for authentication details and do not be surprised if you
 do not have access to all datasets if you are not a collaborator of the
