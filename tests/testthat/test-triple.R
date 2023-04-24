@@ -1,4 +1,7 @@
 test_that("triple_cosine_plot works", {
+  fcdv <- try(fafbseg::flywire_connectome_data_version(), silent = T)
+  testthat::skip_if(inherits(fcdv, "try-error"))
+
   expect_s3_class(
     hc <- triple_cosine_plot('AOTU063', partners = 'o', heatmap = F),
             'hclust')
