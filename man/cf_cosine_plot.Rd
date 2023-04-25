@@ -58,5 +58,7 @@ The result of \code{\link{heatmap}} invisibly including the row and
 Multidataset cosine clustering
 }
 \examples{
+\dontrun{
 cf_cosine_plot(list(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+}
 }

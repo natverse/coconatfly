@@ -43,7 +43,9 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' cf_cosine_plot(list(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+#' }
 cf_cosine_plot <- function(ids, ..., threshold=5,
                            partners = c("outputs", "inputs"),
                            labRow='{type}_{abbreviate_datasets(dataset)}{side}',
