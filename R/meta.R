@@ -73,7 +73,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_t
         rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
         # special case DNs
         mutate(type=case_when(
-          grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-0_]+),")[,2],
+          grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-9_]+),")[,2],
           T ~ type
         )) %>%
         rename(id=bodyid)
