@@ -71,6 +71,11 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_t
         mutate(pgroup=malecns::mcns_predict_group(.)) %>%
         mutate(ptype=malecns::mcns_predict_type(.)) %>%
         rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
+        # special case DNs
+        mutate(type=case_when(
+          grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-0_]+),")[,2],
+          T ~ type
+        )) %>%
         rename(id=bodyid)
     } else if(n=='malevnc'){
       tres <- malevnc::manc_neuprint_meta(ids[[n]]) %>%
