@@ -29,7 +29,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
   if(is.character(ids))
-    ids=idvec2iddf(ids)
+    ids=keys2df(ids)
   if(is.data.frame(ids)) {
     ss=split(ids$id, ids$dataset)
     res=cf_partners(ss, threshold = threshold, partners = partners, bind.rows = bind.rows)

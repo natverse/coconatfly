@@ -31,7 +31,7 @@ npconn <- function(dataset) {
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_type","hemibrain_type")) {
   flywire_type=match.arg(flywire_type)
   if(is.character(ids))
-    ids=idvec2iddf(ids)
+    ids=keys2df(ids)
   if(is.data.frame(ids)) {
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
@@ -109,9 +109,14 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_t
   if(bind.rows) bind_rows2(res) else res
 }
 
-idvec2iddf <- function(x) {
+keys2df <- function(x) {
   looks_like_idvec=grepl("^[a-z]{2}:[0-9]{5,19}", x)
   if(!all(looks_like_idvec)) stop("Expecting keys of the form: `<dataset>:<id>`")
   res=stringr::str_match(x, "^([a-z]{2}):([0-9]+)")
   data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
+}
+
+keys2list <- function(x) {
+  iddf=keys2df(x)
+  base::split(iddf[['id']],f = iddf[['dataset']])
 }
