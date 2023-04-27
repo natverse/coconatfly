@@ -34,7 +34,10 @@ Suggests:
     malevnc (> 0.2.7),
     malecns (>= 0.3),
     fancr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    ComplexHeatmap,
+    InteractiveComplexHeatmap,
+    arrow
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,
@@ -51,3 +54,4 @@ URL: https://github.com/flyconnectome/coconatfly,
     https://flyconnectome.github.io/coconatfly/
 BugReports: https://github.com/flyconnectome/coconatfly/issues
 Config/testthat/edition: 3
+biocViews: Software
