@@ -5,3 +5,4 @@ package-secrets.txt
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^README\.Rmd$

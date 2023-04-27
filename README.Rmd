@@ -1,0 +1,171 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- devtools::build_readme() is a good way to build this -->
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+
+<img src="man/figures/coconatfly-200.jpg" align="right" height="200" />
+
+# coconatfly
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/flyconnectome/coconatfly/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/flyconnectome/coconatfly/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+**coconatfly** enables comparative/integrative connectomics across Drosophila datasets.
+The philosophy is to provide access to the most important
+functions for connectome analysis in a way that is both convenient and 
+uniform across Drosophila datasets. 
+The package builds upon the [coconat](https://natverse.org/coconat/)
+package which provides more basic and/or dataset agnostic functionality. In case
+you were wondering, **coconat** stands for COmparative COnnectomics for the NATverse
+and **coconatfly** does the same specifically for fly datasets.
+
+Although the code is certainly already useful, it is currently highly
+experimental, so the interface should not yet been relied upon. In particular,
+it is quite likely that refactoring will abstract more functionality into
+[coconat](https://natverse.org/coconat/) as time goes by in order to enable
+the core functionality to be reused.
+
+## Installation
+
+You can install the development version of coconatfly like so:
+
+``` r
+install.packages('natmanager')
+natmanager::install(pkgs = 'flyconnectome/coconatfly')
+```
+
+Some of the datasets exposed by *coconatfly* require authentication for access or
+are still being annotated in private pre-release. Please consult individual 
+package dependencies for authentication details and do not be surprised if you
+do not have access to all datasets if you are not a collaborator of the
+[fly connectome group](https://flyconnecto.me).
+
+For installation of private packages (currently restricted to in preparation 
+datasets being developed with our collaborators at the 
+[FlyEM Team at Janelia](https://www.janelia.org/project-team/flyem))
+you will need a GITHUB_PAT (Personal Access Token - an alternative to 
+a username+password). 
+
+This code checks if you have a PAT GITHUB_PAT and offers to make one if necessary.
+
+```{r eval=FALSE}
+natmanager::check_pat()
+```
+
+## An example
+
+Two important functions are `cf_ids()` which allows you to specify a set of
+neurons from one or more datasets and `cf_meta()` which fetches information
+about the cell type.
+
+For example let's fetch information about DA1 projection neurons:
+
+```{r}
+library(coconatfly)
+library(dplyr)
+cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
+```
+
+We can also do that for multiple brain datasets
+
+```{r}
+da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
+head(da1meta)
+```
+
+```{r}
+da1meta %>% 
+  count(dataset, side)
+```
+
+We can also fetch connectivity for these neurons: 
+
+```{r}
+da1ds <- da1meta %>% 
+  cf_partners(threshold = 5, partners = 'output')
+head(da1ds)
+```
+
+```{r}
+da1ds %>% 
+  group_by(type, dataset, side) %>% 
+  summarise(weight=sum(weight), npre=n_distinct(pre_id), npost=n_distinct(post_id))
+```
+
+Let's restrict that to types that are observed in both datasets. We do this
+by counting how many distinct datasets exist for each type in the results.
+
+```{r, }
+da1ds.shared_types.wide <- da1ds %>% 
+  filter(!(dataset=='hemibrain' & side=='L')) %>% # drop truncated hemibrain LHS 
+  group_by(type) %>% 
+  mutate(datasets_type=n_distinct(dataset)) %>% 
+  filter(datasets_type>1) %>% 
+  group_by(type, dataset, side) %>% 
+  summarise(weight=sum(weight)) %>% 
+  mutate(shortdataset=abbreviate_datasets(dataset)) %>% 
+  tidyr::pivot_wider(id_cols = type, names_from = c(shortdataset,side), 
+                     values_from = weight, values_fill = 0)
+da1ds.shared_types.wide
+```
+
+With the data organised like this, we can easily compare the connection strengths
+between the cell types across hemispheres:
+
+```{r flywire-left-vs-right}
+library(ggplot2)
+da1ds.shared_types.wide %>% 
+  filter(type!='KCg-m') %>% 
+  ggplot(data=., aes(fw_L, fw_R)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + 0) +
+  geom_abline(slope=1, linetype='dashed')
+```
+
+... and across datasets:
+
+```{r flywire-vs-hemibrain}
+da1ds.shared_types.wide %>% 
+  filter(type!='KCg-m') %>% 
+  ggplot(data=., aes(fw_R, hb_R)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + 0) +
+  geom_abline(slope=1, linetype='dashed')
+```
+
+## Across dataset connectivity clustering
+
+Being able to fetch shared connectivity in a uniform format is a building block
+for a range of analyses. For example, we can compare the connectivity of a set
+of neurons that are believed to constitute the same cell type across multiple 
+datasets. Cosine similarity clustering seems to work very well for this purpose.
+
+```{r lal-cosine-cluster}
+cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
+```
+
+Each row (and column) correspond to a single neuron. Rows are labelled by cell 
+type, dataset and hemisphere; due to truncation hemibrain neurons sometimes 
+exist in one hemisphere, sometimes both.
+Notice that LAL009 and LAL010 neurons from each hemisphere co-cluster together
+exactly as we would expect for a cell type conserved across brains. In contrast
+LAL008 and LAL042 are intermingled; we believe that these constitute a single
+cell type of two cells / hemisphere (i.e. they should not have been split into
+two cell types in the hemibrain).
+
+You can also see that cells from one hemibrain hemisphere often cluster slightly
+oddly - this is likely due to truncation of the axons or dendrites of these cells
+or a paucity of partners from the left hand side of the hemibrain.
