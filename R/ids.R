@@ -9,41 +9,6 @@ id2int64 <- function(x) {
 }
 
 
-#' @description \code{keys2df} produces a \code{data.frame} with columns
-#'   \code{id} and \code{dataset} describing the ids for each dataset. The
-#'   ordering of the data.frame will match the order of keys in the input
-#'   vector.
-#'
-#' @rdname keys
-keys2df <- function(keys, integer64=FALSE) {
-  looks_like_idvec=grepl("^[a-z0-9]+:[0-9]{5,20}", keys)
-  if(!all(looks_like_idvec)) stop("Expecting keys of the form: `<dataset>:<id>`")
-  res=stringr::str_match(keys, "^([a-z]{2}):([0-9]+)")
-  data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
-}
-
-#' @description \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
-#'
-#' @param keys A character vector of keys
-#' @param integer64 Whether the output ids should be character vectors (the
-#'   default) or \code{integer64}
-#'
-#' @rdname keys
-#' @family ids
-#' @examples
-#' \donttest{
-#'
-#' }
-keys2list <- function(keys, integer64=FALSE) {
-  iddf=keys2df(keys)
-  bs=base::split(iddf[['id']],f = iddf[['dataset']])
-  if(isTRUE(integer64)) {
-    bs=sapply(bs, id2int64, simplify = F, USE.NAMES = T)
-  }
-  bs
-}
-
-
 #' Interconvert between keys and ids/datasets
 #'
 #' @description Neurons within a dataset will be identified by numeric ids but
@@ -126,3 +91,37 @@ cf_ids <- function(query=NULL,
   }
 }
 
+
+#' @description \code{keys2df} produces a \code{data.frame} with columns
+#'   \code{id} and \code{dataset} describing the ids for each dataset. The
+#'   ordering of the data.frame will match the order of keys in the input
+#'   vector.
+#'
+#' @rdname keys
+keys2df <- function(keys, integer64=FALSE) {
+  looks_like_idvec=grepl("^[a-z0-9]+:[0-9]{5,20}", keys)
+  if(!all(looks_like_idvec)) stop("Expecting keys of the form: `<dataset>:<id>`")
+  res=stringr::str_match(keys, "^([a-z]{2}):([0-9]+)")
+  data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
+}
+
+#' @description \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
+#'
+#' @param keys A character vector of keys
+#' @param integer64 Whether the output ids should be character vectors (the
+#'   default) or \code{integer64}
+#'
+#' @rdname keys
+#' @family ids
+#' @examples
+#' \donttest{
+#'
+#' }
+keys2list <- function(keys, integer64=FALSE) {
+  iddf=keys2df(keys)
+  bs=base::split(iddf[['id']],f = iddf[['dataset']])
+  if(isTRUE(integer64)) {
+    bs=sapply(bs, id2int64, simplify = F, USE.NAMES = T)
+  }
+  bs
+}

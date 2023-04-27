@@ -46,6 +46,6 @@ cf_ids("/MBON.+", datasets='brain')
 }
 \seealso{
 Other ids: 
-\code{\link{keys2df}()}
+\code{\link{keys}()}
 }
 \concept{ids}
