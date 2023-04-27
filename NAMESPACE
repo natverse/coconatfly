@@ -3,6 +3,7 @@
 export("%>%")
 export(abbreviate_datasets)
 export(cf_cosine_plot)
+export(cf_ids)
 export(cf_meta)
 export(cf_partners)
 export(keys)

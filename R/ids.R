@@ -9,6 +9,11 @@ id2int64 <- function(x) {
 }
 
 
+#' @description \code{keys2df} produces a \code{data.frame} with columns
+#'   \code{id} and \code{dataset} describing the ids for each dataset. The
+#'   ordering of the data.frame will match the order of keys in the input
+#'   vector.
+#'
 #' @rdname keys
 keys2df <- function(keys, integer64=FALSE) {
   looks_like_idvec=grepl("^[a-z0-9]+:[0-9]{5,20}", keys)
@@ -20,11 +25,11 @@ keys2df <- function(keys, integer64=FALSE) {
 #' @description \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
 #'
 #' @param keys A character vector of keys
-#'
 #' @param integer64 Whether the output ids should be character vectors (the
 #'   default) or \code{integer64}
 #'
 #' @rdname keys
+#' @family ids
 #' @examples
 #' \donttest{
 #'
@@ -70,6 +75,27 @@ keys <- function(x) {
   glue::glue("{dataset}:{id}", .envir = x)
 }
 
+#' Specify ids for flybrain datasets
+#'
+#' @param query A query (e.g. cell type name or regular expression)
+#' @param datasets Character vector naming datasets to which the \code{query}
+#'   should be applied.
+#' @param hemibrain Pass hemibrain specific query or ids to this argument
+#' @param flywire Pass flywire specific query or ids to this argument
+#' @param malecns Pass malecns specific query or ids to this argument
+#' @param manc Pass manc specific query or ids to this argument
+#' @param fanc Pass fanc ids to this argument (at present we do not support
+#'   metadata queries for fanc)
+#'
+#' @return A list of ids
+#' @export
+#' @family ids
+#' @examples
+#' \donttest{
+#' cf_ids("DA2_lPN", datasets='brain')
+#' # / introduces a regular expression
+#' cf_ids("/MBON.+", datasets='brain')
+#' }
 cf_ids <- function(query=NULL,
                    datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
                    hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL) {

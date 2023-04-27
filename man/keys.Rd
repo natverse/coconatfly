@@ -26,6 +26,11 @@ For \code{keys} as character vector of keys of the form
   \code{"<dataset>:<id>"}.
 }
 \description{
+\code{keys2df} produces a \code{data.frame} with columns
+  \code{id} and \code{dataset} describing the ids for each dataset. The
+  ordering of the data.frame will match the order of keys in the input
+  vector.
+
 \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
 
 Neurons within a dataset will be identified by numeric ids but
@@ -40,3 +45,8 @@ we use \code{keys} of the form \code{"<dataset>:<id>"}.
 keys(list(hemibrain=12345, flywire='4611686018427387904'))
 }
 }
+\seealso{
+Other ids: 
+\code{\link{cf_ids}()}
+}
+\concept{ids}
