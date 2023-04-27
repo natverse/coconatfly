@@ -60,5 +60,15 @@ Multidataset cosine clustering
 \examples{
 \dontrun{
 cf_cosine_plot(list(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+
+cf_cosine_plot(cf_ids("/type:LAL.+", datasets='brain'))
+# same as since the default is brain
+cf_cosine_plot(cf_ids("/type:LAL.+"))
+
+# just make the hclust dendrogram
+cf_cosine_plot(cf_ids("/type:LAL.+"), heatmap=FALSE)
+
+# look at the results interactively
+cf_cosine_plot(cf_ids("/type:LAL.+"), interactive=TRUE)
 }
 }
