@@ -35,6 +35,12 @@ by \code{\link[neuprintr]{neuprint_get_meta}} as a source of information.}
 
 \item{group}{Whether to group by cell \code{type} or another named column.}
 
+\item{heatmap}{A logical indicating whether or not to plot the heatmap
+\emph{OR} a function to plot the heatmap whose argument names are
+compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
+good example. Defaults to \code{TRUE} therefore plotting the full heatmap
+with \code{stats::\link{heatmap}}.}
+
 \item{interactive}{Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.}
 
