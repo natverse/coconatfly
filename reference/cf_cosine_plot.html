@@ -130,6 +130,16 @@ similarity.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>flywire<span class="op">=</span><span class="st">"/type:LAL.+"</span>, malecns<span class="op">=</span><span class="st">"/type:LAL.+"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:LAL.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># same as since the default is brain</span></span></span>
+<span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:LAL.+"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># just make the hclust dendrogram</span></span></span>
+<span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:LAL.+"</span><span class="op">)</span>, heatmap<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># look at the results interactively</span></span></span>
+<span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:LAL.+"</span><span class="op">)</span>, interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
