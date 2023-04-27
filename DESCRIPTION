@@ -32,7 +32,7 @@ Imports:
     bit64
 Suggests: 
     malevnc (> 0.2.7),
-    malecns (> 0.1),
+    malecns (>= 0.3),
     fancr,
     testthat (>= 3.0.0)
 Remotes: 
