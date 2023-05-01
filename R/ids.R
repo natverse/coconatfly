@@ -87,7 +87,9 @@ cf_ids <- function(query=NULL,
   } else {
     if(nds==0)
       stop("You must supply either the `query` argument or one of hemibrain:fanc!")
-    list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc)
+    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc)
+    # drop any empty datasets
+    l[lengths(l)>0]
   }
 }
 
