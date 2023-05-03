@@ -100,6 +100,7 @@ cf_ids <- function(query=NULL,
 #'   vector.
 #'
 #' @rdname keys
+#' @export
 keys2df <- function(keys, integer64=FALSE) {
   looks_like_idvec=grepl("^[a-z0-9]+:[0-9]{5,20}", keys)
   if(!all(looks_like_idvec)) stop("Expecting keys of the form: `<dataset>:<id>`")
@@ -115,6 +116,7 @@ keys2df <- function(keys, integer64=FALSE) {
 #'
 #' @rdname keys
 #' @family ids
+#' @export
 #' @examples
 #' \donttest{
 #'
