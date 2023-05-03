@@ -28,6 +28,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
+  neuprint.chunksize=100
+
   if(is.character(ids))
     ids=keys2df(ids)
   if(is.data.frame(ids)) {
@@ -51,7 +53,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres$side=toupper(substr(tres$side,1,1))
     } else if(n=='hemibrain') {
       # a bit inelegant but not sure how else to insist
-      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn('hemibrain'))
+      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn('hemibrain'), chunk = neuprint.chunksize)
       tres <- tres %>%
         dplyr::mutate(
           type=dplyr::case_when(
@@ -62,7 +64,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
             is.na(side) ~ 'R',
             T ~ side))
     } else if(n=='malecns') {
-      tres=malecns::mcns_connection_table(ids[[n]], partners = partners, threshold=threshold)
+      tres=malecns::mcns_connection_table(ids[[n]], partners = partners, threshold=threshold, chunk = neuprint.chunksize)
       # nb the type information we care about here is for partners
       tres2=tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
       tres$type <- malecns::mcns_predict_type(tres2)
