@@ -67,15 +67,18 @@ natmanager::check_pat()
 
 ## An example
 
+First let's load the libraries we need
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(coconatfly)
+library(dplyr)
+```
+
 Two important functions are `cf_ids()` which allows you to specify a set of
 neurons from one or more datasets and `cf_meta()` which fetches information
-about the cell type.
-
+about the cell type. 
 For example let's fetch information about DA1 projection neurons:
 
 ```{r}
-library(coconatfly)
-library(dplyr)
 cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
 ```
 

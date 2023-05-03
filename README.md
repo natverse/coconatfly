@@ -59,39 +59,19 @@ natmanager::check_pat()
 
 ## An example
 
-Two important functions are `cf_ids()` which allows you to specify a set
-of neurons from one or more datasets and `cf_meta()` which fetches
-information about the cell type.
-
-For example let’s fetch information about DA1 projection neurons:
+First let’s load the libraries we need
 
 ``` r
 library(coconatfly)
-#> Loading required package: nat
-#> Loading required package: rgl
-#> Registered S3 method overwritten by 'nat':
-#>   method             from
-#>   as.mesh3d.ashape3d rgl
-#> 
-#> Attaching package: 'nat'
-#> The following object is masked from 'package:rgl':
-#> 
-#>     wire3d
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, union
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:nat':
-#> 
-#>     intersect, setdiff, union
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
+```
+
+Two important functions are `cf_ids()` which allows you to specify a set
+of neurons from one or more datasets and `cf_meta()` which fetches
+information about the cell type. For example let’s fetch information
+about DA1 projection neurons:
+
+``` r
 cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
 #>           id pre post upstream downstream status    statusLabel     voxels
 #> 1 1734350788 621 2084     2084       4903 Traced Roughly traced 1174705998
@@ -123,10 +103,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 1588 ids
-#> flywire_rootid_cached: Looking up 1588 missing keys
-#> Updating 6936 ids
-#> flywire_rootid_cached: Looking up 6936 missing keys
+#> Updating 1709 ids
+#> flywire_rootid_cached: Looking up 1709 missing keys
+#> Updating 7325 ids
+#> flywire_rootid_cached: Looking up 7325 missing keys
 head(da1meta)
 #>           id  instance    type side class group   dataset
 #> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
@@ -141,8 +121,8 @@ head(da1meta)
 da1meta %>% 
   count(dataset, side)
 #>     dataset side n
-#> 1   flywire    L 7
-#> 2   flywire    R 8
+#> 1   flywire    L 8
+#> 2   flywire    R 7
 #> 3 hemibrain    R 7
 ```
 
@@ -155,12 +135,12 @@ head(da1ds)
 #> # A tibble: 6 × 8
 #>    pre_id post_id weight side  type    dataset pre_key               post_key   
 #>   <int64> <int64>  <int> <chr> <chr>   <chr>   <chr>                 <chr>      
-#> 1    7e17    7e17     64 R     DA1_vPN flywire fw:720575940605102694 fw:7205759…
-#> 2    7e17    7e17     50 R     <NA>    flywire fw:720575940603231916 fw:7205759…
-#> 3    7e17    7e17     49 L     <NA>    flywire fw:720575940604407468 fw:7205759…
-#> 4    7e17    7e17     48 L     DA1_vPN flywire fw:720575940623303108 fw:7205759…
-#> 5    7e17    7e17     46 R     v2LN30  flywire fw:720575940603231916 fw:7205759…
-#> 6    7e17    7e17     42 R     DA1_vPN flywire fw:720575940603231916 fw:7205759…
+#> 1    7e17    7e17     64 L     DA1_vPN flywire fw:720575940605102694 fw:7205759…
+#> 2    7e17    7e17     50 L     <NA>    flywire fw:720575940603231916 fw:7205759…
+#> 3    7e17    7e17     49 R     <NA>    flywire fw:720575940604407468 fw:7205759…
+#> 4    7e17    7e17     48 R     DA1_vPN flywire fw:720575940623303108 fw:7205759…
+#> 5    7e17    7e17     46 L     v2LN30  flywire fw:720575940603231916 fw:7205759…
+#> 6    7e17    7e17     42 L     DA1_vPN flywire fw:720575940603231916 fw:7205759…
 ```
 
 ``` r
@@ -173,16 +153,16 @@ da1ds %>%
 #> # Groups:   type, dataset [195]
 #>    type            dataset   side  weight  npre npost
 #>    <chr>           <chr>     <chr>  <int> <int> <int>
-#>  1 AL-AST1         flywire   L         13     2     1
-#>  2 AL-AST1         flywire   R         16     2     1
+#>  1 AL-AST1         flywire   L         16     2     1
+#>  2 AL-AST1         flywire   R         13     2     1
 #>  3 AL-AST1         hemibrain R         25     3     1
-#>  4 APL             flywire   L         70     6     1
-#>  5 APL             flywire   R         28     4     1
+#>  4 APL             flywire   L         28     4     1
+#>  5 APL             flywire   R         70     6     1
 #>  6 APL             hemibrain R        113     6     1
-#>  7 AVLP010         flywire   L         83     6     1
-#>  8 AVLP010         flywire   R          6     1     1
-#>  9 AVLP011,AVLP012 flywire   L         22     2     1
-#> 10 AVLP011,AVLP012 flywire   R          6     1     1
+#>  7 AVLP010         flywire   L          6     1     1
+#>  8 AVLP010         flywire   R         83     6     1
+#>  9 AVLP011,AVLP012 flywire   L          6     1     1
+#> 10 AVLP011,AVLP012 flywire   R         22     2     1
 #> # ℹ 229 more rows
 ```
 
@@ -208,16 +188,16 @@ da1ds.shared_types.wide
 #> # Groups:   type [34]
 #>    type      fw_L  fw_R  hb_R
 #>    <chr>    <int> <int> <int>
-#>  1 AL-AST1     13    16    25
-#>  2 APL         70    28   113
-#>  3 DA1_lPN      6    45    73
-#>  4 DA1_vPN    254   250   333
-#>  5 DNb05        0     6     5
-#>  6 KCg-m     2545  3275  3030
-#>  7 LHAD1g1     60    62    48
-#>  8 LHAV2b11    77    44    29
-#>  9 LHAV3k6     16    19     5
-#> 10 LHAV4c2      7     0    15
+#>  1 AL-AST1     16    13    25
+#>  2 APL         28    70   113
+#>  3 DA1_lPN     45     6    73
+#>  4 DA1_vPN    250   254   333
+#>  5 DNb05        6     0     5
+#>  6 KCg-m     3275  2545  3030
+#>  7 LHAD1g1     62    60    48
+#>  8 LHAV2b11    44    77    29
+#>  9 LHAV3k6     19    16     5
+#> 10 LHAV4c2      0     7    15
 #> # ℹ 24 more rows
 ```
 
@@ -259,10 +239,10 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 1588 ids
-#> Updating 6936 ids
-#> Matching types across datasets. Dropping 422/976 output partner types with total weight 6985/23730
-#> Matching types across datasets. Dropping 722/1358 input partner types with total weight 10108/26809
+#> Updating 1709 ids
+#> Updating 7325 ids
+#> Matching types across datasets. Dropping 436/976 output partner types with total weight 7152/23730
+#> Matching types across datasets. Dropping 735/1358 input partner types with total weight 10483/26809
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />
