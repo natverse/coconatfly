@@ -84,36 +84,13 @@
 <div class="section level2">
 <h2 id="an-example">An example<a class="anchor" aria-label="anchor" href="#an-example"></a>
 </h2>
-<p>Two important functions are <code><a href="reference/cf_ids.html">cf_ids()</a></code> which allows you to specify a set of neurons from one or more datasets and <code><a href="reference/cf_meta.html">cf_meta()</a></code> which fetches information about the cell type.</p>
-<p>For example let’s fetch information about DA1 projection neurons:</p>
+<p>First let’s load the libraries we need</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/flyconnectome/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: nat</span></span>
-<span><span class="co">#&gt; Loading required package: rgl</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'nat':</span></span>
-<span><span class="co">#&gt;   method             from</span></span>
-<span><span class="co">#&gt;   as.mesh3d.ashape3d rgl</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'nat'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:rgl':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     wire3d</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:nat':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, union</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="fu"><a href="reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'DA1_lPN'</span>, datasets <span class="op">=</span> <span class="st">'hemibrain'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<p>Two important functions are <code><a href="reference/cf_ids.html">cf_ids()</a></code> which allows you to specify a set of neurons from one or more datasets and <code><a href="reference/cf_meta.html">cf_meta()</a></code> which fetches information about the cell type. For example let’s fetch information about DA1 projection neurons:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'DA1_lPN'</span>, datasets <span class="op">=</span> <span class="st">'hemibrain'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           id pre post upstream downstream status    statusLabel     voxels</span></span>
 <span><span class="co">#&gt; 1 1734350788 621 2084     2084       4903 Traced Roughly traced 1174705998</span></span>
 <span><span class="co">#&gt; 2 1734350908 725 2317     2317       5846 Traced Roughly traced 1382228240</span></span>
@@ -139,12 +116,12 @@
 <span><span class="co">#&gt; 6 hemibrain</span></span>
 <span><span class="co">#&gt; 7 hemibrain</span></span></code></pre></div>
 <p>We can also do that for multiple brain datasets</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'DA1_lPN'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'hemibrain'</span>, <span class="st">'flywire'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Updating 1588 ids</span></span>
-<span><span class="co">#&gt; flywire_rootid_cached: Looking up 1588 missing keys</span></span>
-<span><span class="co">#&gt; Updating 6936 ids</span></span>
-<span><span class="co">#&gt; flywire_rootid_cached: Looking up 6936 missing keys</span></span>
+<span><span class="co">#&gt; Updating 1709 ids</span></span>
+<span><span class="co">#&gt; flywire_rootid_cached: Looking up 1709 missing keys</span></span>
+<span><span class="co">#&gt; Updating 7325 ids</span></span>
+<span><span class="co">#&gt; flywire_rootid_cached: Looking up 7325 missing keys</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">da1meta</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           id  instance    type side class group   dataset</span></span>
 <span><span class="co">#&gt; 1 1734350788 DA1_lPN_R DA1_lPN    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span></span>
@@ -153,28 +130,28 @@
 <span><span class="co">#&gt; 4 5813039315 DA1_lPN_R DA1_lPN    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span></span>
 <span><span class="co">#&gt; 5  722817260 DA1_lPN_R DA1_lPN    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span></span>
 <span><span class="co">#&gt; 6  754534424 DA1_lPN_R DA1_lPN    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">side</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     dataset side n</span></span>
-<span><span class="co">#&gt; 1   flywire    L 7</span></span>
-<span><span class="co">#&gt; 2   flywire    R 8</span></span>
+<span><span class="co">#&gt; 1   flywire    L 8</span></span>
+<span><span class="co">#&gt; 2   flywire    R 7</span></span>
 <span><span class="co">#&gt; 3 hemibrain    R 7</span></span></code></pre></div>
 <p>We can also fetch connectivity for these neurons:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1ds</span> <span class="op">&lt;-</span> <span class="va">da1meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/cf_partners.html">cf_partners</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="fl">5</span>, partners <span class="op">=</span> <span class="st">'output'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">da1ds</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
 <span><span class="co">#&gt;    pre_id post_id weight side  type    dataset pre_key               post_key   </span></span>
 <span><span class="co">#&gt;   &lt;int64&gt; &lt;int64&gt;  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;      </span></span>
-<span><span class="co">#&gt; 1    7e17    7e17     64 R     DA1_vPN flywire fw:720575940605102694 fw:7205759…</span></span>
-<span><span class="co">#&gt; 2    7e17    7e17     50 R     &lt;NA&gt;    flywire fw:720575940603231916 fw:7205759…</span></span>
-<span><span class="co">#&gt; 3    7e17    7e17     49 L     &lt;NA&gt;    flywire fw:720575940604407468 fw:7205759…</span></span>
-<span><span class="co">#&gt; 4    7e17    7e17     48 L     DA1_vPN flywire fw:720575940623303108 fw:7205759…</span></span>
-<span><span class="co">#&gt; 5    7e17    7e17     46 R     v2LN30  flywire fw:720575940603231916 fw:7205759…</span></span>
-<span><span class="co">#&gt; 6    7e17    7e17     42 R     DA1_vPN flywire fw:720575940603231916 fw:7205759…</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; 1    7e17    7e17     64 L     DA1_vPN flywire fw:720575940605102694 fw:7205759…</span></span>
+<span><span class="co">#&gt; 2    7e17    7e17     50 L     &lt;NA&gt;    flywire fw:720575940603231916 fw:7205759…</span></span>
+<span><span class="co">#&gt; 3    7e17    7e17     49 R     &lt;NA&gt;    flywire fw:720575940604407468 fw:7205759…</span></span>
+<span><span class="co">#&gt; 4    7e17    7e17     48 R     DA1_vPN flywire fw:720575940623303108 fw:7205759…</span></span>
+<span><span class="co">#&gt; 5    7e17    7e17     46 L     v2LN30  flywire fw:720575940603231916 fw:7205759…</span></span>
+<span><span class="co">#&gt; 6    7e17    7e17     42 L     DA1_vPN flywire fw:720575940603231916 fw:7205759…</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1ds</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">dataset</span>, <span class="va">side</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>weight<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>, npre<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">pre_id</span><span class="op">)</span>, npost<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">post_id</span><span class="op">)</span><span class="op">)</span></span>
@@ -184,19 +161,19 @@
 <span><span class="co">#&gt; # Groups:   type, dataset [195]</span></span>
 <span><span class="co">#&gt;    type            dataset   side  weight  npre npost</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 AL-AST1         flywire   L         13     2     1</span></span>
-<span><span class="co">#&gt;  2 AL-AST1         flywire   R         16     2     1</span></span>
+<span><span class="co">#&gt;  1 AL-AST1         flywire   L         16     2     1</span></span>
+<span><span class="co">#&gt;  2 AL-AST1         flywire   R         13     2     1</span></span>
 <span><span class="co">#&gt;  3 AL-AST1         hemibrain R         25     3     1</span></span>
-<span><span class="co">#&gt;  4 APL             flywire   L         70     6     1</span></span>
-<span><span class="co">#&gt;  5 APL             flywire   R         28     4     1</span></span>
+<span><span class="co">#&gt;  4 APL             flywire   L         28     4     1</span></span>
+<span><span class="co">#&gt;  5 APL             flywire   R         70     6     1</span></span>
 <span><span class="co">#&gt;  6 APL             hemibrain R        113     6     1</span></span>
-<span><span class="co">#&gt;  7 AVLP010         flywire   L         83     6     1</span></span>
-<span><span class="co">#&gt;  8 AVLP010         flywire   R          6     1     1</span></span>
-<span><span class="co">#&gt;  9 AVLP011,AVLP012 flywire   L         22     2     1</span></span>
-<span><span class="co">#&gt; 10 AVLP011,AVLP012 flywire   R          6     1     1</span></span>
+<span><span class="co">#&gt;  7 AVLP010         flywire   L          6     1     1</span></span>
+<span><span class="co">#&gt;  8 AVLP010         flywire   R         83     6     1</span></span>
+<span><span class="co">#&gt;  9 AVLP011,AVLP012 flywire   L          6     1     1</span></span>
+<span><span class="co">#&gt; 10 AVLP011,AVLP012 flywire   R         22     2     1</span></span>
 <span><span class="co">#&gt; # ℹ 229 more rows</span></span></code></pre></div>
 <p>Let’s restrict that to types that are observed in both datasets. We do this by counting how many distinct datasets exist for each type in the results.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1ds.shared_types.wide</span> <span class="op">&lt;-</span> <span class="va">da1ds</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="st">'hemibrain'</span> <span class="op">&amp;</span> <span class="va">side</span><span class="op">==</span><span class="st">'L'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># drop truncated hemibrain LHS </span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
@@ -214,19 +191,19 @@
 <span><span class="co">#&gt; # Groups:   type [34]</span></span>
 <span><span class="co">#&gt;    type      fw_L  fw_R  hb_R</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 AL-AST1     13    16    25</span></span>
-<span><span class="co">#&gt;  2 APL         70    28   113</span></span>
-<span><span class="co">#&gt;  3 DA1_lPN      6    45    73</span></span>
-<span><span class="co">#&gt;  4 DA1_vPN    254   250   333</span></span>
-<span><span class="co">#&gt;  5 DNb05        0     6     5</span></span>
-<span><span class="co">#&gt;  6 KCg-m     2545  3275  3030</span></span>
-<span><span class="co">#&gt;  7 LHAD1g1     60    62    48</span></span>
-<span><span class="co">#&gt;  8 LHAV2b11    77    44    29</span></span>
-<span><span class="co">#&gt;  9 LHAV3k6     16    19     5</span></span>
-<span><span class="co">#&gt; 10 LHAV4c2      7     0    15</span></span>
+<span><span class="co">#&gt;  1 AL-AST1     16    13    25</span></span>
+<span><span class="co">#&gt;  2 APL         28    70   113</span></span>
+<span><span class="co">#&gt;  3 DA1_lPN     45     6    73</span></span>
+<span><span class="co">#&gt;  4 DA1_vPN    250   254   333</span></span>
+<span><span class="co">#&gt;  5 DNb05        6     0     5</span></span>
+<span><span class="co">#&gt;  6 KCg-m     3275  2545  3030</span></span>
+<span><span class="co">#&gt;  7 LHAD1g1     62    60    48</span></span>
+<span><span class="co">#&gt;  8 LHAV2b11    44    77    29</span></span>
+<span><span class="co">#&gt;  9 LHAV3k6     19    16     5</span></span>
+<span><span class="co">#&gt; 10 LHAV4c2      0     7    15</span></span>
 <span><span class="co">#&gt; # ℹ 24 more rows</span></span></code></pre></div>
 <p>With the data organised like this, we can easily compare the connection strengths between the cell types across hemispheres:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">da1ds.shared_types.wide</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span><span class="op">!=</span><span class="st">'KCg-m'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
@@ -236,7 +213,7 @@
 <span>  <span class="fu">geom_abline</span><span class="op">(</span>slope<span class="op">=</span><span class="fl">1</span>, linetype<span class="op">=</span><span class="st">'dashed'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-flywire-left-vs-right-1.png" width="100%"></p>
 <p>… and across datasets:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da1ds.shared_types.wide</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span><span class="op">!=</span><span class="st">'KCg-m'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span>data<span class="op">=</span><span class="va">.</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">fw_R</span>, <span class="va">hb_R</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -249,12 +226,12 @@
 <h2 id="across-dataset-connectivity-clustering">Across dataset connectivity clustering<a class="anchor" aria-label="anchor" href="#across-dataset-connectivity-clustering"></a>
 </h2>
 <p>Being able to fetch shared connectivity in a uniform format is a building block for a range of analyses. For example, we can compare the connectivity of a set of neurons that are believed to constitute the same cell type across multiple datasets. Cosine similarity clustering seems to work very well for this purpose.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="fu"><a href="reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'/type:LAL0(08|09|10|42)'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Updating 1588 ids</span></span>
-<span><span class="co">#&gt; Updating 6936 ids</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 422/976 output partner types with total weight 6985/23730</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 722/1358 input partner types with total weight 10108/26809</span></span></code></pre></div>
+<span><span class="co">#&gt; Updating 1709 ids</span></span>
+<span><span class="co">#&gt; Updating 7325 ids</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 436/976 output partner types with total weight 7152/23730</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 735/1358 input partner types with total weight 10483/26809</span></span></code></pre></div>
 <p><img src="reference/figures/README-lal-cosine-cluster-1.png" width="100%"></p>
 <p>Each row (and column) correspond to a single neuron. Rows are labelled by cell type, dataset and hemisphere; due to truncation hemibrain neurons sometimes exist in one hemisphere, sometimes both. Notice that LAL009 and LAL010 neurons from each hemisphere co-cluster together exactly as we would expect for a cell type conserved across brains. In contrast LAL008 and LAL042 are intermingled; we believe that these constitute a single cell type of two cells / hemisphere (i.e. they should not have been split into two cell types in the hemibrain).</p>
 <p>You can also see that cells from one hemibrain hemisphere often cluster slightly oddly - this is likely due to truncation of the axons or dendrites of these cells or a paucity of partners from the left hand side of the hemibrain.</p>
