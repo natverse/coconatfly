@@ -7,7 +7,7 @@
 cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
-  expand = TRUE,
+  expand = FALSE,
   hemibrain = NULL,
   flywire = NULL,
   malecns = NULL,
