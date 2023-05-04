@@ -20,7 +20,7 @@ convenient and uniform across Drosophila datasets. The package builds
 upon the [coconat](https://natverse.org/coconat/) package which provides
 more basic and/or dataset agnostic functionality. In case you were
 wondering, **coconat** stands for COmparative COnnectomics for the
-NATverse and **coconatfly** does the same specifically for fly datasets.
+NATverse and **coconatfly** enables this specifically for fly datasets.
 
 Although the code is certainly already useful, it is currently highly
 experimental, so the interface should not yet been relied upon. In
@@ -103,10 +103,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 1709 ids
-#> flywire_rootid_cached: Looking up 1709 missing keys
-#> Updating 7325 ids
-#> flywire_rootid_cached: Looking up 7325 missing keys
+#> Updating 1735 ids
+#> flywire_rootid_cached: Looking up 1735 missing keys
+#> Updating 7410 ids
+#> flywire_rootid_cached: Looking up 7410 missing keys
 head(da1meta)
 #>           id  instance    type side class group   dataset
 #> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
@@ -239,8 +239,9 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 1709 ids
-#> Updating 7325 ids
+#> Updating 1735 ids
+#> Updating 7412 ids
+#> flywire_rootid_cached: Looking up 2 missing keys
 #> Matching types across datasets. Dropping 436/976 output partner types with total weight 7152/23730
 #> Matching types across datasets. Dropping 735/1358 input partner types with total weight 10483/26809
 ```

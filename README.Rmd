@@ -30,7 +30,7 @@ uniform across Drosophila datasets.
 The package builds upon the [coconat](https://natverse.org/coconat/)
 package which provides more basic and/or dataset agnostic functionality. In case
 you were wondering, **coconat** stands for COmparative COnnectomics for the NATverse
-and **coconatfly** does the same specifically for fly datasets.
+and **coconatfly** enables this specifically for fly datasets.
 
 Although the code is certainly already useful, it is currently highly
 experimental, so the interface should not yet been relied upon. In particular,
