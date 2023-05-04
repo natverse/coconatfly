@@ -40,11 +40,13 @@ keys <- function(x) {
   glue::glue("{dataset}:{id}", .envir = x)
 }
 
-#' Specify ids for flybrain datasets
+#' Specify ids for fly connectome datasets
 #'
 #' @param query A query (e.g. cell type name or regular expression)
 #' @param datasets Character vector naming datasets to which the \code{query}
 #'   should be applied.
+#' @param expand Whether to expand any queries into the matching ids (this will
+#'   involve one or more calls to corresponding servers). Default \code{FALSE}.
 #' @param hemibrain Pass hemibrain specific query or ids to this argument
 #' @param flywire Pass flywire specific query or ids to this argument
 #' @param malecns Pass malecns specific query or ids to this argument
@@ -60,10 +62,15 @@ keys <- function(x) {
 #' cf_ids("DA2_lPN", datasets='brain')
 #' # / introduces a regular expression
 #' cf_ids("/MBON.+", datasets='brain')
+#'
+#' # expand query into actual ids
+#' cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
 #' }
-cf_ids <- function(query=NULL,
-                   datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
-                   hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL) {
+cf_ids <- function(
+    query=NULL,
+    datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
+    expand=TRUE,
+    hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL) {
   nds=sum(
     !is.null(hemibrain),
     !is.null(flywire),
@@ -71,7 +78,7 @@ cf_ids <- function(query=NULL,
     !is.null(manc),
     !is.null(fanc)
     )
-  if(!is.null(query)) {
+  res <- if(!is.null(query)) {
     if(nds>0)
       warning("ignoring explicit dataset arguments")
     if(missing(datasets))
@@ -91,6 +98,22 @@ cf_ids <- function(query=NULL,
     # drop any empty datasets
     l[lengths(l)>0]
   }
+  if(isTRUE(expand)) {
+    res=mapply(expand_ids, ids=res, dataset=names(res), SIMPLIFY = FALSE)
+  }
+  res
+}
+
+# private function to expand queries into the corresponding ids
+expand_ids <- function(ids, dataset) {
+  dataset=match_datasets(dataset)
+  FUN <- switch(dataset,
+    manc=malevnc::manc_ids,
+    fanc=I,
+    hemibrain=function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)),
+    malecns=malecns::mcns_ids,
+    flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()))
+  FUN(ids)
 }
 
 

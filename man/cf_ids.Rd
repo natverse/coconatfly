@@ -2,11 +2,12 @@
 % Please edit documentation in R/ids.R
 \name{cf_ids}
 \alias{cf_ids}
-\title{Specify ids for flybrain datasets}
+\title{Specify ids for fly connectome datasets}
 \usage{
 cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
+  expand = TRUE,
   hemibrain = NULL,
   flywire = NULL,
   malecns = NULL,
@@ -19,6 +20,9 @@ cf_ids(
 
 \item{datasets}{Character vector naming datasets to which the \code{query}
 should be applied.}
+
+\item{expand}{Whether to expand any queries into the matching ids (this will
+involve one or more calls to corresponding servers). Default \code{FALSE}.}
 
 \item{hemibrain}{Pass hemibrain specific query or ids to this argument}
 
@@ -35,13 +39,16 @@ metadata queries for fanc)}
 A list of ids
 }
 \description{
-Specify ids for flybrain datasets
+Specify ids for fly connectome datasets
 }
 \examples{
 \donttest{
 cf_ids("DA2_lPN", datasets='brain')
 # / introduces a regular expression
 cf_ids("/MBON.+", datasets='brain')
+
+# expand query into actual ids
+cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
 }
 }
 \seealso{

@@ -7,4 +7,8 @@ test_that("key handling works", {
   expect_equal(keys(keydf), keyvec)
   expect_equal(keys2df(keyvec), keydf)
   expect_equal(keys2list(keyvec), idlist)
+
+  expect_equal(cf_ids(hemibrain = '/MBON0[12].*', expand = T),
+               list(hemibrain = c("612371421", "673509195", "424789697", "5813022341"))
+               )
 })
