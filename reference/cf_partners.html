@@ -88,7 +88,6 @@ note that some columns will be dropped).</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">da2ds</span><span class="op">=</span><span class="fu">cf_partners</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'DA2_lPN'</span><span class="op">)</span>, threshold<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprintr::neuprint_login(dataset = "hemibrain:v1.2.1"):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
@@ -103,7 +102,32 @@ note that some columns will be dropped).</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span><span class="va">da2ds</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">type</span>, wt<span class="op">=</span><span class="va">weight</span>, sort<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'da2ds' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            type   n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       ORN_DA2 667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       DA2_lPN  89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         lLN10  85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         lLN2S  85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        v2LN30  72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  hb1796818119  68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       LHPV4b3  56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8       lLN2T_a  48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9       lLN2P_c  46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 hb1796817841  32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11       l2LN18  23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      LHCENT3  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 hb1797505019  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14          APL  12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 hb1827516355  12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16      lLN2T_d  12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17      lLN2T_e  11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18      LHPD5c1  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19       lLN1_b  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20     LHPV12a1   6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21          CSD   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22    LHPV2b5_a   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  hb818983130   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24       lLN12A   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25       lLN1_c   5</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">cf_partners</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>flywire<span class="op">=</span><span class="st">'DA2_lPN'</span><span class="op">)</span><span class="op">)</span></span></span>

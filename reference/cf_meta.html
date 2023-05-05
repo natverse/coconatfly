@@ -52,7 +52,7 @@
 <span>  <span class="va">ids</span>,</span>
 <span>  bind.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  integer64 <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  flywire_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_type"</span>, <span class="st">"hemibrain_type"</span><span class="op">)</span></span>
+<span>  MoreArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>flywire <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_type"</span>, <span class="st">"hemibrain_type"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,10 +74,17 @@ ints (more compact but a little fragile as they rely on the <code>bit64</code>
 extension package.)</p></dd>
 
 
-<dt>flywire_type</dt>
-<dd><p>Which metadata column to use from flytable info table</p></dd>
+<dt>MoreArgs</dt>
+<dd><p>A named list of arguments to be passed when fetching metadata
+  for a given function. See details.</p>
+<p>flywire_type Which metadata column to use from flytable info table</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>MoreArgs</code> should be list named by the standard dataset names
+  (e.g. as returned by <code>cf_datasets</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code>neuprint_ids</code></p></div>
@@ -87,12 +94,12 @@ extension package.)</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">da2meta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'DA2_lPN'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprintr::neuprint_login(dataset = "hemibrain:v1.2.1"):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(as.character(FUN), mode = "function", envir = envir):</span> object 'hemibrain_meta' of mode 'function' was not found</span>
 <span class="r-in"><span><span class="va">da2meta</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'da2meta' not found</span>
 <span class="r-in"><span><span class="co"># / introduces a regular expression</span></span></span>
 <span class="r-in"><span><span class="va">mbonmeta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'/MBON.+'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprintr::neuprint_login(dataset = "hemibrain:v1.2.1"):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(as.character(FUN), mode = "function", envir = envir):</span> object 'hemibrain_meta' of mode 'function' was not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
