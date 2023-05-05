@@ -25,7 +25,7 @@ npconn <- function(dataset) {
 #'   flywire_type Which metadata column to use from flytable info table
 #' @inheritParams cf_partners
 #'
-#' @importFrom dplyr mutate rename rename_with select case_when
+#' @importFrom dplyr mutate rename rename_with select case_when any_of
 #' @importFrom fafbseg flywire_ids
 #' @export
 #' @seealso \code{\link{neuprint_ids}}
@@ -102,7 +102,7 @@ flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
     rename(id=root_id) %>%
     mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
     mutate(side=toupper(substr(side,1,1))) %>%
-    rename_with(~ sub(".+_", "", .x), .cols=type) %>%
+    rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
     rename(class=super_class)
 }
 
