@@ -1,7 +1,9 @@
 npconn <- function(dataset) {
   dataset=match_datasets(dataset)
   if(dataset=='hemibrain')
-    return(neuprintr::neuprint_login(dataset='hemibrain:v1.2.1'))
+    return(neuprintr::neuprint_login(
+      server="https://neuprint.janelia.org",
+      dataset='hemibrain:v1.2.1'))
   else if(dataset=='malecns')
     return(malecns::mcns_neuprint())
   else if(dataset=='malevnc')
