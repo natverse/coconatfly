@@ -11,4 +11,7 @@ test_that("key handling works", {
   expect_equal(cf_ids(hemibrain = '/MBON0[12].*', expand = T),
                list(hemibrain = c("612371421", "673509195", "424789697", "5813022341"))
                )
+
+  expect_warning(cf_ids(hemibrain = 'rhubarb', expand = T))
 })
+

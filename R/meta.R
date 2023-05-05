@@ -28,14 +28,14 @@ npconn <- function(dataset) {
 #' # / introduces a regular expression
 #' mbonmeta=cf_meta(list(hemibrain='/MBON.+'))
 #' }
-cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_type","hemibrain_type")) {
-  flywire_type=match.arg(flywire_type)
+cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
+                    MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
   if(is.character(ids))
     ids=keys2df(ids)
   if(is.data.frame(ids)) {
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
-    res=cf_meta(ss, integer64 = integer64, flywire_type = flywire_type)
+    res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs)
     keys=glue::glue('{dataset}:{id}', .envir = res)
     ids$key=glue::glue('{dataset}:{id}', .envir = ids)
     res=res[match(ids$key, keys),,drop=F]
@@ -49,45 +49,15 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_t
   names(res)=names(ids)
 
   for(n in names(ids)) {
-    if(n=='flywire'){
-      tres=flytable_meta(ids[[n]],
-                         version = fafbseg::flywire_connectome_data_version(),
-                         unique = T)
-      tres <- tres %>%
-        rename(id=root_id) %>%
-        mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
-        mutate(side=toupper(substr(side,1,1))) %>%
-        rename_with(~ sub(".+_", "", .x), .cols=flywire_type) %>%
-        rename(class=super_class)
-    } else if(n=='hemibrain') {
-      tres=neuprintr::neuprint_get_meta(ids[[n]], conn = npconn('hemibrain'))
-      tres <- tres %>%
-        rename(id=bodyid) %>%
-        mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
-    } else if(n=='malecns') {
-      tres=malecns::mcns_neuprint_meta(ids[[n]])
-      tres <- tres %>%
-        mutate(side=malecns::mcns_soma_side(.)) %>%
-        mutate(pgroup=malecns::mcns_predict_group(.)) %>%
-        mutate(ptype=malecns::mcns_predict_type(.)) %>%
-        rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
-        # special case DNs
-        mutate(type=case_when(
-          grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-9_]+),")[,2],
-          T ~ type
-        )) %>%
-        rename(id=bodyid)
-    } else if(n=='malevnc'){
-      tres <- malevnc::manc_neuprint_meta(ids[[n]]) %>%
-        mutate(side=dplyr::case_when(
-          !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
-          !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
-          T ~ NA_character_
-        )) %>%
-        rename(id=bodyid)
-    } else if(n=='fanc')
-      stop("metadata is not currently supported for fanc!")
+    FUN=match.fun(paste0(n, '_meta'))
+    args=list(ids=ids[[n]])
+    args2=MoreArgs[[n]]
+    if(length(args2)) args=c(args, args2)
 
+    tres=try(do.call(FUN, args), silent = F)
+    # maybe our query didn't yield anything
+    if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
+      next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
     cols_we_want=c("id", "class", "type", 'side', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
@@ -111,5 +81,58 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, flywire_type=c("cell_t
     tres$dataset=n
     res[[n]]=tres
   }
+  if(length(res)==0) return(NULL)
   if(bind.rows) bind_rows2(res) else res
+}
+
+flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
+  type=match.arg(type)
+  tres=flytable_meta(ids,
+                     version = fafbseg::flywire_connectome_data_version(),
+                     unique = T, ...)
+  tres <- tres %>%
+    rename(id=root_id) %>%
+    mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
+    mutate(side=toupper(substr(side,1,1))) %>%
+    rename_with(~ sub(".+_", "", .x), .cols=type) %>%
+    rename(class=super_class)
+}
+
+hemibrain_meta <- function(ids, ...) {
+  tres=neuprintr::neuprint_get_meta(ids, conn = npconn('hemibrain'), ...)
+  tres <- tres %>%
+    rename(id=bodyid) %>%
+    mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
+  tres
+}
+
+malecns_meta <- function(ids, ...) {
+  tres=malecns::mcns_neuprint_meta(ids)
+  tres <- tres %>%
+    mutate(side=malecns::mcns_soma_side(.)) %>%
+    mutate(pgroup=malecns::mcns_predict_group(.)) %>%
+    mutate(ptype=malecns::mcns_predict_type(.)) %>%
+    rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
+    # special case DNs
+    mutate(type=case_when(
+      grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-9_]+),")[,2],
+      T ~ type
+    )) %>%
+    rename(id=bodyid)
+  tres
+}
+
+malevnc_meta <- function(ids, ...) {
+  tres <- malevnc::manc_neuprint_meta(ids, ...) %>%
+    mutate(side=dplyr::case_when(
+      !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
+      !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
+      T ~ NA_character_
+    )) %>%
+    rename(id=bodyid)
+  tres
+}
+
+fanc_meta <- function(ids, ...) {
+  stop("metadata is not currently supported for fanc!")
 }

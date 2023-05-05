@@ -113,7 +113,11 @@ expand_ids <- function(ids, dataset) {
     hemibrain=function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)),
     malecns=malecns::mcns_ids,
     flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()))
-  FUN(ids)
+  tf=try(FUN(ids), silent = T)
+  if(inherits(tf, 'try-error')) {
+    warning("No valid ids in dataset:", dataset)
+    NULL
+  } else tf
 }
 
 
