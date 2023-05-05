@@ -13,10 +13,16 @@ npconn <- function(dataset) {
 
 #' Fetch metadata for neurons from connectome datasets
 #'
+#' @details \code{MoreArgs} should be list named by the standard dataset names
+#'   (e.g. as returned by \code{cf_datasets}.
+#'
 #' @param integer64 Whether ids should be character vectors (default) or 64 bit
 #'   ints (more compact but a little fragile as they rely on the \code{bit64}
 #'   extension package.)
-#' @param flywire_type Which metadata column to use from flytable info table
+#' @param MoreArgs A named list of arguments to be passed when fetching metadata
+#'   for a given function. See details.
+#'
+#'   flywire_type Which metadata column to use from flytable info table
 #' @inheritParams cf_partners
 #'
 #' @importFrom dplyr mutate rename rename_with select case_when

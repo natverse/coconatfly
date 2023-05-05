@@ -22,10 +22,17 @@ note that some columns will be dropped).}
 ints (more compact but a little fragile as they rely on the \code{bit64}
 extension package.)}
 
-\item{flywire_type}{Which metadata column to use from flytable info table}
+\item{MoreArgs}{A named list of arguments to be passed when fetching metadata
+  for a given function. See details.
+
+  flywire_type Which metadata column to use from flytable info table}
 }
 \description{
 Fetch metadata for neurons from connectome datasets
+}
+\details{
+\code{MoreArgs} should be list named by the standard dataset names
+  (e.g. as returned by \code{cf_datasets}.
 }
 \examples{
 \donttest{
