@@ -8,7 +8,7 @@ cf_meta(
   ids,
   bind.rows = TRUE,
   integer64 = FALSE,
-  flywire_type = c("cell_type", "hemibrain_type")
+  MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 }
 \arguments{
