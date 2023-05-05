@@ -1,4 +1,9 @@
 test_that("key handling works", {
+
+  df=data.frame(id = c("12345", "12345"),
+                dataset = c("flywire", "hemibrain"))
+  expect_equal(keys2df(c("fw:12345", "hb:12345")), df)
+
   idlist=list(flywire='4611686018427387904', hemibrain='12345')
   keyvec=c("fw:4611686018427387904", "hb:12345")
   keydf=data.frame(id = c("4611686018427387904", "12345"),
@@ -14,4 +19,3 @@ test_that("key handling works", {
 
   expect_warning(cf_ids(hemibrain = 'rhubarb', expand = T))
 })
-
