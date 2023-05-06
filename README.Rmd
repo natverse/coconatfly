@@ -38,6 +38,24 @@ it is quite likely that refactoring will abstract more functionality into
 [coconat](https://natverse.org/coconat/) as time goes by in order to enable
 the core functionality to be reused.
 
+## Datasets
+
+At present the following datasets are supported (dataset names used in the package in brackets):
+
+1. Janelia hemibrain (**hemibrain**)
+2. Female Adult Fly Brain - FlyWire connectome (**flywire**)
+3. Wei Lee and colleagues Female Adult Nerve Cord (**fanc**)
+4. Janelia male Ventral Nerve Cord (**manc**)
+5. Janelia Male CNS (**malecns**)
+
+The first three datasets are either public or access can be requested subject to
+agreeing to certain terms of use. The Male VNC dataset is scheduled for imminent
+release in June 2023. The Male CNS dataset is currently in the early stages of 
+proofreading and annotation in a collaboration between the 
+[FlyEM](https://www.janelia.org/project-team/flyem) and 
+[Cambridge Drosophila Connectomics Group](https://flyconnecto.me). Release is
+anticipated at the end of 2023.
+
 ## Installation
 
 You can install the development version of coconatfly like so:

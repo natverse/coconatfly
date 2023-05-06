@@ -28,6 +28,26 @@ particular, it is quite likely that refactoring will abstract more
 functionality into [coconat](https://natverse.org/coconat/) as time goes
 by in order to enable the core functionality to be reused.
 
+## Datasets
+
+At present the following datasets are supported (dataset names used in
+the package in brackets):
+
+1.  Janelia hemibrain (**hemibrain**)
+2.  Female Adult Fly Brain - FlyWire connectome (**flywire**)
+3.  Wei Lee and colleagues Female Adult Nerve Cord (**fanc**)
+4.  Janelia male Ventral Nerve Cord (**manc**)
+5.  Janelia Male CNS (**malecns**)
+
+The first three datasets are either public or access can be requested
+subject to agreeing to certain terms of use. The Male VNC dataset is
+scheduled for imminent release in June 2023. The Male CNS dataset is
+currently in the early stages of proofreading and annotation in a
+collaboration between the
+[FlyEM](https://www.janelia.org/project-team/flyem) and [Cambridge
+Drosophila Connectomics Group](https://flyconnecto.me). Release is
+anticipated at the end of 2023.
+
 ## Installation
 
 You can install the development version of coconatfly like so:
@@ -103,10 +123,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 1735 ids
-#> flywire_rootid_cached: Looking up 1735 missing keys
-#> Updating 7410 ids
-#> flywire_rootid_cached: Looking up 7410 missing keys
+#> Updating 1767 ids
+#> flywire_rootid_cached: Looking up 1767 missing keys
+#> Updating 7520 ids
+#> flywire_rootid_cached: Looking up 7520 missing keys
 head(da1meta)
 #>           id  instance    type side class group   dataset
 #> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
@@ -239,9 +259,8 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 1735 ids
-#> Updating 7412 ids
-#> flywire_rootid_cached: Looking up 2 missing keys
+#> Updating 1767 ids
+#> Updating 7520 ids
 #> Matching types across datasets. Dropping 436/976 output partner types with total weight 7152/23730
 #> Matching types across datasets. Dropping 735/1358 input partner types with total weight 10483/26809
 ```
