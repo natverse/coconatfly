@@ -31,10 +31,10 @@ npconn <- function(dataset) {
 #' @seealso \code{\link{neuprint_ids}}
 #' @examples
 #' \donttest{
-#' da2meta=cf_meta(list(hemibrain='DA2_lPN'))
+#' da2meta=cf_meta(cf_ids(hemibrain='DA2_lPN'))
 #' da2meta
 #' # / introduces a regular expression
-#' mbonmeta=cf_meta(list(hemibrain='/MBON.+'))
+#' mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 #' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
@@ -57,7 +57,8 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
   names(res)=names(ids)
 
   for(n in names(ids)) {
-    FUN=match.fun(paste0(n, '_meta'))
+    # NB we need to use get not match.fun since the functions are not exported
+    FUN=get(paste0(n, '_meta'), mode = 'function')
     args=list(ids=ids[[n]])
     args2=MoreArgs[[n]]
     if(length(args2)) args=c(args, args2)

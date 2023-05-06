@@ -36,10 +36,10 @@ Fetch metadata for neurons from connectome datasets
 }
 \examples{
 \donttest{
-da2meta=cf_meta(list(hemibrain='DA2_lPN'))
+da2meta=cf_meta(cf_ids(hemibrain='DA2_lPN'))
 da2meta
 # / introduces a regular expression
-mbonmeta=cf_meta(list(hemibrain='/MBON.+'))
+mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 }
 }
 \seealso{
