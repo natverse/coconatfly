@@ -93,13 +93,28 @@ extension package.)</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="va">da2meta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'DA2_lPN'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(as.character(FUN), mode = "function", envir = envir):</span> object 'hemibrain_meta' of mode 'function' was not found</span>
+<span class="r-in"><span><span class="va">da2meta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'DA2_lPN'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">da2meta</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'da2meta' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           id pre post upstream downstream status    statusLabel    voxels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796817841 396  509      509       3275 Traced Roughly traced 726508881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1796818119 511  818      818       4111 Traced Roughly traced 917547898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1797505019 345  476      476       2932 Traced Roughly traced 450568345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1827516355 391  548      548       3263 Traced Roughly traced 741928779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  818983130 409  562      562       3400 Traced Roughly traced 612641685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cropped  instance    type cellBodyFiber notes  soma side class group</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   FALSE DA2_lPN_R DA2_lPN         AVM02  &lt;NA&gt;  TRUE    R  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   FALSE DA2_lPN_R DA2_lPN         AVM02  &lt;NA&gt;  TRUE    R  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   FALSE DA2_lPN_R DA2_lPN         AVM02  &lt;NA&gt; FALSE    R  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   FALSE DA2_lPN_R DA2_lPN         AVM02  &lt;NA&gt;  TRUE    R  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   FALSE DA2_lPN_R DA2_lPN         AVM02  &lt;NA&gt; FALSE    R  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     dataset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 hemibrain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 hemibrain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 hemibrain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 hemibrain</span>
 <span class="r-in"><span><span class="co"># / introduces a regular expression</span></span></span>
-<span class="r-in"><span><span class="va">mbonmeta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'/MBON.+'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(as.character(FUN), mode = "function", envir = envir):</span> object 'hemibrain_meta' of mode 'function' was not found</span>
+<span class="r-in"><span><span class="va">mbonmeta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'/MBON.+'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
