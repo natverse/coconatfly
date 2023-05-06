@@ -10,20 +10,25 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
   # a bit of a shuffle because c(NULL, <integer64>) removes the class
   ids=unique(c(x$outputs$pre_key, x$inputs$post_key))
 
+  if(isTRUE(group))
+    group='type'
+
   cm=list()
   if('outputs' %in% partners) {
+    groupcol <- if(isFALSE(group)) "post_key" else group
     oam <- coconat::partner_summary2adjacency_matrix(
       x[['outputs']],
       inputcol = 'pre_key',
-      outputcol = group,
+      outputcol = groupcol,
       inputids = ids)
     cm[['cout']] = coconat::cosine_sim(oam, transpose = T)
     cm[['wout']]=sum(x[['outputs']]$weight)
   }
   if('inputs' %in% partners) {
+    groupcol <- if(isFALSE(group)) "pre_key" else group
     iam <- coconat::partner_summary2adjacency_matrix(
       x[['inputs']],
-      inputcol = group, outputcol = 'post_key', outputids = ids)
+      inputcol = groupcol, outputcol = 'post_key', outputids = ids)
     cm[['cin']] = coconat::cosine_sim(iam, transpose = F)
     cm[['win']]=sum(x[['inputs']]$weight)
   }
@@ -32,8 +37,21 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 }
 
 
-#' Multidataset cosine clustering
+#' Multi dataset cosine clustering
 #'
+#' @details \code{group=FALSE} only makes sense for single dataset clustering -
+#'   type labels are essential for linking connectivity across datasets. However
+#'   \code{group=FALSE} can be useful e.g. for co-clustering columnar elements
+#'   in the visual system that have closely related partners usually because
+#'   they are in neighbouring columns.
+#'
+#'   \code{group} can be set to other metadata columns such as \code{class} or
+#'   \code{hemilineage}, \code{serial} (serially homologous cell group) if
+#'   available. This can reveal other interesting features of organisation.
+#'
+#' @param group The name or the grouping column for partner connectivity
+#'   (defaults to \code{"type"}) or a logical where \code{group=FALSE} means no
+#'   grouping (see details).
 #' @inheritParams cf_partners
 #' @inheritParams neuprintr::neuprint_cosine_plot
 #'
@@ -43,8 +61,24 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @export
 #'
 #' @examples
+#' \donttest{
+#' # basic cosine clustering, in this case for one dataset
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"))
+#'
+#' # only cluster by inputs
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+#'
+#' # or outputs
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+#'
+#' # the same but without grouping partner connectivity by type
+#' # only makes sense for single dataset plots
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), group = FALSE)
+#' }
 #' \dontrun{
-#' cf_cosine_plot(list(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+#' ## The previous examples are for single datasets to avoid authentication issues
+#' ## on the build server, but similar queries could be run for multiple datasets
+#' cf_cosine_plot(cf_ids(flywire="/type:LAL.+", malecns="/type:LAL.+"))
 #'
 #' cf_cosine_plot(cf_ids("/type:LAL.+", datasets='brain'))
 #' # same as since the default is brain

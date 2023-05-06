@@ -2,7 +2,7 @@
 % Please edit documentation in R/cosine.R
 \name{cf_cosine_plot}
 \alias{cf_cosine_plot}
-\title{Multidataset cosine clustering}
+\title{Multi dataset cosine clustering}
 \usage{
 cf_cosine_plot(
   ids,
@@ -33,7 +33,9 @@ length 1 containing any curly braces it will be interpreted as a
 \code{\link{glue}} string for interpolation, using the data.frame returned
 by \code{\link[neuprintr]{neuprint_get_meta}} as a source of information.}
 
-\item{group}{Whether to group by cell \code{type} or another named column.}
+\item{group}{The name or the grouping column for partner connectivity
+(defaults to \code{"type"}) or a logical where \code{group=FALSE} means no
+grouping (see details).}
 
 \item{heatmap}{A logical indicating whether or not to plot the heatmap
 \emph{OR} a function to plot the heatmap whose argument names are
@@ -55,11 +57,38 @@ The result of \code{\link{heatmap}} invisibly including the row and
   dendrogram
 }
 \description{
-Multidataset cosine clustering
+Multi dataset cosine clustering
+}
+\details{
+\code{group=FALSE} only makes sense for single dataset clustering -
+  type labels are essential for linking connectivity across datasets. However
+  \code{group=FALSE} can be useful e.g. for co-clustering columnar elements
+  in the visual system that have closely related partners usually because
+  they are in neighbouring columns.
+
+  \code{group} can be set to other metadata columns such as \code{class} or
+  \code{hemilineage}, \code{serial} (serially homologous cell group) if
+  available. This can reveal other interesting features of organisation.
 }
 \examples{
+\donttest{
+# basic cosine clustering, in this case for one dataset
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"))
+
+# only cluster by inputs
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+
+# or outputs
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+
+# the same but without grouping partner connectivity by type
+# only makes sense for single dataset plots
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), group = FALSE)
+}
 \dontrun{
-cf_cosine_plot(list(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+## The previous examples are for single datasets to avoid authentication issues
+## on the build server, but similar queries could be run for multiple datasets
+cf_cosine_plot(cf_ids(flywire="/type:LAL.+", malecns="/type:LAL.+"))
 
 cf_cosine_plot(cf_ids("/type:LAL.+", datasets='brain'))
 # same as since the default is brain
