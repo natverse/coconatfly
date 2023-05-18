@@ -74,6 +74,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ somaSide,
           T ~ malecns::mcns_soma_side(., method = "instance")
         ))
+    } else if (n=='fanc') {
+      tres=fancr::fanc_partner_summary(ids[[n]], partners = partners, threshold = threshold)
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
