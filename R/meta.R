@@ -143,5 +143,7 @@ malevnc_meta <- function(ids, ...) {
 }
 
 fanc_meta <- function(ids, ...) {
-  stop("metadata is not currently supported for fanc!")
+  warning("true metadata is not currently supported for fanc!")
+  data.frame(id=fancr::fanc_ids(ids), type=NA, side=NA)
 }
+

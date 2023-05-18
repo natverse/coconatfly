@@ -43,7 +43,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   type labels are essential for linking connectivity across datasets. However
 #'   \code{group=FALSE} can be useful e.g. for co-clustering columnar elements
 #'   in the visual system that have closely related partners usually because
-#'   they are in neighbouring columns.
+#'   they are in neighbouring columns. At the time of writing, there is no
+#'   metadata support in FANC so \code{group=FALSE} is the only option there.
 #'
 #'   \code{group} can be set to other metadata columns such as \code{class} or
 #'   \code{hemilineage}, \code{serial} (serially homologous cell group) if
