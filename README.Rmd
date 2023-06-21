@@ -32,29 +32,30 @@ package which provides more basic and/or dataset agnostic functionality. In case
 you were wondering, **coconat** stands for COmparative COnnectomics for the NATverse
 and **coconatfly** enables this specifically for fly datasets.
 
-Although the code is certainly already useful, it is currently highly
-experimental, so the interface should not yet been relied upon. In particular,
+Although the code is already in active use, especially for comparison of the
+hemibrain and flywire datasets, it remains experimental.
+Therefore the interface should not yet been relied upon. In particular,
 it is quite likely that refactoring will abstract more functionality into
 [coconat](https://natverse.org/coconat/) as time goes by in order to enable
-the core functionality to be reused.
+more core functionality to be reused.
 
 ## Datasets
 
 At present the following datasets are supported (dataset names used in the package in brackets):
 
 1. Janelia hemibrain (**hemibrain**)
-2. Female Adult Fly Brain - FlyWire connectome (**flywire**)
-3. Wei Lee and colleagues Female Adult Nerve Cord (**fanc**)
-4. Janelia male Ventral Nerve Cord (**manc**)
+2. Female Adult Fly Brain - [FlyWire connectome](https://flywire.ai/) (**flywire**)
+3. [Janelia male Ventral Nerve Cord](https://www.janelia.org/project-team/flyem/manc-connectome) (**manc**)
+4. Wei Lee, John Tuthill and colleagues [Female Adult Nerve Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
 5. Janelia Male CNS (**malecns**)
 
-The first three datasets are either public or access can be requested subject to
-agreeing to certain terms of use. The Male VNC dataset is scheduled for imminent
-release in June 2023. The Male CNS dataset is currently in the early stages of 
+The first four datasets are either public (hemibrain, manc) or access can be
+requested subject to agreeing to certain terms of use (flywire, fanc). 
+The Male CNS dataset is currently in the early stages of 
 proofreading and annotation in a collaboration between the 
 [FlyEM](https://www.janelia.org/project-team/flyem) and 
 [Cambridge Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated at the end of 2023.
+anticipated early 2024.
 
 ## Installation
 
@@ -188,5 +189,5 @@ cell type of two cells / hemisphere (i.e. they should not have been split into
 two cell types in the hemibrain).
 
 You can also see that cells from one hemibrain hemisphere often cluster slightly
-oddly - this is likely due to truncation of the axons or dendrites of these cells
-or a paucity of partners from the left hand side of the hemibrain.
+oddly (e.g. 387687146) - this is likely due to truncation of the axons or dendrites of these cells
+or a paucity of partners from the left hand side of the hemibrain. 

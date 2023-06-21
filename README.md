@@ -22,11 +22,12 @@ more basic and/or dataset agnostic functionality. In case you were
 wondering, **coconat** stands for COmparative COnnectomics for the
 NATverse and **coconatfly** enables this specifically for fly datasets.
 
-Although the code is certainly already useful, it is currently highly
-experimental, so the interface should not yet been relied upon. In
-particular, it is quite likely that refactoring will abstract more
-functionality into [coconat](https://natverse.org/coconat/) as time goes
-by in order to enable the core functionality to be reused.
+Although the code is already in active use, especially for comparison of
+the hemibrain and flywire datasets, it remains experimental. Therefore
+the interface should not yet been relied upon. In particular, it is
+quite likely that refactoring will abstract more functionality into
+[coconat](https://natverse.org/coconat/) as time goes by in order to
+enable more core functionality to be reused.
 
 ## Datasets
 
@@ -34,19 +35,22 @@ At present the following datasets are supported (dataset names used in
 the package in brackets):
 
 1.  Janelia hemibrain (**hemibrain**)
-2.  Female Adult Fly Brain - FlyWire connectome (**flywire**)
-3.  Wei Lee and colleagues Female Adult Nerve Cord (**fanc**)
-4.  Janelia male Ventral Nerve Cord (**manc**)
+2.  Female Adult Fly Brain - [FlyWire connectome](https://flywire.ai/)
+    (**flywire**)
+3.  [Janelia male Ventral Nerve
+    Cord](https://www.janelia.org/project-team/flyem/manc-connectome)
+    (**manc**)
+4.  Wei Lee, John Tuthill and colleagues [Female Adult Nerve
+    Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
 5.  Janelia Male CNS (**malecns**)
 
-The first three datasets are either public or access can be requested
-subject to agreeing to certain terms of use. The Male VNC dataset is
-scheduled for imminent release in June 2023. The Male CNS dataset is
-currently in the early stages of proofreading and annotation in a
-collaboration between the
+The first four datasets are either public (hemibrain, manc) or access
+can be requested subject to agreeing to certain terms of use (flywire,
+fanc). The Male CNS dataset is currently in the early stages of
+proofreading and annotation in a collaboration between the
 [FlyEM](https://www.janelia.org/project-team/flyem) and [Cambridge
 Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated at the end of 2023.
+anticipated early 2024.
 
 ## Installation
 
@@ -123,10 +127,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 1767 ids
-#> flywire_rootid_cached: Looking up 1767 missing keys
-#> Updating 7520 ids
-#> flywire_rootid_cached: Looking up 7520 missing keys
+#> Updating 2469 ids
+#> flywire_rootid_cached: Looking up 2469 missing keys
+#> Updating 10494 ids
+#> flywire_rootid_cached: Looking up 10493 missing keys
 head(da1meta)
 #>           id  instance    type side class group   dataset
 #> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
@@ -259,10 +263,10 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 1767 ids
-#> Updating 7520 ids
-#> Matching types across datasets. Dropping 436/976 output partner types with total weight 7152/23730
-#> Matching types across datasets. Dropping 735/1358 input partner types with total weight 10483/26809
+#> Updating 2469 ids
+#> Updating 10494 ids
+#> Matching types across datasets. Dropping 469/976 output partner types with total weight 8510/23730
+#> Matching types across datasets. Dropping 750/1358 input partner types with total weight 11126/26809
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />
@@ -277,6 +281,6 @@ constitute a single cell type of two cells / hemisphere (i.e. they
 should not have been split into two cell types in the hemibrain).
 
 You can also see that cells from one hemibrain hemisphere often cluster
-slightly oddly - this is likely due to truncation of the axons or
-dendrites of these cells or a paucity of partners from the left hand
-side of the hemibrain.
+slightly oddly (e.g. 387687146) - this is likely due to truncation of
+the axons or dendrites of these cells or a paucity of partners from the
+left hand side of the hemibrain.
