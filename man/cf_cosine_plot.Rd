@@ -13,6 +13,7 @@ cf_cosine_plot(
   group = "type",
   heatmap = TRUE,
   interactive = FALSE,
+  drop_dataset_prefix = FALSE,
   nas = c("zero", "drop"),
   method = c("ward.D", "single", "complete", "average", "mcquitty", "median", "centroid",
     "ward.D2")
@@ -46,6 +47,10 @@ with \code{stats::\link{heatmap}}.}
 \item{interactive}{Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.}
 
+\item{drop_dataset_prefix}{Whether to remove dataset prefix such as
+\code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
+neurons in interactive mode.}
+
 \item{nas}{What to do with entries that have NAs. Default is to set them to 0
 similarity.}
 
@@ -75,6 +80,10 @@ Multi dataset cosine clustering
 \donttest{
 # basic cosine clustering, in this case for one dataset
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"))
+
+# same but dropping the dataset prefix in the column labels
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"),
+  drop_dataset_prefix = TRUE)
 
 # only cluster by inputs
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')

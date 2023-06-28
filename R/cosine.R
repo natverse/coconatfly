@@ -53,6 +53,9 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @param group The name or the grouping column for partner connectivity
 #'   (defaults to \code{"type"}) or a logical where \code{group=FALSE} means no
 #'   grouping (see details).
+#' @param drop_dataset_prefix Whether to remove dataset prefix such as
+#'   \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
+#'   neurons in interactive mode.
 #' @inheritParams cf_partners
 #' @inheritParams neuprintr::neuprint_cosine_plot
 #'
@@ -65,6 +68,10 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' \donttest{
 #' # basic cosine clustering, in this case for one dataset
 #' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"))
+#'
+#' # same but dropping the dataset prefix in the column labels
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"),
+#'   drop_dataset_prefix = TRUE)
 #'
 #' # only cluster by inputs
 #' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
@@ -97,6 +104,7 @@ cf_cosine_plot <- function(ids, ..., threshold=5,
                            group='type',
                            heatmap=TRUE,
                            interactive=FALSE,
+                           drop_dataset_prefix=FALSE,
                            nas=c('zero','drop'),
                            method=c("ward.D", "single", "complete", "average",
                                     "mcquitty", "median", "centroid", "ward.D2")) {
@@ -116,6 +124,8 @@ cf_cosine_plot <- function(ids, ..., threshold=5,
       stop("Please install/update suggested package coconat.\n",
            "natmanager::install(pkgs = 'coconat')\n","is a good way to do this")
   }
+  if(drop_dataset_prefix)
+    colnames(cm)=sub("^[a-z]+:","", colnames(cm))
   coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
                            method = method, heatmap=heatmap, ...)
 }
