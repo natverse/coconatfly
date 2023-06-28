@@ -93,7 +93,7 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' }
 cf_cosine_plot <- function(ids, ..., threshold=5,
                            partners = c("outputs", "inputs"),
-                           labRow='{type}_{abbreviate_datasets(dataset)}{side}',
+                           labRow='{type}_{coconatfly::abbreviate_datasets(dataset)}{side}',
                            group='type',
                            heatmap=TRUE,
                            interactive=FALSE,
