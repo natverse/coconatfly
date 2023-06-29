@@ -39,7 +39,7 @@ we use \code{keys} of the form \code{"<dataset>:<id>"}.
 }
 \examples{
 \donttest{
-keys(list(hemibrain=12345, flywire='4611686018427387904'))
+keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 }
 \donttest{
 

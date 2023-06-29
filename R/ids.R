@@ -24,7 +24,7 @@ id2int64 <- function(x) {
 #'
 #' @examples
 #' \donttest{
-#' keys(list(hemibrain=12345, flywire='4611686018427387904'))
+#' keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 #' }
 #' @rdname keys
 keys <- function(x) {
@@ -47,6 +47,9 @@ keys <- function(x) {
 #'   should be applied.
 #' @param expand Whether to expand any queries into the matching ids (this will
 #'   involve one or more calls to corresponding servers). Default \code{FALSE}.
+#' @param keys Whether to turn the ids into keys \code{hb:12345} right away.
+#'   Default \code{FALSE} but you may find this useful e.g. for combining
+#'   lists of neurons (see examples).
 #' @param hemibrain Pass hemibrain specific query or ids to this argument
 #' @param flywire Pass flywire specific query or ids to this argument
 #' @param malecns Pass malecns specific query or ids to this argument
@@ -65,11 +68,18 @@ keys <- function(x) {
 #'
 #' # expand query into actual ids
 #' cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
+#'
+#' # return keys directly
+#' cf_ids("/type:MBON.+", keys=TRUE)
+#' # can be useful for combining separate lists of neurons
+#' hbids=c(264083994, 5813022274)
+#' c(cf_ids("/type:MBON1.+", keys=TRUE), cf_ids(hemibrain = hbids, keys = T))
 #' }
 cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
     expand=FALSE,
+    keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL) {
   nds=sum(
     !is.null(hemibrain),
@@ -98,10 +108,10 @@ cf_ids <- function(
     # drop any empty datasets
     l[lengths(l)>0]
   }
-  if(isTRUE(expand)) {
+  if(isTRUE(expand) || isTRUE(keys)) {
     res=mapply(expand_ids, ids=res, dataset=names(res), SIMPLIFY = FALSE)
   }
-  res
+  if(isTRUE(keys)) keys(res) else res
 }
 
 # private function to expand queries into the corresponding ids

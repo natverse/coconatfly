@@ -8,6 +8,7 @@ cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
   expand = FALSE,
+  keys = FALSE,
   hemibrain = NULL,
   flywire = NULL,
   malecns = NULL,
@@ -23,6 +24,10 @@ should be applied.}
 
 \item{expand}{Whether to expand any queries into the matching ids (this will
 involve one or more calls to corresponding servers). Default \code{FALSE}.}
+
+\item{keys}{Whether to turn the ids into keys \code{hb:12345} right away.
+Default \code{FALSE} but you may find this useful e.g. for combining
+neurons.}
 
 \item{hemibrain}{Pass hemibrain specific query or ids to this argument}
 
@@ -49,6 +54,12 @@ cf_ids("/MBON.+", datasets='brain')
 
 # expand query into actual ids
 cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
+
+# return keys directly
+cf_ids("/type:MBON.+", keys=TRUE)
+# can be useful for combining separate lists of neurons
+hbids=c(264083994, 5813022274)
+c(cf_ids("/type:MBON1.+", keys=TRUE), cf_ids(hemibrain = hbids, keys = T))
 }
 }
 \seealso{
