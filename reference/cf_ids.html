@@ -52,6 +52,7 @@
 <span>  query <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"brain"</span>, <span class="st">"vnc"</span>, <span class="st">"hemibrain"</span>, <span class="st">"flywire"</span>, <span class="st">"malecns"</span>, <span class="st">"manc"</span>, <span class="st">"fanc"</span><span class="op">)</span>,</span>
 <span>  expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keys <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  hemibrain <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  flywire <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  malecns <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,6 +75,12 @@ should be applied.</p></dd>
 <dt>expand</dt>
 <dd><p>Whether to expand any queries into the matching ids (this will
 involve one or more calls to corresponding servers). Default <code>FALSE</code>.</p></dd>
+
+
+<dt>keys</dt>
+<dd><p>Whether to turn the ids into keys <code>hb:12345</code> right away.
+Default <code>FALSE</code> but you may find this useful e.g. for combining
+neurons.</p></dd>
 
 
 <dt>hemibrain</dt>
@@ -136,6 +143,16 @@ metadata queries for fanc)</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:flywire</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘malecns’</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># return keys directly</span></span></span>
+<span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:flywire</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘malecns’</span>
+<span class="r-in"><span><span class="co"># can be useful for combining separate lists of neurons</span></span></span>
+<span class="r-in"><span><span class="va">hbids</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">264083994</span>, <span class="fl">5813022274</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span>, keys <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:flywire</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘malecns’</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
