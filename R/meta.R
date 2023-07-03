@@ -6,7 +6,7 @@ npconn <- function(dataset) {
       dataset='hemibrain:v1.2.1'))
   else if(dataset=='malecns')
     return(malecns::mcns_neuprint())
-  else if(dataset=='malevnc')
+  else if(dataset=='manc')
     return(malevnc::manc_neuprint())
   else stop("neuprint connection unavailable for dataset: ", dataset)
 }
