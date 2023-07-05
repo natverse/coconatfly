@@ -64,14 +64,13 @@ natmanager::install(pkgs = 'flyconnectome/coconatfly')
 Some of the datasets exposed by *coconatfly* require authentication for
 access or are still being annotated in private pre-release. Please
 consult individual package dependencies for authentication details and
-do not be surprised if you do not have access to all datasets if you are
-not a collaborator of the [fly connectome
-group](https://flyconnecto.me).
+do not be surprised if you do not have access to all datasets at this
+time.
 
-For installation of private packages (currently restricted to in
-preparation datasets being developed with our collaborators at the
-[FlyEM Team at Janelia](https://www.janelia.org/project-team/flyem)) you
-will need a GITHUB_PAT (Personal Access Token - an alternative to a
+For installation of private packages (currently restricted to the male
+cns dataset being developed with our collaborators at the [FlyEM Team at
+Janelia](https://www.janelia.org/project-team/flyem)) you will need a
+GITHUB_PAT (Personal Access Token - an alternative to a
 username+password).
 
 This code checks if you have a PAT GITHUB_PAT and offers to make one if
@@ -127,10 +126,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 2469 ids
-#> flywire_rootid_cached: Looking up 2469 missing keys
-#> Updating 10494 ids
-#> flywire_rootid_cached: Looking up 10493 missing keys
+#> Updating 2721 ids
+#> flywire_rootid_cached: Looking up 2721 missing keys
+#> Updating 12133 ids
+#> flywire_rootid_cached: Looking up 12132 missing keys
 head(da1meta)
 #>           id  instance    type side class group   dataset
 #> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
@@ -155,6 +154,8 @@ We can also fetch connectivity for these neurons:
 ``` r
 da1ds <- da1meta %>% 
   cf_partners(threshold = 5, partners = 'output')
+#> Updating 2721 ids
+#> Updating 12133 ids
 head(da1ds)
 #> # A tibble: 6 × 8
 #>    pre_id post_id weight side  type    dataset pre_key               post_key   
@@ -173,8 +174,8 @@ da1ds %>%
   summarise(weight=sum(weight), npre=n_distinct(pre_id), npost=n_distinct(post_id))
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
-#> # A tibble: 239 × 6
-#> # Groups:   type, dataset [195]
+#> # A tibble: 241 × 6
+#> # Groups:   type, dataset [197]
 #>    type            dataset   side  weight  npre npost
 #>    <chr>           <chr>     <chr>  <int> <int> <int>
 #>  1 AL-AST1         flywire   L         16     2     1
@@ -187,7 +188,7 @@ da1ds %>%
 #>  8 AVLP010         flywire   R         83     6     1
 #>  9 AVLP011,AVLP012 flywire   L          6     1     1
 #> 10 AVLP011,AVLP012 flywire   R         22     2     1
-#> # ℹ 229 more rows
+#> # ℹ 231 more rows
 ```
 
 Let’s restrict that to types that are observed in both datasets. We do
@@ -263,10 +264,10 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 2469 ids
-#> Updating 10494 ids
+#> Updating 2721 ids
+#> Updating 12133 ids
 #> Matching types across datasets. Dropping 469/976 output partner types with total weight 8510/23730
-#> Matching types across datasets. Dropping 750/1358 input partner types with total weight 11126/26809
+#> Matching types across datasets. Dropping 750/1358 input partner types with total weight 11133/26809
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />

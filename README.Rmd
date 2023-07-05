@@ -69,11 +69,10 @@ natmanager::install(pkgs = 'flyconnectome/coconatfly')
 Some of the datasets exposed by *coconatfly* require authentication for access or
 are still being annotated in private pre-release. Please consult individual 
 package dependencies for authentication details and do not be surprised if you
-do not have access to all datasets if you are not a collaborator of the
-[fly connectome group](https://flyconnecto.me).
+do not have access to all datasets at this time.
 
-For installation of private packages (currently restricted to in preparation 
-datasets being developed with our collaborators at the 
+For installation of private packages (currently restricted to the male cns
+dataset being developed with our collaborators at the 
 [FlyEM Team at Janelia](https://www.janelia.org/project-team/flyem))
 you will need a GITHUB_PAT (Personal Access Token - an alternative to 
 a username+password). 
