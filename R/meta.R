@@ -44,9 +44,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
     res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs)
-    keys=glue::glue('{dataset}:{id}', .envir = res)
-    ids$key=glue::glue('{dataset}:{id}', .envir = ids)
-    res=res[match(ids$key, keys),,drop=F]
+    res=res[match(keys(ids), res$key),,drop=F]
     return(res)
   }
   ids <- checkmate::assert_named(ids, type = 'unique')
@@ -88,6 +86,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
     if(length(missing_cols)>0)
       stop("We are missing columns: ", paste(missing_cols, collapse = ','))
     tres$dataset=n
+    tres$key=keys(tres)
     res[[n]]=tres
   }
   if(length(res)==0) return(NULL)
