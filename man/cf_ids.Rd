@@ -27,7 +27,7 @@ involve one or more calls to corresponding servers). Default \code{FALSE}.}
 
 \item{keys}{Whether to turn the ids into keys \code{hb:12345} right away.
 Default \code{FALSE} but you may find this useful e.g. for combining
-neurons.}
+lists of neurons (see examples).}
 
 \item{hemibrain}{Pass hemibrain specific query or ids to this argument}
 
