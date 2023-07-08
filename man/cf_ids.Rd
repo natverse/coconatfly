@@ -68,7 +68,7 @@ cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
 cf_ids("/type:MBON.+", keys=TRUE)
 # one way of combining separate lists of neurons
 hbids=c(264083994, 5813022274)
-c(cf_ids("/type:MBON1.+", keys=TRUE), cf_ids(hemibrain = hbids, keys = T))
+c(cf_ids("/type:MBON1.+", keys=TRUE), cf_ids(hemibrain = hbids, keys = TRUE))
 
 # now equivalent to
 keys(c(cf_ids("/type:MBON1.+"), cf_ids(hemibrain = hbids)))
