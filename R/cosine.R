@@ -82,6 +82,12 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' # the same but without grouping partner connectivity by type
 #' # only makes sense for single dataset plots
 #' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), group = FALSE)
+#'
+#' # bigger clustering
+#' lalhc=cf_cosine_plot(cf_ids(hemibrain="/type:LAL.+"), heatmap=FALSE)
+#' lalmeta=cf_meta(lalhc$labels)
+#' lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75, idcol='key')
+#'
 #' }
 #' \dontrun{
 #' ## The previous examples are for single datasets to avoid authentication issues
@@ -93,7 +99,9 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' cf_cosine_plot(cf_ids("/type:LAL.+"))
 #'
 #' # just make the hclust dendrogram
-#' cf_cosine_plot(cf_ids("/type:LAL.+"), heatmap=FALSE)
+#' lalhc=cf_cosine_plot(cf_ids("/type:LAL.+"), heatmap=FALSE)
+#' lalmeta=cf_meta(lalhc$labels)
+#' lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75)
 #'
 #' # look at the results interactively
 #' cf_cosine_plot(cf_ids("/type:LAL.+"), interactive=TRUE)
