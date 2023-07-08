@@ -37,7 +37,8 @@ Suggests:
     testthat (>= 3.0.0),
     ComplexHeatmap,
     InteractiveComplexHeatmap,
-    arrow
+    arrow,
+    cli
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,

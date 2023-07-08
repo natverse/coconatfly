@@ -149,13 +149,19 @@ c.cidlist <- function(..., unique=TRUE) {
 }
 
 #' @export
-print.cidlist <- function(x, ...) {
+print.cidlist <- function(x, ..., truncate=10) {
+  have_cli=requireNamespace('cli', quietly = TRUE)
   for(n in names(x)) {
     ids=as.character(x[[n]])
     nids=length(ids)
-    if(nids>10) ids=c(ids[1:10], "...")
-    cat(n, ": ", sep = "", paste(ids, collapse=" "),
-        " [",nids," ids]", "\n\n")
+    if(!isFALSE(truncate) && nids>truncate)
+      ids=c(ids[seq_len(truncate)], "...")
+    nidstr=paste0("[",nids," ids]")
+    if(have_cli) {
+      n=cli::col_blue(n)
+      nidstr=cli::col_grey(nidstr)
+    }
+    cat(n, " ", nidstr, ": ", sep = "", paste(ids, collapse=" "), "\n")
   }
   invisible(x)
 }
