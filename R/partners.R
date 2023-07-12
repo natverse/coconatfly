@@ -116,31 +116,6 @@ match_types <- function(x, group, partners="", min_datasets=Inf) {
 }
 
 
-#' @importFrom dplyr distinct all_of
-multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
-                                    threshold=1L, version=NULL,
-                                    group='type') {
-  partners=match.arg(partners, several.ok = T)
-  if(length(partners)>1) {
-    l=sapply(partners, simplify = F, function(p)
-      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
-    return(l)
-  }
-  x <- cf_partners(ids, threshold = threshold, partners = partners)
-  if(is.character(group))
-    x <- match_types(x, group, partners=partners)
-  # now we need to recover query ids; in our current design we don't know this
-  # for certain as we rely on downstream functions to process queries like "DA2_lPN"
-  querycol=ifelse(partners=='inputs', 'post_id', 'pre_id')
-  qx=x %>%
-    select(all_of(querycol), dataset) %>%
-    rename_with(~sub(".+_", "", .x)) %>%
-    # mutate(id=as.character(id)) %>%
-    distinct(id, dataset)
-  attr(x, 'queryids')=qx
-  x
-}
-
 connection_table2queryids <- function(x) {
   if(is.data.frame(x)) {
     qx=attr(x, 'queryids')
