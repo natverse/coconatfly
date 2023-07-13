@@ -3,7 +3,7 @@ test_that("triple_cosine_plot works", {
   testthat::skip_if(inherits(fcdv, "try-error"))
 
   expect_s3_class(
-    hc <- triple_cosine_plot('AOTU063', partners = 'o', heatmap = F),
+    hc <- triple_cosine_plot('/type:AOTU063.*', partners = 'o', heatmap = F),
             'hclust')
 
   bl=list(labels = c("hb:800929667", "hb:791039731", "fw:720575940620326253",
