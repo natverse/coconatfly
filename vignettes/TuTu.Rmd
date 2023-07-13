@@ -1,0 +1,74 @@
+---
+title: "TuTu"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TuTu}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(coconatfly)
+```
+
+TuTu neurons are a class of visual neurons that connect the two optic tubercles. From what we know of them they are likely to be responsive to small field objects e.g. other flies.
+
+You can read more about them on VFB, where they are called [`adult tubercle-tubercle neuron` [FBbt_00051062]](https://v2.virtualflybrain.org/org.geppetto.frontend/geppetto?id=FBbt_00051062&i=VFB_00101567,VFB_jrchk7cz).
+
+The following neurons are recorded in the hemibrain and FAFB-FlyWire. Note the use of a regular expression to match against the type field.
+
+```{r}
+tutus=cf_meta(cf_ids('/type:TuTu.*', datasets = c("hemibrain", "flywire")))
+tutus
+```
+
+```{r}
+tutus %>% 
+  count(dataset, type, side)
+```
+So we can see the hemibrain TuTuB neurons have been typed into two subtypes, but the flywire neurons have not. First of all does
+cosine clustering in the hem
+
+```{r}
+tutus %>% 
+  cf_cosine_plot()
+```
+
+So this is interesting at a couple of levels. First we can see that the TuTuB
+hemibrain neurons separate into two groups. This is true even though things are
+a bit messy for the
+`TuTuB_a_hbL` neuron which will almost certainly be heavily truncated as it has 
+its soma on the left hand (missing) side of the hemibrain.
+
+We can also see the flywire neurons also split up nicely. So we have two groups
+of four neurons each. Each group contains one neuron from each hemisphere x dataset combination. So we can update our flywire cell typing to match the hemibrain
+TuTuB_a and TuTuB_b groups.
+
+
+### TuTuA
+
+However, interestingly we can also see that the TuTuA group splits very strongly
+in flywire into two groups that are not evident in the hemibrain. To me this
+strongly suggests that some property of the bilateral connectivity defines this
+difference. 
+
+We can try seeing if we just use the input connectivity to cluster if things
+resolve:
+
+```{r}
+tutus %>% 
+  filter(grepl("TuTuA", type)) %>% 
+  cf_cosine_plot(partners = 'in')
+```
+
+Hmm the situatuion is still the same. Since the two flywire groups are so well-separated
+this is almost certainly a real split. However since the hemibrain does not give
+any data to support this, I will not record the split for now. I strongly suspect that
+we will observe this split in future connectomes though.
