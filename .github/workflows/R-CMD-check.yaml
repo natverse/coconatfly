@@ -54,6 +54,11 @@ jobs:
           remotes::install_cran("devtools")
         shell: Rscript {0}
 
+      - name: Add some R options for later steps
+        run: |
+          cat("\noptions(fafbseg.use_static_celltypes=TRUE)\n", file = "~/.Rprofile", append = TRUE)
+        shell: Rscript {0}
+
       - name: Download flywire data
         run: |
           fafbseg::download_flywire_release_data()
