@@ -38,7 +38,8 @@ Suggests:
     ComplexHeatmap,
     InteractiveComplexHeatmap,
     arrow,
-    cli
+    cli,
+    git2r
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,
