@@ -21,6 +21,12 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/TuTu.html">TuTu</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -146,12 +152,7 @@ similarity.</p></dd>
 <span class="r-in"><span><span class="co"># AOTU063 should be separated into two subtypes.</span></span></span>
 <span class="r-in"><span><span class="co"># Very clear based on output clustering and also some small morphological differences.</span></span></span>
 <span class="r-in"><span><span class="fu">triple_cosine_plot</span><span class="op">(</span><span class="st">'AOTU063'</span>, partners <span class="op">=</span> <span class="st">'o'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in flywire_connectome_basedir():</span> </span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Unable to find flywire connectome data files!</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Please download a numbered data folder (eg 506) from the Google drive link in this slack message</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> https://flywire-forum.slack.com/archives/C01M4LP2Y2D/p1644529750249139</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> and place it in in this folder:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> /home/runner/.local/share/R/fafbseg/flywire_connectome_analysis_data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in add_celltype_info(res, idcol = partner_col, version = version):</span> Expect either character or integer64 ids!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># LAL074/LAL084 are the same type.</span></span></span>
 <span class="r-in"><span><span class="co"># Were incorrectly split due to annotation into separate hemibrain CBFs</span></span></span>
@@ -159,12 +160,9 @@ similarity.</p></dd>
 <span class="r-in"><span><span class="co"># neurons but expanded to the regex "(LAL074|LAL084)" in order to find</span></span></span>
 <span class="r-in"><span><span class="co"># both hemibrain types</span></span></span>
 <span class="r-in"><span><span class="fu">triple_cosine_plot</span><span class="op">(</span><span class="st">'LAL074,LAL084'</span>, partners <span class="op">=</span> <span class="st">'i'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in flywire_connectome_basedir():</span> </span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Unable to find flywire connectome data files!</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Please download a numbered data folder (eg 506) from the Google drive link in this slack message</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> https://flywire-forum.slack.com/archives/C01M4LP2Y2D/p1644529750249139</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> and place it in in this folder:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> /home/runner/.local/share/R/fafbseg/flywire_connectome_analysis_data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Matching types across datasets. Dropping 532/1184 input partner types with total weight 8561/25838</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `partners`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in split.default(x = seq_len(nrow(x)), f = f, drop = drop, ...):</span> group length is 0 but data length &gt; 0</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
