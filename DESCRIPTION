@@ -38,7 +38,11 @@ Suggests:
     ComplexHeatmap,
     InteractiveComplexHeatmap,
     arrow,
-    cli
+    cli,
+    git2r,
+    knitr,
+    rmarkdown,
+    dendroextras
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,
@@ -56,3 +60,4 @@ URL: https://github.com/flyconnectome/coconatfly,
 BugReports: https://github.com/flyconnectome/coconatfly/issues
 Config/testthat/edition: 3
 biocViews: Software
+VignetteBuilder: knitr

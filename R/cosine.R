@@ -2,10 +2,8 @@
 # and turning them into a cosine matrix
 multi_cosine_matrix <- function(x, partners, nas, group='type') {
   if(is.data.frame(x)) {
-    if(length(partners)>1)
-      stop("If you provide a data.frame as input you must specify just one of inputs/outputs")
-    x=list(x)
-    names(x)=partners
+    x=split(x, x$partners)
+    partners=names(x)
   }
   # a bit of a shuffle because c(NULL, <integer64>) removes the class
   ids=unique(c(x$outputs$pre_key, x$inputs$post_key))
@@ -37,6 +35,35 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 }
 
 
+#' @importFrom dplyr distinct all_of
+#' @rdname cf_cosine_plot
+#' @export
+#' @return \code{multi_connection_table} returns a connectivity dataframe as
+#'   returned by \code{cf_partners} but with an additional column
+#'   \code{partners} which indicates (for each row) whether the partner neurons
+#'   are the input or output neurons.
+multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
+                                   threshold=1L,
+                                   group='type') {
+  partners=match.arg(partners, several.ok = T)
+  if(length(partners)>1) {
+    l=sapply(partners, simplify = F, function(p)
+      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
+    l=dplyr::bind_rows(l)
+    return(l)
+  }
+  x <- cf_partners(ids, threshold = threshold, partners = partners)
+  if(is.character(group))
+    x <- match_types(x, group, partners=partners)
+  # mark which column was used for the query
+  x$partners=partners
+  x
+}
+
+is.mct <- function(x) {
+  is.data.frame(x) && all(c("pre_id", "post_id", "dataset", "partners") %in% colnames(x))
+}
+
 #' Multi dataset cosine clustering
 #'
 #' @details \code{group=FALSE} only makes sense for single dataset clustering -
@@ -49,7 +76,7 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   \code{group} can be set to other metadata columns such as \code{class} or
 #'   \code{hemilineage}, \code{serial} (serially homologous cell group) if
 #'   available. This can reveal other interesting features of organisation.
-#'
+#' @param ids Either a set of ids \emph{OR} a
 #' @param group The name or the grouping column for partner connectivity
 #'   (defaults to \code{"type"}) or a logical where \code{group=FALSE} means no
 #'   grouping (see details).
@@ -106,7 +133,67 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' # look at the results interactively
 #' cf_cosine_plot(cf_ids("/type:LAL.+"), interactive=TRUE)
 #' }
-cf_cosine_plot <- function(ids, ..., threshold=5,
+#'
+#' \donttest{
+#' # Show case examples of using multi_connection_table to allow
+#' # only a subset of partnets to be used for typing
+#' mct=multi_connection_table(cf_ids(hemibrain="/lLN2.+"), partners='in')
+#' cf_cosine_plot(mct)
+#' library(dplyr)
+#' mct2=mct %>% filter(!grepl("PN",type))
+#' cf_cosine_plot(mct2)
+#'
+#' mct3=cf_ids("/type:lLN2.+", datasets=c("hemibrain", "flywire")) %>%
+#'   multi_connection_table(., partners='in') %>%
+#'   mutate(class=case_when(
+#'    grepl("LN", type) ~ "LN",
+#'    grepl("RN", type) ~ "RN",
+#'    grepl("^M.*PN", type) ~ 'mPN',
+#'    grepl("PN", type) ~ 'uPN',
+#'    T ~ 'other'
+#'   )) %>%
+#'   # try merging connectivity for partners that don't have much specificity
+#'   mutate(type=case_when(
+#'   class=="RN" ~ sub("_.+", "", type),
+#'   class=="uPN" ~ 'uPN',
+#'   T ~ type
+#'   ))
+#' \dontrun{
+#' mct3%>%
+#'   # remove RN/uPN connectivity could also use the merged connectivity
+#'   filter(!class %in% c("RN", "uPN")) %>%
+#'   cf_cosine_plot(interactive=TRUE)
+#' }
+#'
+#' # This time focus in on a small number of query neurons
+#' mct3 %>%
+#'   mutate(query_key=ifelse(partners=='outputs', pre_key, post_key)) %>%
+#'   filter(query_key %in% cf_ids('/type:lLN2(T_[bde]|X08)', datasets = c("hemibrain", "flywire"), keys = T)) %>%
+#'   cf_cosine_plot()
+#' }
+#'
+#' # another worked example lLN1 neurons
+#' \donttest{
+#' lLN1=cf_ids("/type:lLN1_.+", datasets=c("hemibrain", "flywire")) %>%
+#'   multi_connection_table(., partners='in') %>%
+#'   mutate(class=case_when(
+#'    grepl("LN", type) ~ "LN",
+#'    grepl("RN", type) ~ "RN",
+#'    grepl("^M.*PN", type) ~ 'mPN',
+#'    grepl("PN", type) ~ 'uPN',
+#'    T ~ 'other'
+#'   )) %>%
+#'   mutate(type=case_when(
+#'   class=="RN" ~ sub("_.+", "", type),
+#'   class=="uPN" ~ 'uPN',
+#'   T ~ type
+#'   ))
+#'
+#' lLN1 %>%
+#'   filter(!class %in% c("RN", "uPN")) %>%
+#'   cf_cosine_plot()
+#' }
+cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            partners = c("outputs", "inputs"),
                            labRow='{type}_{coconatfly::abbreviate_datasets(dataset)}{side}',
                            group='type',
@@ -118,7 +205,11 @@ cf_cosine_plot <- function(ids, ..., threshold=5,
                                     "mcquitty", "median", "centroid", "ward.D2")) {
   method=match.arg(method)
   partners=match.arg(partners, several.ok = T)
-  x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group)
+  if(is.mct(ids)) {
+    x=ids
+    partners=unique(x$partners)
+  } else
+    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group)
 
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 

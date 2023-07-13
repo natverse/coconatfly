@@ -21,6 +21,7 @@ jobs:
       _R_CHECK_TESTS_NLINES_: 0
       NEUPRINT_TOKEN: ${{ secrets.NEUPRINT_TOKEN }}
       CLIO_TOKEN: ${{ secrets.CLIO_TOKEN }}
+      FLYWIRE_PRINCIPLES: IAGREETOTHEFLYWIREPRINCIPLES
 
     steps:
       - uses: actions/checkout@v2
@@ -53,9 +54,15 @@ jobs:
           remotes::install_cran("devtools")
         shell: Rscript {0}
 
-        # - uses: r-lib/actions/setup-r-dependencies@v1
-        # with:
-        #   extra-packages: rcmdcheck
+      - name: Add some R options for later steps
+        run: |
+          cat("\noptions(fafbseg.use_static_celltypes=TRUE)\n", file = "~/.Rprofile", append = TRUE)
+        shell: Rscript {0}
+
+      - name: Download flywire data
+        run: |
+          fafbseg::download_flywire_release_data()
+        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
 
