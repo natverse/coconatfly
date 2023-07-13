@@ -14,11 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
+library(dplyr)
 library(coconatfly)
 ```
 
-TuTu neurons are a class of visual neurons that connect the two optic tubercles. From what we know of them they are likely to be responsive to small field objects e.g. other flies.
+TuTu neurons are a class of visual interneurons that connect the two optic tubercles
+on each side of the brain. Inputs to the tubercle include narrow field visual 
+interneurons e.g. those responsive to small objects such as other flies.
 
 You can read more about them on VFB, where they are called [`adult tubercle-tubercle neuron` [FBbt_00051062]](https://v2.virtualflybrain.org/org.geppetto.frontend/geppetto?id=FBbt_00051062&i=VFB_00101567,VFB_jrchk7cz).
 
@@ -68,7 +71,45 @@ tutus %>%
   cf_cosine_plot(partners = 'in')
 ```
 
-Hmm the situatuion is still the same. Since the two flywire groups are so well-separated
+Hmm the situation is still the same. Since the two flywire groups are so well-separated
 this is almost certainly a real split. However since the hemibrain does not give
 any data to support this, I will not record the split for now. I strongly suspect that
 we will observe this split in future connectomes though.
+
+## Setting the new types
+
+```{r}
+tutus.hc <- tutus %>% 
+  cf_cosine_plot(heatmap = F)
+tutus.meta=cf_meta(tutus.hc$labels)
+
+plot(tutus.hc, labels = tutus.meta$type)
+```
+
+```{r}
+tutus.meta2=coconat::add_cluster_info(tutus.meta, tutus.hc, k = 5)
+tutus.meta2 %>% 
+  count(dataset, group_k5)
+  
+```
+Group 4 contains the TuTuB_b neurons
+```{r}
+tutus.meta2 %>% 
+  filter(group_k5==4)
+```
+Group 5 contains the TuTuB_b neurons
+
+```{r}
+tutus.meta2 %>% 
+  filter(group_k5==5)
+```
+
+
+The following code could help find the ontology (FBBt) ids for these
+neurons:
+```{r, eval=FALSE}
+natmanager::install(pkgs = 'vfbr')
+vfbr::vfb_autocomplete_query('TuTuB') %>% 
+  filter(grepl("FBbt", short_form))
+```
+
