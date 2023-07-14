@@ -190,3 +190,28 @@ two cell types in the hemibrain).
 You can also see that cells from one hemibrain hemisphere often cluster slightly
 oddly (e.g. 387687146) - this is likely due to truncation of the axons or dendrites of these cells
 or a paucity of partners from the left hand side of the hemibrain. 
+
+## Going further
+
+We strongly recommend consulting the online manual visible at https://natverse.org/coconatfly/. In particular the vignette(s) listed at
+https://natverse.org/coconatfly/articles provide full code and instructions 
+for a step by step walk through.
+
+## Acknowledgements
+
+Upon publication, please ensure that you appropriately cite all datasets that 
+you use in your analysis.
+In addition in order to justify continued development of natverse tools in general and 
+coconatfly in particular, we would appreciate two citations for
+
+* For the natverse: [Bates et al eLife 2020](https://doi.org/10.7554/eLife.53350)
+* For coconatfly: [Schlegel et al bioRxiv 2023](https://doi.org/10.1101/2023.06.27.546055)
+
+Should you make significant use of natverse packages in your paper
+(e.g. multiple panels or >1 figure), we would also strongly
+appreciate a statement like this in the acknowledgements that can be tracked by 
+our funders.
+
+> Development of the natverse including the coconatfly and fafbseg packages has been supported 
+by the NIH BRAIN Initiative (grant 1RF1MH120679-01), NSF/MRC Neuronex2 (NSF 2014862/MC_EX_MR/T046279/1) and core funding from the Medical Research Council (MC_U105188491).
+

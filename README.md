@@ -112,32 +112,39 @@ cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
 #> 5   FALSE DA1_lPN_R DA1_lPN         AVM02  <NA> FALSE    R  <NA>  <NA>
 #> 6   FALSE DA1_lPN_R DA1_lPN         AVM02  <NA>  TRUE    R  <NA>  <NA>
 #> 7   FALSE DA1_lPN_R DA1_lPN         AVM02  <NA>  TRUE    R  <NA>  <NA>
-#>     dataset
-#> 1 hemibrain
-#> 2 hemibrain
-#> 3 hemibrain
-#> 4 hemibrain
-#> 5 hemibrain
-#> 6 hemibrain
-#> 7 hemibrain
+#>     dataset           key
+#> 1 hemibrain hb:1734350788
+#> 2 hemibrain hb:1734350908
+#> 3 hemibrain hb:1765040289
+#> 4 hemibrain hb:5813039315
+#> 5 hemibrain  hb:722817260
+#> 6 hemibrain  hb:754534424
+#> 7 hemibrain  hb:754538881
 ```
 
 We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 2721 ids
-#> flywire_rootid_cached: Looking up 2721 missing keys
-#> Updating 12133 ids
-#> flywire_rootid_cached: Looking up 12132 missing keys
+#> Updating 2917 ids
+#> flywire_rootid_cached: Looking up 2917 missing keys
+#> Updating 12263 ids
+#> flywire_rootid_cached: Looking up 12262 missing keys
 head(da1meta)
-#>           id  instance    type side class group   dataset
-#> 1 1734350788 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
-#> 2 1734350908 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
-#> 3 1765040289 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
-#> 4 5813039315 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
-#> 5  722817260 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
-#> 6  754534424 DA1_lPN_R DA1_lPN    R  <NA>  <NA> hemibrain
+#>                   id side   class    type group  instance dataset
+#> 1 720575940604407468    R central DA1_lPN  <NA> DA1_lPN_R flywire
+#> 2 720575940623543881    R central DA1_lPN  <NA> DA1_lPN_R flywire
+#> 3 720575940637469254    R central DA1_lPN  <NA> DA1_lPN_R flywire
+#> 4 720575940614309535    L central DA1_lPN  <NA> DA1_lPN_L flywire
+#> 5 720575940617229632    R central DA1_lPN  <NA> DA1_lPN_R flywire
+#> 6 720575940619385765    L central DA1_lPN  <NA> DA1_lPN_L flywire
+#>                     key
+#> 1 fw:720575940604407468
+#> 2 fw:720575940623543881
+#> 3 fw:720575940637469254
+#> 4 fw:720575940614309535
+#> 5 fw:720575940617229632
+#> 6 fw:720575940619385765
 ```
 
 ``` r
@@ -154,8 +161,8 @@ We can also fetch connectivity for these neurons:
 ``` r
 da1ds <- da1meta %>% 
   cf_partners(threshold = 5, partners = 'output')
-#> Updating 2721 ids
-#> Updating 12133 ids
+#> Updating 2917 ids
+#> Updating 12263 ids
 head(da1ds)
 #> # A tibble: 6 × 8
 #>    pre_id post_id weight side  type    dataset pre_key               post_key   
@@ -209,8 +216,8 @@ da1ds.shared_types.wide <- da1ds %>%
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
 da1ds.shared_types.wide
-#> # A tibble: 34 × 4
-#> # Groups:   type [34]
+#> # A tibble: 36 × 4
+#> # Groups:   type [36]
 #>    type      fw_L  fw_R  hb_R
 #>    <chr>    <int> <int> <int>
 #>  1 AL-AST1     16    13    25
@@ -223,7 +230,7 @@ da1ds.shared_types.wide
 #>  8 LHAV2b11    44    77    29
 #>  9 LHAV3k6     19    16     5
 #> 10 LHAV4c2      0     7    15
-#> # ℹ 24 more rows
+#> # ℹ 26 more rows
 ```
 
 With the data organised like this, we can easily compare the connection
@@ -264,10 +271,10 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 2721 ids
-#> Updating 12133 ids
-#> Matching types across datasets. Dropping 469/976 output partner types with total weight 8510/23730
-#> Matching types across datasets. Dropping 750/1358 input partner types with total weight 11133/26809
+#> Updating 2917 ids
+#> Updating 12263 ids
+#> Matching types across datasets. Dropping 461/976 output partner types with total weight 8050/23730
+#> Matching types across datasets. Dropping 737/1356 input partner types with total weight 10875/26780
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />
@@ -285,3 +292,32 @@ You can also see that cells from one hemibrain hemisphere often cluster
 slightly oddly (e.g. 387687146) - this is likely due to truncation of
 the axons or dendrites of these cells or a paucity of partners from the
 left hand side of the hemibrain.
+
+## Going further
+
+We strongly recommend consulting the online manual visible at
+<https://natverse.org/coconatfly/>. In particular the vignette(s) listed
+at <https://natverse.org/coconatfly/articles> provide full code and
+instructions for a step by step walk through.
+
+## Acknowledgements
+
+Upon publication, please ensure that you appropriately cite all datasets
+that you use in your analysis. In addition in order to justify continued
+development of natverse tools in general and coconatfly in particular,
+we would appreciate two citations for
+
+- For the natverse: [Bates et al eLife
+  2020](https://doi.org/10.7554/eLife.53350)
+- For coconatfly: [Schlegel et al bioRxiv
+  2023](https://doi.org/10.1101/2023.06.27.546055)
+
+Should you make significant use of natverse packages in your paper
+(e.g. multiple panels or \>1 figure), we would also strongly appreciate
+a statement like this in the acknowledgements that can be tracked by our
+funders.
+
+> Development of the natverse including the coconatfly and fafbseg
+> packages has been supported by the NIH BRAIN Initiative (grant
+> 1RF1MH120679-01), NSF/MRC Neuronex2 (NSF 2014862/MC_EX_MR/T046279/1)
+> and core funding from the Medical Research Council (MC_U105188491).
