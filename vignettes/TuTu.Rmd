@@ -28,7 +28,7 @@ There are 4 TuTu neurons originating from each hemisphere (8 per brain). The TuT
 
 We will use data from the hemibrain and flywire. Installing coconatfly will automatically install the natverse packages required for analysis. However, a few extra steps are still required.
 
-```{r setup, eval=FALSE}
+```{r install, eval=FALSE}
 # first install coconatfly
 if(!requireNamespace('natmanager'))
   install.packages('natmanager')
@@ -72,7 +72,8 @@ tutus %>%
   count(dataset, type, side)
 ```
 
-So we can see the hemibrain TuTuB neurons have been typed into two subtypes, but the flywire neurons have not. First of all does cosine clustering in the hem
+So we can see the hemibrain TuTuB neurons have been typed into two subtypes, but the flywire neurons have not. We can run across-dataset cosine connectivity 
+clustering on these neurons like so:
 
 ```{r}
 tutus %>% 
