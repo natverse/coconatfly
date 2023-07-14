@@ -1,8 +1,8 @@
 ---
-title: "TuTu"
+title: "2. Clustering TuTu neurons"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{TuTu}
+  %\VignetteIndexEntry{2. Clustering TuTu neurons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
