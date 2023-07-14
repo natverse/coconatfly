@@ -26,30 +26,7 @@ There are 4 TuTu neurons originating from each hemisphere (8 per brain). The TuT
 
 ### Setup
 
-We will use data from the hemibrain and flywire. Installing coconatfly will automatically install the natverse packages required for analysis. However, a few extra steps are still required.
-
-```{r install, eval=FALSE}
-# first install coconatfly
-if(!requireNamespace('natmanager'))
-  install.packages('natmanager')
-natmanager::install(pkgs = 'flyconnectome/coconatfly')
-# then get flywire data
-fafbseg::download_flywire_release_data()
-```
-
-If you have not already done so, you will also need to record a neuprint token to access hemibrain data. Go to <https://neuprint.janelia.org/account>, copy your Auth Token and then edit your R environ file to do
-
-```{r setting token, eval=FALSE}
-usethis::edit_r_environ()
-```
-
-and add a line like this:
-
-```         
-neuprint_token="eyJhbH0lc9OqzJ6evvcJ23KmIi.eyJlb6B8nUg8senJO1ZVzHb6uQ1fvncAiWdFcTIwTQb0xOcxa3TjKHVdLZ5OAtHzjWJJLqpQjiTikWryIfgUHCKoq31RSdDMqD7mah0RWCFaEPrTDdPm7OfRBizNdoqyyWAE61g9FWb2CAh8kAfcsb3ylVG3MwFOYpX91ayWxtp1prfjtm9dte9mFddGdWdr8444Rrun8cLksyELl93utdnGAQReSgiNy-jDLujyRCSRCAOq23X049gRA9QtJcOKCDtdiFyQhMKzLk8EISt7Cnn9AS1"
-```
-
-Replacing with your auth token and being sure that is all on one line with a line break after the last quotation mark.
+If this is your first time using coconatfly, some additional setup is required beyond package installation. Please see the [getting started vignette](https://natverse.org/coconatfly/articles/getting-started.html) for details of downloading / authenticating to connectome data sources.
 
 ## Fetching the neurons
 

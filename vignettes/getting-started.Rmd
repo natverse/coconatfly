@@ -1,0 +1,102 @@
+---
+title: "1. Getting started with coconatfly"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{1. Getting started with coconatfly}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Setup for brain connectome data.
+
+At the time of writing the main datasets of interest for coconatfly will be the hemibrain and flywire. Installing coconatfly will automatically install the natverse packages required for analysis. However, a few extra steps are still required.
+
+```{r install-brain, eval=FALSE}
+# first install coconatfly
+if(!requireNamespace('natmanager'))
+  install.packages('natmanager')
+natmanager::install(pkgs = 'flyconnectome/coconatfly')
+# then get flywire data
+fafbseg::download_flywire_release_data()
+```
+
+If you have not already done so, you will also need to record a neuprint token to access hemibrain data. Go to <https://neuprint.janelia.org/account>, copy your Auth Token and then edit your R environ file to do
+
+```{r setting token, eval=FALSE}
+usethis::edit_r_environ()
+```
+
+and add a line like this:
+
+```         
+neuprint_token="eyJhbH0lc9OqzJ6evvcJ23KmIi.eyJlb6B8nUg8senJO1ZVzHb6uQ1fvncAiWdFcTIwTQb0xOcxa3TjKHVdLZ5OAtHzjWJJLqpQjiTikWryIfgUHCKoq31RSdDMqD7mah0RWCFaEPrTDdPm7OfRBizNdoqyyWAE61g9FWb2CAh8kAfcsb3ylVG3MwFOYpX91ayWxtp1prfjtm9dte9mFddGdWdr8444Rrun8cLksyELl93utdnGAQReSgiNy-jDLujyRCSRCAOq23X049gRA9QtJcOKCDtdiFyQhMKzLk8EISt7Cnn9AS1"
+```
+
+Replacing with your auth token and being sure that is all on one line with a line break after the last quotation mark.
+
+## Set up for VNC data
+
+For VNC data, the main datasets are FANC and MANC. MANC data will be available if you have set up your neuprint access token as described in the brain section.
+For FANC data you will need a separate *CAVE* access token. Essentially this is covered by:
+
+```{r install-vnc, eval=FALSE}
+fancr::fanc_set_token()
+# check all is good
+fancr::dr_fanc()
+```
+
+## Brain example
+
+Ok with that in place, let's check if we can use connectome data, starting
+with the brain.
+
+```{r setup}
+library(coconatfly)
+library(dplyr)
+```
+
+We use `cf_ids()` to specify neurons in different datasets:
+```{r}
+cf_ids(hemibrain = 'ORN_DA2', expand = TRUE)
+```
+
+We can ask for the same specific cell type across datasets, here
+MBON01, mushroom body output neuron 1 (aka M6 or MBON-gamma5beta'2a).
+
+```{r}
+cf_meta(cf_ids('MBON01', datasets = c("flywire", "hemibrain")))
+```
+We can do a regular expression query returning all MBONs:
+```{r}
+mbonmeta=cf_meta(cf_ids('/type:MBON.+', datasets = c("flywire", "hemibrain")))
+mbonmeta
+```
+and then do some simple summaries on the metadata returned by `cf_meta()`:
+
+```{r}
+mbonmeta %>% 
+  mutate(dss=paste0(abbreviate_datasets(dataset), side)) %>% 
+  with(table(type, dss))
+```
+In general things look quite consistent across sides and datasets (although some neurons are of course missing from the LHS of the hemibrain).
+
+### Connectivity clustering
+
+We can then then inspect the situation for MBON25 and MBON34 which have 
+been combined into a single compound type in FlyWire but were regarded as two
+distinct types in hemibrain. Notice that we pipe ` %>% ` the dataframe containing metadata to the cf_cosine_plot function via a `filter` expression which picks out our cell type of interest as well as few
+similarly numbered ones. We use output connectivity clustering since we suspect the downstream cell type interactions are more diagnostic for 
+
+```{r}
+mbonmeta %>% 
+  filter(grepl("MBON(25|34|24|26|33|35)", type)) %>% 
+  cf_cosine_plot(partners = 'out')
+```
+
