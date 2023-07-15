@@ -57,7 +57,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres <- tres %>%
         dplyr::mutate(
           type=dplyr::case_when(
-            is.na(type) ~ paste0('hb', bodyid),
+            is.na(type) ~ paste0('hb', partner),
             T ~ type),
           side=stringr::str_match(name, '_([LR])$')[,2],
           side=dplyr::case_when(
