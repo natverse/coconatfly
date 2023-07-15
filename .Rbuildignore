@@ -6,3 +6,4 @@ package-secrets.txt
 ^docs$
 ^pkgdown$
 ^README\.Rmd$
+^codecov\.yml$
