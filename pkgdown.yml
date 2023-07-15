@@ -2,9 +2,10 @@ pandoc: 2.9.2.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  AOTU063: AOTU063.html
   TuTu: TuTu.html
   getting-started: getting-started.html
-last_built: 2023-07-14T20:09Z
+last_built: 2023-07-15T12:05Z
 urls:
   reference: https://flyconnectome.github.io/coconatfly/reference
   article: https://flyconnectome.github.io/coconatfly/articles
