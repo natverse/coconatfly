@@ -2,3 +2,9 @@ url: https://flyconnectome.github.io/coconatfly/
 template:
   bootstrap: 5
 
+articles:
+- title: All vignettes
+  contents:
+  - getting-started
+  - TuTu
+  - AOTU063
