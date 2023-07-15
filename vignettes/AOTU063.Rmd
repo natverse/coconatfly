@@ -22,7 +22,7 @@ In Fig 6 of our manuscript [Schlegel et al 2023](https://doi.org/10.1101/2023.06
 
 We should be able to recapitulate the basic features of this analysis here.
 
-```{r setup}
+```{r setup, message=FALSE}
 library(coconatfly)
 library(dplyr)
 ```
@@ -44,7 +44,6 @@ aotu63.hc = cf_cosine_plot(aotu63, heatmap = FALSE)
 plot(aotu63.hc)
 ```
 
-
 And then cut it in two and extract those two clusters using the `coconat::add_cluster_info()` helper function.
 
 ```{r}
@@ -58,12 +57,9 @@ So from this we can see that group 2 seems to the "b" type.
 
 ## Finding the partners that define the types
 
-What might distinguish these two types? We can fetch, say, the input partners,
-and then look at how connection strength varies across the types.
+What might distinguish these two types? We can fetch, say, the input partners, and then look at how connection strength varies across the types.
 
-To get started let's redefine the type of our 6 query neurons based on the
-clustering. Then fetch the input partners and merge in the 
-the AOTU063 type (i.e. AOTU063a or AOTU063b) as a new column called `qtype`
+To get started let's redefine the type of our 6 query neurons based on the clustering. Then fetch the input partners and merge in the the AOTU063 type (i.e. AOTU063a or AOTU063b) as a new column called `qtype`
 
 ```{r}
 aotu63v2=aotu63 %>% 
@@ -85,9 +81,9 @@ aotu63in %>%
   select(weight, type, qtype)
 ```
 
-Ok with that preparatory work we can now make a summary of the inputs
-across the different types and datasets. This pipeline is a little more
-involved, but oif you follow each step it should make sense.
+Ok with that preparatory work we can now make a summary of the inputs across the different types and datasets. This pipeline is a little more involved, 
+but I have commented extensively and if you follow step by step it does make
+sense.
 
 ```{r}
 aotu63in %>% 
@@ -97,22 +93,27 @@ aotu63in %>%
     grepl("LC10", type) ~ "LC10",
     T ~ type
   )) %>% 
+  # summarise the connection strength by query cell type, data set 
+  # and partner (downstream) cell type
   group_by(qtype, dataset, type) %>% 
   summarise(weight=sum(weight)) %>% 
+  # sort with strongest partners first
   arrange(desc(weight)) %>% 
-  tidyr::pivot_wider(names_from = c(qtype, dataset), values_from = weight, values_fill = 0) %>% 
-  # convert from raw to pct
+  # make four columns, one for each query type / dataset combination 
+  tidyr::pivot_wider(
+    names_from = c(qtype, dataset), 
+    values_from = weight, 
+    values_fill = 0) %>% 
+  # convert from synaptic counts to percentages of total input
   mutate(across(-type, ~round(100*.x/sum(.x))))
 ```
 
-So we can see that the top few cell types already suggest a number of likely
-explanations.
+So we can see that the top few cell types already suggest a number of likely explanations.
 
-For example LC10 provides 10% more input for AOTU063a vs AOTU063b while LT52 
-input is much stronger for AOTU063b than AOTU063a. Crucially these patterns
-are consistent across datasets.
+For example LC10 provides 10% more input for AOTU063a vs AOTU063b while LT52 input is much stronger for AOTU063b than AOTU063a. Crucially these patterns are consistent across datasets.
 
 ### Distinctive output partners
+
 ```{r}
 aotu63out <- cf_partners(aotu63, partners = 'out', threshold = 10)
 
@@ -137,6 +138,4 @@ aotu63out %>%
 
 ```
 
-Here things are not quite obvious but IB008/IB010 look different and some of
-the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 looks like they might 
-be interesting.
+Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 looks like they might be interesting.
