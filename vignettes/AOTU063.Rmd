@@ -24,6 +24,7 @@ We should be able to recapitulate the basic features of this analysis here.
 
 ```{r setup}
 library(coconatfly)
+library(dplyr)
 ```
 
 ```{r}

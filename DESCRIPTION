@@ -42,7 +42,8 @@ Suggests:
     git2r,
     knitr,
     rmarkdown,
-    dendroextras
+    dendroextras,
+    tidyr
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,
