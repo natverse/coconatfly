@@ -6,7 +6,7 @@
 \alias{keys2list}
 \title{Interconvert between keys and ids/datasets}
 \usage{
-keys(x)
+keys(x, idcol = "id")
 
 keys2df(keys, integer64 = FALSE)
 
@@ -15,6 +15,8 @@ keys2list(keys, integer64 = FALSE)
 \arguments{
 \item{x}{A list or dataframe specifying both within dataset ids and dataset
 names.}
+
+\item{idcol}{optional string naming the column containing ids}
 
 \item{keys}{A character vector of keys}
 

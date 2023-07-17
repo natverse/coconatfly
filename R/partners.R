@@ -79,8 +79,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
-    tres$pre_key=paste0(abbreviate_datasets(tres$dataset), ":", tres$pre_id)
-    tres$post_key=paste0(abbreviate_datasets(tres$dataset), ":", tres$post_id)
+    tres$pre_key=keys(tres, idcol="pre_id")
+    tres$post_key=keys(tres, idcol='post_id')
     res[[n]]=tres
   }
   if(isTRUE(bind.rows)) bind_rows2(res) else res

@@ -17,6 +17,7 @@ id2int64 <- function(x) {
 #'
 #' @param x A list or dataframe specifying both within dataset ids and dataset
 #'   names.
+#' @param idcol optional string naming the column containing ids
 #'
 #' @return For \code{keys} as character vector of keys of the form
 #'   \code{"<dataset>:<id>"}.
@@ -27,17 +28,19 @@ id2int64 <- function(x) {
 #' keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 #' }
 #' @rdname keys
-keys <- function(x) {
+keys <- function(x, idcol='id') {
   if(is.list(x) && !is.data.frame(x)) {
     x=data.frame(id=unlist(x),
                  dataset=rep(abbreviate_datasets(names(x)), lengths(x)))
+    names(x)[1]=idcol
   } else {
     if(!is.data.frame(x))
       stop('x must be a list with elements named by datasets or\n',
            'a data.frame with columns id and dataset')
     x$dataset=abbreviate_datasets(x$dataset)
+
   }
-  glue::glue("{dataset}:{id}", .envir = x)
+  paste0(x[['dataset']],":", x[[idcol]])
 }
 
 #' Specify ids for fly connectome datasets
