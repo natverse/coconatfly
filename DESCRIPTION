@@ -47,7 +47,6 @@ Enhances:
     malecns (>= 0.3)
 Remotes: 
     flyconnectome/malevnc,
-    flyconnectome/malecns,
     flyconnectome/fancr,
     natverse/fafbseg,
     natverse/nat,
