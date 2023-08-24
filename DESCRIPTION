@@ -32,7 +32,6 @@ Imports:
     bit64
 Suggests: 
     malevnc (> 0.2.7),
-    malecns (>= 0.3),
     fancr,
     testthat (>= 3.0.0),
     ComplexHeatmap,
@@ -44,6 +43,8 @@ Suggests:
     rmarkdown,
     dendroextras,
     tidyr
+Enhances:
+    malecns (>= 0.3)
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/malecns,

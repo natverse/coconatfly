@@ -2,6 +2,9 @@ test_that("triple_cosine_plot works", {
   fcdv <- try(fafbseg::flywire_connectome_data_version(), silent = T)
   testthat::skip_if(inherits(fcdv, "try-error"))
   testthat::skip_on_ci()
+  # ensure we use v630
+  fafbseg::flywire_connectome_data_version(set=630)
+  on.exit(fafbseg::flywire_connectome_data_version(set=NULL))
 
   expect_s3_class(
     hc <- triple_cosine_plot('/type:AOTU063.*', partners = 'o', heatmap = F),
