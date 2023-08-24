@@ -38,6 +38,7 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
 
   commoncols=intersect(colnames(hb), colnames(fw))
   x=do.call(rbind, list(hb[commoncols],fw[commoncols]))
+  x$partners=partners
 
   if(is.character(group)) {
     x <- match_types(x, group, partners=partners)
