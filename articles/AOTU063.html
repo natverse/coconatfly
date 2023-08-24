@@ -105,13 +105,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 177/421 output partner types with total weight 3102/10892</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We can get the dendrogram for this clustering</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63.hc</span> <span class="op">=</span> <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="va">aotu63</span>, heatmap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 177/421 output partner types with total weight 3102/10892</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -247,7 +247,7 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="va">.x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'qtype', 'dataset'. You can override using</span></span>
 <span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 70 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 72 × 5</span></span></span>
 <span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> IB008            15          11          14           9</span></span>
@@ -258,9 +258,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VES064            7           4           5           4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> DNae011           7           3           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DNbe004           6           0           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                5           2           0           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                5           0           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU024           1           6           1           2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 60 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span></code></pre></div>
 <p>Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 looks like they might be interesting.</p>
 </div>
 </div>
