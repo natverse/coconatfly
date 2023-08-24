@@ -154,7 +154,7 @@ mct3=cf_ids("/type:lLN2.+", datasets=c("hemibrain", "flywire")) \%>\%
   mutate(type=case_when(
   class=="RN" ~ sub("_.+", "", type),
   class=="uPN" ~ 'uPN',
-  T ~ type
+  TRUE ~ type
   ))
 \dontrun{
 mct3\%>\%
@@ -166,7 +166,8 @@ mct3\%>\%
 # This time focus in on a small number of query neurons
 mct3 \%>\%
   mutate(query_key=ifelse(partners=='outputs', pre_key, post_key)) \%>\%
-  filter(query_key \%in\% cf_ids('/type:lLN2(T_[bde]|X08)', datasets = c("hemibrain", "flywire"), keys = T)) \%>\%
+  filter(query_key \%in\% cf_ids('/type:lLN2(T_[bde]|X08)',
+    datasets = c("hemibrain", "flywire"), keys = TRUE)) \%>\%
   cf_cosine_plot()
 }
 
@@ -184,7 +185,7 @@ lLN1=cf_ids("/type:lLN1_.+", datasets=c("hemibrain", "flywire")) \%>\%
   mutate(type=case_when(
   class=="RN" ~ sub("_.+", "", type),
   class=="uPN" ~ 'uPN',
-  T ~ type
+  TRUE ~ type
   ))
 
 lLN1 \%>\%
