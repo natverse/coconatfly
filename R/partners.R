@@ -126,3 +126,61 @@ connection_table2queryids <- function(x) {
     qx=dplyr::bind_rows(l) %>% distinct(id, dataset)
   }
 }
+
+
+#' Summarise the connectivity of a set of neurons grouping by type
+#'
+#' @param rval Choose what the function will return. \code{sparse} and
+#'   \code{matrix} return sparse and dense (standard) matrices, respectively.
+#' @inheritParams cf_partners
+#' @return a data.frame or (sparse) matrix based on \code{rval}. The column
+#'   \code{n} refers to the number of \emph{partner} neurons.
+#' @export
+#' @details This function currently groups by dataset, and pre and postsynaptic
+#' type. It does not currently group by side. The forms returning matrices rely
+#' on \code{coconat::\link{partner_summary2adjacency_matrix}}.
+#'
+#' @examples
+#' \dontrun{
+#' lal78in=cf_partner_summary(cf_ids("/type:LAL00[78]"), threshold=10, partners='in')
+#' lal78in
+#' lal78in %>%
+#'   tidyr::pivot_wider(id_cols = c(type.pre,dataset),
+#'     names_from = type.post, values_from = weight, values_fill = 0)
+#' lal78in %>%
+#'   tidyr::pivot_wider(id_cols = c(type.pre),
+#'     names_from = c(type.post,dataset), values_from = weight, values_fill = 0)
+#' }
+#' @importFrom glue glue
+#' @importFrom dplyr .data left_join group_by n_distinct summarise arrange desc
+cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
+                               rval=c("data.frame", "sparse", "matrix")) {
+  # ids=expand_ids(ids)
+  partners=match.arg(partners)
+  rval=match.arg(rval)
+  pp=cf_partners(ids, threshold = threshold, partners = partners)
+  qmeta=cf_meta(ids)
+
+  # query and partner suffixes
+  qfix=ifelse(partners=='inputs', "post", "pre")
+  pfix=setdiff(c("post", "pre"), qfix)
+  join_spec="key"
+  names(join_spec)=paste0(qfix, "_key")
+  suffix=paste0(".",c(pfix, qfix))
+
+  pp2 <- pp %>%
+    select(-dataset) %>%
+    left_join(qmeta, by = join_spec, suffix=suffix) %>%
+    group_by(dataset, type.pre, type.post) %>%
+    summarise(weight=sum(weight), n=n_distinct(.data[[glue("{pfix}_key")]]),
+              .groups='drop') %>%
+    arrange(desc(weight)) %>%
+    mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
+  if(rval=='data.frame')
+    return(pp2)
+  pp2 %>%
+    coconat::partner_summary2adjacency_matrix(
+      inputcol = "query",
+      outputcol = ifelse(partners=='outputs', "type.post","type.pre"),
+      standardise_input = F, sparse = rval=="sparse")
+}
