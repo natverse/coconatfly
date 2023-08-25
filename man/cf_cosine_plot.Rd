@@ -189,7 +189,7 @@ mct3=cf_ids("/type:lLN2.+", datasets=c("hemibrain", "flywire")) \%>\%
    grepl("RN", type) ~ "RN",
    grepl("^M.*PN", type) ~ 'mPN',
    grepl("PN", type) ~ 'uPN',
-   T ~ 'other'
+   TRUE ~ 'other'
   )) \%>\%
   # try merging connectivity for partners that don't have much specificity
   mutate(type=case_when(
@@ -221,7 +221,7 @@ lLN1=cf_ids("/type:lLN1_.+", datasets=c("hemibrain", "flywire")) \%>\%
    grepl("RN", type) ~ "RN",
    grepl("^M.*PN", type) ~ 'mPN',
    grepl("PN", type) ~ 'uPN',
-   T ~ 'other'
+   TRUE ~ 'other'
   )) \%>\%
   mutate(type=case_when(
   class=="RN" ~ sub("_.+", "", type),
