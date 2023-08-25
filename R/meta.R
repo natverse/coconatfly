@@ -114,12 +114,13 @@ hemibrain_meta <- function(ids, ...) {
   tres
 }
 
+#' @importFrom dplyr .data
 malecns_meta <- function(ids, ...) {
   tres=malecns::mcns_neuprint_meta(ids)
   tres <- tres %>%
-    mutate(side=malecns::mcns_soma_side(.)) %>%
-    mutate(pgroup=malecns::mcns_predict_group(.)) %>%
-    mutate(ptype=malecns::mcns_predict_type(.)) %>%
+    mutate(side=malecns::mcns_soma_side(.data)) %>%
+    mutate(pgroup=malecns::mcns_predict_group(.data)) %>%
+    mutate(ptype=malecns::mcns_predict_type(.data)) %>%
     rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
     # special case DNs
     mutate(type=case_when(
