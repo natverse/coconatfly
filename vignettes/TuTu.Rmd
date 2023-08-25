@@ -116,7 +116,8 @@ tutus.meta2 %>%
   filter(group_k5==5)
 ```
 
-The following code could help find the ontology (FBBt) ids for these neurons:
+The following code could help find the Flybase/Virtual Fly Brain anatomy 
+ontology (FBbt) ids for these neurons:
 
 ```{r, eval=FALSE}
 natmanager::install(pkgs = 'vfbr')
