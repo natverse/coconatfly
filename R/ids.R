@@ -43,6 +43,10 @@ keys <- function(x, idcol='id') {
   paste0(x[['dataset']],":", x[[idcol]])
 }
 
+is_key <- function(x) {
+  is.character(x) & grepl("^[a-z0-9]+:[0-9]{5,20}", x)
+}
+
 #' Specify ids for fly connectome datasets
 #'
 #' @param query A query (e.g. cell type name or regular expression)
@@ -198,8 +202,7 @@ expand_ids <- function(ids, dataset) {
 #' @rdname keys
 #' @export
 keys2df <- function(keys, integer64=FALSE) {
-  looks_like_idvec=grepl("^[a-z0-9]+:[0-9]{5,20}", keys)
-  if(!all(looks_like_idvec)) stop("Expecting keys of the form: `<dataset>:<id>`")
+  if(!all(is_key(keys))) stop("Expecting keys of the form: `<dataset>:<id>`")
   res=stringr::str_match(keys, "^([a-z]{2}):([0-9]+)")
   data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
 }
