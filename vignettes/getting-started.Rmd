@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(fafbseg.use_static_celltypes = TRUE)
 ```
 
 ## Setup for brain connectome data.
