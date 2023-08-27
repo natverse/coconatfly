@@ -152,7 +152,7 @@ connection_table2queryids <- function(x) {
 #'     names_from = c(type.post,dataset), values_from = weight, values_fill = 0)
 #' }
 #' @importFrom glue glue
-#' @importFrom dplyr .data left_join group_by n_distinct summarise arrange desc
+#' @importFrom dplyr .data select mutate left_join group_by n_distinct summarise arrange desc
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                rval=c("data.frame", "sparse", "matrix")) {
   # ids=expand_ids(ids)
