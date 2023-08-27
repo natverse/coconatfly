@@ -172,7 +172,9 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     select(-dataset) %>%
     left_join(qmeta, by = join_spec, suffix=suffix) %>%
     group_by(dataset, type.pre, type.post) %>%
-    summarise(weight=sum(weight), n=n_distinct(.data[[glue("{pfix}_key")]]),
+    summarise(weight=sum(weight),
+              npre=n_distinct(pre_key),
+              npost=n_distinct(post_key),
               .groups='drop') %>%
     arrange(desc(weight)) %>%
     mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
