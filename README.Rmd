@@ -64,7 +64,7 @@ You can install the development version of coconatfly like so:
 
 ``` r
 install.packages('natmanager')
-natmanager::install(pkgs = 'flyconnectome/coconatfly')
+natmanager::install(pkgs = 'coconatfly')
 ```
 
 Some of the datasets exposed by *coconatfly* require authentication for access or
