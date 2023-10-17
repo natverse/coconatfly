@@ -66,6 +66,7 @@
 <span>  labRow <span class="op">=</span> <span class="st">"{type}_{coconatfly::abbreviate_datasets(dataset)}{side}"</span>,</span>
 <span>  group <span class="op">=</span> <span class="st">"type"</span>,</span>
 <span>  heatmap <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  drop_dataset_prefix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  nas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zero"</span>, <span class="st">"drop"</span><span class="op">)</span>,</span>
@@ -116,6 +117,11 @@ good example. Defaults to <code>TRUE</code> therefore plotting the full heatmap
 with <code>stats::<a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code>.</p></dd>
 
 
+<dt>matrix</dt>
+<dd><p>Whether to return the raw cosine matrix (rather than a
+heatmap/dendrogram)</p></dd>
+
+
 <dt>interactive</dt>
 <dd><p>Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.</p></dd>
@@ -148,10 +154,10 @@ similarity.</p></dd>
 
 
 <p>The result of <code><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code> invisibly including the row and
-  column dendrograms or when <code>heatmap=FALSE</code>, an <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code></p>
-
-
-<p>dendrogram</p>
+  column dendrograms <em>or</em> when <code>heatmap=FALSE</code>, an</p>
+<p></p>
+<p><code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code> dendrogram <em>or</em> when <code>maxtrix=TRUE</code> a cosine
+  matrix.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
