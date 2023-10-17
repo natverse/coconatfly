@@ -3,6 +3,10 @@ test_that("multiplication works", {
     cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), group = F, heatmap = F),
     'hclust')
 
+  expect_true(
+    is.matrix(cf_cosine_plot(
+      cf_ids(hemibrain="/type:LAL00.+"), group = F, heatmap = F, matrix = T)))
+
   lalmeta=cf_meta(cf_ids(hemibrain="/type:LAL00.+"))
   # NB left_join requires the id columns to have the same character data type
   mytypes=data.frame(

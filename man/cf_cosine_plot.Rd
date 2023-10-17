@@ -20,6 +20,7 @@ cf_cosine_plot(
   labRow = "{type}_{coconatfly::abbreviate_datasets(dataset)}{side}",
   group = "type",
   heatmap = TRUE,
+  matrix = FALSE,
   interactive = FALSE,
   drop_dataset_prefix = FALSE,
   nas = c("zero", "drop"),
@@ -54,6 +55,9 @@ compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
 good example. Defaults to \code{TRUE} therefore plotting the full heatmap
 with \code{stats::\link{heatmap}}.}
 
+\item{matrix}{Whether to return the raw cosine matrix (rather than a
+heatmap/dendrogram)}
+
 \item{interactive}{Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.}
 
@@ -73,8 +77,9 @@ similarity.}
   are the input or output neurons.
 
 The result of \code{\link{heatmap}} invisibly including the row and
-  column dendrograms or when \code{heatmap=FALSE}, an \code{\link{hclust}}
-  dendrogram
+  column dendrograms \emph{or} when \code{heatmap=FALSE}, an
+  \code{\link{hclust}} dendrogram \emph{or} when \code{maxtrix=TRUE} a cosine
+  matrix.
 }
 \description{
 Multi dataset cosine clustering

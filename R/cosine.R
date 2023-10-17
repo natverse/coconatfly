@@ -107,6 +107,8 @@ is.mct <- function(x) {
 #'   \code{\link{glue}} \emph{or} a character vector matching the number of
 #'   neurons specified by \code{ids}. See \bold{details} for an important
 #'   limitation in the second case.
+#' @param matrix Whether to return the raw cosine matrix (rather than a
+#'   heatmap/dendrogram)
 #' @param drop_dataset_prefix Whether to remove dataset prefix such as
 #'   \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
 #'   neurons in interactive mode.
@@ -114,8 +116,9 @@ is.mct <- function(x) {
 #' @inheritParams neuprintr::neuprint_cosine_plot
 #'
 #' @return The result of \code{\link{heatmap}} invisibly including the row and
-#'   column dendrograms or when \code{heatmap=FALSE}, an \code{\link{hclust}}
-#'   dendrogram
+#'   column dendrograms \emph{or} when \code{heatmap=FALSE}, an
+#'   \code{\link{hclust}} dendrogram \emph{or} when \code{maxtrix=TRUE} a cosine
+#'   matrix.
 #' @export
 #'
 #' @examples
@@ -245,6 +248,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            labRow='{type}_{coconatfly::abbreviate_datasets(dataset)}{side}',
                            group='type',
                            heatmap=TRUE,
+                           matrix=FALSE,
                            interactive=FALSE,
                            drop_dataset_prefix=FALSE,
                            nas=c('zero','drop'),
@@ -292,6 +296,8 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
   }
   if(drop_dataset_prefix)
     colnames(cm)=sub("^[a-z]+:","", colnames(cm))
+  if(isTRUE(matrix))
+    return(cm)
   coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
                            method = method, heatmap=heatmap, ...)
 }
