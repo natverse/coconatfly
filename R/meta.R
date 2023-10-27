@@ -130,7 +130,7 @@ malecns_meta <- function(ids, ...) {
   tres
 }
 
-malevnc_meta <- function(ids, ...) {
+manc_meta <- function(ids, ...) {
   tres <- malevnc::manc_neuprint_meta(ids, ...) %>%
     mutate(side=dplyr::case_when(
       !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
