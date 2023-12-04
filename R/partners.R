@@ -76,6 +76,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
         ))
     } else if (n=='fanc') {
       tres=fancr::fanc_partner_summary(ids[[n]], partners = partners, threshold = threshold)
+    } else if(n=='manc') {
+      tres=malevnc::manc_connection_table(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
+      tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
