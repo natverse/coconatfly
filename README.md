@@ -10,9 +10,9 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/flyconnectome/coconatfly/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/flyconnectome/coconatfly/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/natverse/coconatfly/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/natverse/coconatfly/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/flyconnectome/coconatfly/branch/master/graph/badge.svg)](https://app.codecov.io/gh/flyconnectome/coconatfly?branch=master)
+coverage](https://codecov.io/gh/natverse/coconatfly/branch/master/graph/badge.svg)](https://app.codecov.io/gh/natverse/coconatfly?branch=master)
 <!-- badges: end -->
 
 **coconatfly** enables comparative/integrative connectomics across
