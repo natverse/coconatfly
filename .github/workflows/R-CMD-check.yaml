@@ -39,10 +39,11 @@ jobs:
         run: |
           cat("\noptions(fafbseg.use_static_celltypes=TRUE)\n", file = "~/.Rprofile", append = TRUE)
         shell: Rscript {0}
-
+# nb we'll need both data dumps in the vignettes
       - name: Download flywire data
         run: |
-          fafbseg::download_flywire_release_data()
+          fafbseg::download_flywire_release_data(version=630)
+          fafbseg::download_flywire_release_data(version=783)
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2

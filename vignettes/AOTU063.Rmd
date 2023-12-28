@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+# this is to ensure reproducibility when running on machines that also have
+# access to dynamic cell type info via flytable
+options(fafbseg.use_static_celltypes = TRUE)
 ```
 
 ## Intro
@@ -25,6 +28,20 @@ We should be able to recapitulate the basic features of this analysis here.
 ```{r setup, message=FALSE}
 library(coconatfly)
 library(dplyr)
+```
+
+For this analysis we will use the version 630 connectivity / annotation data
+released in June 2023. We will set an option use the lower level fafbseg package
+to ensure this.
+
+```{r}
+fafbseg::flywire_connectome_data_version(set = 630)
+```
+
+You may need to download the relevant data dumps if you have not done so previously.
+
+```{r, eval=FALSE}
+fafbseg::download_flywire_release_data(version = 630)
 ```
 
 ```{r}
@@ -138,4 +155,4 @@ aotu63out %>%
 
 ```
 
-Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 looks like they might be interesting.
+Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 look like they might be interesting.

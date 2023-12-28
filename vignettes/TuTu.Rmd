@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+# this is to ensure reproducibility when running on machines that also have
+# access to dynamic cell type info via flytable
+options(fafbseg.use_static_celltypes = TRUE)
 ```
 
 ## Introduction
@@ -35,6 +38,16 @@ OK with that preamble, let's get started. First we need to load two required lib
 ```{r setup, message=FALSE}
 library(dplyr)
 library(coconatfly)
+```
+
+For this analysis we will use the version 630 connectivity / annotation data
+released in June 2023. This ensures that the cell type annotations are in a state preceding the full outcome of the analysis in this vignette. 
+We will set an option use the lower level fafbseg package
+to ensure this. You may need to download the relevant data dumps if you have not done so previously (see also getting started vignette).
+
+```{r}
+fafbseg::flywire_connectome_data_version(set = 630)
+# fafbseg::download_flywire_release_data(version = 630)
 ```
 
 The following TuTu neurons are recorded in the hemibrain and FAFB-FlyWire. Note the use of a regular expression (introduced by `/`) to match against the type field. `.*` means any number of characters can follow TuTu in the type name.
@@ -124,3 +137,28 @@ natmanager::install(pkgs = 'vfbr')
 vfbr::vfb_autocomplete_query('TuTuB') %>% 
   filter(grepl("FBbt", short_form))
 ```
+
+## Old vs new annotations
+
+In the release of the flywire annotations data prepared in December 2023 to 
+accompany the public release of the v783 proofread FlyWire segmentation,
+we updated some of these TuTu cell types. This can be summarised as follows:
+
+```{r}
+# nb temporarily change active flywire version
+fafbseg::flywire_connectome_data_version(set = 783)
+tutus.new=cf_meta(cf_ids(flywire='/type:TuTu.*'))
+fafbseg::flywire_connectome_data_version(set = 630)
+```
+
+```{r}
+tutus %>% 
+  filter(dataset=='flywire') %>% 
+  with(table(type, side))
+```
+
+```{r}
+tutus.new %>% 
+  with(table(type, side))
+```
+
