@@ -23,7 +23,7 @@ At the time of writing the main datasets of interest for coconatfly will be the 
 # first install coconatfly
 if(!requireNamespace('natmanager'))
   install.packages('natmanager')
-natmanager::install(pkgs = 'flyconnectome/coconatfly')
+natmanager::install(pkgs = 'coconatfly')
 # then get flywire data
 fafbseg::download_flywire_release_data()
 ```
