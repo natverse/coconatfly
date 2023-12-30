@@ -81,7 +81,7 @@
 <code class="sourceCode R"><span><span class="co"># first install coconatfly</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">'natmanager'</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'natmanager'</span><span class="op">)</span></span>
-<span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'flyconnectome/coconatfly'</span><span class="op">)</span></span>
+<span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'coconatfly'</span><span class="op">)</span></span>
 <span><span class="co"># then get flywire data</span></span>
 <span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/download_flywire_release_data.html" class="external-link">download_flywire_release_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If you have not already done so, you will also need to record a neuprint token to access hemibrain data. Go to <a href="https://neuprint.janelia.org/account" class="external-link uri">https://neuprint.janelia.org/account</a>, copy your Auth Token and then edit your R environ file to do</p>
@@ -101,43 +101,52 @@
 <span><span class="fu">fancr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fancr/man/dr_fanc.html" class="external-link">dr_fanc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="dataset-status">Dataset status<a class="anchor" aria-label="anchor" href="#dataset-status"></a>
+</h2>
+<p>You can get a useful overview of the current status of your access to different datasets with the <code><a href="../reference/dr_coconatfly.html">dr_coconatfly()</a></code> command.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/flyconnectome/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/dr_coconatfly.html">dr_coconatfly</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in clio_auth() : </span></span>
+<span><span class="co">#&gt;   Clio/Google auth failure. Do you have access rights to VNC clio?</span></span>
+<span><span class="co">#&gt; Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span></span>
+<span><span class="co">#&gt; Warning in fun(libname, pkgname): Trouble choosing default malecns dataset.</span></span>
+<span><span class="co">#&gt; Try running dr_malecns() and then ask on #code or file an issue at</span></span>
+<span><span class="co">#&gt; https://github.com/flyconnectome/malecns/issues</span></span>
+<span><span class="co">#&gt; Error : Unable to find chunked graph credentials!</span></span>
+<span><span class="co">#&gt; Please set by doing:</span></span>
+<span><span class="co">#&gt;   flywire_set_token()/fanc_set_token() etc </span></span>
+<span><span class="co">#&gt; For further details see:</span></span>
+<span><span class="co">#&gt; https://github.com/seung-lab/cloud-volume#chunkedgraph-secretjson</span></span>
+<span><span class="co">#&gt; Error in fanc_scene() : </span></span>
+<span><span class="co">#&gt;   It looks like you do not have a stored token. Please use `fanc_set_token()` to make one.</span></span>
+<span><span class="co">#&gt; Error : Unable to find chunked graph credentials!</span></span>
+<span><span class="co">#&gt; Please set by doing:</span></span>
+<span><span class="co">#&gt;   flywire_set_token()/fanc_set_token() etc </span></span>
+<span><span class="co">#&gt; For further details see:</span></span>
+<span><span class="co">#&gt; https://github.com/seung-lab/cloud-volume#chunkedgraph-secretjson</span></span>
+<span><span class="co">#&gt;     dataset installed                       server          version</span></span>
+<span><span class="co">#&gt; 1 hemibrain      TRUE https://neuprint.janelia.org hemibrain:v1.2.1</span></span>
+<span><span class="co">#&gt; 2      manc      TRUE https://neuprint.janelia.org        manc:v1.0</span></span>
+<span><span class="co">#&gt; 3   malecns      TRUE                         &lt;NA&gt;             &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4   flywire      TRUE                   local dump              783</span></span>
+<span><span class="co">#&gt; 5      fanc      TRUE                         &lt;NA&gt;             &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; For additional information (inc auth issues) for flywire or fanc datasets, try:</span></span>
+<span><span class="co">#&gt;  `fafbseg::dr_fafbseg()` or  `fancr::dr_fanc()`</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="brain-example">Brain example<a class="anchor" aria-label="anchor" href="#brain-example"></a>
 </h2>
 <p>Ok with that in place, let’s check if we can use connectome data, starting with the brain.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/flyconnectome/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: nat</span></span>
-<span><span class="co">#&gt; Loading required package: rgl</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'nat':</span></span>
-<span><span class="co">#&gt;   method             from</span></span>
-<span><span class="co">#&gt;   as.mesh3d.ashape3d rgl</span></span>
-<span><span class="co">#&gt; Some nat functions depend on a CMTK installation. See ?cmtk and README.md for details.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'nat'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:rgl':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     wire3d</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:nat':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, union</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<p>We use <code><a href="../reference/cf_ids.html">cf_ids()</a></code> to specify neurons in different datasets:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/flyconnectome/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<p>We use <code><a href="../reference/cf_ids.html">cf_ids()</a></code> to specify neurons in different datasets:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="st">'ORN_DA2'</span>, expand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[35 ids]</span>: 1669017843 1669699714 1669946117 1670382036 1670386270 1670390647 1669358817 1671659809 1702107389 1702802179 ...</span></span></code></pre></div>
 <p>We can ask for the same specific cell type across datasets, here MBON01, mushroom body output neuron 1 (aka M6 or MBON-gamma5beta’2a).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'MBON01'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
 <span><span class="co">#&gt;                   id side   class   type group         instance   dataset</span></span>
@@ -151,7 +160,7 @@
 <span><span class="co">#&gt; 3          hb:612371421</span></span>
 <span><span class="co">#&gt; 4          hb:673509195</span></span></code></pre></div>
 <p>We can do a regular expression query returning all MBONs:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbonmeta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'/type:MBON.+'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mbonmeta</span></span>
 <span><span class="co">#&gt;                     id side   class          type group</span></span>
@@ -491,7 +500,7 @@
 <span><span class="co">#&gt; 166                MBON35(y2)_R hemibrain          hb:518930199</span></span>
 <span><span class="co">#&gt; 167                MBON35(y2)_L hemibrain          hb:611089775</span></span></code></pre></div>
 <p>and then do some simple summaries on the metadata returned by <code><a href="../reference/cf_meta.html">cf_meta()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbonmeta</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dss<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="../reference/abbreviate_datasets.html">abbreviate_datasets</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>, <span class="va">side</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">dss</span><span class="op">)</span><span class="op">)</span></span>
@@ -539,12 +548,12 @@
 <h3 id="connectivity-clustering">Connectivity clustering<a class="anchor" aria-label="anchor" href="#connectivity-clustering"></a>
 </h3>
 <p>We can then then inspect the situation for MBON25 and MBON34 which have been combined into a single compound type in FlyWire but were regarded as two distinct types in hemibrain. Notice that we pipe <code>%&gt;%</code> the dataframe containing metadata to the cf_cosine_plot function via a <code>filter</code> expression which picks out our cell type of interest as well as few similarly numbered ones. We use output connectivity clustering since we suspect the downstream cell type interactions are more diagnostic for</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbonmeta</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"MBON(25|34|24|26|33|35)"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>partners <span class="op">=</span> <span class="st">'out'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 929/1703 output partner types with total weight 17648/41972</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
