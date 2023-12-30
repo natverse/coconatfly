@@ -53,12 +53,23 @@ fancr::fanc_set_token()
 fancr::dr_fanc()
 ```
 
+## Dataset status
+
+You can get a useful overview of the current status of your access to different
+datasets with the `dr_coconatfly()` command.
+
+```{r, message=FALSE}
+library(coconatfly)
+dr_coconatfly()
+```
+
+
 ## Brain example
 
 Ok with that in place, let's check if we can use connectome data, starting
 with the brain.
 
-```{r setup}
+```{r setup, message=FALSE}
 library(coconatfly)
 library(dplyr)
 ```
