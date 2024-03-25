@@ -31,7 +31,7 @@ Imports:
     magrittr,
     bit64
 Suggests: 
-    malevnc (> 0.2.7),
+    malevnc (>= 0.3.1),
     fancr,
     testthat (>= 3.0.0),
     ComplexHeatmap,
@@ -55,7 +55,7 @@ Remotes:
     catmaid=natverse/rcatmaid,
     natverse/nat.h5reg,
     natverse/coconat
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/flyconnectome/coconatfly,
     https://flyconnectome.github.io/coconatfly/
 BugReports: https://github.com/flyconnectome/coconatfly/issues
