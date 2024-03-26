@@ -17,17 +17,21 @@ cf_connections <- function() {
   dslist=list()
   npds=c("hemibrain", "manc", "malecns")
   for(ds in npds) {
-    conn=try(npconn(ds), silent = T)
-    if(inherits(conn, 'try-error'))
-      conn <- list(server=NA_character_, dataset=NA_character_)
-    res=conn[c("server", "dataset")]
-    names(res)[2]='version'
-    res=c(list(installed=T), res)
+    res=list(installed=T)
     if(ds=='manc')
       res$installed=requireNamespace('malevnc', quietly = T)
     else if(ds=='malecns')
       res$installed=requireNamespace('malecns', quietly = T)
-    dslist[[ds]]=res
+    if(!res$installed) {
+      res=c(res, server=NA_character_, dataset=NA_character_)
+      next
+    }
+    conn=try(npconn(ds), silent = T)
+    if(inherits(conn, 'try-error'))
+      conn <- list(server=NA_character_, dataset=NA_character_)
+    res2=conn[c("server", "dataset")]
+    names(res2)[2]='version'
+    dslist[[ds]]=c(res, res2)
   }
   # flywire
   ver=fafbseg::flywire_connectome_data_version()
