@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">coconatfly</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,8 +158,8 @@
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
-<span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(.) had 0 or NA entries; non-finite result</span></span>
-<span><span class="co">#&gt; is doubtful</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
+<span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>So this is interesting at a couple of levels. First we can see that the TuTuB hemibrain neurons separate into two groups. This is true even though things are a bit messy for the <code>TuTuB_a_hbL</code> neuron which will almost certainly be heavily truncated as it has its soma on the left hand (missing) side of the hemibrain.</p>
 <p>We can also see the flywire neurons also split up nicely. So we have two groups of four neurons each. Each group contains one neuron from each hemisphere x dataset combination. So we can update our flywire cell typing to match the hemibrain TuTuB_a and TuTuB_b groups.</p>
@@ -196,8 +196,8 @@
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>heatmap <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
-<span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(.) had 0 or NA entries; non-finite result</span></span>
-<span><span class="co">#&gt; is doubtful</span></span>
+<span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
+<span><span class="co">#&gt; entries; finite result is doubtful</span></span>
 <span><span class="va">tutus.meta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">tutus.hc</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tutus.hc</span>, labels <span class="op">=</span> <span class="va">tutus.meta</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
