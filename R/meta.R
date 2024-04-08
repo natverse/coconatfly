@@ -119,7 +119,7 @@ hemibrain_meta <- function(ids, ...) {
 }
 
 opticlobe_meta <- function(ids, ...) {
-  tres=neuprintr::neuprint_get_meta(ids, conn = npconn('opticlobe'), ...)
+  tres=malevnc::manc_neuprint_meta(ids, conn = npconn('opticlobe'), ...)
   tres <- tres %>%
     rename(id=bodyid) %>%
     mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
