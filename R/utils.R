@@ -15,7 +15,7 @@ bind_rows2 <- function(l) {
 
 cf_connections <- function() {
   dslist=list()
-  npds=c("hemibrain", "manc", "malecns")
+  npds=c("hemibrain", "manc", "malecns", 'opticlobe')
   for(ds in npds) {
     res=list(installed=T)
     if(ds=='manc')
