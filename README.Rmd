@@ -49,14 +49,15 @@ At present the following datasets are supported (dataset names used in the packa
 3. [Janelia male Ventral Nerve Cord](https://www.janelia.org/project-team/flyem/manc-connectome) (**manc**)
 4. Wei Lee, John Tuthill and colleagues [Female Adult Nerve Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
 5. Janelia Male CNS (**malecns**)
+6. Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
 
-The first four datasets are either public (hemibrain, manc) or access can be
-requested subject to agreeing to certain terms of use (flywire, fanc). 
-The Male CNS dataset is currently in the early stages of 
+Datasets 1-4 and 6 are either public (hemibrain, manc, flywire, opticlobe) or 
+access can be requested subject to agreeing to certain terms of use (fanc). 
+The Male CNS dataset is currently undergoing 
 proofreading and annotation in a collaboration between the 
 [FlyEM](https://www.janelia.org/project-team/flyem) and 
 [Cambridge Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated early 2024.
+anticipated late 2024.
 
 ## Installation
 
