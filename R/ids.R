@@ -55,14 +55,19 @@ is_key <- function(x) {
 #' @param expand Whether to expand any queries into the matching ids (this will
 #'   involve one or more calls to corresponding servers). Default \code{FALSE}.
 #' @param keys Whether to turn the ids into keys \code{hb:12345} right away.
-#'   Default \code{FALSE} but you may find this useful e.g. for combining
-#'   lists of neurons (see examples).
+#'   Default \code{FALSE} but you may find this useful e.g. for combining lists
+#'   of neurons (see examples).
 #' @param hemibrain Pass hemibrain specific query or ids to this argument
 #' @param flywire Pass flywire specific query or ids to this argument
 #' @param malecns Pass malecns specific query or ids to this argument
 #' @param manc Pass manc specific query or ids to this argument
+#' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
+#'
+#' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
+#'   the same query syntax although some fields may be dataset specific (see
+#'   examples).
 #'
 #' @return A list of ids with additional class \code{cidlist}
 #' @export
