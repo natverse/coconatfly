@@ -28,7 +28,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
-  neuprint.chunksize=100
+  neuprint.chunksize=10000
 
   if(is.character(ids))
     ids=keys2df(ids)
