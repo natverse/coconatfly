@@ -122,7 +122,7 @@ opticlobe_meta <- function(ids, ...) {
   tres=malevnc::manc_neuprint_meta(ids, conn = npconn('opticlobe'), ...)
   tres <- tres %>%
     rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
+    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2])
   tres
 }
 
