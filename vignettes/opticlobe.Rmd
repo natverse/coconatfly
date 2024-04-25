@@ -310,8 +310,8 @@ as Pm5 that were not accounted for in the annotation of the FlyWire dataset.
 
 Let's try co-clustering the flywire RHS Pm1 with all the OL Pm types
 
-```{r, warning=FALSE}
-cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm.+'))
+```{r, warning=FALSE, eval=FALSE}
+cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/type:Pm.+'))
 ```
 
 Ah it looks like there is co-clustering with Pm5 and Pm6. Let's look
