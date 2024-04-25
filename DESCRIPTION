@@ -42,7 +42,8 @@ Suggests:
     knitr,
     rmarkdown,
     dendroextras,
-    tidyr
+    tidyr,
+    ggplot2
 Enhances:
     malecns (>= 0.3)
 Remotes: 

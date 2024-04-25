@@ -42,7 +42,7 @@ knitr::opts_chunk$set(
 options(fafbseg.use_static_celltypes=T)
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(coconatfly)
 library(dplyr)
 ```
@@ -206,7 +206,8 @@ olmeta=cf_meta(cf_ids(
 
 olmetac <- olmeta %>% 
   count(type, dataset, side, sort = T)
-olmetac
+olmetac %>% 
+  head
 ```
 
 Let's also collect information about classes for all cell types - this
@@ -251,7 +252,7 @@ p
 
 We can explore with plotly
 
-```{r}
+```{r, eval=FALSE}
 plotly::ggplotly(p) 
 ```
 
@@ -267,7 +268,9 @@ olmetacw %>%
   facet_wrap(.~class, scales = 'free')+
   geom_smooth(aes(label = NULL), method = lm, formula = y~x+0)+
   geom_abline(slope = 1) -> p2
-plotly::ggplotly(p2) 
+p2
+# or could have done
+# plotly::ggplotly(p2)
 ```
 
 From this we can see that the trend is for both VPNs and optic intrinsic
