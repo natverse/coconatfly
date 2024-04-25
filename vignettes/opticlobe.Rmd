@@ -40,11 +40,13 @@ knitr::opts_chunk$set(
 # this ensures that we use the released cell type information for flywire even
 # the user running this analysis has access to live information.
 options(fafbseg.use_static_celltypes=T)
+fafbseg::flywire_connectome_data_version(set = 783)
 ```
 
 ```{r setup, message=FALSE}
 library(coconatfly)
 library(dplyr)
+dr_coconatfly()
 ```
 
 Let's start with a sample query for the motoion selective T4/T5 neurons
