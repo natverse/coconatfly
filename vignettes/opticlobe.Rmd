@@ -310,7 +310,7 @@ as Pm5 that were not accounted for in the annotation of the FlyWire dataset.
 
 Let's try co-clustering the flywire RHS Pm1 with all the OL Pm types
 
-```{r}
+```{r, warning=FALSE}
 cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm.+'))
 ```
 
@@ -326,7 +326,7 @@ So this reveals 3 clusters. A highly distinct cluster containing only
 (true) flywire Pm1 neurons and then two more closely related clusters
 containing Pm5/Pm6 from opticlobe.
 
-```{r}
+```{r, warning=FALSE}
 hc=cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm[156]'), heatmap = F)
 p1m156meta=cf_meta(hc$labels)
 # pull out 3 clusters
@@ -337,7 +337,7 @@ p1m156meta %>% count(group_k3, type, dataset)
 So that works out rather nicely. We can repeat for the LHS for good
 measure:
 
-```{r}
+```{r, warning=FALSE}
 hc=cf_cosine_plot(cf_ids(flywire = 'Pm1_L', opticlobe = '/Pm[156]'), heatmap = F)
 p1m156meta=cf_meta(hc$labels)
 # pull out 3 clusters
