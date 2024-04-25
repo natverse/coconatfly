@@ -1,0 +1,349 @@
+---
+title: "opticlobe"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{opticlobe}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+The male cns optic lobe dataset has been extensively annotated by [Nern
+et al](https://www.biorxiv.org/content/10.1101/2024.04.16.589741v1).
+This includes the identification of cell types for all neurons intrinsic
+to the optic lobe as well as visual projection neurons (VPNs) conveying
+information to the central brain and centrifugal neurons (VCNs) bringing
+information in the opposite brain. Between them 
+[Matsliah et al](https://www.biorxiv.org/content/10.1101/2023.10.12.562119)(OLINs) and
+[Schlegel et al](https://www.biorxiv.org/content/10.1101/2023.06.27.546055v2.full)
+(VPNs, VCNs and some OLINs) have annotated the same classes of neurons
+in the female FAFB-FlyWire connectome 
+[Dorkenwald et al](https://www.biorxiv.org/content/10.1101/2023.06.27.546656v2),
+[Schlegel et al](https://www.biorxiv.org/content/10.1101/2023.06.27.546055v2.full)
+This provides an exciting opportunity to confirm cell types across the
+datasets and investigate, stereotypy variation and in due course sexual
+dimorphism.
+
+At the time of writing, each of these three sources of data using a partially
+overlapping set of cell type labels. We can use coconatfly to make 
+comparisons across connectomes for cell types that share a label. But we can 
+also use it to help identify cell types with consistent properties across datasets
+even if they have been given different names.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+# this ensures that we use the released cell type information for flywire even
+# the user running this analysis has access to live information.
+options(fafbseg.use_static_celltypes=T)
+```
+
+```{r setup}
+library(coconatfly)
+library(dplyr)
+```
+
+Let's start with a sample query for the motoion selective T4/T5 neurons
+
+```{r}
+t45=cf_meta(cf_ids('/type:T[45][a-d]', datasets = c("flywire", 'opticlobe')))
+```
+
+```{r}
+t45 %>% 
+  count(type, side, dataset)
+```
+
+```{r}
+t45 %>% 
+  mutate(dss=paste0(substr(dataset,1,1), side)) %>% 
+  with(table(type, dss))
+
+```
+
+We can see some general trends here. First the number of T4/T5 neurons
+varies quite widely across the individual cell types (range 10-15%,
+slightly large for flywire). Second for flywire the counts are similar
+L-R for the same cell type, which offers some reassurance for these
+numbers. It does remain possible that some of the variance in counts is
+because of mis-assignment between layers e.g. at the edge of the visual
+field, but independent counts by Matsliah et al show very similar
+numbers.
+
+How about getting a comparative summary of connectivity?
+
+```{r}
+t4as <- t45 %>% 
+  filter(type=='T4a') %>% 
+  with(cf_partner_summary(key, threshold = 5))
+t4as
+```
+
+```{r}
+t45s <- t45 %>% 
+  with(cf_partner_summary(key, threshold = 5))
+t45s
+```
+
+```{r}
+t45sw <- t45s %>% 
+  mutate(dataset=abbreviate_datasets(dataset)) %>% 
+  rename(wt=weight) %>% 
+  tidyr::pivot_wider(id_cols = c(type.pre, type.post), values_from = c(wt, npre), names_from = dataset)
+t45sw
+```
+
+```{r}
+t45sw %>% 
+  filter(type.post=='T4a') %>% 
+  mutate(wt=rowSums(cbind(wt_fw, wt_ol), na.rm=T)) %>% 
+  arrange(desc(wt))
+```
+
+We can compare the number of synapses between partner neurons in a wide
+range of ways. We have seen that on average these numbers are highly
+consistent between FlyWire and the hemibrain for cell types across the
+brain. However for this comparison it appears that there are
+consistently more synapses for the male optic lobe compared with
+FlyWire.
+
+Here we normalise by the number of presynaptic neurons in the two
+datasets, which accounts both for the fact that we are looking at two
+hemispheres for flywire and one for the opticlobe, but also allows.
+
+```{r}
+library(ggplot2)
+t45sw %>% 
+  filter(type.post=='T4a') %>%
+  mutate(wt=rowSums(cbind(wt_fw, wt_ol), na.rm=T)) %>%
+  mutate(matched=is.finite(rowSums(cbind(wt_fw, wt_ol)))) %>%
+  mutate(wt_ol=wt_ol/npre_ol, wt_fw=wt_fw/npre_fw) %>% 
+  filter(wt>100 & matched) %>% 
+  ggplot(data=., aes(x=wt_fw, y=wt_ol)) +
+  geom_point(aes(col=type.pre))+
+  geom_smooth(method = lm)+
+  scale_x_log10()+scale_y_log10()+
+  geom_abline(slope = 1, lty=2)->p
+p
+# plotly::ggplotly(p)
+```
+
+From this we can see that the overall trends are for a greater number of
+synapses per neuron - here very close to 2x in the trend lines with a
+closer relationship with neurons with fewer counts.
+
+We can also compare numbers across cell types and datasets.
+
+```{r}
+t45sw2 <- t45s %>% 
+  mutate(dataset=abbreviate_datasets(dataset)) %>% 
+  arrange(desc(weight)) %>% 
+  rename(wt=weight) %>% 
+  tidyr::pivot_wider(id_cols = c(type.pre), values_from = c(wt, npre), names_from = c(dataset, type.post), values_fill = 0) %>% 
+  filter(rowSums(.[-1])>1000)
+t45sw2
+
+```
+
+```{r}
+t45sw2.mat=data.matrix(t45sw2 %>% select(starts_with('wt')))
+colnames(t45sw2.mat)=sub("wt_", "", colnames(t45sw2.mat))
+colnames(t45sw2.mat)=sub("(.+)_(.+)", "\\2_\\1", colnames(t45sw2.mat))
+t45sw2.mat=t45sw2.mat[,sort(colnames(t45sw2.mat))]
+rownames(t45sw2.mat)=t45sw2$type.pre
+heatmap(t45sw2.mat, scale = 'col', Colv = NA)
+```
+
+With column-wise normalisation as above (i.e. giving proportional input
+onto each downstream class of T4/T5 neuron) there is a consistent
+vertical striping showing that there are biases between the two
+datasets. For example, there are relatively fewer Mi1 inputs onto the
+opticlobe T4s and proportionally more Mi9/Tm3. Determining whether these
+differences are of technical or biological origin will certainly be a
+challenge, but looking across all partners will probably help to see
+e.g. if Mi1 makes fewer output connections overall.
+
+```{r}
+heatmap(t45sw2.mat, scale = 'row')
+```
+
+We can just focus a bit more on the stronger partners
+
+```{r}
+heatmap(t45sw2.mat[rowSums(t45sw2.mat)>30e3,], scale = 'col', Colv = NA)
+```
+
+Overall, looking at the striping, it feels like the Mi1 might might be
+the main difference.
+
+```{r}
+heatmap(t45sw2.mat[which(order(rowSums(t45sw2.mat), decreasing=T)%in%2:10),], scale = 'col', Colv = NA)
+```
+
+Hmm ok, maybe not.
+
+## Comparing cell type counts
+
+Many OL cell types have already been reported in the literature and will
+have the same name in the opticlobe and flywire datasets. Let's compare
+counts for those. Note that we are using the Schlegel et al typing for
+flywire in this analysis (available from
+<https://github.com/flyconnectome/flywire_annotations>). At the time of
+writing this is available for both sides of the brain but does not type
+all OL intrinsic neurons. In contrast, Matsliah et al have more finely typed the
+right OL but the left is still in progress.
+
+```{r}
+# ol: anything with a type 
+# fw: any of 3 relevant superclasses
+olmeta=cf_meta(cf_ids(
+  opticlobe = '/type:.+', 
+  flywire = 'super_class:(optic|visual_(projection|centrifugal))'))
+
+olmetac <- olmeta %>% 
+  count(type, dataset, side, sort = T)
+olmetac
+```
+
+Let's also collect information about classes for all cell types - this
+will only come from FlyWire at this point:
+
+```{r}
+# this is slightly fiddly because there are a few types with >1 class
+olmeta.classes <- olmeta %>% 
+  filter(!is.na(class)) %>% 
+  count(type, class) %>% 
+  group_by(type) %>% 
+  slice_max(n) %>% 
+  ungroup()
+olmeta.classes
+```
+
+Let's make a summary where we can compare numbers of cells for the two
+datasets *for cells whose type name is the same*.
+
+```{r}
+olmetacw <- olmetac %>% 
+  group_by(type) %>% 
+  filter(n_distinct(dataset)>1) %>% 
+  ungroup() %>% 
+  mutate(dss=paste0(abbreviate_datasets(dataset), side)) %>% 
+  tidyr::pivot_wider(id_cols = type, names_from = dss, 
+                     values_from = n)
+olmetacw
+```
+
+```{r}
+library(ggplot2)
+olmetacw %>% 
+  ggplot(data=., aes(olR, fwR, label=type))+
+  geom_point() +
+  # scale_x_log10() +
+  # scale_y_log10() +
+  geom_smooth(aes(label = NULL), method = lm, formula = y~x+0)+
+  geom_abline(slope = 1) -> p
+p
+```
+
+We can explore with plotly
+
+```{r}
+plotly::ggplotly(p) 
+```
+
+Actually, let's add the class information as well
+
+```{r}
+olmetacw %>% 
+  left_join(olmeta.classes, by = 'type') %>% 
+  ggplot(data=., aes(olR, fwR, label=type))+
+  geom_point() +
+  # scale_x_log10() +
+  # scale_y_log10() +
+  facet_wrap(.~class, scales = 'free')+
+  geom_smooth(aes(label = NULL), method = lm, formula = y~x+0)+
+  geom_abline(slope = 1) -> p2
+plotly::ggplotly(p2) 
+```
+
+From this we can see that the trend is for both VPNs and optic intrinsic
+neurons
+
+## Co-clustering
+
+## Identifying Pm1 subtypes
+
+We can of course carry out co-clustering. There's a lot we can use this
+tool for, but let's take a look at Pm1 which is the only cell type with
+an obvious discrepancy in counts between FlyWire and the the optic lobe.
+
+```{r}
+cf_meta(cf_ids(flywire = 'Pm1', opticlobe = '/Pm1')) %>% count(dataset,side)
+```
+
+OK let's cluster those:
+
+```{r}
+cf_cosine_plot(cf_ids(flywire = 'Pm1', opticlobe = '/Pm1'))
+```
+
+Ah, it would seem that there is a large flywire only group. So
+presumably the optic lobe dataset extracted a subtype.
+
+```{r}
+pmmeta=cf_meta(cf_ids('/type:Pm.+', datasets = c("opticlobe", 'flywire')))
+pmmeta %>% 
+  mutate(dss=paste0(abbreviate_datasets(dataset), side)) %>% 
+  with(table(type, dss))
+```
+
+Looking at those numbers, my first hunch is that FlyWire Pm1 could
+actually also contain one of the more numerous optic lobe cell types such 
+as Pm5 that were not accounted for in the annotation of the FlyWire dataset.
+
+Let's try co-clustering the flywire RHS Pm1 with all the OL Pm types
+
+```{r}
+cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm.+'))
+```
+
+Ah it looks like there is co-clustering with Pm5 and Pm6. Let's look
+more closely. Note that we just cluster the RHS FlyWire neurons to reduce the
+size of the plots.
+
+```{r}
+cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm[156]'))
+```
+
+So this reveals 3 clusters. A highly distinct cluster containing only
+(true) flywire Pm1 neurons and then two more closely related clusters
+containing Pm5/Pm6 from opticlobe.
+
+```{r}
+hc=cf_cosine_plot(cf_ids(flywire = 'Pm1_R', opticlobe = '/Pm[156]'), heatmap = F)
+p1m156meta=cf_meta(hc$labels)
+# pull out 3 clusters
+p1m156meta <- coconat::add_cluster_info(p1m156meta, hc, k=3)
+p1m156meta %>% count(group_k3, type, dataset)
+```
+
+So that works out rather nicely. We can repeat for the LHS for good
+measure:
+
+```{r}
+hc=cf_cosine_plot(cf_ids(flywire = 'Pm1_L', opticlobe = '/Pm[156]'), heatmap = F)
+p1m156meta=cf_meta(hc$labels)
+# pull out 3 clusters
+p1m156meta <- coconat::add_cluster_info(p1m156meta, hc, k=3)
+p1m156meta %>% count(group_k3, type, dataset)
+
+```
+
+Again very similar results. Note that this co-clustering analysis nicely
+validates the Pm5/Pm6 types newly proposed in the optic lobe dataset
+(only Pm1-4 were previously reported in the literature).
+
