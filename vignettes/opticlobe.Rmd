@@ -40,6 +40,7 @@ knitr::opts_chunk$set(
 # this ensures that we use the released cell type information for flywire even
 # the user running this analysis has access to live information.
 options(fafbseg.use_static_celltypes=T)
+# ensure that we are using the default flywire release
 fafbseg::flywire_connectome_data_version(set = 783)
 ```
 
