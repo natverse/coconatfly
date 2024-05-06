@@ -12,11 +12,22 @@ id2int64 <- function(x) {
 #' Interconvert between keys and ids/datasets
 #'
 #' @description Neurons within a dataset will be identified by numeric ids but
-#' these may not be unique across datasets. Therefore to make a unique datatset
-#' we use \code{keys} of the form \code{"<dataset>:<id>"}.
+#'   these may not be unique across datasets. Therefore to make a unique dataset
+#'   we use \code{keys} of the form \code{"<dataset>:<id>"}.
 #'
-#' @param x A list or dataframe specifying both within dataset ids and dataset
-#'   names.
+#'   \code{keys} either confirms/tidies up an existing set of keys or converts a
+#'   \code{list} or \code{data.frame} to keys.
+#'
+#' @details When \code{x} is a character vector, this must be in one of two
+#'   forms. \emph{Either} a vector where each element is a single key of the
+#'   form \code{"<dataset>:<id>"} \emph{or} a single string containing >=1 such
+#'   keys
+#' separated by white space or commas (e.g. \code{" fw:4611686018427387904,
+#' hb:12345 "}). See examples.
+#'
+#' @param x A list, dataframe or character vector specifying both within dataset
+#'   ids and dataset names. See details and examples especially for character
+#'   vector input.
 #' @param idcol optional string naming the column containing ids
 #'
 #' @return For \code{keys} as character vector of keys of the form
@@ -24,6 +35,9 @@ id2int64 <- function(x) {
 #' @export
 #'
 #' @examples
+#' # tidying up keys copied from somewhere else ...
+#' keys(" fw:4611686018427387904, hb:12345 ")
+#'
 #' \donttest{
 #' keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 #' }
@@ -33,18 +47,34 @@ keys <- function(x, idcol='id') {
     x=data.frame(id=unlist(x),
                  dataset=rep(abbreviate_datasets(names(x)), lengths(x)))
     names(x)[1]=idcol
+  } else if(is.character(x)) {
+    kk <- if(all(is_key(x))) x
+    else if(is_key(x, compound = TRUE)) {
+      sx = gsub("[,\\s]+", " ", x, perl = T)
+      scan(text = trimws(sx), sep = " ", what = "", quiet = T)
+    } else
+      stop("Invalid character vector specifying keys. Should look like:",
+           "'mc:12345'")
+    return(kk)
   } else {
     if(!is.data.frame(x))
       stop('x must be a list with elements named by datasets or\n',
-           'a data.frame with columns id and dataset')
+           'a data.frame with columns id and dataset or \n',
+           'a character vector already specifying keys.'
+           )
     x$dataset=abbreviate_datasets(x$dataset)
-
   }
   paste0(x[['dataset']],":", x[[idcol]])
 }
 
-is_key <- function(x) {
-  is.character(x) & grepl("^[a-z0-9]+:[0-9]{5,20}", x)
+is_key <- function(x, compound=FALSE) {
+  if(compound)
+    length(x) == 1 &&
+      is.character(x) &&
+      !grepl("http", x) &&
+      grepl("^\\s*([a-z:]+[0-9,\\s]+)+$", x, perl = T)
+  else
+    is.character(x) & grepl("^[a-z0-9]+:[0-9]{5,20}$", x)
 }
 
 #' Specify ids for fly connectome datasets
@@ -211,7 +241,7 @@ expand_ids <- function(ids, dataset) {
 #' @rdname keys
 #' @export
 keys2df <- function(keys, integer64=FALSE) {
-  if(!all(is_key(keys))) stop("Expecting keys of the form: `<dataset>:<id>`")
+  keys=keys(keys)
   res=stringr::str_match(keys, "^([a-z]{2}):([0-9]+)")
   data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
 }
