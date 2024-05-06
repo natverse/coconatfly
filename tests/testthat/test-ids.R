@@ -4,17 +4,28 @@ test_that("key handling works", {
                 dataset = c("flywire", "hemibrain"))
   expect_equal(keys2df(c("fw:12345", "hb:12345")), df)
 
+
   idlist=list(flywire='4611686018427387904', hemibrain='12345')
   keyvec=c("fw:4611686018427387904", "hb:12345")
+
+  expect_equal(keys(keyvec), keyvec)
+  expect_equal(keys(paste(keyvec, collapse = ',')), keyvec)
+  expect_equal(keys(paste(keyvec, collapse = '\t')), keyvec)
+  # messy whitespace/separators
+  expect_equal(keys(paste(' ', keyvec, collapse = ',', " ")), keyvec)
+  expect_equal(keys(paste0(" ", keyvec[1], " ")), keyvec[1])
+
   keydf=data.frame(id = c("4611686018427387904", "12345"),
                    dataset = c("flywire", "hemibrain"))
   expect_equal(keys(idlist), keyvec)
   expect_equal(keys(keydf), keyvec)
   expect_equal(keys2df(keyvec), keydf)
+  expect_equal(keys2df(paste(' ', keyvec, collapse = ',', " ")), keydf)
   expect_equal(keys2list(keyvec), idlist)
+  expect_error(keys('4611686018427387904 12345'))
 
   expect_equal(cf_ids(hemibrain = '/MBON0[12].*', expand = T),
-               cf_ids(hemibrain = c("612371421", "673509195", "424789697", "5813022341"))
+             cf_ids(hemibrain = c("612371421", "673509195", "424789697", "5813022341"))
                )
 
   expect_warning(cf_ids(hemibrain = 'rhubarb', expand = T))

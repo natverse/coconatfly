@@ -13,8 +13,9 @@ keys2df(keys, integer64 = FALSE)
 keys2list(keys, integer64 = FALSE)
 }
 \arguments{
-\item{x}{A list or dataframe specifying both within dataset ids and dataset
-names.}
+\item{x}{A list, dataframe or character vector specifying both within dataset
+ids and dataset names. See details and examples especially for character
+vector input.}
 
 \item{idcol}{optional string naming the column containing ids}
 
@@ -29,8 +30,11 @@ For \code{keys} as character vector of keys of the form
 }
 \description{
 Neurons within a dataset will be identified by numeric ids but
-these may not be unique across datasets. Therefore to make a unique datatset
-we use \code{keys} of the form \code{"<dataset>:<id>"}.
+  these may not be unique across datasets. Therefore to make a unique dataset
+  we use \code{keys} of the form \code{"<dataset>:<id>"}.
+
+  \code{keys} either confirms/tidies up an existing set of keys or converts a
+  \code{list} or \code{data.frame} to keys.
 
 \code{keys2df} produces a \code{data.frame} with columns
   \code{id} and \code{dataset} describing the ids for each dataset. The
@@ -39,7 +43,18 @@ we use \code{keys} of the form \code{"<dataset>:<id>"}.
 
 \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
 }
+\details{
+When \code{x} is a character vector, this must be in one of two
+  forms. \emph{Either} a vector where each element is a single key of the
+  form \code{"<dataset>:<id>"} \emph{or} a single string containing >=1 such
+  keys
+separated by white space or commas (e.g. \code{" fw:4611686018427387904,
+hb:12345 "}). See examples.
+}
 \examples{
+# tidying up keys copied from somewhere else ...
+keys(" fw:4611686018427387904, hb:12345 ")
+
 \donttest{
 keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 }
