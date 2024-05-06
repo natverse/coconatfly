@@ -45,7 +45,7 @@ Suggests:
     tidyr,
     ggplot2
 Enhances:
-    malecns (>= 0.3)
+    malecns (>= 0.3.0.9900)
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/fancr,

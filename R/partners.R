@@ -67,7 +67,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres=malecns::mcns_connection_table(ids[[n]], partners = partners, threshold=threshold, chunk = neuprint.chunksize)
       # nb the type information we care about here is for partners
       tres2=tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
-      tres$type <- malecns::mcns_predict_type(tres2)
+      tres$type <- malecns::mcns_predict_type(tres2, prefer.foreign=TRUE)
       # set the soma side either from manually reviewed data
       tres <-  tres %>%
         dplyr::mutate(side=dplyr::case_when(
