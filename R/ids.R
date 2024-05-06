@@ -55,14 +55,19 @@ is_key <- function(x) {
 #' @param expand Whether to expand any queries into the matching ids (this will
 #'   involve one or more calls to corresponding servers). Default \code{FALSE}.
 #' @param keys Whether to turn the ids into keys \code{hb:12345} right away.
-#'   Default \code{FALSE} but you may find this useful e.g. for combining
-#'   lists of neurons (see examples).
+#'   Default \code{FALSE} but you may find this useful e.g. for combining lists
+#'   of neurons (see examples).
 #' @param hemibrain Pass hemibrain specific query or ids to this argument
 #' @param flywire Pass flywire specific query or ids to this argument
 #' @param malecns Pass malecns specific query or ids to this argument
 #' @param manc Pass manc specific query or ids to this argument
+#' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
+#'
+#' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
+#'   the same query syntax although some fields may be dataset specific (see
+#'   examples).
 #'
 #' @return A list of ids with additional class \code{cidlist}
 #' @export
@@ -87,16 +92,20 @@ is_key <- function(x) {
 #' }
 cf_ids <- function(
     query=NULL,
-    datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc"),
+    datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
+               "opticlobe"),
     expand=FALSE,
     keys=FALSE,
-    hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL) {
+    hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
+    opticlobe=NULL) {
+
   nds=sum(
     !is.null(hemibrain),
     !is.null(flywire),
     !is.null(malecns),
     !is.null(manc),
-    !is.null(fanc)
+    !is.null(fanc),
+    !is.null(opticlobe)
     )
   res <- if(!is.null(query)) {
     if(nds>0)
@@ -114,7 +123,7 @@ cf_ids <- function(
   } else {
     if(nds==0)
       stop("You must supply either the `query` argument or one of hemibrain:fanc!")
-    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc)
+    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc, opticlobe=opticlobe)
     # drop any empty datasets
     l[lengths(l)>0]
   }
@@ -183,9 +192,9 @@ expand_ids <- function(ids, dataset) {
   FUN <- switch(dataset,
     manc=malevnc::manc_ids,
     fanc=I,
-    hemibrain=function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)),
     malecns=malecns::mcns_ids,
-    flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()))
+    flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
+    function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)))
   tf=try(FUN(ids), silent = T)
   if(inherits(tf, 'try-error')) {
     warning("No valid ids in dataset:", dataset)

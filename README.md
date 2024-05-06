@@ -45,14 +45,15 @@ the package in brackets):
 4.  Wei Lee, John Tuthill and colleagues [Female Adult Nerve
     Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
 5.  Janelia Male CNS (**malecns**)
+6.  Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
 
-The first four datasets are either public (hemibrain, manc) or access
-can be requested subject to agreeing to certain terms of use (flywire,
-fanc). The Male CNS dataset is currently in the early stages of
+Datasets 1-4 and 6 are either public (hemibrain, manc, flywire,
+opticlobe) or access can be requested subject to agreeing to certain
+terms of use (fanc). The Male CNS dataset is currently undergoing
 proofreading and annotation in a collaboration between the
 [FlyEM](https://www.janelia.org/project-team/flyem) and [Cambridge
 Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated early 2024.
+anticipated late 2024.
 
 ## Installation
 
@@ -63,8 +64,8 @@ install.packages('natmanager')
 natmanager::install(pkgs = 'coconatfly')
 ```
 
-Some of the datasets exposed by **coconatfly** require authentication for
-access or are still being annotated in private pre-release. Please
+Some of the datasets exposed by **coconatfly** require authentication
+for access or are still being annotated in private pre-release. Please
 consult individual package dependencies for authentication details and
 do not be surprised if you do not have access to all datasets at this
 time.
@@ -128,10 +129,10 @@ We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 2918 ids
-#> flywire_rootid_cached: Looking up 2918 missing keys
-#> Updating 12286 ids
-#> flywire_rootid_cached: Looking up 12285 missing keys
+#> Updating 5266 ids
+#> flywire_rootid_cached: Looking up 5266 missing keys
+#> Updating 4089 ids
+#> flywire_rootid_cached: Looking up 4089 missing keys
 head(da1meta)
 #>                   id side   class    type group  instance dataset
 #> 1 720575940604407468    R central DA1_lPN  <NA> DA1_lPN_R flywire
@@ -168,7 +169,7 @@ head(da1ds)
 #>    pre_id post_id weight side  type    dataset pre_key               post_key   
 #>   <int64> <int64>  <int> <chr> <chr>   <chr>   <chr>                 <chr>      
 #> 1    7e17    7e17     64 L     DA1_vPN flywire fw:720575940605102694 fw:7205759…
-#> 2    7e17    7e17     50 L     <NA>    flywire fw:720575940603231916 fw:7205759…
+#> 2    7e17    7e17     50 L     CB3356  flywire fw:720575940603231916 fw:7205759…
 #> 3    7e17    7e17     49 R     LHAV4a4 flywire fw:720575940604407468 fw:7205759…
 #> 4    7e17    7e17     48 R     DA1_vPN flywire fw:720575940623303108 fw:7205759…
 #> 5    7e17    7e17     46 L     v2LN30  flywire fw:720575940603231916 fw:7205759…
@@ -181,8 +182,8 @@ da1ds %>%
   summarise(weight=sum(weight), npre=n_distinct(pre_id), npost=n_distinct(post_id))
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
-#> # A tibble: 256 × 6
-#> # Groups:   type, dataset [209]
+#> # A tibble: 343 × 6
+#> # Groups:   type, dataset [269]
 #>    type            dataset   side  weight  npre npost
 #>    <chr>           <chr>     <chr>  <int> <int> <int>
 #>  1 AL-AST1         flywire   L         16     2     1
@@ -192,10 +193,10 @@ da1ds %>%
 #>  5 APL             flywire   R         70     6     1
 #>  6 APL             hemibrain R        113     6     1
 #>  7 AVLP010         flywire   L          6     1     1
-#>  8 AVLP010         flywire   R         83     6     1
-#>  9 AVLP011,AVLP012 flywire   L          6     1     1
-#> 10 AVLP011,AVLP012 flywire   R         22     2     1
-#> # ℹ 246 more rows
+#>  8 AVLP011,AVLP012 flywire   L          6     1     1
+#>  9 AVLP011,AVLP012 flywire   R         22     2     1
+#> 10 AVLP013         flywire   L         14     2     1
+#> # ℹ 333 more rows
 ```
 
 Let’s restrict that to types that are observed in both datasets. We do
@@ -216,8 +217,8 @@ da1ds.shared_types.wide <- da1ds %>%
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
 da1ds.shared_types.wide
-#> # A tibble: 38 × 4
-#> # Groups:   type [38]
+#> # A tibble: 39 × 4
+#> # Groups:   type [39]
 #>    type      fw_L  fw_R  hb_R
 #>    <chr>    <int> <int> <int>
 #>  1 AL-AST1     16    13    25
@@ -226,11 +227,11 @@ da1ds.shared_types.wide
 #>  4 DA1_vPN    250   254   333
 #>  5 DNb05        6     0     5
 #>  6 KCg-m     3275  2545  3030
-#>  7 LHAD1g1     62    60    48
-#>  8 LHAV2a3     70   128   154
+#>  7 LHAD1d2     72    33    15
+#>  8 LHAD1g1     62    60    48
 #>  9 LHAV2b11    44    77    29
 #> 10 LHAV3k6     19    16     5
-#> # ℹ 28 more rows
+#> # ℹ 29 more rows
 ```
 
 With the data organised like this, we can easily compare the connection
@@ -271,10 +272,10 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 2918 ids
-#> Updating 12286 ids
-#> Matching types across datasets. Dropping 461/976 output partner types with total weight 8050/23730
-#> Matching types across datasets. Dropping 737/1356 input partner types with total weight 10875/26780
+#> Updating 5266 ids
+#> Updating 4089 ids
+#> Matching types across datasets. Dropping 478/977 output partner types with total weight 8849/23759
+#> Matching types across datasets. Dropping 735/1361 input partner types with total weight 10892/26928
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />

@@ -28,7 +28,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
-  neuprint.chunksize=100
+  neuprint.chunksize=10000
 
   if(is.character(ids))
     ids=keys2df(ids)
@@ -51,13 +51,13 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     if(n=='flywire') {
       tres=flywire_partner_summary2(ids[[n]], partners = partners, threshold = threshold)
       tres$side=toupper(substr(tres$side,1,1))
-    } else if(n=='hemibrain') {
+    } else if(n=='hemibrain' || n=='opticlobe') {
       # a bit inelegant but not sure how else to insist
-      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn('hemibrain'), chunk = neuprint.chunksize)
+      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn(n), chunk = neuprint.chunksize)
       tres <- tres %>%
         dplyr::mutate(
           type=dplyr::case_when(
-            is.na(type) ~ paste0('hb', partner),
+            is.na(type) ~ paste0(abbreviate_datasets(n), partner),
             T ~ type),
           side=stringr::str_match(name, '_([LR])$')[,2],
           side=dplyr::case_when(

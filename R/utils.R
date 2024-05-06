@@ -15,13 +15,15 @@ bind_rows2 <- function(l) {
 
 cf_connections <- function() {
   dslist=list()
-  npds=c("hemibrain", "manc", "malecns")
+  npds=c("hemibrain", "manc", "malecns", 'opticlobe')
   for(ds in npds) {
     res=list(installed=T)
     if(ds=='manc')
       res$installed=requireNamespace('malevnc', quietly = T)
     else if(ds=='malecns')
       res$installed=requireNamespace('malecns', quietly = T)
+    else if(ds=='opticlobe')
+      res$installed=requireNamespace('malevnc', quietly = T)
     if(!res$installed) {
       res=c(res, server=NA_character_, dataset=NA_character_)
       next
@@ -83,6 +85,15 @@ dr_coconatfly <- function() {
   if(is.na(filter(cfc, .data$dataset=='hemibrain')$server))
     cli::cli_alert_danger(paste0(
       "Cannot connect to hemibrain dataset. You probably need to set up a ",
+      "neuprint token!\n",
+      "See {.url https://natverse.org/coconatfly/articles/getting-started.html}"))
+
+  if(!isTRUE(filter(cfc, .data$dataset=='opticlobe')$installed))
+    cli::cli_alert_danger(
+      "To use the opticlobe dataset do:\n{.code natmanager::install(pkgs = 'malevnc')}")
+  else if(is.na(filter(cfc, .data$dataset=='opticlobe')$server))
+    cli::cli_alert_danger(paste0(
+      "Cannot connect to opticlobe dataset. You probably need to set up a ",
       "neuprint token!\n",
       "See {.url https://natverse.org/coconatfly/articles/getting-started.html}"))
 

@@ -31,7 +31,7 @@ Imports:
     magrittr,
     bit64
 Suggests: 
-    malevnc (>= 0.3.1),
+    malevnc (> 0.3.1),
     fancr,
     testthat (>= 3.0.0),
     ComplexHeatmap,

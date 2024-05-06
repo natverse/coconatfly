@@ -4,6 +4,10 @@ npconn <- function(dataset) {
     return(neuprintr::neuprint_login(
       server="https://neuprint.janelia.org",
       dataset='hemibrain:v1.2.1'))
+  else if(dataset=='opticlobe')
+    return(neuprintr::neuprint_login(
+      server="https://neuprint.janelia.org",
+      dataset='optic-lobe:v1.0'))
   else if(dataset=='malecns')
     return(malecns::mcns_neuprint())
   else if(dataset=='manc')
@@ -111,6 +115,14 @@ hemibrain_meta <- function(ids, ...) {
   tres <- tres %>%
     rename(id=bodyid) %>%
     mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
+  tres
+}
+
+opticlobe_meta <- function(ids, ...) {
+  tres=malevnc::manc_neuprint_meta(ids, conn = npconn('opticlobe'), ...)
+  tres <- tres %>%
+    rename(id=bodyid) %>%
+    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2])
   tres
 }
 
