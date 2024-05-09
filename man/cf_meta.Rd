@@ -12,7 +12,9 @@ cf_meta(
 )
 }
 \arguments{
-\item{ids}{A list of ids named by the relevant datasets (see examples)}
+\item{ids}{A list of ids named by the relevant datasets (see examples) or any
+other input that can be processed by the \code{\link{keys}} function
+(including a \code{hclust} dendrogram object.)}
 
 \item{bind.rows}{Whether to bind data.frames for each dataset together,
 keeping only the common columns (default \code{TRUE} for convenience but

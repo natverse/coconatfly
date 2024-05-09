@@ -1,6 +1,8 @@
 #' Flexible function for fetching partner data across datasets
 #'
-#' @param ids A list of ids named by the relevant datasets (see examples)
+#' @param ids A list of ids named by the relevant datasets (see examples) or any
+#'   other input that can be processed by the \code{\link{keys}} function
+#'   (including a \code{hclust} dendrogram object.)
 #' @param threshold return only edges with at least this many matches. 0 is an
 #'   option since neuprint sometimes returns 0 weight edges.
 #' @param partners Whether to return inputs or outputs
@@ -30,7 +32,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 
   neuprint.chunksize=10000
 
-  if(is.character(ids))
+  if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
   if(is.data.frame(ids)) {
     ss=split(ids$id, ids$dataset)

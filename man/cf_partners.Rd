@@ -12,7 +12,9 @@ cf_partners(
 )
 }
 \arguments{
-\item{ids}{A list of ids named by the relevant datasets (see examples)}
+\item{ids}{A list of ids named by the relevant datasets (see examples) or any
+other input that can be processed by the \code{\link{keys}} function
+(including a \code{hclust} dendrogram object.)}
 
 \item{threshold}{return only edges with at least this many matches. 0 is an
 option since neuprint sometimes returns 0 weight edges.}
