@@ -17,4 +17,5 @@ test_that("triple_cosine_plot works", {
           order = c(1L, 3L, 5L, 2L, 4L, 6L))
 
   expect_equal(hc[c("labels", "order")],bl)
+  expect_equal(keys(hc), bl$labels)
 })

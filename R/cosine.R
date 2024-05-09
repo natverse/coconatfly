@@ -161,7 +161,7 @@ is.mct <- function(x) {
 #'
 #' # bigger clustering
 #' lalhc=cf_cosine_plot(cf_ids(hemibrain="/type:LAL.+"), heatmap=FALSE)
-#' lalmeta=cf_meta(lalhc$labels)
+#' lalmeta=cf_meta(lalhc)
 #' lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75, idcol='key')
 #'
 #' }
@@ -176,7 +176,7 @@ is.mct <- function(x) {
 #'
 #' # just make the hclust dendrogram
 #' lalhc=cf_cosine_plot(cf_ids("/type:LAL.+"), heatmap=FALSE)
-#' lalmeta=cf_meta(lalhc$labels)
+#' lalmeta=cf_meta(lalhc)
 #' lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75)
 #'
 #' # plot results in a big dendrogram

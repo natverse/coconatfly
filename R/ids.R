@@ -21,13 +21,15 @@ id2int64 <- function(x) {
 #' @details When \code{x} is a character vector, this must be in one of two
 #'   forms. \emph{Either} a vector where each element is a single key of the
 #'   form \code{"<dataset>:<id>"} \emph{or} a single string containing >=1 such
-#'   keys
-#' separated by white space or commas (e.g. \code{" fw:4611686018427387904,
-#' hb:12345 "}). See examples.
+#'   keys separated by white space or commas (e.g. \code{"
+#'   fw:4611686018427387904, hb:12345 "}). See examples.
 #'
-#' @param x A list, dataframe or character vector specifying both within dataset
-#'   ids and dataset names. See details and examples especially for character
-#'   vector input.
+#'   As a convenience \code{x} may also be a \code{dendrogram} or \code{hclust}
+#'   object resulting from a clustering operation.
+#'
+#' @param x A list, dataframe, dendrogram, or character vector specifying both
+#'   within dataset ids and dataset names. See details and examples especially
+#'   for character vector input.
 #' @param idcol optional string naming the column containing ids
 #'
 #' @return For \code{keys} as character vector of keys of the form
@@ -43,6 +45,11 @@ id2int64 <- function(x) {
 #' }
 #' @rdname keys
 keys <- function(x, idcol='id') {
+  if(inherits(x, 'hclust'))
+    x <- x$labels
+  else if(inherits(x, 'dendrogram'))
+    x <- labels(x)
+
   if(is.list(x) && !is.data.frame(x)) {
     x=data.frame(id=unlist(x),
                  dataset=rep(abbreviate_datasets(names(x)), lengths(x)))

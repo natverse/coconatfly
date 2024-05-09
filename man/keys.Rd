@@ -13,9 +13,9 @@ keys2df(keys, integer64 = FALSE)
 keys2list(keys, integer64 = FALSE)
 }
 \arguments{
-\item{x}{A list, dataframe or character vector specifying both within dataset
-ids and dataset names. See details and examples especially for character
-vector input.}
+\item{x}{A list, dataframe, dendrogram, or character vector specifying both
+within dataset ids and dataset names. See details and examples especially
+for character vector input.}
 
 \item{idcol}{optional string naming the column containing ids}
 
@@ -47,9 +47,11 @@ Neurons within a dataset will be identified by numeric ids but
 When \code{x} is a character vector, this must be in one of two
   forms. \emph{Either} a vector where each element is a single key of the
   form \code{"<dataset>:<id>"} \emph{or} a single string containing >=1 such
-  keys
-separated by white space or commas (e.g. \code{" fw:4611686018427387904,
-hb:12345 "}). See examples.
+  keys separated by white space or commas (e.g. \code{"
+  fw:4611686018427387904, hb:12345 "}). See examples.
+
+  As a convenience \code{x} may also be a \code{dendrogram} or \code{hclust}
+  object resulting from a clustering operation.
 }
 \examples{
 # tidying up keys copied from somewhere else ...

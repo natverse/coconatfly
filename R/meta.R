@@ -42,7 +42,7 @@ npconn <- function(dataset) {
 #' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
-  if(is.character(ids))
+  if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
   if(is.data.frame(ids)) {
     stopifnot(bind.rows)

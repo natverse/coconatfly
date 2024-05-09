@@ -103,7 +103,8 @@ However since the across-brain connectivity clustering does not yet support this
 ```{r}
 tutus.hc <- tutus %>% 
   cf_cosine_plot(heatmap = F)
-tutus.meta=cf_meta(tutus.hc$labels)
+# nb as a convenience cf_meta accepts an hclust object as input
+tutus.meta=cf_meta(tutus.hc)
 
 plot(tutus.hc, labels = tutus.meta$type)
 ```
