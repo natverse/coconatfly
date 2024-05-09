@@ -88,9 +88,9 @@ keys2list converts a character vector of keys to a list of ids with one list ele
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A list, dataframe or character vector specifying both within dataset
-ids and dataset names. See details and examples especially for character
-vector input.</p></dd>
+<dd><p>A list, dataframe, dendrogram, or character vector specifying both
+within dataset ids and dataset names. See details and examples especially
+for character vector input.</p></dd>
 
 
 <dt>idcol</dt>
@@ -119,9 +119,10 @@ default) or <code>integer64</code></p></dd>
     <p>When <code>x</code> is a character vector, this must be in one of two
   forms. <em>Either</em> a vector where each element is a single key of the
   form <code>"&lt;dataset&gt;:&lt;id&gt;"</code> <em>or</em> a single string containing &gt;=1 such
-  keys
-separated by white space or commas (e.g. <code>" fw:4611686018427387904,
-hb:12345 "</code>). See examples.</p>
+  keys separated by white space or commas (e.g. <code>"
+  fw:4611686018427387904, hb:12345 "</code>). See examples.</p>
+<p>As a convenience <code>x</code> may also be a <code>dendrogram</code> or <code>hclust</code>
+  object resulting from a clustering operation.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

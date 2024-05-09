@@ -198,7 +198,8 @@
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span>
-<span><span class="va">tutus.meta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">tutus.hc</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span>
+<span><span class="co"># nb as a convenience cf_meta accepts an hclust object as input</span></span>
+<span><span class="va">tutus.meta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">tutus.hc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tutus.hc</span>, labels <span class="op">=</span> <span class="va">tutus.meta</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
