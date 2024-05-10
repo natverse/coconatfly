@@ -35,35 +35,6 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 }
 
 
-#' @importFrom dplyr distinct all_of
-#' @rdname cf_cosine_plot
-#' @export
-#' @return \code{multi_connection_table} returns a connectivity dataframe as
-#'   returned by \code{cf_partners} but with an additional column
-#'   \code{partners} which indicates (for each row) whether the partner neurons
-#'   are the input or output neurons.
-multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
-                                   threshold=1L,
-                                   group='type') {
-  partners=match.arg(partners, several.ok = T)
-  if(length(partners)>1) {
-    l=sapply(partners, simplify = F, function(p)
-      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
-    l=dplyr::bind_rows(l)
-    return(l)
-  }
-  x <- cf_partners(ids, threshold = threshold, partners = partners)
-  if(is.character(group))
-    x <- match_types(x, group, partners=partners)
-  # mark which column was used for the query
-  x$partners=partners
-  x
-}
-
-is.mct <- function(x) {
-  is.data.frame(x) && all(c("pre_id", "post_id", "dataset", "partners") %in% colnames(x))
-}
-
 #' Multi dataset cosine clustering
 #'
 #' @details \code{group=FALSE} only makes sense for single dataset clustering -
@@ -307,3 +278,34 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
   coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
                            method = method, heatmap=heatmap, ...)
 }
+
+
+#' @importFrom dplyr distinct all_of
+#' @rdname cf_cosine_plot
+#' @export
+#' @return \code{multi_connection_table} returns a connectivity dataframe as
+#'   returned by \code{cf_partners} but with an additional column
+#'   \code{partners} which indicates (for each row) whether the partner neurons
+#'   are the input or output neurons.
+multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
+                                   threshold=1L,
+                                   group='type') {
+  partners=match.arg(partners, several.ok = T)
+  if(length(partners)>1) {
+    l=sapply(partners, simplify = F, function(p)
+      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
+    l=dplyr::bind_rows(l)
+    return(l)
+  }
+  x <- cf_partners(ids, threshold = threshold, partners = partners)
+  if(is.character(group))
+    x <- match_types(x, group, partners=partners)
+  # mark which column was used for the query
+  x$partners=partners
+  x
+}
+
+is.mct <- function(x) {
+  is.data.frame(x) && all(c("pre_id", "post_id", "dataset", "partners") %in% colnames(x))
+}
+
