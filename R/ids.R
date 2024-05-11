@@ -159,7 +159,7 @@ cf_ids <- function(
     structure(as.list(rep(query, length(datasets))), .Names=datasets)
   } else {
     if(nds==0)
-      stop("You must supply either the `query` argument or one of hemibrain:fanc!")
+      stop("You must supply either the `query` argument or one of hemibrain:opticlobe!")
     l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc, opticlobe=opticlobe)
     # drop any empty datasets
     l[lengths(l)>0]
