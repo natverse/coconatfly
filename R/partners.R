@@ -99,13 +99,12 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 #   different datasets so that when cell types are found in the dataset but
 #   missing from the partners we can use that negative result.
 # partners argument is just used to construct a warning message
-match_types <- function(x, group, partners="", min_datasets=Inf) {
+match_types <- function(x, group="type", partners="", min_datasets=Inf) {
   stopifnot(is.data.frame(x))
   if(!is.finite(min_datasets)) min_datasets=dplyr::n_distinct(x$dataset)
-  # right now we only support type as the grouping variable
-  stopifnot(length(group)==1 && group=='type')
+
   xg <- x %>%
-    dplyr::group_by(type) %>%
+    dplyr::group_by_at(group) %>%
     dplyr::mutate(nd=dplyr::n_distinct(dataset)) %>%
     dplyr::ungroup()
   todrop <- xg %>%
