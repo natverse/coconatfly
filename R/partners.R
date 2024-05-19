@@ -136,13 +136,16 @@ connection_table2queryids <- function(x) {
 #'
 #' @param rval Choose what the function will return. \code{sparse} and
 #'   \code{matrix} return sparse and dense (standard) matrices, respectively.
+#' @param aggregate.query Whether to aggregate all neurons of the same query
+#'   type (the default) or when \code{aggregate.query=FALSE} only to aggregate
+#'   the partner neurons.
 #' @inheritParams cf_partners
 #' @return a data.frame or (sparse) matrix based on \code{rval}. The column
 #'   \code{n} refers to the number of \emph{partner} neurons.
 #' @export
 #' @details This function currently groups by dataset, and pre and postsynaptic
-#' type. It does not currently group by side. The forms returning matrices rely
-#' on \code{coconat::\link{partner_summary2adjacency_matrix}}.
+#'   type. It does not currently group by side. The forms returning matrices
+#'   rely on \code{coconat::\link{partner_summary2adjacency_matrix}}.
 #'
 #' @examples
 #' \dontrun{
@@ -156,8 +159,10 @@ connection_table2queryids <- function(x) {
 #'     names_from = c(type.post,dataset), values_from = weight, values_fill = 0)
 #' }
 #' @importFrom glue glue
-#' @importFrom dplyr .data select mutate left_join group_by n_distinct summarise arrange desc
+#' @importFrom dplyr .data select mutate left_join group_by n_distinct summarise
+#'   arrange desc
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
+                               aggregate.query=TRUE,
                                rval=c("data.frame", "sparse", "matrix")) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
@@ -172,16 +177,28 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
   names(join_spec)=paste0(qfix, "_key")
   suffix=paste0(".",c(pfix, qfix))
 
+  gv <- if(aggregate.query) c("dataset", "type.pre", "type.post") else {
+    pp <- if(qfix=='post')
+      pp %>% mutate(query=post_key)
+    else
+      pp %>% mutate(query=pre_key)
+    c("dataset", "query", "type.pre", "type.post")
+  }
+
   pp2 <- pp %>%
     select(-dataset) %>%
     left_join(qmeta, by = join_spec, suffix=suffix) %>%
-    group_by(dataset, type.pre, type.post) %>%
+    group_by(across(all_of(gv))) %>%
     summarise(weight=sum(weight),
               npre=n_distinct(pre_key),
               npost=n_distinct(post_key),
               .groups='drop') %>%
-    arrange(desc(weight)) %>%
-    mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
+    arrange(desc(weight))
+  if(aggregate.query) {
+    # make a query type
+    pp2 <- pp2 %>%
+      mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
+  }
   if(rval=='data.frame')
     return(pp2)
   pp2 %>%

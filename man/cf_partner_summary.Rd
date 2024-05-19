@@ -8,6 +8,7 @@ cf_partner_summary(
   ids,
   threshold = 1L,
   partners = c("inputs", "outputs"),
+  aggregate.query = TRUE,
   rval = c("data.frame", "sparse", "matrix")
 )
 }
@@ -21,6 +22,10 @@ option since neuprint sometimes returns 0 weight edges.}
 
 \item{partners}{Whether to return inputs or outputs}
 
+\item{aggregate.query}{Whether to aggregate all neurons of the same query
+type (the default) or when \code{aggregate.query=FALSE} only to aggregate
+the partner neurons.}
+
 \item{rval}{Choose what the function will return. \code{sparse} and
 \code{matrix} return sparse and dense (standard) matrices, respectively.}
 }
@@ -33,8 +38,8 @@ Summarise the connectivity of a set of neurons grouping by type
 }
 \details{
 This function currently groups by dataset, and pre and postsynaptic
-type. It does not currently group by side. The forms returning matrices rely
-on \code{coconat::\link{partner_summary2adjacency_matrix}}.
+  type. It does not currently group by side. The forms returning matrices
+  rely on \code{coconat::\link{partner_summary2adjacency_matrix}}.
 }
 \examples{
 \dontrun{
