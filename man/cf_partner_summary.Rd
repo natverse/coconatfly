@@ -9,6 +9,7 @@ cf_partner_summary(
   threshold = 1L,
   partners = c("inputs", "outputs"),
   aggregate.query = TRUE,
+  normalise = FALSE,
   rval = c("data.frame", "sparse", "matrix")
 )
 }
@@ -22,9 +23,13 @@ option since neuprint sometimes returns 0 weight edges.}
 
 \item{partners}{Whether to return inputs or outputs}
 
-\item{aggregate.query}{Whether to aggregate all neurons of the same query
+\item{aggregate.query}{Whether to aggregate all query neurons of the same
 type (the default) or when \code{aggregate.query=FALSE} only to aggregate
 the partner neurons.}
+
+\item{normalise}{Whether to normalise the reported weights as a fraction of
+the total for each query cell type (or individual query neuron when
+\code{aggregate.query=TRUE}).}
 
 \item{rval}{Choose what the function will return. \code{sparse} and
 \code{matrix} return sparse and dense (standard) matrices, respectively.}

@@ -136,9 +136,12 @@ connection_table2queryids <- function(x) {
 #'
 #' @param rval Choose what the function will return. \code{sparse} and
 #'   \code{matrix} return sparse and dense (standard) matrices, respectively.
-#' @param aggregate.query Whether to aggregate all neurons of the same query
+#' @param aggregate.query Whether to aggregate all query neurons of the same
 #'   type (the default) or when \code{aggregate.query=FALSE} only to aggregate
 #'   the partner neurons.
+#' @param normalise Whether to normalise the reported weights as a fraction of
+#'   the total for each query cell type (or individual query neuron when
+#'   \code{aggregate.query=TRUE}).
 #' @inheritParams cf_partners
 #' @return a data.frame or (sparse) matrix based on \code{rval}. The column
 #'   \code{n} refers to the number of \emph{partner} neurons.
@@ -162,7 +165,7 @@ connection_table2queryids <- function(x) {
 #' @importFrom dplyr .data select mutate left_join group_by n_distinct summarise
 #'   arrange desc
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
-                               aggregate.query=TRUE,
+                               aggregate.query=TRUE, normalise=FALSE,
                                rval=c("data.frame", "sparse", "matrix")) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
@@ -199,6 +202,10 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     pp2 <- pp2 %>%
       mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
   }
+  if(normalise) {
+    pp2 <- pp2 %>% group_by(query) %>% mutate(weight=weight/sum(weight)) %>% ungroup()
+  }
+
   if(rval=='data.frame')
     return(pp2)
   pp2 %>%
