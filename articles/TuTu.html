@@ -157,8 +157,8 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 1425/2063 output partner types with total weight 21594/35096</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 1628/2536 input partner types with total weight 26181/44807</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
@@ -173,7 +173,7 @@
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"TuTuA"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 888/1709 input partner types with total weight 18225/35561</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 968/1843 input partner types with total weight 18595/36231</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Hmm the situation is still the same. Since the two flywire groups are so well-separated this is almost certainly a real split. In fact there is a candidate anatomical difference in the placement of the contralateral axons that clearly correlates with this split.</p>
 <div class="figure">
@@ -195,8 +195,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.hc</span> <span class="op">&lt;-</span> <span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>heatmap <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 1425/2063 output partner types with total weight 21594/35096</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 1628/2536 input partner types with total weight 26181/44807</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -213,33 +213,41 @@
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">group_k5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     dataset group_k5 n</span></span>
-<span><span class="co">#&gt; 1   flywire        1 2</span></span>
-<span><span class="co">#&gt; 2   flywire        2 2</span></span>
+<span><span class="co">#&gt; 1   flywire        2 2</span></span>
+<span><span class="co">#&gt; 2   flywire        3 2</span></span>
 <span><span class="co">#&gt; 3   flywire        4 2</span></span>
 <span><span class="co">#&gt; 4   flywire        5 2</span></span>
-<span><span class="co">#&gt; 5 hemibrain        1 2</span></span>
-<span><span class="co">#&gt; 6 hemibrain        2 2</span></span>
-<span><span class="co">#&gt; 7 hemibrain        3 4</span></span></code></pre></div>
+<span><span class="co">#&gt; 5 hemibrain        1 4</span></span>
+<span><span class="co">#&gt; 6 hemibrain        4 2</span></span>
+<span><span class="co">#&gt; 7 hemibrain        5 2</span></span></code></pre></div>
 <p>Group 4 contains the TuTuB_b neurons</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   id side   class  type group instance dataset</span></span>
-<span><span class="co">#&gt; 1 720575940614041238    R central TuTuA  &lt;NA&gt;  TuTuA_R flywire</span></span>
-<span><span class="co">#&gt; 2 720575940612218547    L central TuTuA  &lt;NA&gt;  TuTuA_L flywire</span></span>
+<span><span class="co">#&gt;                   id side   class    type group         instance   dataset</span></span>
+<span><span class="co">#&gt; 1 720575940637997427    R central TuTuB_b  &lt;NA&gt;        TuTuB_b_R   flywire</span></span>
+<span><span class="co">#&gt; 2 720575940635979000    L central TuTuB_b  &lt;NA&gt;        TuTuB_b_L   flywire</span></span>
+<span><span class="co">#&gt; 3          769544445    R    &lt;NA&gt; TuTuB_b  &lt;NA&gt;        TuTuB_b_R hemibrain</span></span>
+<span><span class="co">#&gt; 4          987759904    L    &lt;NA&gt; TuTuB_b  &lt;NA&gt; TuTuB_b(ADL19)_L hemibrain</span></span>
 <span><span class="co">#&gt;                     key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1 fw:720575940614041238     13        4</span></span>
-<span><span class="co">#&gt; 2 fw:720575940612218547     14        4</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 fw:720575940637997427     11        4</span></span>
+<span><span class="co">#&gt; 2 fw:720575940635979000     10        4</span></span>
+<span><span class="co">#&gt; 3          hb:769544445      9        4</span></span>
+<span><span class="co">#&gt; 4          hb:987759904     12        4</span></span></code></pre></div>
 <p>Group 5 contains the TuTuB_b neurons</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   id side   class  type group instance dataset</span></span>
-<span><span class="co">#&gt; 1 720575940622538520    R central TuTuA  &lt;NA&gt;  TuTuA_R flywire</span></span>
-<span><span class="co">#&gt; 2 720575940621226846    L central TuTuA  &lt;NA&gt;  TuTuA_L flywire</span></span>
+<span><span class="co">#&gt;                   id side   class    type group         instance   dataset</span></span>
+<span><span class="co">#&gt; 1 720575940623326868    L central TuTuB_a  &lt;NA&gt;        TuTuB_a_L   flywire</span></span>
+<span><span class="co">#&gt; 2 720575940633550431    R central TuTuB_a  &lt;NA&gt;        TuTuB_a_R   flywire</span></span>
+<span><span class="co">#&gt; 3          770226597    L    &lt;NA&gt; TuTuB_a  &lt;NA&gt; TuTuB_a(ADL19)_L hemibrain</span></span>
+<span><span class="co">#&gt; 4         5813014028    R    &lt;NA&gt; TuTuB_a  &lt;NA&gt;        TuTuB_a_R hemibrain</span></span>
 <span><span class="co">#&gt;                     key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1 fw:720575940622538520     15        5</span></span>
-<span><span class="co">#&gt; 2 fw:720575940621226846     16        5</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 fw:720575940623326868     15        5</span></span>
+<span><span class="co">#&gt; 2 fw:720575940633550431     16        5</span></span>
+<span><span class="co">#&gt; 3          hb:770226597     13        5</span></span>
+<span><span class="co">#&gt; 4         hb:5813014028     14        5</span></span></code></pre></div>
 <p>The following code could help find the Flybase/Virtual Fly Brain anatomy ontology (FBbt) ids for these neurons:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'vfbr'</span><span class="op">)</span></span>

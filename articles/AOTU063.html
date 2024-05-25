@@ -112,14 +112,14 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>We can get the dendrogram for this clustering</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63.hc</span> <span class="op">=</span> <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="va">aotu63</span>, heatmap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -154,7 +154,7 @@
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_partners.html">cf_partners</a></span><span class="op">(</span><span class="va">aotu63</span>, partners <span class="op">=</span> <span class="st">'in'</span>, threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 625 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 8</span></span></span>
 <span><span class="co">#&gt;     pre_id post_id weight side  type    dataset pre_key               post_key  </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    118 R     LT52    flywire fw:720575940640004174 fw:720575…</span></span>
@@ -167,7 +167,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     LT52    flywire fw:720575940626024336 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire fw:720575940638668659 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire fw:720575940620321158 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 615 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that AOTU063 neurons will be the postsynaptic partners in this dataframe</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -176,7 +176,7 @@
 <span>    by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"post_key"</span><span class="op">=</span><span class="st">'key'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">weight</span>, <span class="va">type</span>, <span class="va">qtype</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 625 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 3</span></span></span>
 <span><span class="co">#&gt;    weight type    qtype   </span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    118 LT52    AOTU063b</span></span>
@@ -189,7 +189,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     83 LT52    AOTU063b</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     83 AOTU041 AOTU063a</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     82 AOTU014 AOTU063b</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 615 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
 <p>Ok with that preparatory work we can now make a summary of the inputs across the different types and datasets. This pipeline is a little more involved, but I have commented extensively and if you follow step by step it does make sense.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -214,20 +214,20 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="va">.x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'qtype', 'dataset'. You can override using</span></span>
 <span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 46 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 49 × 5</span></span></span>
 <span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LC10             56          46          56          45</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> LT52              7          31          11          26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LC10             56          48          56          45</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> LT52              7          30          11          26</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SIP034            7           0           5           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                6           2           0           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                6           3           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> AOTU041           5           2           5           1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> AOTU042           4           3           3           2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> AOTU014           0           5           0           5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> VES041            3           0           3           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> AOTU065           2           2           2           2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> AOTU065           2           1           2           2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU028           2           0           2           0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 36 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 39 more rows</span></span></span></code></pre></div>
 <p>So we can see that the top few cell types already suggest a number of likely explanations.</p>
 <p>For example LC10 provides 10% more input for AOTU063a vs AOTU063b while LT52 input is much stronger for AOTU063b than AOTU063a. Crucially these patterns are consistent across datasets.</p>
 <div class="section level3">
@@ -256,20 +256,20 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="va">.x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'qtype', 'dataset'. You can override using</span></span>
 <span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 72 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 77 × 5</span></span></span>
 <span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> IB008            15          11          14           9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> DNa10            12          11           9           7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> IB010            11           5           8           5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> DNde002           3           9           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> AOTU007           8           7           6           8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> AOTU007           8           7           6           8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> DNde002           3           9           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VES064            7           4           5           4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> DNae011           7           3           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DNbe004           6           0           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                5           0           0           0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU024           1           6           1           2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67 more rows</span></span></span></code></pre></div>
 <p>Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 look like they might be interesting.</p>
 </div>
 </div>
