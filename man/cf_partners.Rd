@@ -31,6 +31,11 @@ A data.frame or a named list (when \code{bind.rows=FALSE})
 \description{
 Flexible function for fetching partner data across datasets
 }
+\details{
+fancr and fafbseg functions have usually used a \code{>}
+relationship for the threshold, but here (as of May 2024) it is uniformly a
+\code{>=} relationship.
+}
 \examples{
 \donttest{
 da2ds=cf_partners(list(hemibrain='DA2_lPN'), threshold=5)

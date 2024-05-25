@@ -1,5 +1,9 @@
 #' Flexible function for fetching partner data across datasets
 #'
+#' @details fancr and fafbseg functions have usually used a \code{>}
+#' relationship for the threshold, but here (as of May 2024) it is uniformly a
+#' \code{>=} relationship.
+#'
 #' @param ids A list of ids named by the relevant datasets (see examples) or any
 #'   other input that can be processed by the \code{\link{keys}} function
 #'   (including a \code{hclust} dendrogram object.)
@@ -51,7 +55,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   for(n in names(ids)) {
     tres=NULL
     if(n=='flywire') {
-      tres=flywire_partner_summary2(ids[[n]], partners = partners, threshold = threshold)
+      # nb different threshold definition here
+      tres=flywire_partner_summary2(ids[[n]], partners = partners,
+                                    threshold = threshold-1L)
       tres$side=toupper(substr(tres$side,1,1))
     } else if(n=='hemibrain' || n=='opticlobe') {
       # a bit inelegant but not sure how else to insist
@@ -77,7 +83,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           T ~ malecns::mcns_soma_side(., method = "instance")
         ))
     } else if (n=='fanc') {
-      tres=fancr::fanc_partner_summary(ids[[n]], partners = partners, threshold = threshold)
+      tres=fancr::fanc_partner_summary(ids[[n]], partners = partners,
+                                       threshold = threshold-1L)
     } else if(n=='manc') {
       tres=malevnc::manc_connection_table(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
       tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
