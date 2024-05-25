@@ -55,6 +55,8 @@
 <span>  <span class="va">ids</span>,</span>
 <span>  threshold <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inputs"</span>, <span class="st">"outputs"</span><span class="op">)</span>,</span>
+<span>  aggregate.query <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  normalise <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.frame"</span>, <span class="st">"sparse"</span>, <span class="st">"matrix"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -76,6 +78,18 @@ option since neuprint sometimes returns 0 weight edges.</p></dd>
 <dd><p>Whether to return inputs or outputs</p></dd>
 
 
+<dt>aggregate.query</dt>
+<dd><p>Whether to aggregate all query neurons of the same
+type (the default) or when <code>aggregate.query=FALSE</code> only to aggregate
+the partner neurons.</p></dd>
+
+
+<dt>normalise</dt>
+<dd><p>Whether to normalise the reported weights as a fraction of
+the total for each query cell type (or individual query neuron when
+<code>aggregate.query=TRUE</code>).</p></dd>
+
+
 <dt>rval</dt>
 <dd><p>Choose what the function will return. <code>sparse</code> and
 <code>matrix</code> return sparse and dense (standard) matrices, respectively.</p></dd>
@@ -92,8 +106,8 @@ option since neuprint sometimes returns 0 weight edges.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function currently groups by dataset, and pre and postsynaptic
-type. It does not currently group by side. The forms returning matrices rely
-on <code><a href="https://natverse.org/coconat/reference/partner_summary2adjacency_matrix.html" class="external-link">coconat::partner_summary2adjacency_matrix</a></code>.</p>
+  type. It does not currently group by side. The forms returning matrices
+  rely on <code><a href="https://natverse.org/coconat/reference/partner_summary2adjacency_matrix.html" class="external-link">coconat::partner_summary2adjacency_matrix</a></code>.</p>
     </div>
 
     <div class="section level2">

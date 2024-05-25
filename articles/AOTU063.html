@@ -92,8 +92,9 @@
 <code class="sourceCode R"><span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/download_flywire_release_data.html" class="external-link">download_flywire_release_data</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">630</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>query <span class="op">=</span> <span class="st">'/type:AOTU063.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>,<span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required namespace: git2r</span></span>
-<span><span class="va">aotu63</span></span>
+<span><span class="co">#&gt; Loading required namespace: git2r</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">aotu63</span></span>
 <span><span class="co">#&gt;                   id side   class     type group          instance   dataset</span></span>
 <span><span class="co">#&gt; 1 720575940620326253    R central AOTU063a  &lt;NA&gt;        AOTU063a_R   flywire</span></span>
 <span><span class="co">#&gt; 2 720575940618697118    L central AOTU063b  &lt;NA&gt;        AOTU063b_L   flywire</span></span>
@@ -108,25 +109,27 @@
 <span><span class="co">#&gt; 4 fw:720575940631129362</span></span>
 <span><span class="co">#&gt; 5          hb:791039731</span></span>
 <span><span class="co">#&gt; 6          hb:800929667</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>We can get the dendrogram for this clustering</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63.hc</span> <span class="op">=</span> <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="va">aotu63</span>, heatmap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 186/421 output partner types with total weight 3203/10892</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 370/1011 input partner types with total weight 4789/17752</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>And then cut it in two and extract those two clusters using the <code><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">coconat::add_cluster_info()</a></code> helper function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu">coconat</span><span class="fu">::</span><span class="fu"><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">add_cluster_info</a></span><span class="op">(</span><span class="va">aotu63</span>, dend<span class="op">=</span><span class="va">aotu63.hc</span>, k<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in coconat::add_cluster_info(aotu63, dend = aotu63.hc, k = 2): Multiple standard id columns are present in aotu63</span></span>
-<span><span class="co">#&gt; Choosing key</span></span>
-<span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="co">#&gt; Choosing key</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">side</span>, <span class="va">type</span>, <span class="va">dataset</span>, <span class="va">group_k2</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">group_k2</span>, <span class="va">side</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   side     type   dataset group_k2                   key</span></span>
@@ -143,7 +146,7 @@
 </h2>
 <p>What might distinguish these two types? We can fetch, say, the input partners, and then look at how connection strength varies across the types.</p>
 <p>To get started let’s redefine the type of our 6 query neurons based on the clustering. Then fetch the input partners and merge in the the AOTU063 type (i.e. AOTU063a or AOTU063b) as a new column called <code>qtype</code></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63v2</span><span class="op">=</span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">group_k2</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">'AOTU063a'</span>,</span>
@@ -165,7 +168,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire fw:720575940638668659 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire fw:720575940620321158 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 615 more rows</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that AOTU063 neurons will be the postsynaptic partners in this dataframe</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
@@ -188,7 +191,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     82 AOTU014 AOTU063b</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 615 more rows</span></span></span></code></pre></div>
 <p>Ok with that preparatory work we can now make a summary of the inputs across the different types and datasets. This pipeline is a little more involved, but I have commented extensively and if you follow step by step it does make sense.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="fu"><a href="../reference/abbreviate_datasets.html">abbreviate_datasets</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># FlyWire has e.g. LC10a LC10c annotated, but not hemibrain</span></span>
@@ -230,7 +233,7 @@
 <div class="section level3">
 <h3 id="distinctive-output-partners">Distinctive output partners<a class="anchor" aria-label="anchor" href="#distinctive-output-partners"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_partners.html">cf_partners</a></span><span class="op">(</span><span class="va">aotu63</span>, partners <span class="op">=</span> <span class="st">'out'</span>, threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">aotu63out</span> <span class="op">&lt;-</span> <span class="va">aotu63out</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>

@@ -100,8 +100,9 @@
 <p>The following TuTu neurons are recorded in the hemibrain and FAFB-FlyWire. Note the use of a regular expression (introduced by <code>/</code>) to match against the type field. <code>.*</code> means any number of characters can follow TuTu in the type name.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'/type:TuTu.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hemibrain"</span>, <span class="st">"flywire"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required namespace: git2r</span></span>
-<span><span class="va">tutus</span></span>
+<span><span class="co">#&gt; Loading required namespace: git2r</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tutus</span></span>
 <span><span class="co">#&gt;                    id side   class    type group         instance   dataset</span></span>
 <span><span class="co">#&gt; 1  720575940621226846    L central   TuTuA  &lt;NA&gt;          TuTuA_L   flywire</span></span>
 <span><span class="co">#&gt; 2  720575940633550431    R central TuTuB_a  &lt;NA&gt;        TuTuB_a_R   flywire</span></span>
@@ -136,7 +137,7 @@
 <span><span class="co">#&gt; 14          hb:770226597</span></span>
 <span><span class="co">#&gt; 15          hb:769544445</span></span>
 <span><span class="co">#&gt; 16          hb:987759904</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">type</span>, <span class="va">side</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      dataset    type side n</span></span>
@@ -153,7 +154,7 @@
 <span><span class="co">#&gt; 11 hemibrain TuTuB_b    L 1</span></span>
 <span><span class="co">#&gt; 12 hemibrain TuTuB_b    R 1</span></span></code></pre></div>
 <p>So we can see the hemibrain TuTuB neurons have been typed into two subtypes, but the flywire neurons have not. We can run across-dataset cosine connectivity clustering on these neurons like so:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
@@ -168,7 +169,7 @@
 </h3>
 <p>However, interestingly we can also see that the TuTuA group splits very strongly in flywire into two groups that are not evident in the hemibrain. To me this strongly suggests that some property of the bilateral connectivity defines this difference.</p>
 <p>We can try seeing if we just use the input connectivity to cluster if things resolve:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"TuTuA"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span></span>
@@ -191,23 +192,25 @@
 <div class="section level2">
 <h2 id="setting-the-new-types">Setting the new types<a class="anchor" aria-label="anchor" href="#setting-the-new-types"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.hc</span> <span class="op">&lt;-</span> <span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>heatmap <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1300/1922 output partner types with total weight 20970/34391</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 1516/2370 input partner types with total weight 25651/43977</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
-<span><span class="co">#&gt; entries; finite result is doubtful</span></span>
-<span><span class="co"># nb as a convenience cf_meta accepts an hclust object as input</span></span>
+<span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># nb as a convenience cf_meta accepts an hclust object as input</span></span>
 <span><span class="va">tutus.meta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">tutus.hc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tutus.hc</span>, labels <span class="op">=</span> <span class="va">tutus.meta</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span><span class="op">=</span><span class="fu">coconat</span><span class="fu">::</span><span class="fu"><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">add_cluster_info</a></span><span class="op">(</span><span class="va">tutus.meta</span>, <span class="va">tutus.hc</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in coconat::add_cluster_info(tutus.meta, tutus.hc, k = 5): Multiple standard id columns are present in tutus.meta</span></span>
-<span><span class="co">#&gt; Choosing key</span></span>
-<span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="co">#&gt; Choosing key</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">group_k5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     dataset group_k5 n</span></span>
 <span><span class="co">#&gt; 1   flywire        1 2</span></span>
@@ -218,7 +221,7 @@
 <span><span class="co">#&gt; 6 hemibrain        2 2</span></span>
 <span><span class="co">#&gt; 7 hemibrain        3 4</span></span></code></pre></div>
 <p>Group 4 contains the TuTuB_b neurons</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                   id side   class  type group instance dataset</span></span>
@@ -228,7 +231,7 @@
 <span><span class="co">#&gt; 1 fw:720575940614041238     13        4</span></span>
 <span><span class="co">#&gt; 2 fw:720575940612218547     14        4</span></span></code></pre></div>
 <p>Group 5 contains the TuTuB_b neurons</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                   id side   class  type group instance dataset</span></span>
@@ -238,7 +241,7 @@
 <span><span class="co">#&gt; 1 fw:720575940622538520     15        5</span></span>
 <span><span class="co">#&gt; 2 fw:720575940621226846     16        5</span></span></code></pre></div>
 <p>The following code could help find the Flybase/Virtual Fly Brain anatomy ontology (FBbt) ids for these neurons:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'vfbr'</span><span class="op">)</span></span>
 <span><span class="fu">vfbr</span><span class="fu">::</span><span class="fu">vfb_autocomplete_query</span><span class="op">(</span><span class="st">'TuTuB'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"FBbt"</span>, <span class="va">short_form</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -247,12 +250,12 @@
 <h2 id="old-vs-new-annotations">Old vs new annotations<a class="anchor" aria-label="anchor" href="#old-vs-new-annotations"></a>
 </h2>
 <p>In the release of the flywire annotations data prepared in December 2023 to accompany the public release of the v783 proofread FlyWire segmentation, we updated some of these TuTu cell types. This can be summarised as follows:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># nb temporarily change active flywire version</span></span>
 <span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/flywire_connectome_data.html" class="external-link">flywire_connectome_data_version</a></span><span class="op">(</span>set <span class="op">=</span> <span class="fl">783</span><span class="op">)</span></span>
 <span><span class="va">tutus.new</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>flywire<span class="op">=</span><span class="st">'/type:TuTu.*'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/flywire_connectome_data.html" class="external-link">flywire_connectome_data_version</a></span><span class="op">(</span>set <span class="op">=</span> <span class="fl">630</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="st">'flywire'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">side</span><span class="op">)</span><span class="op">)</span></span>
@@ -261,7 +264,7 @@
 <span><span class="co">#&gt;   TuTuA   2 2</span></span>
 <span><span class="co">#&gt;   TuTuB_a 1 1</span></span>
 <span><span class="co">#&gt;   TuTuB_b 1 1</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.new</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">side</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          side</span></span>
