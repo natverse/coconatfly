@@ -107,14 +107,16 @@ flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
     mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
     mutate(side=toupper(substr(side,1,1))) %>%
     rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
-    rename(class=super_class)
+    rename(class=super_class) %>%
+    rename(lineage=ito_lee_hemilineage)
 }
 
 hemibrain_meta <- function(ids, ...) {
   tres=neuprintr::neuprint_get_meta(ids, conn = npconn('hemibrain'), ...)
   tres <- tres %>%
     rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])")[,2])
+    mutate(side=stringr::str_match(tres$name, "_([LR])")[,2]) %>%
+    rename(lineage=cellBodyFiber)
   tres
 }
 
@@ -138,7 +140,8 @@ malecns_meta <- function(ids, ...) {
       grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-9_]+),")[,2],
       T ~ type
     )) %>%
-    rename(id=bodyid)
+    rename(id=bodyid) %>%
+    rename(lineage=hemilineage)
   tres
 }
 
@@ -149,7 +152,7 @@ manc_meta <- function(ids, ...) {
       !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
       T ~ NA_character_
     )) %>%
-    rename(id=bodyid)
+    rename(id=bodyid, lineage=hemilineage)
   tres
 }
 
