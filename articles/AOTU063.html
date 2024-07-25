@@ -5,58 +5,42 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="coconatfly">
 <title>3. Splitting AOTU063 cell type • coconatfly</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="3. Splitting AOTU063 cell type">
-<meta property="og:description" content="coconatfly">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="3. Splitting AOTU063 cell type">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">coconatfly</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Articles</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/flyconnectome/coconatfly/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/flyconnectome/coconatfly/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -64,10 +48,11 @@
 
 <script src="AOTU063_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>3. Splitting AOTU063 cell type</h1>
+
+      <h1>3. Splitting AOTU063 cell type</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/HEAD/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
       <div class="d-none name"><code>AOTU063.Rmd</code></div>
     </div>
 
@@ -92,44 +77,41 @@
 <code class="sourceCode R"><span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/download_flywire_release_data.html" class="external-link">download_flywire_release_data</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">630</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>query <span class="op">=</span> <span class="st">'/type:AOTU063.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>,<span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required namespace: git2r</span></span></code></pre></div>
+<span><span class="co">#&gt; Loading required namespace: git2r</span></span>
+<span><span class="va">aotu63</span></span>
+<span><span class="co">#&gt;                   id side   class     type          lineage group</span></span>
+<span><span class="co">#&gt; 1 720575940620326253    R central AOTU063a putative_primary  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 720575940618697118    L central AOTU063b putative_primary  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 720575940621925631    R central AOTU063b putative_primary  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 720575940631129362    L central AOTU063a putative_primary  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;            instance   dataset                   key</span></span>
+<span><span class="co">#&gt; 1        AOTU063a_R   flywire fw:720575940620326253</span></span>
+<span><span class="co">#&gt; 2        AOTU063b_L   flywire fw:720575940618697118</span></span>
+<span><span class="co">#&gt; 3        AOTU063b_R   flywire fw:720575940621925631</span></span>
+<span><span class="co">#&gt; 4        AOTU063a_L   flywire fw:720575940631129362</span></span>
+<span><span class="co">#&gt; 5 AOTU063(SCB058)_R hemibrain          hb:791039731</span></span>
+<span><span class="co">#&gt; 6 AOTU063(SCB058)_R hemibrain          hb:800929667</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">aotu63</span></span>
-<span><span class="co">#&gt;                   id side   class     type group          instance   dataset</span></span>
-<span><span class="co">#&gt; 1 720575940620326253    R central AOTU063a  &lt;NA&gt;        AOTU063a_R   flywire</span></span>
-<span><span class="co">#&gt; 2 720575940618697118    L central AOTU063b  &lt;NA&gt;        AOTU063b_L   flywire</span></span>
-<span><span class="co">#&gt; 3 720575940621925631    R central AOTU063b  &lt;NA&gt;        AOTU063b_R   flywire</span></span>
-<span><span class="co">#&gt; 4 720575940631129362    L central AOTU063a  &lt;NA&gt;        AOTU063a_L   flywire</span></span>
-<span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;  AOTU063  &lt;NA&gt; AOTU063(SCB058)_R hemibrain</span></span>
-<span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;  AOTU063  &lt;NA&gt; AOTU063(SCB058)_R hemibrain</span></span>
-<span><span class="co">#&gt;                     key</span></span>
-<span><span class="co">#&gt; 1 fw:720575940620326253</span></span>
-<span><span class="co">#&gt; 2 fw:720575940618697118</span></span>
-<span><span class="co">#&gt; 3 fw:720575940621925631</span></span>
-<span><span class="co">#&gt; 4 fw:720575940631129362</span></span>
-<span><span class="co">#&gt; 5          hb:791039731</span></span>
-<span><span class="co">#&gt; 6          hb:800929667</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>We can get the dendrogram for this clustering</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63.hc</span> <span class="op">=</span> <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="va">aotu63</span>, heatmap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>And then cut it in two and extract those two clusters using the <code><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">coconat::add_cluster_info()</a></code> helper function.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu">coconat</span><span class="fu">::</span><span class="fu"><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">add_cluster_info</a></span><span class="op">(</span><span class="va">aotu63</span>, dend<span class="op">=</span><span class="va">aotu63.hc</span>, k<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in coconat::add_cluster_info(aotu63, dend = aotu63.hc, k = 2): Multiple standard id columns are present in aotu63</span></span>
-<span><span class="co">#&gt; Choosing key</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="co">#&gt; Choosing key</span></span>
+<span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">side</span>, <span class="va">type</span>, <span class="va">dataset</span>, <span class="va">group_k2</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">group_k2</span>, <span class="va">side</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   side     type   dataset group_k2                   key</span></span>
@@ -146,7 +128,7 @@
 </h2>
 <p>What might distinguish these two types? We can fetch, say, the input partners, and then look at how connection strength varies across the types.</p>
 <p>To get started let’s redefine the type of our 6 query neurons based on the clustering. Then fetch the input partners and merge in the the AOTU063 type (i.e. AOTU063a or AOTU063b) as a new column called <code>qtype</code></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63v2</span><span class="op">=</span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">group_k2</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">'AOTU063a'</span>,</span>
@@ -168,7 +150,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire fw:720575940638668659 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire fw:720575940620321158 fw:720575…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that AOTU063 neurons will be the postsynaptic partners in this dataframe</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
@@ -191,7 +173,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     82 AOTU014 AOTU063b</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
 <p>Ok with that preparatory work we can now make a summary of the inputs across the different types and datasets. This pipeline is a little more involved, but I have commented extensively and if you follow step by step it does make sense.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="fu"><a href="../reference/abbreviate_datasets.html">abbreviate_datasets</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># FlyWire has e.g. LC10a LC10c annotated, but not hemibrain</span></span>
@@ -233,7 +215,7 @@
 <div class="section level3">
 <h3 id="distinctive-output-partners">Distinctive output partners<a class="anchor" aria-label="anchor" href="#distinctive-output-partners"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_partners.html">cf_partners</a></span><span class="op">(</span><span class="va">aotu63</span>, partners <span class="op">=</span> <span class="st">'out'</span>, threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">aotu63out</span> <span class="op">&lt;-</span> <span class="va">aotu63out</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -273,7 +255,7 @@
 <p>Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 look like they might be interesting.</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -284,15 +266,15 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
