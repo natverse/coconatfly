@@ -289,19 +289,46 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 #'   are the input or output neurons.
 multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    threshold=1L,
-                                   group='type') {
+                                   group='type', check_missing=TRUE) {
   partners=match.arg(partners, several.ok = T)
   if(length(partners)>1) {
+    kk=keys(ids)
     l=sapply(partners, simplify = F, function(p)
-      multi_connection_table(ids, partners=p, threshold = threshold, group=group))
+      multi_connection_table(kk, partners=p, threshold = threshold, group=group,
+                             check_missing=F))
     l=dplyr::bind_rows(l)
+    if(check_missing) {
+      query_keys <- l %>% group_by(partners) %>%
+        mutate(query=case_when(
+          partners=='inputs' ~ post_key,
+          partners=='outputs' ~ pre_key,
+        )) %>%
+        pull(query)
+      missing_keys=setdiff(unique(kk), query_keys)
+      nmissing=length(missing_keys)
+      if(nmissing>0)
+        warning("Dropping ",nmissing, " keys. Try decreasing threshold!")
+    }
+
     return(l)
   }
-  x <- cf_partners(ids, threshold = threshold, partners = partners)
+  kk=keys(ids)
+  x <- cf_partners(kk, threshold = threshold, partners = partners)
   if(is.character(group))
     x <- match_types(x, group, partners=partners)
   # mark which column was used for the query
   x$partners=partners
+  # check if some incoming ids were dropped
+  if(check_missing) {
+    missing_keys <- if(partners=='inputs') {
+      setdiff(unique(kk), x$post_key)
+    } else {
+      setdiff(unique(kk), x$pre_key)
+    }
+    nmissing=length(missing_keys)
+    if(nmissing>0)
+      warning("Dropping ",nmissing, " keys. Try decreasing threshold!")
+  }
   x
 }
 
