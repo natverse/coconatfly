@@ -42,9 +42,16 @@ cf_connections <- function() {
                               version=as.character(ver))
 
   # fanc
+  dslist[['fanc']]=check_fanc()
+  dslist[['banc']]=check_banc()
+  dslist
+  as.data.frame(dplyr::bind_rows(dslist, .id = 'dataset'))
+}
+
+check_fanc <- function() {
   if(requireNamespace('fancr', quietly = T)) {
     furl=try({
-      u=fancr::with_fanc(fafbseg:::check_cloudvolume_url(set = F))
+      u=fancr::with_fanc(fafbseg:::check_cloudvolume_url(set = F), force = F)
       sub('graphene://','', u)
     })
     if(inherits(furl, 'try-error')) furl=NA_character_
@@ -58,11 +65,17 @@ cf_connections <- function() {
   } else {
     fres=list(installed=F, server=NA_character_, version=NA_character_)
   }
-  dslist[['fanc']]=fres
-  dslist
-  as.data.frame(dplyr::bind_rows(dslist, .id = 'dataset'))
+  fres
 }
 
+check_banc <- function() {
+  if(requireNamespace('fancr', quietly = T)) {
+    fres=fancr::with_banc(check_fanc())
+  } else {
+    fres=list(installed=F, server=NA_character_, version=NA_character_)
+  }
+  fres
+}
 
 #' Status report for coconatfly installation
 #'
@@ -117,6 +130,13 @@ dr_coconatfly <- function() {
   else if(is.na(filter(cfc, .data$dataset=='fanc')$server))
     cli::cli_alert_danger(
       "To debug connection issues to the fanc dataset, try:\n{.code fancr::dr_fanc()}")
+
+  if(!isTRUE(filter(cfc, .data$dataset=='banc')$installed))
+    cli::cli_alert_danger(
+      "To use the fancr dataset do:\n{.code natmanager::install(pkgs = 'fancr')}")
+  else if(is.na(filter(cfc, .data$dataset=='banc')$server))
+    cli::cli_alert_danger(
+      "To debug connection issues to the banc dataset, try:\n{.code fancr::dr_fanc()}")
 
   invisible(cfc)
 }
