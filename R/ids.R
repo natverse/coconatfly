@@ -162,7 +162,7 @@ cf_ids <- function(
     structure(as.list(rep(query, length(datasets))), .Names=datasets)
   } else {
     if(nds==0)
-      stop("You must supply either the `query` argument or one of hemibrain:opticlobe!")
+      stop("You must supply either the `query` argument or one of hemibrain:banc!")
     l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
            fanc=fanc, opticlobe=opticlobe, banc=banc)
     # drop any empty datasets
@@ -234,6 +234,7 @@ expand_ids <- function(ids, dataset) {
     manc=malevnc::manc_ids,
     fanc=I,
     malecns=malecns::mcns_ids,
+    banc=banc_ids,
     flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
     function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)))
   tf=try(FUN(ids), silent = T)
