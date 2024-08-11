@@ -101,8 +101,8 @@ is_key <- function(x, compound=FALSE) {
 #' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
-#' @param banc Pass banc ids to this argument (at present we do not support
-#'   metadata queries for banc)
+#' @param banc Pass banc ids to this argument (we only support basic metadata
+#'   queries for banc)
 #'
 #' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
 #'   the same query syntax although some fields may be dataset specific (see

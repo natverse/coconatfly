@@ -162,7 +162,7 @@ fanc_meta <- function(ids, ...) {
 }
 
 banc_meta <- function(ids=NULL, ...) {
-  ids=fancr::fanc_ids(ids, integer64 = F)
+  ids=banc_ids(ids, integer64 = F)
   # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
   if(length(ids)>0) {
@@ -197,3 +197,21 @@ banc_meta <- function(ids=NULL, ...) {
     metadf
 }
 
+banc_ids <- function(ids, integer64 = NA) {
+  if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
+    # query
+    metadf=banc_meta()
+    if(!grepl(":", ids)) ids=paste0("type:", ids)
+    qsplit=stringr::str_match("type:DNa02", pattern = '(.+):(.+)')
+    field=qsplit[,2]
+    value=qsplit[,3]
+    if(!field %in% colnames(metadf)) {
+      stop("banc queries only work with these fields: ",
+           paste(colnames(metadf)[-1], collapse = ','))
+    }
+    ids <- metadf %>%
+      filter(grepl(value, .data[[field]])) %>%
+      pull(.data$id)
+  }
+  fancr::fanc_ids(ids)
+}
