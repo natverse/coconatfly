@@ -101,6 +101,8 @@ is_key <- function(x, compound=FALSE) {
 #' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
+#' @param banc Pass banc ids to this argument (at present we do not support
+#'   metadata queries for banc)
 #'
 #' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
 #'   the same query syntax although some fields may be dataset specific (see
@@ -130,11 +132,11 @@ is_key <- function(x, compound=FALSE) {
 cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
-               "opticlobe"),
+               "opticlobe", "banc"),
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL) {
+    opticlobe=NULL, banc=NULL) {
 
   nds=sum(
     !is.null(hemibrain),
@@ -142,7 +144,8 @@ cf_ids <- function(
     !is.null(malecns),
     !is.null(manc),
     !is.null(fanc),
-    !is.null(opticlobe)
+    !is.null(opticlobe),
+    !is.null(banc)
     )
   res <- if(!is.null(query)) {
     if(nds>0)
@@ -152,7 +155,7 @@ cf_ids <- function(
     datasets=match.arg(datasets, several.ok = T)
 
     if('brain' %in% datasets)
-      datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns"))
+      datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))
     if('vnc' %in% datasets)
       datasets=union(datasets[datasets!='vnc'], c("manc", "fanc"))
     datasets=unique(datasets)
@@ -160,7 +163,8 @@ cf_ids <- function(
   } else {
     if(nds==0)
       stop("You must supply either the `query` argument or one of hemibrain:opticlobe!")
-    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc, opticlobe=opticlobe)
+    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
+           fanc=fanc, opticlobe=opticlobe, banc=banc)
     # drop any empty datasets
     l[lengths(l)>0]
   }
