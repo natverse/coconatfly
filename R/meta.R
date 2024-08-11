@@ -162,13 +162,15 @@ fanc_meta <- function(ids, ...) {
 }
 
 banc_meta <- function(ids=NULL, ...) {
-  ids=banc_ids(ids, integer64 = F)
+  ids=banc_ids(ids)
   # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
   if(length(ids)>0) {
     fid[['pt_root_id']]=ids
   }
-  cell_infos=fancr::banc_cave_query('cell_info', filter_in_dict=fid)
+  selc=c("id", "tag", "tag2", "pt_root_id")
+  cell_infos=fancr::banc_cave_query('cell_info', filter_in_dict=fid,
+                                    select_columns=selc)
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
@@ -197,12 +199,19 @@ banc_meta <- function(ids=NULL, ...) {
     metadf
 }
 
-banc_ids <- function(ids, integer64 = NA) {
+banc_ids <- function(ids) {
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
     metadf=banc_meta()
+    if(isTRUE(ids=='all')) return(fancr::fanc_ids(metadf$id, integer64 = F))
+    if(isTRUE(ids=='neurons')) {
+      ids <- metadf %>%
+        filter(is.na(.data$class) | .data$class!='glia') %>%
+        pull(.data$id)
+      return(fancr::fanc_ids(ids, integer64 = F))
+    }
     if(!grepl(":", ids)) ids=paste0("type:", ids)
-    qsplit=stringr::str_match("type:DNa02", pattern = '(.+):(.+)')
+    qsplit=stringr::str_match(ids, pattern = '(.+):(.+)')
     field=qsplit[,2]
     value=qsplit[,3]
     if(!field %in% colnames(metadf)) {
@@ -213,5 +222,5 @@ banc_ids <- function(ids, integer64 = NA) {
       filter(grepl(value, .data[[field]])) %>%
       pull(.data$id)
   }
-  fancr::fanc_ids(ids)
+  return(fancr::fanc_ids(ids, integer64 = F))
 }
