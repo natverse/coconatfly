@@ -86,8 +86,14 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres=fancr::fanc_partner_summary(ids[[n]], partners = partners,
                                        threshold = threshold-1L)
     } else if (n=='banc') {
-      tres=fancr::with_banc(fancr::fanc_partner_summary(ids[[n]], partners = partners,
-                                       threshold = threshold-1L))
+      bids=banc_ids(ids[[n]])
+      tres=fancr::with_banc(fancr::fanc_partner_summary(bids, partners = partners,
+                                       threshold = threshold-1L, version=banc_version()))
+      partner_col=grep("_id", colnames(tres), value = T)
+      # metadf=banc_meta(tres[[partner_col]])
+      metadf=banc_meta()
+      colnames(metadf)[[1]]=partner_col
+      tres=left_join(tres, metadf, by = partner_col)
     } else if(n=='manc') {
       tres=malevnc::manc_connection_table(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
       tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)

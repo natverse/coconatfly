@@ -170,7 +170,7 @@ banc_meta <- function(ids=NULL, ...) {
   }
   selc=c("id", "tag", "tag2", "pt_root_id")
   cell_infos=fancr::banc_cave_query('cell_info', filter_in_dict=fid,
-                                    select_columns=selc)
+                                    select_columns=selc, live = FALSE)
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
@@ -210,8 +210,10 @@ banc_ids <- function(ids) {
         pull(.data$id)
       return(fancr::fanc_ids(ids, integer64 = F))
     }
+    if(substr(ids, 1, 1)=="/")
+      ids=substr(ids, 2, nchar(ids))
     if(!grepl(":", ids)) ids=paste0("type:", ids)
-    qsplit=stringr::str_match(ids, pattern = '(.+):(.+)')
+    qsplit=stringr::str_match(ids, pattern = '[/]{0,1}(.+):(.+)')
     field=qsplit[,2]
     value=qsplit[,3]
     if(!field %in% colnames(metadf)) {
@@ -221,6 +223,15 @@ banc_ids <- function(ids) {
     ids <- metadf %>%
       filter(grepl(value, .data[[field]])) %>%
       pull(.data$id)
+  } else if(length(ids)>0) {
+    # check they are valid for current materialisation
+    ids=fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
   }
   return(fancr::fanc_ids(ids, integer64 = F))
+}
+
+banc_version <- function() {
+  bcc=fancr::banc_cave_client()
+  ver=bcc$materialize$version
+  ver
 }
