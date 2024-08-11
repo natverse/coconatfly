@@ -161,11 +161,14 @@ fanc_meta <- function(ids, ...) {
   data.frame(id=fancr::fanc_ids(ids), type=NA, side=NA)
 }
 
-banc_meta <- function(ids, ...) {
+banc_meta <- function(ids=NULL, ...) {
   ids=fancr::fanc_ids(ids, integer64 = F)
   # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
-  cell_infos=fancr::banc_cave_query('cell_info',
-                                   filter_in_dict=list(pt_root_id=ids, tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity")))
+  fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
+  if(length(ids)>0) {
+    fid[['pt_root_id']]=ids
+  }
+  cell_infos=fancr::banc_cave_query('cell_info', filter_in_dict=fid)
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
@@ -188,6 +191,9 @@ banc_meta <- function(ids, ...) {
     select(id, class, type) %>%
     mutate(id=as.character(id), side=NA)
   }
-  left_join(data.frame(id=ids), metadf, by='id')
+  if(length(ids))
+    left_join(data.frame(id=ids), metadf, by='id')
+  else
+    metadf
 }
 
