@@ -201,6 +201,8 @@ banc_meta <- function(ids=NULL, ...) {
 
 #' @importFrom dplyr pull
 banc_ids <- function(ids) {
+  # extract numeric ids if possible
+  ids <- extract_ids(ids)
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
     metadf=banc_meta()
