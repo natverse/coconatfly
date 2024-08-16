@@ -168,9 +168,12 @@ banc_meta <- function(ids=NULL, ...) {
   if(length(ids)>0) {
     fid[['pt_root_id']]=ids
   }
-  selc=c("id", "tag", "tag2", "pt_root_id")
-  cell_infos=fancr::banc_cave_query('cell_info', filter_in_dict=fid,
-                                    select_columns=selc, live = FALSE)
+  fid=list(cell_info=fid)
+  selc=list(cell_info=c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
+
+  cell_infos=fancr::with_banc(
+    fafbseg::flywire_cave_query('cell_info', filter_in_dict=fid, select_columns=selc,
+                       version='latest', timetravel = T, allow_missing_lookups=T))
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
