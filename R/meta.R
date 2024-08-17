@@ -165,9 +165,11 @@ banc_meta <- function(ids=NULL, ...) {
   ids=banc_ids(ids)
   # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
-  if(length(ids)>0) {
-    fid[['pt_root_id']]=ids
-  }
+  # FIXME - think of a better workaround for the fact that ids may not be in
+  # correct materialisation state
+  # if(length(ids)>0) {
+  #   fid[['pt_root_id']]=ids
+  # }
   fid=list(cell_info=fid)
   selc=list(cell_info=c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
 
