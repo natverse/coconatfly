@@ -180,6 +180,7 @@ banc_meta <- function(ids=NULL, ...) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
   cell_infosw <- cell_infos %>%
+    mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
     tidyr::pivot_wider(id_cols = pt_root_id,
                        names_from = tag2,
                        values_from = tag,
