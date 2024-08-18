@@ -44,7 +44,6 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     return(res)
   }
 
-
   ids <- checkmate::assert_named(ids, type = 'unique')
   names(ids)=match_datasets(names(ids))
   stopifnot(all(names(ids) %in% cf_datasets('all')))
@@ -58,7 +57,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       # nb different threshold definition here
       tres=flywire_partner_summary2(ids[[n]], partners = partners,
                                     threshold = threshold-1L)
-      tres$side=toupper(substr(tres$side,1,1))
+      tres <- tres %>%
+        mutate(side=toupper(substr(.data$side,1,1))) %>%
+        rename(class=super_class)
     } else if(n=='hemibrain' || n=='opticlobe') {
       # a bit inelegant but not sure how else to insist
       tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn(n), chunk = neuprint.chunksize)
