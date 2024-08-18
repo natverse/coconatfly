@@ -52,9 +52,6 @@ cf_connections <- function() {
 check_fanc <- function() {
   if(requireNamespace('fancr', quietly = T)) {
     have_token=!inherits(try(fafbseg::chunkedgraph_token(), silent = TRUE), 'try-error')
-    usethis::ui_info(paste0(
-      'No CAVE token found. This is required to access fanc/banc datasets!\n',
-      "Set one with {usethis::ui_code('fancr::fanc_set_token()')}"))
     if(have_token) {
       furl=try({
         u=fancr::with_fanc(fafbseg:::check_cloudvolume_url(set = F), force = F)
@@ -154,6 +151,13 @@ dr_coconatfly <- function() {
   else if(is.na(filter(cfc, .data$dataset=='banc')$server))
     cli::cli_alert_danger(
       "To debug connection issues to the banc dataset, try:\n{.code fancr::dr_fanc()}")
+
+  # special case of most common auth issue
+  have_token=!inherits(try(fafbseg::chunkedgraph_token(), silent = TRUE), 'try-error')
+  if(!have_token)
+    usethis::ui_info(paste0(
+    'No CAVE token found. This is required to access fanc/banc datasets!\n',
+    "Set one with {usethis::ui_code('fancr::fanc_set_token()')}"))
 
   invisible(cfc)
 }
