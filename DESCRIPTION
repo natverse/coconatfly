@@ -29,7 +29,8 @@ Imports:
     coconat (>= 0.1.2),
     stringr,
     magrittr,
-    bit64
+    bit64,
+    usethis
 Suggests: 
     malevnc (> 0.3.1),
     fancr (>= 0.5.0),
