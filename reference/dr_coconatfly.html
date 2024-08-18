@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Status report for coconatfly installation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/banc/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
       <div class="d-none name"><code>dr_coconatfly.Rd</code></div>
     </div>
 
@@ -52,25 +52,40 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">dr_coconatfly</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> # Dataset details</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : Unable to find chunked graph credentials!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Please set by doing:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   flywire_set_token()/fanc_set_token() etc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> For further details see:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> https://github.com/seung-lab/cloud-volume#chunkedgraph-secretjson</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in fanc_scene() : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   It looks like you do not have a stored token. Please use `fanc_set_token()` to make one.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : Unable to find chunked graph credentials!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Please set by doing:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   flywire_set_token()/fanc_set_token() etc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> For further details see:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> https://github.com/seung-lab/cloud-volume#chunkedgraph-secretjson</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     dataset installed                       server          version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain      TRUE https://neuprint.janelia.org hemibrain:v1.2.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      manc      TRUE https://neuprint.janelia.org      manc:v1.2.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   malecns      TRUE                         &lt;NA&gt;             &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 opticlobe      TRUE https://neuprint.janelia.org  optic-lobe:v1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   flywire      TRUE                   local dump              783</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      fanc      TRUE                         &lt;NA&gt;             &lt;NA&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Install reticulate (python interface) package with:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;">`install.packages("reticulate")`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> reticulate: not installed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in loadNamespace(x) : there is no package called ‘reticulate’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Install reticulate (python interface) package with:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;">`install.packages("reticulate")`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> reticulate: not installed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Install reticulate (python interface) package with:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;">`install.packages("reticulate")`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> reticulate: not installed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     dataset installed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      manc      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   malecns      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 opticlobe      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   flywire      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      fanc      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      banc      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      server</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                              https://neuprint.janelia.org</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                              https://neuprint.janelia.org</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                              https://neuprint.janelia.org</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                local dump</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 middleauth+https://cave.fanc-fly.com/segmentation/table/wclee_fly_cns_001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain:v1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      manc:v1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  optic-lobe:v1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              783</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7             &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> For additional information (inc auth issues) for flywire or fanc datasets, try:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  `fafbseg::dr_fafbseg()` or  `fancr::dr_fanc()`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
