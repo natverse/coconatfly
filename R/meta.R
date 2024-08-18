@@ -183,7 +183,7 @@ banc_meta <- function(ids=NULL, ...) {
     tidyr::pivot_wider(id_cols = pt_root_id,
                        names_from = tag2,
                        values_from = tag,
-                       values_fn = function(x) paste(unique(x), collapse = ';'))
+                       values_fn = function(x) paste(sort(unique(x)), collapse = ';'))
   cell_infosw %>%
     rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
     mutate(class=case_when(
