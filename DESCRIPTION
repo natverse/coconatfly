@@ -19,7 +19,7 @@ Depends:
     R (>= 2.10),
     nat (>= 1.10.2.9000)
 Imports: 
-    fafbseg (>= 0.14.1),
+    fafbseg (>= 0.15.0),
     nat.templatebrains (>= 1.0),
     pbapply,
     neuprintr (>= 1.3.2),
@@ -29,10 +29,11 @@ Imports:
     coconat (>= 0.1.2),
     stringr,
     magrittr,
-    bit64
+    bit64,
+    usethis
 Suggests: 
     malevnc (> 0.3.1),
-    fancr,
+    fancr (>= 0.5.0),
     testthat (>= 3.0.0),
     ComplexHeatmap,
     InteractiveComplexHeatmap,
@@ -55,7 +56,7 @@ Remotes:
     catmaid=natverse/rcatmaid,
     natverse/nat.h5reg,
     natverse/coconat
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 URL: https://github.com/flyconnectome/coconatfly,
     https://flyconnectome.github.io/coconatfly/
 BugReports: https://github.com/flyconnectome/coconatfly/issues

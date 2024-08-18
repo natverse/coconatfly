@@ -22,6 +22,7 @@ jobs:
       NEUPRINT_TOKEN: ${{ secrets.NEUPRINT_TOKEN }}
       CLIO_TOKEN: ${{ secrets.CLIO_TOKEN }}
       FLYWIRE_PRINCIPLES: IAGREETOTHEFLYWIREPRINCIPLES
+      CHUNKEDGRAPH_SECRET: ${{ secrets.CHUNKEDGRAPH_SECRET }}
 
     steps:
       - uses: actions/checkout@v3

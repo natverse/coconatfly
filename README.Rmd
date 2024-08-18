@@ -50,9 +50,10 @@ At present the following datasets are supported (dataset names used in the packa
 4. Wei Lee, John Tuthill and colleagues [Female Adult Nerve Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
 5. Janelia Male CNS (**malecns**)
 6. Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
+7. Wei Lee and colleagues [Brain and Nerve Cord](https://github.com/jasper-tms/the-BANC-fly-connectome/wiki) (**banc**)
 
-Datasets 1-4 and 6 are either public (hemibrain, manc, flywire, opticlobe) or 
-access can be requested subject to agreeing to certain terms of use (fanc). 
+Datasets 1-4 and 7 are either public (hemibrain, manc, flywire, opticlobe) or 
+access can be requested subject to agreeing to certain terms of use (fanc, banc). 
 The Male CNS dataset is currently undergoing 
 proofreading and annotation in a collaboration between the 
 [FlyEM](https://www.janelia.org/project-team/flyem) and 

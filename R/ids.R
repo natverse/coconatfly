@@ -8,6 +8,19 @@ id2int64 <- function(x) {
   bit64::as.integer64(x)
 }
 
+# extract numeric ids but pass on other character vectors such as queries
+# always returns bit64 so results are easy to spot
+extract_ids <- function(x) {
+  if(is.character(x) && length(x)==1 && !fafbseg:::valid_id(x, na.ok = T) && !grepl("http", x) && grepl("^\\s*(([a-z:]{1,3}){0,1}[0-9,\\s]+)+$",x, perl=T)) {
+    sx=gsub("[a-z:,\\s]+"," ", x, perl = T)
+    x=scan(text = trimws(sx), sep = ' ', what = '', quiet = T)
+    x <- id2int64(x)
+  }
+  if(is.numeric(x) || is.integer(x)) {
+    x <- id2int64(x)
+  }
+  x
+}
 
 #' Interconvert between keys and ids/datasets
 #'
@@ -101,6 +114,8 @@ is_key <- function(x, compound=FALSE) {
 #' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
+#' @param banc Pass banc ids to this argument (we only support basic metadata
+#'   queries for banc)
 #'
 #' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
 #'   the same query syntax although some fields may be dataset specific (see
@@ -130,11 +145,11 @@ is_key <- function(x, compound=FALSE) {
 cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
-               "opticlobe"),
+               "opticlobe", "banc"),
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL) {
+    opticlobe=NULL, banc=NULL) {
 
   nds=sum(
     !is.null(hemibrain),
@@ -142,7 +157,8 @@ cf_ids <- function(
     !is.null(malecns),
     !is.null(manc),
     !is.null(fanc),
-    !is.null(opticlobe)
+    !is.null(opticlobe),
+    !is.null(banc)
     )
   res <- if(!is.null(query)) {
     if(nds>0)
@@ -152,15 +168,16 @@ cf_ids <- function(
     datasets=match.arg(datasets, several.ok = T)
 
     if('brain' %in% datasets)
-      datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns"))
+      datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))
     if('vnc' %in% datasets)
       datasets=union(datasets[datasets!='vnc'], c("manc", "fanc"))
     datasets=unique(datasets)
     structure(as.list(rep(query, length(datasets))), .Names=datasets)
   } else {
     if(nds==0)
-      stop("You must supply either the `query` argument or one of hemibrain:opticlobe!")
-    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc, fanc=fanc, opticlobe=opticlobe)
+      stop("You must supply either the `query` argument or one of hemibrain:banc!")
+    l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
+           fanc=fanc, opticlobe=opticlobe, banc=banc)
     # drop any empty datasets
     l[lengths(l)>0]
   }
@@ -230,6 +247,7 @@ expand_ids <- function(ids, dataset) {
     manc=malevnc::manc_ids,
     fanc=I,
     malecns=malecns::mcns_ids,
+    banc=banc_ids,
     flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
     function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset)))
   tf=try(FUN(ids), silent = T)
