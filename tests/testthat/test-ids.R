@@ -36,3 +36,12 @@ test_that("key handling works", {
     cf_ids(hemibrain = c("612371421", "673509195", "424789697", "5813022341"),
          flywire=as.character(1:5)))
 })
+
+test_that("fanc/banc ids/metadata", {
+  skip_if_not_installed('fancr')
+  skip_if_not_installed('reticulate')
+  expect_in(
+    cf_ids(fanc='type:DNa01', expand = TRUE)$fanc,
+    fancr::fanc_latestid(c("648518346488820970", "648518346475464576")))
+
+})
