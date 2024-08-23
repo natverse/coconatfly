@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Status report for coconatfly installation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/fanc_meta/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
       <div class="d-none name"><code>dr_coconatfly.Rd</code></div>
     </div>
 
@@ -52,12 +52,6 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">dr_coconatfly</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> # Dataset details</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Install reticulate (python interface) package with:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;">`install.packages("reticulate")`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reticulate: not installed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Install reticulate (python interface) package with:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;">`install.packages("reticulate")`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> reticulate: not installed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     dataset installed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain      TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      manc      TRUE</span>
@@ -70,25 +64,21 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                              https://neuprint.janelia.org</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                              https://neuprint.janelia.org</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                      &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                              https://neuprint.janelia.org</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                local dump</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 https://cave.fanc-fly.com/segmentation/table/mar2021_prod</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 middleauth+https://cave.fanc-fly.com/segmentation/table/wclee_fly_cns_001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hemibrain:v1.2.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      manc:v1.2.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              783</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7             &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  hemibrain:v1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       manc:v1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 optic-lobe:v1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5               783</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7              &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> For additional information (inc auth issues) for flywire or fanc datasets, try:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  `fafbseg::dr_fafbseg()` or  `fancr::dr_fanc()`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Cannot connect to opticlobe dataset. You probably need to set up a neuprint token!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> See <span style="color: #0000BB; font-style: italic;">&lt;https://natverse.org/coconatfly/articles/getting-started.html&gt;</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> To debug connection issues to the fanc dataset, try:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `fancr::dr_fanc()`</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
