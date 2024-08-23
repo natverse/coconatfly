@@ -163,53 +163,51 @@ fanc_meta <- function(ids, ...) {
 
 banc_meta <- function(ids=NULL, ...) {
   ids=banc_ids(ids)
-  # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
+  fancr::with_banc(fancorbanc_meta(table='cell_info', ids=ids, ...))
+}
+
+fancorbanc_meta <- function(table, ids=NULL, ...) {
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
-  # FIXME - think of a better workaround for the fact that ids may not be in
-  # correct materialisation state
-  # if(length(ids)>0) {
-  #   fid[['pt_root_id']]=ids
-  # }
   fid=list(cell_info=fid)
   selc=list(cell_info=c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
 
-  cell_infos=fancr::with_banc(
-    fafbseg::flywire_cave_query('cell_info', filter_in_dict=fid, select_columns=selc,
-                       version='latest', timetravel = T, allow_missing_lookups=T))
+  cell_infos=fafbseg::flywire_cave_query(table, filter_in_dict=fid, select_columns=selc,
+                                version='latest', timetravel = T, allow_missing_lookups=T)
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
-  cell_infosw <- cell_infos %>%
-    mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
-    tidyr::pivot_wider(id_cols = pt_root_id,
-                       names_from = tag2,
-                       values_from = tag,
-                       values_fn = function(x) {
-                         sux=sort(unique(x))
-                         # try removing ?
-                         sux2=sort(unique(sub("?","", x, fixed = T)))
-                         if(length(sux2)<length(sux)) sux=sux2
-                         paste(sux, collapse = ';')
+    cell_infosw <- cell_infos %>%
+      mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
+      tidyr::pivot_wider(id_cols = pt_root_id,
+                         names_from = tag2,
+                         values_from = tag,
+                         values_fn = function(x) {
+                           sux=sort(unique(x))
+                           # try removing ?
+                           sux2=sort(unique(sub("?","", x, fixed = T)))
+                           if(length(sux2)<length(sux)) sux=sux2
+                           paste(sux, collapse = ';')
                          })
-  cell_infosw %>%
-    rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
-    mutate(class=case_when(
-      class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
-      (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
-      (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
-      is.na(apc) & is.na(class) ~ 'unknown',
-      is.na(apc) ~ class,
-      T ~ paste(class, apc)
-    )) %>%
-    mutate(class=sub(" neuron", '', class)) %>%
-    select(id, class, type) %>%
-    mutate(id=as.character(id), side=NA)
+    cell_infosw %>%
+      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
+      mutate(class=case_when(
+        class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
+        (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
+        (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
+        is.na(apc) & is.na(class) ~ 'unknown',
+        is.na(apc) ~ class,
+        T ~ paste(class, apc)
+      )) %>%
+      mutate(class=sub(" neuron", '', class)) %>%
+      select(id, class, type) %>%
+      mutate(id=as.character(id), side=NA)
   }
   if(length(ids))
     left_join(data.frame(id=ids), metadf, by='id')
   else
     metadf
 }
+
 
 #' @importFrom dplyr pull
 banc_ids <- function(ids) {
