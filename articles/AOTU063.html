@@ -78,32 +78,47 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>query <span class="op">=</span> <span class="st">'/type:AOTU063.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>,<span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
+<span><span class="co">#&gt; Error in curl::curl_fetch_memory(url, handle = handle) : </span></span>
+<span><span class="co">#&gt;   Timeout was reached: [neuprint.janelia.org] SSL connection timeout</span></span>
 <span><span class="va">aotu63</span></span>
-<span><span class="co">#&gt;                   id side   class     type          lineage group</span></span>
-<span><span class="co">#&gt; 1 720575940620326253    R central AOTU063a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 720575940618697118    L central AOTU063b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 720575940621925631    R central AOTU063b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 720575940631129362    L central AOTU063a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;            instance   dataset                   key</span></span>
-<span><span class="co">#&gt; 1        AOTU063a_R   flywire fw:720575940620326253</span></span>
-<span><span class="co">#&gt; 2        AOTU063b_L   flywire fw:720575940618697118</span></span>
-<span><span class="co">#&gt; 3        AOTU063b_R   flywire fw:720575940621925631</span></span>
-<span><span class="co">#&gt; 4        AOTU063a_L   flywire fw:720575940631129362</span></span>
-<span><span class="co">#&gt; 5 AOTU063(SCB058)_R hemibrain          hb:791039731</span></span>
-<span><span class="co">#&gt; 6 AOTU063(SCB058)_R hemibrain          hb:800929667</span></span></code></pre></div>
+<span><span class="co">#&gt;                   id     supervoxel_id side      flow   class cell_class</span></span>
+<span><span class="co">#&gt; 1 720575940620326253 81699555569687864    R intrinsic central       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 720575940618697118 77547731010867189    L intrinsic central       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 720575940621925631 82051536729450159    R intrinsic central       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 720575940631129362 77547662291356439    L intrinsic central       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;       type    top_nt          lineage hemibrain_type       fbbt_id group</span></span>
+<span><span class="co">#&gt; 1 AOTU063a glutamate putative_primary        AOTU063 FBbt_20000062  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 AOTU063b glutamate putative_primary        AOTU063 FBbt_20000062  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 AOTU063b glutamate putative_primary        AOTU063 FBbt_20000062  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 AOTU063a glutamate putative_primary        AOTU063 FBbt_20000062  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;     instance dataset                   key</span></span>
+<span><span class="co">#&gt; 1 AOTU063a_R flywire fw:720575940620326253</span></span>
+<span><span class="co">#&gt; 2 AOTU063b_L flywire fw:720575940618697118</span></span>
+<span><span class="co">#&gt; 3 AOTU063b_R flywire fw:720575940621925631</span></span>
+<span><span class="co">#&gt; 4 AOTU063a_L flywire fw:720575940631129362</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 0/275 output partner types with total weight 0/7059</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 0/732 input partner types with total weight 0/12926</span></span>
+<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =</span></span>
+<span><span class="co">#&gt; "pre_key", : Dropping: 26/275 neurons representing 269/7059 synapses due to</span></span>
+<span><span class="co">#&gt; missing ids!</span></span>
+<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =</span></span>
+<span><span class="co">#&gt; groupcol, : Dropping: 48/732 neurons representing 617/12926 synapses due to</span></span>
+<span><span class="co">#&gt; missing ids!</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>We can get the dendrogram for this clustering</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63.hc</span> <span class="op">=</span> <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="va">aotu63</span>, heatmap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 198/445 output partner types with total weight 3241/11012</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Dropping 422/1082 input partner types with total weight 5035/18107</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 0/275 output partner types with total weight 0/7059</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Dropping 0/732 input partner types with total weight 0/12926</span></span>
+<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =</span></span>
+<span><span class="co">#&gt; "pre_key", : Dropping: 26/275 neurons representing 269/7059 synapses due to</span></span>
+<span><span class="co">#&gt; missing ids!</span></span>
+<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =</span></span>
+<span><span class="co">#&gt; groupcol, : Dropping: 48/732 neurons representing 617/12926 synapses due to</span></span>
+<span><span class="co">#&gt; missing ids!</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aotu63.hc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="AOTU063_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>And then cut it in two and extract those two clusters using the <code><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">coconat::add_cluster_info()</a></code> helper function.</p>
@@ -114,13 +129,11 @@
 <span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">side</span>, <span class="va">type</span>, <span class="va">dataset</span>, <span class="va">group_k2</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">group_k2</span>, <span class="va">side</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   side     type   dataset group_k2                   key</span></span>
-<span><span class="co">#&gt; 1    L AOTU063a   flywire        1 fw:720575940631129362</span></span>
-<span><span class="co">#&gt; 2    R AOTU063a   flywire        1 fw:720575940620326253</span></span>
-<span><span class="co">#&gt; 3    R  AOTU063 hemibrain        1          hb:800929667</span></span>
-<span><span class="co">#&gt; 4    L AOTU063b   flywire        2 fw:720575940618697118</span></span>
-<span><span class="co">#&gt; 5    R AOTU063b   flywire        2 fw:720575940621925631</span></span>
-<span><span class="co">#&gt; 6    R  AOTU063 hemibrain        2          hb:791039731</span></span></code></pre></div>
+<span><span class="co">#&gt;   side     type dataset group_k2                   key</span></span>
+<span><span class="co">#&gt; 1    L AOTU063a flywire        1 fw:720575940631129362</span></span>
+<span><span class="co">#&gt; 2    R AOTU063a flywire        1 fw:720575940620326253</span></span>
+<span><span class="co">#&gt; 3    L AOTU063b flywire        2 fw:720575940618697118</span></span>
+<span><span class="co">#&gt; 4    R AOTU063b flywire        2 fw:720575940621925631</span></span></code></pre></div>
 <p>So from this we can see that group 2 seems to the “b” type.</p>
 </div>
 <div class="section level2">
@@ -136,20 +149,23 @@
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_partners.html">cf_partners</a></span><span class="op">(</span><span class="va">aotu63</span>, partners <span class="op">=</span> <span class="st">'in'</span>, threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 8</span></span></span>
-<span><span class="co">#&gt;     pre_id post_id weight side  type    dataset pre_key               post_key  </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    118 R     LT52    flywire fw:720575940640004174 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     LT52    flywire fw:720575940618982725 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     AOTU041 flywire fw:720575940627738640 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     96 L     LT52    flywire fw:720575940612465777 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     95 R     LT52    flywire fw:720575940612837811 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     90 L     AOTU042 flywire fw:720575940619453861 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     87 R     SIP034  flywire fw:720575940628728172 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     LT52    flywire fw:720575940626024336 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire fw:720575940638668659 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire fw:720575940620321158 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 447 × 17</span></span></span>
+<span><span class="co">#&gt;    pre_id post_id weight top_np supervoxel_id side  flow  class cell_class type </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int6&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    118 AOTU_R 819118296978… R     intr… visu… <span style="color: #BB0000;">NA</span>         LT52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 AOTU_R 818415984597… R     intr… visu… <span style="color: #BB0000;">NA</span>         LT52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 AOTU_R 812084171339… R     intr… cent… <span style="color: #BB0000;">NA</span>         AOTU…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     96 AOTU_L 775488303208… L     intr… visu… <span style="color: #BB0000;">NA</span>         LT52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     95 AOTU_R 817712297156… R     intr… visu… <span style="color: #BB0000;">NA</span>         LT52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     90 AOTU_R 778306488275… L     intr… cent… <span style="color: #BB0000;">NA</span>         AOTU…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     87 SIP_R  818407053078… R     intr… cent… <span style="color: #BB0000;">NA</span>         SIP0…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 AOTU_R 817712297156… R     intr… visu… <span style="color: #BB0000;">NA</span>         LT52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 AOTU_R 813496356584… R     intr… cent… <span style="color: #BB0000;">NA</span>         AOTU…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 IB_R   797295052746… R     intr… cent… <span style="color: #BB0000;">NA</span>         AOTU…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 437 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: top_nt &lt;chr&gt;, ito_lee_hemilineage &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   hemibrain_type &lt;chr&gt;, fbbt_id &lt;chr&gt;, dataset &lt;chr&gt;, pre_key &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   post_key &lt;chr&gt;</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that AOTU063 neurons will be the postsynaptic partners in this dataframe</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -158,7 +174,7 @@
 <span>    by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"post_key"</span><span class="op">=</span><span class="st">'key'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">weight</span>, <span class="va">type</span>, <span class="va">qtype</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 447 × 3</span></span></span>
 <span><span class="co">#&gt;    weight type    qtype   </span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    118 LT52    AOTU063b</span></span>
@@ -171,7 +187,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     83 LT52    AOTU063b</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     83 AOTU041 AOTU063a</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     82 AOTU014 AOTU063b</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 437 more rows</span></span></span></code></pre></div>
 <p>Ok with that preparatory work we can now make a summary of the inputs across the different types and datasets. This pipeline is a little more involved, but I have commented extensively and if you follow step by step it does make sense.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63in</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -196,20 +212,20 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="va">.x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'qtype', 'dataset'. You can override using</span></span>
 <span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 49 × 5</span></span></span>
-<span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LC10             56          48          56          45</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> LT52              7          30          11          26</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SIP034            7           0           5           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                6           3           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> AOTU041           5           2           5           1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> AOTU042           4           3           3           2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> AOTU014           0           5           0           5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> VES041            3           0           3           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> AOTU065           2           1           2           2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU028           2           0           2           0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 39 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 33 × 3</span></span></span>
+<span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LC10             56          48</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> LT52              7          30</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SIP034            7           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                6           3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> AOTU041           5           2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> AOTU042           4           3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> AOTU014           0           5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> VES041            3           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> AOTU065           2           1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU028           2           0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 23 more rows</span></span></span></code></pre></div>
 <p>So we can see that the top few cell types already suggest a number of likely explanations.</p>
 <p>For example LC10 provides 10% more input for AOTU063a vs AOTU063b while LT52 input is much stronger for AOTU063b than AOTU063a. Crucially these patterns are consistent across datasets.</p>
 <div class="section level3">
@@ -238,20 +254,20 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="va">.x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'qtype', 'dataset'. You can override using</span></span>
 <span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 77 × 5</span></span></span>
-<span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> IB008            15          11          14           9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> DNa10            12          11           9           7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> IB010            11           5           8           5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> AOTU007           8           7           6           8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> DNde002           3           9           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VES064            7           4           5           4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> DNae011           7           3           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DNbe004           6           0           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                5           0           0           0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU024           1           6           1           2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 43 × 3</span></span></span>
+<span><span class="co">#&gt;    type    AOTU063a_fw AOTU063b_fw</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> IB008            15          11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> DNa10            12          11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> IB010            11           5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> AOTU007           8           7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> DNde002           3           9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VES064            7           4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> DNae011           7           3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DNbe004           6           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                5           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AOTU024           1           6</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 33 more rows</span></span></span></code></pre></div>
 <p>Here things are not quite obvious but IB008/IB010 look different and some of the newly defined DNs in FlyWire like DNde002/DNbe004/DNae011 look like they might be interesting.</p>
 </div>
 </div>
