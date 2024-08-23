@@ -7,7 +7,7 @@ npconn <- function(dataset) {
   else if(dataset=='opticlobe')
     return(neuprintr::neuprint_login(
       server="https://neuprint.janelia.org",
-      dataset='optic-lobe:v1.0'))
+      dataset='optic-lobe:v1.0.1'))
   else if(dataset=='malecns')
     return(malecns::mcns_neuprint())
   else if(dataset=='manc')
