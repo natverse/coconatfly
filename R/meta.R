@@ -156,9 +156,9 @@ manc_meta <- function(ids, ...) {
   tres
 }
 
-fanc_meta <- function(ids, ...) {
-  warning("true metadata is not currently supported for fanc!")
-  data.frame(id=fancr::fanc_ids(ids), type=NA, side=NA)
+fanc_meta <- function(ids=NULL, ...) {
+  ids=fanc_ids(ids)
+  fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
 }
 
 banc_meta <- function(ids=NULL, ...) {
@@ -168,8 +168,10 @@ banc_meta <- function(ids=NULL, ...) {
 
 fancorbanc_meta <- function(table, ids=NULL, ...) {
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
-  fid=list(cell_info=fid)
-  selc=list(cell_info=c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
+  fid=list(fid)
+  names(fid)=table
+  selc=list(c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
+  names(selc)=table
 
   cell_infos=fafbseg::flywire_cave_query(table, filter_in_dict=fid, select_columns=selc,
                                 version='latest', timetravel = T, allow_missing_lookups=T)
@@ -208,14 +210,22 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
     metadf
 }
 
+banc_ids <- function(ids) {
+  fancorbanc_ids(ids, dataset='banc')
+}
+
+fanc_ids <- function(ids) {
+  fancorbanc_ids(ids, dataset='fanc')
+}
 
 #' @importFrom dplyr pull
-banc_ids <- function(ids) {
+fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
+  dataset=match.arg(dataset)
   # extract numeric ids if possible
   ids <- extract_ids(ids)
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
-    metadf=banc_meta()
+    metadf=if(dataset=="banc") banc_meta() else fanc_meta()
     if(isTRUE(ids=='all')) return(fancr::fanc_ids(metadf$id, integer64 = F))
     if(isTRUE(ids=='neurons')) {
       ids <- metadf %>%
@@ -230,21 +240,28 @@ banc_ids <- function(ids) {
     field=qsplit[,2]
     value=qsplit[,3]
     if(!field %in% colnames(metadf)) {
-      stop("banc queries only work with these fields: ",
-           paste(colnames(metadf)[-1], collapse = ','))
+      stop(glue("{dataset} queries only work with these fields: ",
+           paste(colnames(metadf)[-1], collapse = ',')))
     }
     ids <- metadf %>%
       filter(grepl(value, .data[[field]])) %>%
       pull(.data$id)
   } else if(length(ids)>0) {
     # check they are valid for current materialisation
-    ids=fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
+    ids <- if(dataset=="banc")
+      fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
+    else
+      fancr::with_fanc(fafbseg::flywire_latestid(ids, version = fanc_version()))
   }
   return(fancr::fanc_ids(ids, integer64 = F))
 }
 
 banc_version <- function() {
-  bcc=fancr::banc_cave_client()
-  ver=bcc$materialize$version
+  fancr::with_banc(fanc_version())
+}
+
+fanc_version <- function() {
+  fcc=fancr::fanc_cave_client()
+  ver=fcc$materialize$version
   ver
 }

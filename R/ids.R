@@ -245,7 +245,7 @@ expand_ids <- function(ids, dataset) {
   dataset=match_datasets(dataset)
   FUN <- switch(dataset,
     manc=malevnc::manc_ids,
-    fanc=I,
+    fanc=fanc_ids,
     malecns=malecns::mcns_ids,
     banc=banc_ids,
     flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
