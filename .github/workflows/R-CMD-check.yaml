@@ -47,6 +47,12 @@ jobs:
           fafbseg::download_flywire_release_data(version=783)
         shell: Rscript {0}
 
+      - name: Install fafbseg + python
+        run: |
+          fafbseg::simple_python()
+          fafbseg::dr_fafbseg()
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
 
       - name: Deploy package
