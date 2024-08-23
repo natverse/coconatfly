@@ -33,7 +33,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, any::devtools, any::covr, any::pkgdown, catmaid=natverse/rcatmaid, flyconnectome/malecns
+          extra-packages: any::rcmdcheck, any::devtools, any::covr, any::pkgdown, catmaid=natverse/rcatmaid, flyconnectome/malecns, any::reticulate
           needs: check, coverage
 
       - name: Add some R options for later steps
