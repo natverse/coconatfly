@@ -233,13 +233,12 @@ fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
         pull(.data$id)
       return(fancr::fanc_ids(ids, integer64 = F))
     }
+    if(substr(ids, 1, 1)=="/")
+      ids=substr(ids, 2, nchar(ids))
     if(!grepl(":", ids)) ids=paste0("type:", ids)
     qsplit=stringr::str_match(ids, pattern = '[/]{0,1}(.+):(.+)')
     field=qsplit[,2]
     value=qsplit[,3]
-    # turned an exact query into regex
-    if(substr(ids, 1, 1)!="/")
-      value=utils::glob2rx(value)
     if(!field %in% colnames(metadf)) {
       stop(glue("{dataset} queries only work with these fields: ",
            paste(colnames(metadf)[-1], collapse = ',')))

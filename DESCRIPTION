@@ -30,8 +30,7 @@ Imports:
     stringr,
     magrittr,
     bit64,
-    usethis,
-    utils
+    usethis
 Suggests: 
     malevnc (> 0.3.1),
     fancr (>= 0.5.0),
