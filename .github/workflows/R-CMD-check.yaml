@@ -24,7 +24,6 @@ jobs:
       FLYWIRE_PRINCIPLES: IAGREETOTHEFLYWIREPRINCIPLES
       CHUNKEDGRAPH_SECRET: ${{ secrets.CHUNKEDGRAPH_SECRET }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      CLIO_TOKEN: ${{ secrets.CLIO_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
