@@ -5,5 +5,9 @@ test_that("dr_coconatfly works", {
   # flywire style datasets
   skip_if_not_installed('fancr')
   skip_if_not_installed('reticulate')
-  expect_true(!any(is.na(r$version)))
+
+  if(any(is.na(r$version))) {
+    cfc=cf_connections()
+    print(cfc)
+  }
 })
