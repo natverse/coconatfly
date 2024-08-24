@@ -171,9 +171,10 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:malecns</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>WARNING:root:Deprecation: this method is to facilitate beta testing of this feature, it will likely get removed in future versions. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 63 missing keys</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 67 missing keys</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No matching ids when querying dataset:banc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[0 ids]</span>: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">flywire</span> <span style="color: #555555;">[96 ids]</span>: 720575940624185095 720575940624117245 720575940638526278 720575940629585602 720575940637934308 720575940632118343 720575940609959637 720575940638163428 720575940630496374 720575940642142861 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[71 ids]</span>: 612371421 673509195 424789697 5813022341 487925037 612738462 487925063 613079053 1386512867 799586652 ...</span>
@@ -181,7 +182,8 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return keys directly</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No matching ids when querying dataset:banc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "fw:720575940624185095" "fw:720575940624117245" "fw:720575940638526278"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "fw:720575940629585602" "fw:720575940637934308" "fw:720575940632118343"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "fw:720575940609959637" "fw:720575940638163428" "fw:720575940630496374"</span>
@@ -241,7 +243,8 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span><span class="co"># one way of combining separate lists of neurons</span></span></span>
 <span class="r-in"><span><span class="va">hbids</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">264083994</span>, <span class="fl">5813022274</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span>, keys <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No matching ids when querying dataset:banc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fw:720575940629585602" "fw:720575940632118343" "fw:720575940642142861"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "fw:720575940634822751" "fw:720575940615221811" "fw:720575940614026193"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "fw:720575940633209647" "fw:720575940623001480" "fw:720575940608304220"</span>
@@ -268,7 +271,8 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># now equivalent to</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="keys.html">keys</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No valid ids in dataset:malecns</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No matching ids when querying dataset:banc</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:malecns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fw:720575940629585602" "fw:720575940632118343" "fw:720575940642142861"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "fw:720575940634822751" "fw:720575940615221811" "fw:720575940614026193"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "fw:720575940633209647" "fw:720575940623001480" "fw:720575940608304220"</span>
