@@ -275,7 +275,11 @@ expand_ids <- function(ids, dataset) {
   if(inherits(tf, 'try-error')) {
     warning("Unable to process query for dataset:", dataset)
     NULL
-  } else tf
+  } else {
+    if(length(tf)==0)
+      warning("No matching ids when querying dataset:", dataset)
+    tf
+  }
 }
 
 
