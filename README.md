@@ -50,7 +50,7 @@ the package in brackets):
     Cord](https://github.com/jasper-tms/the-BANC-fly-connectome/wiki)
     (**banc**)
 
-Datasets 1-4 and 7 are either public (hemibrain, manc, flywire,
+Datasets 1-4 and 6, 7 are either public (hemibrain, manc, flywire,
 opticlobe) or access can be requested subject to agreeing to certain
 terms of use (fanc, banc). The Male CNS dataset is currently undergoing
 proofreading and annotation in a collaboration between the
