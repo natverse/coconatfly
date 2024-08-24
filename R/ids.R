@@ -117,10 +117,28 @@ is_key <- function(x, compound=FALSE) {
 #' @param banc Pass banc ids to this argument (we only support basic metadata
 #'   queries for banc)
 #'
-#' @details all neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use
-#'   the same query syntax although some fields may be dataset specific (see
-#'   examples).
+#' @details You will often want to perform a query, most commonly for a cell
+#'   \emph{type} or cell \emph{class}, rather than specific numeric ids. The
+#'   most flexible way to do this is to use a regular expression (regex) query,
+#'   specified with an initial \code{"/"}.
 #'
+#'   All neuprint datasets (hemibrain, malevnc, opticlobe, malecns) use the same
+#'   query syntax although some fields may be dataset specific (see examples).
+#'   The regex syntax for CAVE datasets (flywire, fanc, banc) should be the same
+#'   although you may find some wrinkles because the underlying data stores are
+#'   different. Note that we do not yet translate all the different fields
+#'   across datasets for queries, although this is a goal. For example the
+#'   neuprint/fanc/banc \code{class} field is equivalent to flywire
+#'   \code{super_class}. Similarly the values are not guaranteed to be the same.
+#'   Where flywire uses \code{super_class=="descending")} the manc uses
+#'   \code{class=="descending neuron")}.
+#'
+#'   Therefore to find all DNs in these two datasets you will need to do:
+#'   \code{cf_ids(manc='/class:descending.*',
+#'   flywire='/super_class:descending.*')}
+#'
+#'   Feel free to \href{https://github.com/natverse/coconatfly/issues}{make an
+#'   issue} if you find something that doesn't feel right or can suggest an improvement.
 #' @return A list of ids with additional class \code{cidlist}
 #' @export
 #' @family ids
@@ -141,6 +159,9 @@ is_key <- function(x, compound=FALSE) {
 #'
 #' # now equivalent to
 #' keys(c(cf_ids("/type:MBON1.+"), cf_ids(hemibrain = hbids)))
+#'
+#' # queries on classes respecting dataset idiosyncrasies
+#' cf_ids(manc='/class:descending.*', flywire='/super_class:descending.*', expand = T)
 #' }
 cf_ids <- function(
     query=NULL,
@@ -245,7 +266,7 @@ expand_ids <- function(ids, dataset) {
   dataset=match_datasets(dataset)
   FUN <- switch(dataset,
     manc=malevnc::manc_ids,
-    fanc=I,
+    fanc=fanc_ids,
     malecns=malecns::mcns_ids,
     banc=banc_ids,
     flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),

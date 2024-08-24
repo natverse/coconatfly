@@ -58,7 +58,7 @@ check_fanc <- function() {
         sub('graphene://','', u)
       }, silent = T)
       if(inherits(furl, 'try-error')) furl=NA_character_
-      ver <- if(is.na(furl)) NA_character_
+      if(is.na(furl)) ver=NA_character_
       else {
         ver=try(silent = T, {
           fcc=fancr::fanc_cave_client()

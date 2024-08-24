@@ -23,6 +23,7 @@ jobs:
       CLIO_TOKEN: ${{ secrets.CLIO_TOKEN }}
       FLYWIRE_PRINCIPLES: IAGREETOTHEFLYWIREPRINCIPLES
       CHUNKEDGRAPH_SECRET: ${{ secrets.CHUNKEDGRAPH_SECRET }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +34,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, any::devtools, any::covr, any::pkgdown, catmaid=natverse/rcatmaid, flyconnectome/malecns
+          extra-packages: any::rcmdcheck, any::devtools, any::covr, any::pkgdown, catmaid=natverse/rcatmaid, flyconnectome/malecns, any::reticulate
           needs: check, coverage
 
       - name: Add some R options for later steps
@@ -45,6 +46,12 @@ jobs:
         run: |
           fafbseg::download_flywire_release_data(version=630)
           fafbseg::download_flywire_release_data(version=783)
+        shell: Rscript {0}
+
+      - name: Install fafbseg + python
+        run: |
+          fafbseg::simple_python()
+          fafbseg::dr_fafbseg()
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2

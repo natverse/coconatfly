@@ -84,14 +84,20 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           T ~ malecns::mcns_soma_side(., method = "instance")
         ))
     } else if (n=='fanc') {
-      tres=fancr::fanc_partner_summary(ids[[n]], partners = partners,
-                                       threshold = threshold-1L)
+      fids=fanc_ids(ids[[n]])
+      tres=fancr::fanc_partner_summary(fids,
+                                       partners = partners,
+                                       threshold = threshold-1L,
+                                       version=fanc_version())
+      partner_col=grep("_id", colnames(tres), value = T)
+      metadf=banc_meta()
+      colnames(metadf)[[1]]=partner_col
+      tres=left_join(tres, metadf, by = partner_col)
     } else if (n=='banc') {
       bids=banc_ids(ids[[n]])
       tres=fancr::with_banc(fancr::fanc_partner_summary(bids, partners = partners,
                                        threshold = threshold-1L, version=banc_version()))
       partner_col=grep("_id", colnames(tres), value = T)
-      # metadf=banc_meta(tres[[partner_col]])
       metadf=banc_meta()
       colnames(metadf)[[1]]=partner_col
       tres=left_join(tres, metadf, by = partner_col)
