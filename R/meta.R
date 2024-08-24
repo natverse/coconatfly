@@ -156,54 +156,53 @@ manc_meta <- function(ids, ...) {
   tres
 }
 
-fanc_meta <- function(ids, ...) {
-  warning("true metadata is not currently supported for fanc!")
-  data.frame(id=fancr::fanc_ids(ids), type=NA, side=NA)
+fanc_meta <- function(ids=NULL, ...) {
+  ids=fanc_ids(ids)
+  fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
 }
 
 banc_meta <- function(ids=NULL, ...) {
   ids=banc_ids(ids)
-  # cell_info %>% tidyr::pivot_wider(id_cols = pt_root_id, names_from = tag2, values_from = tag, values_fn = function(x) paste(x, collapse = ';')) %>% colnames()
-  fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
-  # FIXME - think of a better workaround for the fact that ids may not be in
-  # correct materialisation state
-  # if(length(ids)>0) {
-  #   fid[['pt_root_id']]=ids
-  # }
-  fid=list(cell_info=fid)
-  selc=list(cell_info=c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
+  fancr::with_banc(fancorbanc_meta(table='cell_info', ids=ids, ...))
+}
 
-  cell_infos=fancr::with_banc(
-    fafbseg::flywire_cave_query('cell_info', filter_in_dict=fid, select_columns=selc,
-                       version='latest', timetravel = T, allow_missing_lookups=T))
+fancorbanc_meta <- function(table, ids=NULL, ...) {
+  fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
+  fid=list(fid)
+  names(fid)=table
+  selc=list(c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
+  names(selc)=table
+
+  cell_infos=fafbseg::flywire_cave_query(table, filter_in_dict=fid, select_columns=selc,
+                                version='latest', timetravel = T, allow_missing_lookups=T)
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
-  cell_infosw <- cell_infos %>%
-    mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
-    tidyr::pivot_wider(id_cols = pt_root_id,
-                       names_from = tag2,
-                       values_from = tag,
-                       values_fn = function(x) {
-                         sux=sort(unique(x))
-                         # try removing ?
-                         sux2=sort(unique(sub("?","", x, fixed = T)))
-                         if(length(sux2)<length(sux)) sux=sux2
-                         paste(sux, collapse = ';')
+    cell_infosw <- cell_infos %>%
+      mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
+      tidyr::pivot_wider(id_cols = pt_root_id,
+                         names_from = tag2,
+                         values_from = tag,
+                         values_fn = function(x) {
+                           sux=sort(unique(x))
+                           # try removing ?
+                           sux2=sort(unique(sub("?","", x, fixed = T)))
+                           if(length(sux2)<length(sux)) sux=sux2
+                           paste(sux, collapse = ';')
                          })
-  cell_infosw %>%
-    rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
-    mutate(class=case_when(
-      class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
-      (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
-      (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
-      is.na(apc) & is.na(class) ~ 'unknown',
-      is.na(apc) ~ class,
-      T ~ paste(class, apc)
-    )) %>%
-    mutate(class=sub(" neuron", '', class)) %>%
-    select(id, class, type) %>%
-    mutate(id=as.character(id), side=NA)
+    cell_infosw %>%
+      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
+      mutate(class=case_when(
+        class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
+        (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
+        (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
+        is.na(apc) & is.na(class) ~ 'unknown',
+        is.na(apc) ~ class,
+        T ~ paste(class, apc)
+      )) %>%
+      mutate(class=sub(" neuron", '', class)) %>%
+      select(id, class, type) %>%
+      mutate(id=as.character(id), side=NA)
   }
   if(length(ids))
     left_join(data.frame(id=ids), metadf, by='id')
@@ -211,13 +210,22 @@ banc_meta <- function(ids=NULL, ...) {
     metadf
 }
 
-#' @importFrom dplyr pull
 banc_ids <- function(ids) {
+  fancorbanc_ids(ids, dataset='banc')
+}
+
+fanc_ids <- function(ids) {
+  fancorbanc_ids(ids, dataset='fanc')
+}
+
+#' @importFrom dplyr pull
+fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
+  dataset=match.arg(dataset)
   # extract numeric ids if possible
   ids <- extract_ids(ids)
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
-    metadf=banc_meta()
+    metadf=if(dataset=="banc") banc_meta() else fanc_meta()
     if(isTRUE(ids=='all')) return(fancr::fanc_ids(metadf$id, integer64 = F))
     if(isTRUE(ids=='neurons')) {
       ids <- metadf %>%
@@ -225,28 +233,37 @@ banc_ids <- function(ids) {
         pull(.data$id)
       return(fancr::fanc_ids(ids, integer64 = F))
     }
-    if(substr(ids, 1, 1)=="/")
+    if(isTRUE(substr(ids, 1, 1)=="/"))
       ids=substr(ids, 2, nchar(ids))
+    else warning("All FANC/BANC queries are regex queries. ",
+              "Use an initial / to suppress this warning!")
     if(!grepl(":", ids)) ids=paste0("type:", ids)
     qsplit=stringr::str_match(ids, pattern = '[/]{0,1}(.+):(.+)')
     field=qsplit[,2]
     value=qsplit[,3]
     if(!field %in% colnames(metadf)) {
-      stop("banc queries only work with these fields: ",
-           paste(colnames(metadf)[-1], collapse = ','))
+      stop(glue("{dataset} queries only work with these fields: ",
+           paste(colnames(metadf)[-1], collapse = ',')))
     }
     ids <- metadf %>%
       filter(grepl(value, .data[[field]])) %>%
       pull(.data$id)
   } else if(length(ids)>0) {
     # check they are valid for current materialisation
-    ids=fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
+    ids <- if(dataset=="banc")
+      fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
+    else
+      fancr::with_fanc(fafbseg::flywire_latestid(ids, version = fanc_version()))
   }
   return(fancr::fanc_ids(ids, integer64 = F))
 }
 
 banc_version <- function() {
-  bcc=fancr::banc_cave_client()
-  ver=bcc$materialize$version
+  fancr::with_banc(fanc_version())
+}
+
+fanc_version <- function() {
+  fcc=fancr::fanc_cave_client()
+  ver=fcc$materialize$version
   ver
 }
