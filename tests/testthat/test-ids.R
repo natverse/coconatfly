@@ -41,7 +41,7 @@ test_that("fanc/banc ids/metadata", {
   skip_if_not_installed('fancr')
   skip_if_not_installed('reticulate')
   expect_in(
-    cf_ids(fanc='type:DNa01', expand = TRUE)$fanc,
+    cf_ids(fanc='/type:DNa01', expand = TRUE)$fanc,
     fancr::fanc_latestid(c("648518346488820970", "648518346475464576"),
                          version='latest'))
 
