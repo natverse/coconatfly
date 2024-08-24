@@ -25,7 +25,7 @@ cf_connections <- function() {
     else if(ds=='opticlobe')
       res$installed=requireNamespace('malevnc', quietly = T)
     if(!res$installed) {
-      res=c(res, server=NA_character_, dataset=NA_character_)
+      res=c(res, server=NA_character_, dataset=NA_character_, version=NA_character_)
       next
     }
     conn=try(npconn(ds), silent = T)
