@@ -90,7 +90,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                        threshold = threshold-1L,
                                        version=fanc_version())
       partner_col=grep("_id", colnames(tres), value = T)
-      metadf=banc_meta()
+      metadf=fanc_meta()
       colnames(metadf)[[1]]=partner_col
       tres=left_join(tres, metadf, by = partner_col)
     } else if (n=='banc') {
