@@ -175,13 +175,23 @@ fanc_meta <- function(ids=NULL, ...) {
   df=fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
   metaf=getOption('coconatfly.fancmeta')
   if(!is.null(metaf)) {
-    ext=tools::file_ext(metaf)
-    df2=if(ext=='tsv') {
-      data.table::fread(metaf, integer64 = 'character')
-    } else if(ext=='feather') {
-      arrow::read_feather(metaf)
-    } else stop("Unsupported extension:", ext, " for FANC metadata file!")
+    # we can use an unevaluated call as an option
+    # by evaluating we can trigger function
+    if(is.call(metaf))
+      metaf=eval(metaf)
+    else if(is.function(metaf))
+      metaf=metaf()
 
+    df2 <- if(is.data.frame(metaf))
+      metaf
+    else if(is.character(metaf)) {
+      ext=tools::file_ext(metaf)
+      if(ext=='tsv') {
+          data.table::fread(metaf, integer64 = 'character')
+      } else if(ext=='feather') {
+        arrow::read_feather(metaf)
+      } else stop("Unsupported extension:", ext, " for FANC metadata file!")
+    } else stop("options('coconatfly.fancmeta') must be path to a file, a function or an unevaluated R `call`.")
     df2$root_id=fancr::with_fanc(fafbseg::flywire_updateids(df2$root_id, df2$supervoxel_id, version = fanc_version()))
     df2 <- df2 |>
       rename(id=root_id) |>
