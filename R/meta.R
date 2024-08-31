@@ -189,6 +189,7 @@ fanc_meta <- function(ids=NULL, ...) {
       df <- left_join(data.frame(id=ids), df, by='id')
     }
   }
+  df$side=sub("HS|idline$", "", df$side)
   df
 }
 
