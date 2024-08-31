@@ -103,7 +103,12 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres=left_join(tres, metadf, by = partner_col)
     } else if(n=='manc') {
       tres=malevnc::manc_connection_table(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
-      tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
+      # nb we do not get rootSide information with manc_connection_table
+      tres <- tres %>%
+        mutate(side=dplyr::case_when(
+          !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
+          T ~ stringr::str_match(name, "_([LRM])$")[,2]
+        ))
     }
     tres=coconat:::standardise_partner_summary(tres)
     tres$dataset=n
