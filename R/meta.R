@@ -173,7 +173,7 @@ manc_meta <- function(ids, ...) {
 fanc_meta <- function(ids=NULL, ...) {
   ids=fanc_ids(ids)
   df=fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
-  metaf=getOption('coconatfly.fancmeta')
+  metaf=getOption('coconatfly.fanc_meta')
   if(!is.null(metaf)) {
     # we can use an unevaluated call as an option
     # by evaluating we can trigger function
