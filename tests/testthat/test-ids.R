@@ -37,6 +37,8 @@ test_that("key handling works", {
          flywire=as.character(1:5)))
 
   expect_output(print(res), regexp = 'flywire.*hemibrain')
+  
+  expect_equal(keys(cf_ids(hemibrain = '/MBON01')), cf_ids(hemibrain = '/MBON01', keys = T))
 })
 
 test_that("fanc/banc ids/metadata", {
