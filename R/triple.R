@@ -116,7 +116,7 @@ triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
     tm=cf_meta(colnames(cm))
-    labRow <- glue::glue(labRow, .envir = tm)
+    labRow <- glue::glue_data(labRow, .x = tm)
   }
   if(interactive) {
     try(cv <- requireNamespace('coconat', versionCheck=list(op='>', version='0.1.0')))

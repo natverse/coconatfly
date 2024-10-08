@@ -243,7 +243,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
     tm=cf_meta(colnames(cm))
-    labRow <- glue::glue(labRow, .envir = tm)
+    labRow <- glue::glue_data(labRow, .x = tm)
   } else if(is.character(labRow)) {
     # user has supplied labels but they are unlikely to be in the correct order
     # see if there is an implicit order defined by ids argument
