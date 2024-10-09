@@ -176,8 +176,8 @@ lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75)
 
 # plot results in a big dendrogram
 pdf("lalhc.pdf", width = 150,height = 20, family = 'Courier')
-plot(lalhc, labels=glue::glue("{type}_{abbreviate_datasets(dataset)}{side}",
- .envir =lalmeta), hang = -.01, cex=.7)
+plot(lalhc, labels=glue::glue_data("{type}_{abbreviate_datasets(dataset)}{side}",
+ .x=lalmeta), hang = -.01, cex=.7)
 dev.off()
 
 # look at the results interactively
