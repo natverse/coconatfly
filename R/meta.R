@@ -167,7 +167,18 @@ banc_meta <- function(ids=NULL, ...) {
 }
 
 fancorbanc_meta <- function(table, ids=NULL, ...) {
-  fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
+  ol_classes=c("centrifugal", "distal medulla", "distal medulla dorsal rim area",
+               "lamina intrinsic", "lamina monopolar", "lamina tangential",
+               "lamina wide field", "lobula intrinsic", "lobula lobula plate tangential",
+               "lobula medulla amacrine", "lobula medulla tangential",
+               "lobula plate intrinsic", "medulla intrinsic",
+               "medulla lobula lobula plate amacrine", "medulla lobula tangential",
+               "photoreceptors", "proximal distal medulla tangential",
+               "proximal medulla", "serpentine medulla", "T neuron",
+               "translobula plate", "transmedullary", "transmedullary Y",
+               "Y neuron")
+  fid=list(tag2=c('primary class',"anterior-posterior projection pattern",
+                  "neuron identity", ol_classes))
   fid=list(fid)
   names(fid)=table
   selc=list(c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
@@ -180,7 +191,13 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
   } else {
     cell_infosw <- cell_infos %>%
       mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
-      tidyr::pivot_wider(id_cols = pt_root_id,
+      mutate(
+        class2=case_when(tag2 %in% ol_classes ~ 'optic',  T ~ NA_character_),
+        tag2=case_when( tag2 %in% ol_classes ~ 'neuron identity',
+                        T ~ tag2)
+
+        ) %>%
+      tidyr::pivot_wider(id_cols = c(pt_root_id, class2),
                          names_from = tag2,
                          values_from = tag,
                          values_fn = function(x) {
@@ -193,6 +210,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
     cell_infosw %>%
       rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
       mutate(class=case_when(
+        !is.na(class2) ~ class2,
         class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
         (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
         (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
