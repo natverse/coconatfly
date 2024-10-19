@@ -178,7 +178,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
                "translobula plate", "transmedullary", "transmedullary Y",
                "Y neuron")
   fid=list(tag2=c('primary class',"anterior-posterior projection pattern",
-                  "neuron identity", ol_classes))
+                  "neuron identity", "soma side", ol_classes))
   fid=list(fid)
   names(fid)=table
   selc=list(c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
@@ -208,7 +208,8 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
                            paste(sux, collapse = ';')
                          })
     cell_infosw %>%
-      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
+      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,
+             type=`neuron identity`, side=`soma side`) %>%
       mutate(class=case_when(
         !is.na(class2) ~ class2,
         class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
@@ -219,8 +220,13 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         T ~ paste(class, apc)
       )) %>%
       mutate(class=sub(" neuron", '', class)) %>%
-      select(id, class, type) %>%
-      mutate(id=as.character(id), side=NA)
+      mutate(side=sub('soma on ', '', side)) |>
+      mutate(side=case_when(
+        is.na(side) ~ side,
+        T ~ toupper(substr(side,1,1))
+      )) %>%
+      select(id, class, type, side) %>%
+      mutate(id=as.character(id))
   }
   if(length(ids))
     left_join(data.frame(id=ids), metadf, by='id')
