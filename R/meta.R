@@ -197,6 +197,13 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
                         T ~ tag2)
 
         ) %>%
+      arrange(pt_root_id) |>
+      group_by(pt_root_id) |>
+      mutate(class2=case_when(
+        any(!is.na(class2)) ~ na.omit(class2)[1],
+        T ~ class2
+      )) |>
+      ungroup() |>
       tidyr::pivot_wider(id_cols = c(pt_root_id, class2),
                          names_from = tag2,
                          values_from = tag,
