@@ -189,36 +189,42 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
-    cell_infosw <- cell_infos %>%
-      mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
+    cell_infos2 <- cell_infos %>%
       mutate(
-        class2=case_when(tag2 %in% ol_classes ~ 'optic',  T ~ NA_character_),
-        tag2=case_when( tag2 %in% ol_classes ~ 'neuron identity',
-                        T ~ tag2)
+        tag=sub("\n\n\n*banc-bot*","", fixed = T, tag),
+        pt_root_id=as.character(pt_root_id))
+    cell_infos3 <- cell_infos2 |>
+      mutate(
+        tag2=case_when(
+          tag2 %in% ol_classes ~ 'neuron identity',
+          T ~ tag2)
+      ) |>
+      arrange(pt_root_id, tag) |>
+      distinct(pt_root_id, tag2, tag, .keep_all = T) |>
+      group_by(pt_root_id, tag2) |>
+      # summarise(tag=paste0(tag, collapse=";"), .groups = 'drop')
+      summarise(tag={
+        if(length(tag)>1 && any(grepl("?", tag, fixed = T))) {
+          # we would like to remove duplicate tags
+          # that would otherwise give: DNg75;DNg75?
+          usx=unique(sub("?", "", tag, fixed = T))
+          if(length(usx)<length(tag))
+            tag=usx
+        }
+        paste0(tag, collapse=";")
+      }, .groups = 'drop')
 
-        ) %>%
-      arrange(pt_root_id) |>
-      group_by(pt_root_id) |>
-      mutate(class2=case_when(
-        any(!is.na(class2)) ~ na.omit(class2)[1],
-        T ~ class2
-      )) |>
-      ungroup() |>
-      tidyr::pivot_wider(id_cols = c(pt_root_id, class2),
+    cell_infos2.ol=cell_infos2 |> filter(tag2 %in% ol_classes)
+
+    cell_infos4 <-   cell_infos3 |>
+      tidyr::pivot_wider(id_cols = pt_root_id,
                          names_from = tag2,
-                         values_from = tag,
-                         values_fn = function(x) {
-                           sux=sort(unique(x))
-                           # try removing ?
-                           sux2=sort(unique(sub("?","", x, fixed = T)))
-                           if(length(sux2)<length(sux)) sux=sux2
-                           paste(sux, collapse = ';')
-                         })
-    cell_infosw %>%
+                         values_from = tag
+      ) %>%
       rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,
              type=`neuron identity`, side=`soma side`) %>%
       mutate(class=case_when(
-        !is.na(class2) ~ class2,
+        id %in% cell_infos2.ol$pt_root_id ~ "optic",
         class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
         (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
         (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
