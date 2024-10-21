@@ -219,7 +219,8 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
     cell_infos4 <-   cell_infos3 |>
       tidyr::pivot_wider(id_cols = pt_root_id,
                          names_from = tag2,
-                         values_from = tag
+                         values_from = tag,
+                         values_fill = ""
       ) %>%
       rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,
              type=`neuron identity`, side=`soma side`) %>%
