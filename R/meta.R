@@ -167,7 +167,18 @@ banc_meta <- function(ids=NULL, ...) {
 }
 
 fancorbanc_meta <- function(table, ids=NULL, ...) {
-  fid=list(tag2=c('primary class',"anterior-posterior projection pattern", "neuron identity"))
+  ol_classes=c("centrifugal", "distal medulla", "distal medulla dorsal rim area",
+               "lamina intrinsic", "lamina monopolar", "lamina tangential",
+               "lamina wide field", "lobula intrinsic", "lobula lobula plate tangential",
+               "lobula medulla amacrine", "lobula medulla tangential",
+               "lobula plate intrinsic", "medulla intrinsic",
+               "medulla lobula lobula plate amacrine", "medulla lobula tangential",
+               "photoreceptors", "proximal distal medulla tangential",
+               "proximal medulla", "serpentine medulla", "T neuron",
+               "translobula plate", "transmedullary", "transmedullary Y",
+               "Y neuron")
+  fid=list(tag2=c('primary class',"anterior-posterior projection pattern",
+                  "neuron identity", "soma side", ol_classes))
   fid=list(fid)
   names(fid)=table
   selc=list(c("id", "tag", "tag2", "pt_root_id", 'pt_supervoxel_id'))
@@ -178,21 +189,43 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
   metadf <- if(nrow(cell_infos)<1) {
     df=data.frame(id=character(), class=character(), type=character(), side=character())
   } else {
-    cell_infosw <- cell_infos %>%
-      mutate(tag=sub("\n\n\n*banc-bot*","", fixed = T, tag)) %>%
+    cell_infos2 <- cell_infos %>%
+      mutate(
+        tag=sub("\n\n\n*banc-bot*","", fixed = T, tag),
+        pt_root_id=as.character(pt_root_id))
+    cell_infos3 <- cell_infos2 |>
+      mutate(
+        tag2=case_when(
+          tag2 %in% ol_classes ~ 'neuron identity',
+          T ~ tag2)
+      ) |>
+      arrange(pt_root_id, tag) |>
+      distinct(pt_root_id, tag2, tag, .keep_all = T) |>
+      group_by(pt_root_id, tag2) |>
+      # summarise(tag=paste0(tag, collapse=";"), .groups = 'drop')
+      summarise(tag={
+        if(length(tag)>1 && any(grepl("?", tag, fixed = T))) {
+          # we would like to remove duplicate tags
+          # that would otherwise give: DNg75;DNg75?
+          usx=unique(sub("?", "", tag, fixed = T))
+          if(length(usx)<length(tag))
+            tag=usx
+        }
+        paste0(tag, collapse=";")
+      }, .groups = 'drop')
+
+    cell_infos2.ol=cell_infos2 |> filter(tag2 %in% ol_classes)
+
+    cell_infos4 <-   cell_infos3 |>
       tidyr::pivot_wider(id_cols = pt_root_id,
                          names_from = tag2,
                          values_from = tag,
-                         values_fn = function(x) {
-                           sux=sort(unique(x))
-                           # try removing ?
-                           sux2=sort(unique(sub("?","", x, fixed = T)))
-                           if(length(sux2)<length(sux)) sux=sux2
-                           paste(sux, collapse = ';')
-                         })
-    cell_infosw %>%
-      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,type=`neuron identity`) %>%
+                         values_fill = ""
+      ) %>%
+      rename(id=pt_root_id, class=`primary class`, apc=`anterior-posterior projection pattern`,
+             type=`neuron identity`, side=`soma side`) %>%
       mutate(class=case_when(
+        id %in% cell_infos2.ol$pt_root_id ~ "optic",
         class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
         (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
         (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
@@ -201,8 +234,13 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         T ~ paste(class, apc)
       )) %>%
       mutate(class=sub(" neuron", '', class)) %>%
-      select(id, class, type) %>%
-      mutate(id=as.character(id), side=NA)
+      mutate(side=sub('soma on ', '', side)) |>
+      mutate(side=case_when(
+        is.na(side) ~ side,
+        T ~ toupper(substr(side,1,1))
+      )) %>%
+      select(id, class, type, side) %>%
+      mutate(id=as.character(id))
   }
   if(length(ids))
     left_join(data.frame(id=ids), metadf, by='id')
