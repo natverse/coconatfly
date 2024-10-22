@@ -227,10 +227,10 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
       mutate(class=case_when(
         id %in% cell_infos2.ol$pt_root_id ~ "optic",
         class=='sensory neuron' & grepl('scending', apc) ~ paste('sensory', apc),
-        (is.na(class) | class=='central neuron') & apc=='ascending' ~ 'ascending',
-        (is.na(class) | class=='central neuron') & apc=='descending' ~ 'descending',
-        is.na(apc) & is.na(class) ~ 'unknown',
-        is.na(apc) ~ class,
+        (class=="" | class=='central neuron') & apc=='ascending' ~ 'ascending',
+        (class=="" | class=='central neuron') & apc=='descending' ~ 'descending',
+        apc=="" & class=="" ~ '',
+        apc=="" ~ class,
         T ~ paste(class, apc)
       )) %>%
       mutate(class=sub(" neuron", '', class)) %>%
