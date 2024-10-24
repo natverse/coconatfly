@@ -219,11 +219,12 @@ connection_table2queryids <- function(x) {
 #'   arrange desc
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                aggregate.query=TRUE, normalise=FALSE,
-                               rval=c("data.frame", "sparse", "matrix")) {
+                               rval=c("data.frame", "sparse", "matrix"),
+                               more.args=list()) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
   rval=match.arg(rval)
-  pp=cf_partners(ids, threshold = threshold, partners = partners)
+  pp=cf_partners(ids, threshold = threshold, partners = partners, more.args=more.args)
   qmeta=cf_meta(ids)
 
   # query and partner suffixes
