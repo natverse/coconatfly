@@ -281,6 +281,8 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 
 
 #' @importFrom dplyr distinct all_of
+#' @param check_missing Whether to report if any query neurons are dropped (due
+#'   to insufficient partner neurons) (default:\code{TRUE}).
 #' @rdname cf_cosine_plot
 #' @export
 #' @return \code{multi_connection_table} returns a connectivity dataframe as
@@ -307,7 +309,7 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
       missing_keys=setdiff(unique(kk), query_keys)
       nmissing=length(missing_keys)
       if(nmissing>0)
-        warning("Dropping ",nmissing, " keys. Try decreasing threshold!")
+        warning("Dropping ", nmissing, " keys. Try decreasing threshold!")
     }
 
     return(l)

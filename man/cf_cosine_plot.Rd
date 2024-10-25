@@ -25,7 +25,8 @@ multi_connection_table(
   ids,
   partners = c("inputs", "outputs"),
   threshold = 1L,
-  group = "type"
+  group = "type",
+  check_missing = TRUE
 )
 }
 \arguments{
@@ -69,6 +70,9 @@ neurons in interactive mode.}
 similarity.}
 
 \item{method}{The cluster method to use (see \code{\link{hclust}})}
+
+\item{check_missing}{Whether to report if any query neurons are dropped (due
+to insufficient partner neurons) (default:\code{TRUE}).}
 }
 \value{
 The result of \code{\link{heatmap}} invisibly including the row and
