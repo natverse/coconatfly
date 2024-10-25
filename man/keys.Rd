@@ -59,6 +59,9 @@ keys(" fw:4611686018427387904, hb:12345 ")
 
 \donttest{
 keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
+
+# NB this runs the query for hemibrain type MBON01 and then maps ids -> keys
+keys(cf_ids(hemibrain='MBON01'))
 }
 \donttest{
 

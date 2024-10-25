@@ -55,6 +55,9 @@ extract_ids <- function(x) {
 #'
 #' \donttest{
 #' keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
+#'
+#' # NB this runs the query for hemibrain type MBON01 and then maps ids -> keys
+#' keys(cf_ids(hemibrain='MBON01'))
 #' }
 #' @rdname keys
 keys <- function(x, idcol='id') {
@@ -63,6 +66,9 @@ keys <- function(x, idcol='id') {
   else if(inherits(x, 'dendrogram'))
     x <- labels(x)
 
+  # expand an id list
+  if(inherits(x, 'cidlist'))
+    x=c(x,NULL)
   if(is.list(x) && !is.data.frame(x)) {
     x=data.frame(id=unlist(x),
                  dataset=rep(abbreviate_datasets(names(x)), lengths(x)))
