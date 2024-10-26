@@ -71,14 +71,16 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     if(!is.null(ma)) checkmate::assert_list(ma, names = 'named')
     if(n=='flywire') {
       # nb different threshold definition here
-      tres=flywire_partner_summary2(ids[[n]], partners = partners,
-                                    threshold = threshold-1L)
+      args=list(ids[[n]], partners = partners, threshold = threshold-1L)
+      tres=do.call(flywire_partner_summary2, c(args, ma))
       tres <- tres %>%
-        mutate(side=toupper(substr(.data$side,1,1))) %>%
+        mutate(side=toupper(substr(.data$side, 1, 1))) %>%
         rename(class=super_class)
     } else if(n=='hemibrain' || n=='opticlobe') {
       # a bit inelegant but not sure how else to insist
-      tres=neuprintr::neuprint_connection_table(ids[[n]], partners = partners, threshold=threshold, details = TRUE, conn = npconn(n), chunk = neuprint.chunksize)
+      args=list(ids[[n]], partners = partners, threshold=threshold,
+                  details = TRUE, conn = npconn(n), chunk = neuprint.chunksize)
+      tres=do.call(neuprintr::neuprint_connection_table, c(args, ma))
       tres <- tres %>%
         dplyr::mutate(
           type=dplyr::case_when(
@@ -94,10 +96,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       fa2=methods::formalArgs(malecns::mcns_predict_type)[-1]
       ma1=ma[setdiff(names(ma), fa2)]
       ma2=ma[setdiff(names(ma), names(ma1))]
-      tres=do.call(malecns::mcns_connection_table,
-                   c(list(ids[[n]], partners = partners, threshold=threshold,
-                          chunk = neuprint.chunksize),
-                     ma1))
+      args=list(ids[[n]], partners = partners, threshold=threshold,
+                 chunk = neuprint.chunksize)
+      tres=do.call(malecns::mcns_connection_table, c(args, ma1))
       # nb the type information we care about here is for partners
       tres2=tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
       tres$type <- do.call(malecns::mcns_predict_type,
@@ -109,25 +110,26 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           T ~ malecns::mcns_soma_side(., method = "instance")
         ))
     } else if (n=='fanc') {
-      fids=fanc_ids(ids[[n]])
-      tres=fancr::fanc_partner_summary(fids,
-                                       partners = partners,
-                                       threshold = threshold-1L,
-                                       version=fanc_version())
+      args=list(fanc_ids(ids[[n]]),
+                partners = partners,
+                threshold = threshold-1L,
+                version=fanc_version())
+      tres=do.call(fancr::fanc_partner_summary, c(args, ma))
       partner_col=grep("_id", colnames(tres), value = T)
       metadf=fanc_meta()
       colnames(metadf)[[1]]=partner_col
       tres=left_join(tres, metadf, by = partner_col)
     } else if (n=='banc') {
       bids=banc_ids(ids[[n]])
-      tres=fancr::with_banc(fancr::fanc_partner_summary(bids, partners = partners,
-                                       threshold = threshold-1L, version=banc_version()))
+      args=list(bids, partners = partners, threshold = threshold-1L, version=banc_version())
+      tres=fancr::with_banc(do.call(fancr::fanc_partner_summary, c(args, ma)))
       partner_col=grep("_id", colnames(tres), value = T)
       metadf=banc_meta()
       colnames(metadf)[[1]]=partner_col
       tres=left_join(tres, metadf, by = partner_col)
     } else if(n=='manc') {
-      tres=malevnc::manc_connection_table(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
+      args=list(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
+      tres=do.call(malevnc::manc_connection_table, c(args, ma))
       # nb we do not get rootSide information with manc_connection_table
       tres <- tres %>%
         mutate(side=dplyr::case_when(
