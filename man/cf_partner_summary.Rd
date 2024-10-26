@@ -11,7 +11,7 @@ cf_partner_summary(
   aggregate.query = TRUE,
   normalise = FALSE,
   rval = c("data.frame", "sparse", "matrix"),
-  more.args = list()
+  MoreArgs = list()
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ the total for each query cell type (or individual query neuron when
 \item{rval}{Choose what the function will return. \code{sparse} and
 \code{matrix} return sparse and dense (standard) matrices, respectively.}
 
-\item{more.args}{Additional arguments in the form of a hierarchical list
+\item{MoreArgs}{Additional arguments in the form of a hierarchical list
 (expert use; see details and examples).}
 }
 \value{

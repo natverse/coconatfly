@@ -4,7 +4,7 @@
 #'   relationship for the threshold, but here (as of May 2024) it is uniformly a
 #'   \code{>=} relationship.
 #'
-#'   \code{more.args} is structured as a list with a top layer naming datasets
+#'   \code{MoreArgs} is structured as a list with a top layer naming datasets
 #'   (using the same long names as \code{\link{cf_ids}}. The second (lower)
 #'   layer names the arguments that will be passed to dataset-specific functions
 #'   such as \code{fafbseg::flywire_partner_summary2} and
@@ -19,7 +19,7 @@
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
 #'   note that some columns will be dropped).
-#' @param more.args Additional arguments in the form of a hierarchical list
+#' @param MoreArgs Additional arguments in the form of a hierarchical list
 #'   (expert use; see details and examples).
 #'
 #' @return A data.frame or a named list (when \code{bind.rows=FALSE})
@@ -37,12 +37,12 @@
 #' DA2_lPN=cf_partners(list(flywire='DA2_lPN', malecns='DA2_lPN'))
 #'
 #' cf_partners(cf_ids(malecns='AVLP539'), partners = 'o', threshold=100)
-#' # use more.args to prefer foreign (flywire/manc) cell types for malecns
+#' # use MoreArgs to prefer foreign (flywire/manc) cell types for malecns
 #' cf_partners(cf_ids(malecns='AVLP539'), partners = 'o', threshold=100,
-#'   more.args = list(malecns=list(prefer.foreign=TRUE))
+#'   MoreArgs = list(malecns=list(prefer.foreign=TRUE))
 #' }
 cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
-                        bind.rows=TRUE, more.args=list()) {
+                        bind.rows=TRUE, MoreArgs=list()) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
@@ -54,7 +54,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   if(is.data.frame(ids)) {
     ss=split(ids$id, ids$dataset)
     res=cf_partners(ss, threshold = threshold, partners = partners,
-                    bind.rows = bind.rows, more.args=more.args)
+                    bind.rows = bind.rows, MoreArgs=MoreArgs)
     return(res)
   }
 
@@ -67,7 +67,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 
   for(n in names(ids)) {
     tres=NULL
-    ma=more.args[[n]]
+    ma=MoreArgs[[n]]
     if(!is.null(ma)) checkmate::assert_list(ma, names = 'named')
     if(n=='flywire') {
       # nb different threshold definition here
@@ -220,11 +220,11 @@ connection_table2queryids <- function(x) {
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                aggregate.query=TRUE, normalise=FALSE,
                                rval=c("data.frame", "sparse", "matrix"),
-                               more.args=list()) {
+                               MoreArgs=list()) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
   rval=match.arg(rval)
-  pp=cf_partners(ids, threshold = threshold, partners = partners, more.args=more.args)
+  pp=cf_partners(ids, threshold = threshold, partners = partners, MoreArgs=MoreArgs)
   qmeta=cf_meta(ids)
 
   # query and partner suffixes
