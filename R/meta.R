@@ -26,7 +26,6 @@ npconn <- function(dataset) {
 #' @param MoreArgs A named list of arguments to be passed when fetching metadata
 #'   for a given function. See details.
 #'
-#'   flywire_type Which metadata column to use from flytable info table
 #' @inheritParams cf_partners
 #'
 #' @importFrom dplyr mutate rename rename_with select case_when any_of

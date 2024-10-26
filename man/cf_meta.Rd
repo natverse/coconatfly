@@ -25,9 +25,7 @@ ints (more compact but a little fragile as they rely on the \code{bit64}
 extension package.)}
 
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
-  for a given function. See details.
-
-  flywire_type Which metadata column to use from flytable info table}
+for a given function. See details.}
 }
 \description{
 Fetch metadata for neurons from connectome datasets
