@@ -8,6 +8,7 @@ cf_meta(
   ids,
   bind.rows = TRUE,
   integer64 = FALSE,
+  keep.all = FALSE,
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 }
@@ -23,6 +24,10 @@ note that some columns will be dropped).}
 \item{integer64}{Whether ids should be character vectors (default) or 64 bit
 ints (more compact but a little fragile as they rely on the \code{bit64}
 extension package.)}
+
+\item{keep.all}{When fetching metadata from different datasets, whether to
+keep all metadata columns rather than just those in common
+(default=\code{FALSE})}
 
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
 for a given function. See details.}
