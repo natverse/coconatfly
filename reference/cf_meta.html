@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fetch metadata for neurons from connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/keep.all/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
       <div class="d-none name"><code>cf_meta.Rd</code></div>
     </div>
 
@@ -44,6 +44,7 @@
 <span>  <span class="va">ids</span>,</span>
 <span>  bind.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  integer64 <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  MoreArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>flywire <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_type"</span>, <span class="st">"hemibrain_type"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -68,6 +69,12 @@ note that some columns will be dropped).</p></dd>
 <dd><p>Whether ids should be character vectors (default) or 64 bit
 ints (more compact but a little fragile as they rely on the <code>bit64</code>
 extension package.)</p></dd>
+
+
+<dt id="arg-keep-all">keep.all<a class="anchor" aria-label="anchor" href="#arg-keep-all"></a></dt>
+<dd><p>When fetching metadata from different datasets, whether to
+keep all metadata columns rather than just those in common
+(default=<code>FALSE</code>)</p></dd>
 
 
 <dt id="arg-moreargs">MoreArgs<a class="anchor" aria-label="anchor" href="#arg-moreargs"></a></dt>

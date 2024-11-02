@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Specify ids for fly connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/keep.all/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
       <div class="d-none name"><code>cf_ids.Rd</code></div>
     </div>
 
@@ -173,12 +173,12 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>WARNING:root:Deprecation: this method is to facilitate beta testing of this feature,             it will likely get removed in future versions. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 29 missing keys</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 10 missing keys</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No matching ids when querying dataset:banc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[0 ids]</span>: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">flywire</span> <span style="color: #555555;">[96 ids]</span>: 720575940624185095 720575940624117245 720575940638526278 720575940629585602 720575940637934308 720575940632118343 720575940609959637 720575940638163428 720575940630496374 720575940642142861 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[71 ids]</span>: 612371421 673509195 424789697 5813022341 487925037 612738462 487925063 613079053 1386512867 799586652 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">malecns</span> <span style="color: #555555;">[103 ids]</span>: 520151 10013 522444 522749 519373 521526 525780 530875 519371 10495 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">malecns</span> <span style="color: #555555;">[103 ids]</span>: 520151 10013 522749 522444 519373 521526 525780 530875 519371 10495 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return keys directly</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -240,37 +240,37 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [160] "hb:642732835"          "hb:643847447"          "hb:518670779"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [163] "hb:547552266"          "hb:1173814525"         "hb:5813033000"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [166] "hb:518930199"          "hb:611089775"          "mc:520151"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [169] "mc:10013"              "mc:522444"             "mc:522749"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [169] "mc:10013"              "mc:522749"             "mc:522444"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [172] "mc:519373"             "mc:521526"             "mc:525780"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [175] "mc:530875"             "mc:519371"             "mc:10495"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [178] "mc:10079"              "mc:12690"              "mc:12859"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181] "mc:515338"             "mc:18603"              "mc:15626"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [184] "mc:18713"              "mc:19267"              "mc:523060"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [187] "mc:21242"              "mc:549193"             "mc:558665"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [190] "mc:535076"             "mc:59057"              "mc:522732"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [193] "mc:579919"             "mc:133427"             "mc:70924"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [196] "mc:62162"              "mc:39608"              "mc:524733"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] "mc:531829"             "mc:49262"              "mc:136475"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [202] "mc:150846"             "mc:10704"              "mc:11402"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [187] "mc:21242"              "mc:549193"             "mc:535076"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [190] "mc:579919"             "mc:59057"              "mc:522732"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [193] "mc:558665"             "mc:133427"             "mc:70924"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [196] "mc:62162"              "mc:39608"              "mc:136475"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] "mc:49262"              "mc:150846"             "mc:531829"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [202] "mc:524733"             "mc:10704"              "mc:11402"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [205] "mc:13728"              "mc:13768"              "mc:519368"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [208] "mc:521086"             "mc:12726"              "mc:514853"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [211] "mc:19366"              "mc:17946"              "mc:11873"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [214] "mc:10267"              "mc:520395"             "mc:31083"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] "mc:187741"             "mc:58401"              "mc:38859"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [214] "mc:10267"              "mc:520395"             "mc:187741"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] "mc:58401"              "mc:31083"              "mc:38859"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [220] "mc:44619"              "mc:38853"              "mc:11777"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [223] "mc:520186"             "mc:562782"             "mc:41692"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [226] "mc:31016"              "mc:513391"             "mc:513387"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [229] "mc:14221"              "mc:512788"             "mc:26853"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [232] "mc:33617"              "mc:36094"              "mc:47551"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [229] "mc:14221"              "mc:512788"             "mc:36094"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [232] "mc:26853"              "mc:33617"              "mc:47551"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [235] "mc:10804"              "mc:11145"              "mc:523628"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [238] "mc:10826"              "mc:12918"              "mc:11990"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [241] "mc:20835"              "mc:512789"             "mc:18406"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [244] "mc:15708"              "mc:87077"              "mc:394860"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [247] "mc:160320"             "mc:76585"              "mc:110448"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [247] "mc:160320"             "mc:110448"             "mc:76585"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [250] "mc:556300"             "mc:11176"              "mc:524893"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] "mc:519128"             "mc:515034"             "mc:28622"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] "mc:515034"             "mc:519128"             "mc:28622"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [256] "mc:26485"              "mc:519619"             "mc:523987"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [259] "mc:513174"             "mc:515015"             "mc:11805"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [259] "mc:515015"             "mc:513174"             "mc:11805"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [262] "mc:10816"              "mc:519131"             "mc:11455"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [265] "mc:523043"             "mc:11785"              "mc:208566"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [268] "mc:92112"              "mc:508595"             "mc:10599"             </span>
@@ -301,21 +301,21 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "hb:579916831"          "hb:673366098"          "hb:5812981264"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "hb:5812981543"         "hb:457196444"          "hb:5813020828"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "hb:423774471"          "hb:517854468"          "mc:549193"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "mc:558665"             "mc:535076"             "mc:59057"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "mc:522732"             "mc:579919"             "mc:133427"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "mc:535076"             "mc:579919"             "mc:59057"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "mc:522732"             "mc:558665"             "mc:133427"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "mc:70924"              "mc:62162"              "mc:39608"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "mc:524733"             "mc:531829"             "mc:49262"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "mc:136475"             "mc:150846"             "mc:10704"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "mc:136475"             "mc:49262"              "mc:150846"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "mc:531829"             "mc:524733"             "mc:10704"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "mc:11402"              "mc:13728"              "mc:13768"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "mc:519368"             "mc:521086"             "mc:12726"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "mc:514853"             "mc:19366"              "mc:17946"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "mc:11873"              "mc:10267"              "mc:520395"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "mc:31083"              "mc:187741"             "mc:58401"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "mc:187741"             "mc:58401"              "mc:31083"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "mc:38859"              "mc:44619"              "mc:38853"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [100] "mc:11777"              "mc:520186"             "mc:562782"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [103] "mc:41692"              "mc:31016"              "mc:513391"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [106] "mc:513387"             "mc:14221"              "mc:512788"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "mc:26853"              "mc:33617"              "mc:36094"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "mc:36094"              "mc:26853"              "mc:33617"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [112] "mc:47551"              "hb:264083994"          "hb:5813022274"        </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># now equivalent to</span></span></span>
@@ -344,22 +344,22 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "hb:579916831"          "hb:673366098"          "hb:5812981264"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "hb:5812981543"         "hb:457196444"          "hb:5813020828"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "hb:423774471"          "hb:517854468"          "hb:264083994"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "hb:5813022274"         "mc:549193"             "mc:558665"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "mc:535076"             "mc:59057"              "mc:522732"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "mc:579919"             "mc:133427"             "mc:70924"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "mc:62162"              "mc:39608"              "mc:524733"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "mc:531829"             "mc:49262"              "mc:136475"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "mc:150846"             "mc:10704"              "mc:11402"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "hb:5813022274"         "mc:549193"             "mc:535076"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "mc:579919"             "mc:59057"              "mc:522732"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "mc:558665"             "mc:133427"             "mc:70924"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "mc:62162"              "mc:39608"              "mc:136475"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "mc:49262"              "mc:150846"             "mc:531829"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "mc:524733"             "mc:10704"              "mc:11402"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "mc:13728"              "mc:13768"              "mc:519368"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "mc:521086"             "mc:12726"              "mc:514853"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "mc:19366"              "mc:17946"              "mc:11873"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "mc:10267"              "mc:520395"             "mc:31083"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "mc:187741"             "mc:58401"              "mc:38859"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "mc:10267"              "mc:520395"             "mc:187741"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "mc:58401"              "mc:31083"              "mc:38859"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [100] "mc:44619"              "mc:38853"              "mc:11777"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [103] "mc:520186"             "mc:562782"             "mc:41692"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [106] "mc:31016"              "mc:513391"             "mc:513387"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "mc:14221"              "mc:512788"             "mc:26853"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [112] "mc:33617"              "mc:36094"              "mc:47551"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "mc:14221"              "mc:512788"             "mc:36094"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [112] "mc:26853"              "mc:33617"              "mc:47551"             </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># queries on classes respecting dataset idiosyncrasies</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span>manc<span class="op">=</span><span class="st">'/class:descending.*'</span>, flywire<span class="op">=</span><span class="st">'/super_class:descending.*'</span>, expand <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
