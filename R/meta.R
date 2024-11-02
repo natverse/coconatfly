@@ -25,6 +25,9 @@ npconn <- function(dataset) {
 #'   extension package.)
 #' @param MoreArgs A named list of arguments to be passed when fetching metadata
 #'   for a given function. See details.
+#' @param keep.all When fetching metadata from different datasets, whether to
+#'   keep all metadata columns rather than just those in common
+#'   (default=\code{FALSE})
 #'
 #' @inheritParams cf_partners
 #'
@@ -39,7 +42,7 @@ npconn <- function(dataset) {
 #' # / introduces a regular expression
 #' mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 #' }
-cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
+cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
   if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
@@ -93,7 +96,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE,
     res[[n]]=tres
   }
   if(length(res)==0) return(NULL)
-  if(bind.rows) bind_rows2(res) else res
+  if(bind.rows) bind_rows2(res, keep.all=keep.all) else res
 }
 
 flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
