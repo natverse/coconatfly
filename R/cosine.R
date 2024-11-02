@@ -293,8 +293,8 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    threshold=1L,
                                    group='type', check_missing=TRUE) {
   partners=match.arg(partners, several.ok = T)
+  kk=keys(ids)
   if(length(partners)>1) {
-    kk=keys(ids)
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
                              check_missing=F))
@@ -314,8 +314,12 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
 
     return(l)
   }
-  kk=keys(ids)
-  x <- cf_partners(kk, threshold = threshold, partners = partners)
+  kdf=keys2df(kk)
+  datasets=unique(kdf$dataset)
+  MoreArgs=list()
+  if(length(datasets)>1 && "malecns" %in% datasets)
+    MoreArgs=list(malecns=list(prefer.foreign=TRUE))
+  x <- cf_partners(kk, threshold = threshold, partners = partners, MoreArgs = MoreArgs)
   if(is.character(group))
     x <- match_types(x, group, partners=partners)
   # mark which column was used for the query
