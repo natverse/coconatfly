@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("cosine plots work", {
   expect_s3_class(
     cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), group = F, heatmap = F),
     'hclust')
@@ -19,4 +19,17 @@ test_that("multiplication works", {
     dend <- lalmeta2 %>% with(cf_cosine_plot(key, labRow=label, heatmap = T)),
     'list')
   expect_error(cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), letters[1:15]))
+  op <- options(fafbseg.use_static_celltypes=T)
+  on.exit(options(op))
+  nofw=inherits(try(dna02.fw <- cf_ids(flywire = 'DNa02', expand = T), silent = TRUE), "try-error")
+  skip_if(nofw, message = 'No flywire annotations available.')
+
+  lalids=cf_ids(hemibrain="/type:LAL(00.+|044)", flywire = "/type:LAL00.+")
+  hc=cf_cosine_plot(lalids, heatmap = F)
+  suppressWarnings(suppressMessages(expect_message(hc1 <- cf_cosine_plot(lalids, min_datasets = -1, heatmap = F),
+                 "Dropping 0.*partner types")))
+  suppressWarnings(
+    suppressMessages(
+      expect_equal(cf_cosine_plot(lalids, min_datasets = 1, heatmap = F),
+                   hc1)))
 })
