@@ -228,6 +228,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            matrix=FALSE,
                            interactive=FALSE,
                            drop_dataset_prefix=FALSE,
+                           min_datasets=Inf,
                            nas=c('zero','drop'),
                            method=c("ward.D", "single", "complete", "average",
                                     "mcquitty", "median", "centroid", "ward.D2")) {
@@ -237,7 +238,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
     x=ids
     partners=unique(x$partners)
   } else
-    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group)
+    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group, min_datasets = min_datasets)
 
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 
@@ -283,6 +284,12 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 #' @importFrom dplyr distinct all_of
 #' @param check_missing Whether to report if any query neurons are dropped (due
 #'   to insufficient partner neurons) (default:\code{TRUE}).
+#' @param min_datasets How many datasets a type must be in to be included in the
+#'   output. The default of \code{Inf} => all datasets must contain the cell
+#'   type. A negative number defines the number of datasets from which a type
+#'   can be missing. For example \code{-1} would mean that types would still be
+#'   included even if they are missing from one dataset.
+#'
 #' @rdname cf_cosine_plot
 #' @export
 #' @return \code{multi_connection_table} returns a connectivity dataframe as
@@ -290,14 +297,16 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 #'   \code{partners} which indicates (for each row) whether the partner neurons
 #'   are the input or output neurons.
 multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
-                                   threshold=1L,
-                                   group='type', check_missing=TRUE) {
+                                   threshold=1L, group='type',
+                                   check_missing=TRUE,
+                                   min_datasets=Inf
+                                   ) {
   partners=match.arg(partners, several.ok = T)
   kk=keys(ids)
   if(length(partners)>1) {
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
-                             check_missing=F))
+                             check_missing=F, min_datasets = min_datasets))
     l=dplyr::bind_rows(l)
     if(check_missing) {
       query_keys <- l %>% group_by(partners) %>%
@@ -321,7 +330,7 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
     MoreArgs=list(malecns=list(prefer.foreign=TRUE))
   x <- cf_partners(kk, threshold = threshold, partners = partners, MoreArgs = MoreArgs)
   if(is.character(group))
-    x <- match_types(x, group, partners=partners)
+    x <- match_types(x, group, partners=partners, min_datasets = min_datasets)
   # mark which column was used for the query
   x$partners=partners
   # check if some incoming ids were dropped

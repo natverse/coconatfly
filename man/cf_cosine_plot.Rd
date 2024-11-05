@@ -16,6 +16,7 @@ cf_cosine_plot(
   matrix = FALSE,
   interactive = FALSE,
   drop_dataset_prefix = FALSE,
+  min_datasets = Inf,
   nas = c("zero", "drop"),
   method = c("ward.D", "single", "complete", "average", "mcquitty", "median", "centroid",
     "ward.D2")
@@ -26,7 +27,8 @@ multi_connection_table(
   partners = c("inputs", "outputs"),
   threshold = 1L,
   group = "type",
-  check_missing = TRUE
+  check_missing = TRUE,
+  min_datasets = Inf
 )
 }
 \arguments{
@@ -65,6 +67,12 @@ and id selection). See details.}
 \item{drop_dataset_prefix}{Whether to remove dataset prefix such as
 \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
 neurons in interactive mode.}
+
+\item{min_datasets}{How many datasets a type must be in to be included in the
+output. The default of \code{Inf} => all datasets must contain the cell
+type. A negative number defines the number of datasets from which a type
+can be missing. For example \code{-1} would mean that types would still be
+included even if they are missing from one dataset.}
 
 \item{nas}{What to do with entries that have NAs. Default is to set them to 0
 similarity.}

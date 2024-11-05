@@ -156,7 +156,11 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 # partners argument is just used to construct a warning message
 match_types <- function(x, group="type", partners="", min_datasets=Inf) {
   stopifnot(is.data.frame(x))
-  if(!is.finite(min_datasets)) min_datasets=dplyr::n_distinct(x$dataset)
+  ndatasets=dplyr::n_distinct(x$dataset)
+  if(!is.finite(min_datasets))
+    min_datasets=ndatasets
+  else if(min_datasets<0)
+    min_datasets=ndatasets+min_datasets
 
   xg <- x %>%
     dplyr::group_by_at(group) %>%
