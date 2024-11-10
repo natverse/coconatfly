@@ -1,3 +1,5 @@
+# coconatfly (development version)
+
 # coconatfly 0.2.1
 
 * `cf_meta()` gets a `MoreArgs` argument to pass on to subsidiary functions for 
