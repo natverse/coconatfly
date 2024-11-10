@@ -143,6 +143,9 @@ malecns_meta <- function(ids, ...) {
       T ~ type
     )) %>%
     rename(id=bodyid) %>%
+    #
+    rename(class1=superclass, class2=class, subsubclass=subclass) %>%
+    rename(class=class1, subclass=class2, subsubclass=subclass) %>%
     rename(lineage=hemilineage)
   tres
 }
