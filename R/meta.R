@@ -109,7 +109,7 @@ flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
     mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
     mutate(side=toupper(substr(side,1,1))) %>%
     rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
-    rename(class=super_class) %>%
+    rename(class=super_class, subclass=cell_class, subsubclass=cell_subclass) %>%
     rename(lineage=ito_lee_hemilineage)
 }
 
