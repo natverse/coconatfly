@@ -1,3 +1,18 @@
+# coconatfly 0.2.1
+
+* `cf_meta()` gets a `MoreArgs` argument to pass on to subsidiary functions for 
+  each dataset
+* Using this `cf_cosine_plot()` and friends now prefer malecns foreign types 
+  (flywireType, mancType) when available and co-clustering with another dataset
+  by @jefferis in https://github.com/natverse/coconatfly/pull/27
+* `cf_meta()`: new `keep.all` argument keep all columns, not just shared columns
+  by @jefferis in https://github.com/natverse/coconatfly/pull/30
+* support for min_datasets in cosine clustering 
+  by @jefferis in https://github.com/natverse/coconatfly/pull/31
+
+**Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.0...v0.2.1
+
+
 # coconatfly 0.2.0
 
 Although coconatfly has been in use for some time, this is the first stable 
