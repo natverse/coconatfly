@@ -109,7 +109,7 @@ flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
     mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
     mutate(side=toupper(substr(side,1,1))) %>%
     rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
-    rename(class=super_class, subclass=cell_class, subsubclass=cell_subclass) %>%
+    rename(class=super_class, subclass=cell_class, subsubclass=cell_sub_class) %>%
     rename(lineage=ito_lee_hemilineage)
 }
 
@@ -143,9 +143,8 @@ malecns_meta <- function(ids, ...) {
       T ~ type
     )) %>%
     rename(id=bodyid) %>%
-    #
     rename(class1=superclass, class2=class, subsubclass=subclass) %>%
-    rename(class=class1, subclass=class2, subsubclass=subclass) %>%
+    rename(class=class1, subclass=class2) %>%
     rename(lineage=hemilineage)
   tres
 }
