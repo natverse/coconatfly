@@ -247,6 +247,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         T ~ toupper(substr(side,1,1))
       )) %>%
       select(id, class, type, side) %>%
+      mutate(subclass=NA_character_) %>%
       mutate(id=as.character(id))
   }
   if(length(ids))
