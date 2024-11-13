@@ -72,7 +72,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
       next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "type", 'side', 'group', "instance")
+    cols_we_want=c("id", "class", "subclass", "type", 'side', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if('class' %in% missing_cols)
       tres$class=NA_character_
@@ -118,6 +118,7 @@ hemibrain_meta <- function(ids, ...) {
   tres <- tres %>%
     rename(id=bodyid) %>%
     mutate(side=stringr::str_match(tres$name, "_([LR])")[,2]) %>%
+    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_) %>%
     rename(lineage=cellBodyFiber)
   tres
 }
@@ -126,7 +127,8 @@ opticlobe_meta <- function(ids, ...) {
   tres=malevnc::manc_neuprint_meta(ids, conn = npconn('opticlobe'), ...)
   tres <- tres %>%
     rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2])
+    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2]) %>%
+    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_)
   tres
 }
 
@@ -156,7 +158,8 @@ manc_meta <- function(ids, ...) {
       !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
       T ~ NA_character_
     )) %>%
-    rename(id=bodyid, lineage=hemilineage)
+    rename(id=bodyid, lineage=hemilineage) %>%
+    mutate(subsubclass=NA_character_)
   tres
 }
 
