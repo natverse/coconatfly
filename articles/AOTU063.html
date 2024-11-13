@@ -53,7 +53,7 @@
       <h1>3. Splitting AOTU063 cell type</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/classesx3/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
       <div class="d-none name"><code>AOTU063.Rmd</code></div>
     </div>
 
@@ -80,20 +80,20 @@
 <code class="sourceCode R"><span><span class="va">aotu63</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>query <span class="op">=</span> <span class="st">'/type:AOTU063.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>,<span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
 <span><span class="va">aotu63</span></span>
-<span><span class="co">#&gt;                   id side   class     type          lineage group</span></span>
-<span><span class="co">#&gt; 1 720575940620326253    R central AOTU063a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 720575940618697118    L central AOTU063b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 720575940621925631    R central AOTU063b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 720575940631129362    L central AOTU063a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;  AOTU063             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;            instance   dataset                   key</span></span>
-<span><span class="co">#&gt; 1        AOTU063a_R   flywire fw:720575940620326253</span></span>
-<span><span class="co">#&gt; 2        AOTU063b_L   flywire fw:720575940618697118</span></span>
-<span><span class="co">#&gt; 3        AOTU063b_R   flywire fw:720575940621925631</span></span>
-<span><span class="co">#&gt; 4        AOTU063a_L   flywire fw:720575940631129362</span></span>
-<span><span class="co">#&gt; 5 AOTU063(SCB058)_R hemibrain          hb:791039731</span></span>
-<span><span class="co">#&gt; 6 AOTU063(SCB058)_R hemibrain          hb:800929667</span></span></code></pre></div>
+<span><span class="co">#&gt;                   id side   class subclass subsubclass     type</span></span>
+<span><span class="co">#&gt; 1 720575940620326253    R central     &lt;NA&gt;        &lt;NA&gt; AOTU063a</span></span>
+<span><span class="co">#&gt; 2 720575940618697118    L central     &lt;NA&gt;        &lt;NA&gt; AOTU063b</span></span>
+<span><span class="co">#&gt; 3 720575940621925631    R central     &lt;NA&gt;        &lt;NA&gt; AOTU063b</span></span>
+<span><span class="co">#&gt; 4 720575940631129362    L central     &lt;NA&gt;        &lt;NA&gt; AOTU063a</span></span>
+<span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;  AOTU063</span></span>
+<span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;  AOTU063</span></span>
+<span><span class="co">#&gt;            lineage group          instance   dataset                   key</span></span>
+<span><span class="co">#&gt; 1 putative_primary  &lt;NA&gt;        AOTU063a_R   flywire fw:720575940620326253</span></span>
+<span><span class="co">#&gt; 2 putative_primary  &lt;NA&gt;        AOTU063b_L   flywire fw:720575940618697118</span></span>
+<span><span class="co">#&gt; 3 putative_primary  &lt;NA&gt;        AOTU063b_R   flywire fw:720575940621925631</span></span>
+<span><span class="co">#&gt; 4 putative_primary  &lt;NA&gt;        AOTU063a_L   flywire fw:720575940631129362</span></span>
+<span><span class="co">#&gt; 5             &lt;NA&gt;  &lt;NA&gt; AOTU063(SCB058)_R hemibrain          hb:791039731</span></span>
+<span><span class="co">#&gt; 6             &lt;NA&gt;  &lt;NA&gt; AOTU063(SCB058)_R hemibrain          hb:800929667</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>

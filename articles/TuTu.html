@@ -53,7 +53,7 @@
       <h1>2. Clustering TuTu neurons</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/classesx3/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
       <div class="d-none name"><code>TuTu.Rmd</code></div>
     </div>
 
@@ -88,40 +88,40 @@
 <code class="sourceCode R"><span><span class="va">tutus</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'/type:TuTu.*'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hemibrain"</span>, <span class="st">"flywire"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
 <span><span class="va">tutus</span></span>
-<span><span class="co">#&gt;                    id side   class    type          lineage group</span></span>
-<span><span class="co">#&gt; 1  720575940621226846    L central   TuTuA putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2  720575940633550431    R central TuTuB_a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3  720575940612218547    L central   TuTuA putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4  720575940635979000    L central TuTuB_b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5  720575940637997427    R central TuTuB_b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6  720575940623326868    L central TuTuB_a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 7  720575940614041238    R central   TuTuA putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 8  720575940622538520    R central   TuTuA putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 9          5813013691    L    &lt;NA&gt;   TuTuA             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 10          676836779    L    &lt;NA&gt;   TuTuA             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 11          708290604    R    &lt;NA&gt;   TuTuA            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 12          925008763    R    &lt;NA&gt;   TuTuA            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 13         5813014028    R    &lt;NA&gt; TuTuB_a            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 14          770226597    L    &lt;NA&gt; TuTuB_a             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 15          769544445    R    &lt;NA&gt; TuTuB_b            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 16          987759904    L    &lt;NA&gt; TuTuB_b             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;            instance   dataset                   key</span></span>
-<span><span class="co">#&gt; 1           TuTuA_L   flywire fw:720575940621226846</span></span>
-<span><span class="co">#&gt; 2         TuTuB_a_R   flywire fw:720575940633550431</span></span>
-<span><span class="co">#&gt; 3           TuTuA_L   flywire fw:720575940612218547</span></span>
-<span><span class="co">#&gt; 4         TuTuB_b_L   flywire fw:720575940635979000</span></span>
-<span><span class="co">#&gt; 5         TuTuB_b_R   flywire fw:720575940637997427</span></span>
-<span><span class="co">#&gt; 6         TuTuB_a_L   flywire fw:720575940623326868</span></span>
-<span><span class="co">#&gt; 7           TuTuA_R   flywire fw:720575940614041238</span></span>
-<span><span class="co">#&gt; 8           TuTuA_R   flywire fw:720575940622538520</span></span>
-<span><span class="co">#&gt; 9    TuTuA(ADL19)_L hemibrain         hb:5813013691</span></span>
-<span><span class="co">#&gt; 10   TuTuA(ADL19)_L hemibrain          hb:676836779</span></span>
-<span><span class="co">#&gt; 11          TuTuA_R hemibrain          hb:708290604</span></span>
-<span><span class="co">#&gt; 12          TuTuA_R hemibrain          hb:925008763</span></span>
-<span><span class="co">#&gt; 13        TuTuB_a_R hemibrain         hb:5813014028</span></span>
-<span><span class="co">#&gt; 14 TuTuB_a(ADL19)_L hemibrain          hb:770226597</span></span>
-<span><span class="co">#&gt; 15        TuTuB_b_R hemibrain          hb:769544445</span></span>
-<span><span class="co">#&gt; 16 TuTuB_b(ADL19)_L hemibrain          hb:987759904</span></span></code></pre></div>
+<span><span class="co">#&gt;                    id side   class subclass subsubclass    type</span></span>
+<span><span class="co">#&gt; 1  720575940621226846    L central     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 2  720575940633550431    R central     &lt;NA&gt;        &lt;NA&gt; TuTuB_a</span></span>
+<span><span class="co">#&gt; 3  720575940612218547    L central     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 4  720575940635979000    L central     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
+<span><span class="co">#&gt; 5  720575940637997427    R central     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
+<span><span class="co">#&gt; 6  720575940623326868    L central     &lt;NA&gt;        &lt;NA&gt; TuTuB_a</span></span>
+<span><span class="co">#&gt; 7  720575940614041238    R central     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 8  720575940622538520    R central     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 9          5813013691    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 10          676836779    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 11          708290604    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 12          925008763    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;   TuTuA</span></span>
+<span><span class="co">#&gt; 13         5813014028    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a</span></span>
+<span><span class="co">#&gt; 14          770226597    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a</span></span>
+<span><span class="co">#&gt; 15          769544445    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
+<span><span class="co">#&gt; 16          987759904    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
+<span><span class="co">#&gt;             lineage group         instance   dataset                   key</span></span>
+<span><span class="co">#&gt; 1  putative_primary  &lt;NA&gt;          TuTuA_L   flywire fw:720575940621226846</span></span>
+<span><span class="co">#&gt; 2  putative_primary  &lt;NA&gt;        TuTuB_a_R   flywire fw:720575940633550431</span></span>
+<span><span class="co">#&gt; 3  putative_primary  &lt;NA&gt;          TuTuA_L   flywire fw:720575940612218547</span></span>
+<span><span class="co">#&gt; 4  putative_primary  &lt;NA&gt;        TuTuB_b_L   flywire fw:720575940635979000</span></span>
+<span><span class="co">#&gt; 5  putative_primary  &lt;NA&gt;        TuTuB_b_R   flywire fw:720575940637997427</span></span>
+<span><span class="co">#&gt; 6  putative_primary  &lt;NA&gt;        TuTuB_a_L   flywire fw:720575940623326868</span></span>
+<span><span class="co">#&gt; 7  putative_primary  &lt;NA&gt;          TuTuA_R   flywire fw:720575940614041238</span></span>
+<span><span class="co">#&gt; 8  putative_primary  &lt;NA&gt;          TuTuA_R   flywire fw:720575940622538520</span></span>
+<span><span class="co">#&gt; 9              &lt;NA&gt;  &lt;NA&gt;   TuTuA(ADL19)_L hemibrain         hb:5813013691</span></span>
+<span><span class="co">#&gt; 10             &lt;NA&gt;  &lt;NA&gt;   TuTuA(ADL19)_L hemibrain          hb:676836779</span></span>
+<span><span class="co">#&gt; 11            ADL19  &lt;NA&gt;          TuTuA_R hemibrain          hb:708290604</span></span>
+<span><span class="co">#&gt; 12            ADL19  &lt;NA&gt;          TuTuA_R hemibrain          hb:925008763</span></span>
+<span><span class="co">#&gt; 13            ADL19  &lt;NA&gt;        TuTuB_a_R hemibrain         hb:5813014028</span></span>
+<span><span class="co">#&gt; 14             &lt;NA&gt;  &lt;NA&gt; TuTuB_a(ADL19)_L hemibrain          hb:770226597</span></span>
+<span><span class="co">#&gt; 15            ADL19  &lt;NA&gt;        TuTuB_b_R hemibrain          hb:769544445</span></span>
+<span><span class="co">#&gt; 16             &lt;NA&gt;  &lt;NA&gt; TuTuB_b(ADL19)_L hemibrain          hb:987759904</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">type</span>, <span class="va">side</span><span class="op">)</span></span>
@@ -207,30 +207,30 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   id side   class    type          lineage group</span></span>
-<span><span class="co">#&gt; 1 720575940637997427    R central TuTuB_b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 720575940635979000    L central TuTuB_b putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3          769544445    R    &lt;NA&gt; TuTuB_b            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4          987759904    L    &lt;NA&gt; TuTuB_b             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;           instance   dataset                   key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1        TuTuB_b_R   flywire fw:720575940637997427     11        4</span></span>
-<span><span class="co">#&gt; 2        TuTuB_b_L   flywire fw:720575940635979000     10        4</span></span>
-<span><span class="co">#&gt; 3        TuTuB_b_R hemibrain          hb:769544445      9        4</span></span>
-<span><span class="co">#&gt; 4 TuTuB_b(ADL19)_L hemibrain          hb:987759904     12        4</span></span></code></pre></div>
+<span><span class="co">#&gt;                   id side   class subclass subsubclass    type          lineage</span></span>
+<span><span class="co">#&gt; 1 720575940637997427    R central     &lt;NA&gt;        &lt;NA&gt; TuTuB_b putative_primary</span></span>
+<span><span class="co">#&gt; 2 720575940635979000    L central     &lt;NA&gt;        &lt;NA&gt; TuTuB_b putative_primary</span></span>
+<span><span class="co">#&gt; 3          769544445    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b            ADL19</span></span>
+<span><span class="co">#&gt; 4          987759904    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b             &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;   group         instance   dataset                   key dendid group_k5</span></span>
+<span><span class="co">#&gt; 1  &lt;NA&gt;        TuTuB_b_R   flywire fw:720575940637997427     11        4</span></span>
+<span><span class="co">#&gt; 2  &lt;NA&gt;        TuTuB_b_L   flywire fw:720575940635979000     10        4</span></span>
+<span><span class="co">#&gt; 3  &lt;NA&gt;        TuTuB_b_R hemibrain          hb:769544445      9        4</span></span>
+<span><span class="co">#&gt; 4  &lt;NA&gt; TuTuB_b(ADL19)_L hemibrain          hb:987759904     12        4</span></span></code></pre></div>
 <p>Group 5 contains the TuTuB_b neurons</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">group_k5</span><span class="op">==</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   id side   class    type          lineage group</span></span>
-<span><span class="co">#&gt; 1 720575940623326868    L central TuTuB_a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 720575940633550431    R central TuTuB_a putative_primary  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3          770226597    L    &lt;NA&gt; TuTuB_a             &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4         5813014028    R    &lt;NA&gt; TuTuB_a            ADL19  &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;           instance   dataset                   key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1        TuTuB_a_L   flywire fw:720575940623326868     15        5</span></span>
-<span><span class="co">#&gt; 2        TuTuB_a_R   flywire fw:720575940633550431     16        5</span></span>
-<span><span class="co">#&gt; 3 TuTuB_a(ADL19)_L hemibrain          hb:770226597     13        5</span></span>
-<span><span class="co">#&gt; 4        TuTuB_a_R hemibrain         hb:5813014028     14        5</span></span></code></pre></div>
+<span><span class="co">#&gt;                   id side   class subclass subsubclass    type          lineage</span></span>
+<span><span class="co">#&gt; 1 720575940623326868    L central     &lt;NA&gt;        &lt;NA&gt; TuTuB_a putative_primary</span></span>
+<span><span class="co">#&gt; 2 720575940633550431    R central     &lt;NA&gt;        &lt;NA&gt; TuTuB_a putative_primary</span></span>
+<span><span class="co">#&gt; 3          770226597    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a             &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4         5813014028    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a            ADL19</span></span>
+<span><span class="co">#&gt;   group         instance   dataset                   key dendid group_k5</span></span>
+<span><span class="co">#&gt; 1  &lt;NA&gt;        TuTuB_a_L   flywire fw:720575940623326868     15        5</span></span>
+<span><span class="co">#&gt; 2  &lt;NA&gt;        TuTuB_a_R   flywire fw:720575940633550431     16        5</span></span>
+<span><span class="co">#&gt; 3  &lt;NA&gt; TuTuB_a(ADL19)_L hemibrain          hb:770226597     13        5</span></span>
+<span><span class="co">#&gt; 4  &lt;NA&gt;        TuTuB_a_R hemibrain         hb:5813014028     14        5</span></span></code></pre></div>
 <p>The following code could help find the Flybase/Virtual Fly Brain anatomy ontology (FBbt) ids for these neurons:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'vfbr'</span><span class="op">)</span></span>

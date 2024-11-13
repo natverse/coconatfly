@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Multi dataset cosine clustering</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/classesx3/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
       <div class="d-none name"><code>cf_cosine_plot.Rd</code></div>
     </div>
 
@@ -251,20 +251,20 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4  894362173 208  469      469       1703 Traced Roughly traced  469303915</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 1572520204 126  474      474        863 Traced Roughly traced  402431356</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 5901201676 120  383      383        832 Traced Roughly traced  360821541</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cropped instance   type lineage notes soma side class group   dataset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   FALSE LAL001_R LAL001   ADL02  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   FALSE LAL002_R LAL002   ADL02  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   FALSE LAL003_R LAL003   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   FALSE LAL004_R LAL004   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   FALSE LAL005_R LAL005   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   FALSE LAL005_R LAL005   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;  &lt;NA&gt; hemibrain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             key mytype             label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb:5813047453  alice LAL001_R :: alice</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 hb:1011611587    bob   LAL002_R :: bob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 hb:5813041304   &lt;NA&gt;    LAL003_R :: NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  hb:894362173   &lt;NA&gt;    LAL004_R :: NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 hb:1572520204   &lt;NA&gt;    LAL005_R :: NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 hb:5901201676   &lt;NA&gt;    LAL005_R :: NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cropped instance   type lineage notes soma side class subclass subsubclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   FALSE LAL001_R LAL001   ADL02  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   FALSE LAL002_R LAL002   ADL02  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   FALSE LAL003_R LAL003   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   FALSE LAL004_R LAL004   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   FALSE LAL005_R LAL005   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   FALSE LAL005_R LAL005   ADL06  &lt;NA&gt; TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   group   dataset           key mytype             label</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  &lt;NA&gt; hemibrain hb:5813047453  alice LAL001_R :: alice</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  &lt;NA&gt; hemibrain hb:1011611587    bob   LAL002_R :: bob</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  &lt;NA&gt; hemibrain hb:5813041304   &lt;NA&gt;    LAL003_R :: NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  &lt;NA&gt; hemibrain  hb:894362173   &lt;NA&gt;    LAL004_R :: NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  &lt;NA&gt; hemibrain hb:1572520204   &lt;NA&gt;    LAL005_R :: NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  &lt;NA&gt; hemibrain hb:5901201676   &lt;NA&gt;    LAL005_R :: NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># now use that in the plot</span></span></span>
 <span class="r-in"><span><span class="co"># NB with function allows cf_cosine_plot to use dataframe columns directly</span></span></span>
