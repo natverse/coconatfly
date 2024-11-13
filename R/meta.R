@@ -200,15 +200,15 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
       mutate(
         tag=sub("\n\n\n*banc-bot*","", fixed = T, tag),
         pt_root_id=as.character(pt_root_id))
-    cell_infos3 <- cell_infos2 |>
+    cell_infos3 <- cell_infos2 %>%
       mutate(
         tag2=case_when(
           tag2 %in% ol_classes ~ 'neuron identity',
           T ~ tag2)
-      ) |>
-      arrange(pt_root_id, tag) |>
-      distinct(pt_root_id, tag2, tag, .keep_all = T) |>
-      group_by(pt_root_id, tag2) |>
+      ) %>%
+      arrange(pt_root_id, tag) %>%
+      distinct(pt_root_id, tag2, tag, .keep_all = T) %>%
+      group_by(pt_root_id, tag2) %>%
       # summarise(tag=paste0(tag, collapse=";"), .groups = 'drop')
       summarise(tag={
         if(length(tag)>1 && any(grepl("?", tag, fixed = T))) {
@@ -221,9 +221,9 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         paste0(tag, collapse=";")
       }, .groups = 'drop')
 
-    cell_infos2.ol=cell_infos2 |> filter(tag2 %in% ol_classes)
+    cell_infos2.ol=cell_infos2 %>% filter(tag2 %in% ol_classes)
 
-    cell_infos4 <-   cell_infos3 |>
+    cell_infos4 <-   cell_infos3 %>%
       tidyr::pivot_wider(id_cols = pt_root_id,
                          names_from = tag2,
                          values_from = tag,
@@ -241,7 +241,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         T ~ paste(class, apc)
       )) %>%
       mutate(class=sub(" neuron", '', class)) %>%
-      mutate(side=sub('soma on ', '', side)) |>
+      mutate(side=sub('soma on ', '', side)) %>%
       mutate(side=case_when(
         is.na(side) ~ side,
         T ~ toupper(substr(side,1,1))
