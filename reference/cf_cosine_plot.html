@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Multi dataset cosine clustering</h1>
-      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/flyconnectome/coconatfly/blob/feature/malecns-lineage/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
       <div class="d-none name"><code>cf_cosine_plot.Rd</code></div>
     </div>
 
@@ -51,6 +51,7 @@
 <span>  matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  drop_dataset_prefix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep.all.meta <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  min_datasets <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  nas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zero"</span>, <span class="st">"drop"</span><span class="op">)</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ward.D"</span>, <span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"mcquitty"</span>, <span class="st">"median"</span>, <span class="st">"centroid"</span>,</span>
@@ -125,6 +126,14 @@ and id selection). See details.</p></dd>
 <dd><p>Whether to remove dataset prefix such as
 <code>hb:</code> or <code>fw:</code> from dendrograms. This is useful when reviewing
 neurons in interactive mode.</p></dd>
+
+
+<dt id="arg-keep-all-meta">keep.all.meta<a class="anchor" aria-label="anchor" href="#arg-keep-all-meta"></a></dt>
+<dd><p>Whether to keep all meta data information for the query
+neurons to allow for more flexible labelling of the dendrogram (default
+<code>TRUE</code> for convenience, so not really clear why you would want to set
+to <code>FALSE</code>). See the <code>keep.all</code> argument of <code><a href="cf_meta.html">cf_meta</a></code>
+for details.</p></dd>
 
 
 <dt id="arg-min-datasets">min_datasets<a class="anchor" aria-label="anchor" href="#arg-min-datasets"></a></dt>
@@ -287,6 +296,10 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 <span class="r-in"><span><span class="co">## The previous examples are for single datasets to avoid authentication issues</span></span></span>
 <span class="r-in"><span><span class="co">## on the build server, but similar queries could be run for multiple datasets</span></span></span>
 <span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span>flywire<span class="op">=</span><span class="st">"/type:LAL.+"</span>, malecns<span class="op">=</span><span class="st">"/type:LAL.+"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># we can use a range of dataset-specific columns to decorate labels</span></span></span>
+<span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span>flywire<span class="op">=</span><span class="st">"/type:LAL0.+"</span>, hemibrain<span class="op">=</span><span class="st">"/type:LAL0.+"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  labRow <span class="op">=</span> <span class="st">"{top_nt}"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">cf_cosine_plot</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:LAL.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># same as since the default is brain</span></span></span>
