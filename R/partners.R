@@ -222,7 +222,7 @@ connection_table2queryids <- function(x) {
 #' }
 #' @importFrom glue glue
 #' @importFrom dplyr .data select mutate left_join group_by n_distinct summarise
-#'   arrange desc
+#'   arrange desc across ungroup
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                aggregate.query=TRUE, normalise=FALSE,
                                rval=c("data.frame", "sparse", "matrix"),
