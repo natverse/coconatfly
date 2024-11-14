@@ -72,7 +72,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
       next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "type", 'side', 'group', "instance")
+    cols_we_want=c("id", "class", "subclass", "type", 'side', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if('class' %in% missing_cols)
       tres$class=NA_character_
@@ -109,7 +109,7 @@ flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
     mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
     mutate(side=toupper(substr(side,1,1))) %>%
     rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
-    rename(class=super_class) %>%
+    rename(class=super_class, subclass=cell_class, subsubclass=cell_sub_class) %>%
     rename(lineage=ito_lee_hemilineage)
 }
 
@@ -118,6 +118,7 @@ hemibrain_meta <- function(ids, ...) {
   tres <- tres %>%
     rename(id=bodyid) %>%
     mutate(side=stringr::str_match(tres$name, "_([LR])")[,2]) %>%
+    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_) %>%
     rename(lineage=cellBodyFiber)
   tres
 }
@@ -126,7 +127,8 @@ opticlobe_meta <- function(ids, ...) {
   tres=malevnc::manc_neuprint_meta(ids, conn = npconn('opticlobe'), ...)
   tres <- tres %>%
     rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2])
+    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2]) %>%
+    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_)
   tres
 }
 
@@ -143,6 +145,8 @@ malecns_meta <- function(ids, ...) {
       T ~ type
     )) %>%
     rename(id=bodyid) %>%
+    rename(class1=superclass, class2=class, subsubclass=subclass) %>%
+    rename(class=class1, subclass=class2) %>%
     rename(lineage=hemilineage)
   tres
 }
@@ -154,7 +158,8 @@ manc_meta <- function(ids, ...) {
       !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
       T ~ NA_character_
     )) %>%
-    rename(id=bodyid, lineage=hemilineage)
+    rename(id=bodyid, lineage=hemilineage) %>%
+    mutate(subsubclass=NA_character_)
   tres
 }
 
@@ -195,15 +200,15 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
       mutate(
         tag=sub("\n\n\n*banc-bot*","", fixed = T, tag),
         pt_root_id=as.character(pt_root_id))
-    cell_infos3 <- cell_infos2 |>
+    cell_infos3 <- cell_infos2 %>%
       mutate(
         tag2=case_when(
           tag2 %in% ol_classes ~ 'neuron identity',
           T ~ tag2)
-      ) |>
-      arrange(pt_root_id, tag) |>
-      distinct(pt_root_id, tag2, tag, .keep_all = T) |>
-      group_by(pt_root_id, tag2) |>
+      ) %>%
+      arrange(pt_root_id, tag) %>%
+      distinct(pt_root_id, tag2, tag, .keep_all = T) %>%
+      group_by(pt_root_id, tag2) %>%
       # summarise(tag=paste0(tag, collapse=";"), .groups = 'drop')
       summarise(tag={
         if(length(tag)>1 && any(grepl("?", tag, fixed = T))) {
@@ -216,9 +221,9 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         paste0(tag, collapse=";")
       }, .groups = 'drop')
 
-    cell_infos2.ol=cell_infos2 |> filter(tag2 %in% ol_classes)
+    cell_infos2.ol=cell_infos2 %>% filter(tag2 %in% ol_classes)
 
-    cell_infos4 <-   cell_infos3 |>
+    cell_infos4 <-   cell_infos3 %>%
       tidyr::pivot_wider(id_cols = pt_root_id,
                          names_from = tag2,
                          values_from = tag,
@@ -236,12 +241,13 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
         T ~ paste(class, apc)
       )) %>%
       mutate(class=sub(" neuron", '', class)) %>%
-      mutate(side=sub('soma on ', '', side)) |>
+      mutate(side=sub('soma on ', '', side)) %>%
       mutate(side=case_when(
         is.na(side) ~ side,
         T ~ toupper(substr(side,1,1))
       )) %>%
       select(id, class, type, side) %>%
+      mutate(subclass=NA_character_) %>%
       mutate(id=as.character(id))
   }
   if(length(ids))
