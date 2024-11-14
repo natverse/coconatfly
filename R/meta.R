@@ -147,7 +147,10 @@ malecns_meta <- function(ids, ...) {
     rename(id=bodyid) %>%
     rename(class1=superclass, class2=class, subsubclass=subclass) %>%
     rename(class=class1, subclass=class2) %>%
-    rename(lineage=hemilineage)
+    mutate(lineage=case_when(
+      !is.na(itoleeHl) & nzchar(itoleeHl) ~ itoleeHl,
+      T ~ trumanHl
+    ))
   tres
 }
 
