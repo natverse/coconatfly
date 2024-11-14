@@ -83,6 +83,11 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @param drop_dataset_prefix Whether to remove dataset prefix such as
 #'   \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
 #'   neurons in interactive mode.
+#' @param keep.all.meta Whether to keep all meta data information for the query
+#'   neurons to allow for more flexible labelling of the dendrogram (default
+#'   \code{TRUE} for convenience, so not really clear why you would want to set
+#'   to \code{FALSE}). See the \code{keep.all} argument of \code{\link{cf_meta}}
+#'   for details.
 #' @inheritParams cf_partners
 #' @inheritParams neuprintr::neuprint_cosine_plot
 #'
@@ -140,6 +145,10 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' ## The previous examples are for single datasets to avoid authentication issues
 #' ## on the build server, but similar queries could be run for multiple datasets
 #' cf_cosine_plot(cf_ids(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+#'
+#' # we can use a range of dataset-specific columns to decorate labels
+#' cf_cosine_plot(cf_ids(flywire="/type:LAL0.+", hemibrain="/type:LAL0.+"),
+#'   labRow = "{top_nt}")
 #'
 #' cf_cosine_plot(cf_ids("/type:LAL.+", datasets='brain'))
 #' # same as since the default is brain
@@ -228,6 +237,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            matrix=FALSE,
                            interactive=FALSE,
                            drop_dataset_prefix=FALSE,
+                           keep.all.meta=TRUE,
                            min_datasets=Inf,
                            nas=c('zero','drop'),
                            method=c("ward.D", "single", "complete", "average",
@@ -243,7 +253,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
-    tm=cf_meta(colnames(cm))
+    tm=cf_meta(colnames(cm), keep.all = keep.all.meta)
     labRow <- glue::glue_data(labRow, .x = tm)
   } else if(is.character(labRow)) {
     # user has supplied labels but they are unlikely to be in the correct order

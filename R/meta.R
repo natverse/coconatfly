@@ -49,7 +49,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
   if(is.data.frame(ids)) {
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
-    res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs)
+    res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs, keep.all=keep.all)
     res=res[match(keys(ids), res$key),,drop=F]
     return(res)
   }
@@ -147,7 +147,10 @@ malecns_meta <- function(ids, ...) {
     rename(id=bodyid) %>%
     rename(class1=superclass, class2=class, subsubclass=subclass) %>%
     rename(class=class1, subclass=class2) %>%
-    rename(lineage=hemilineage)
+    mutate(lineage=case_when(
+      !is.na(itoleeHl) & nzchar(itoleeHl) ~ itoleeHl,
+      T ~ trumanHl
+    ))
   tres
 }
 

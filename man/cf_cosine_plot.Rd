@@ -16,6 +16,7 @@ cf_cosine_plot(
   matrix = FALSE,
   interactive = FALSE,
   drop_dataset_prefix = FALSE,
+  keep.all.meta = TRUE,
   min_datasets = Inf,
   nas = c("zero", "drop"),
   method = c("ward.D", "single", "complete", "average", "mcquitty", "median", "centroid",
@@ -67,6 +68,12 @@ and id selection). See details.}
 \item{drop_dataset_prefix}{Whether to remove dataset prefix such as
 \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
 neurons in interactive mode.}
+
+\item{keep.all.meta}{Whether to keep all meta data information for the query
+neurons to allow for more flexible labelling of the dendrogram (default
+\code{TRUE} for convenience, so not really clear why you would want to set
+to \code{FALSE}). See the \code{keep.all} argument of \code{\link{cf_meta}}
+for details.}
 
 \item{min_datasets}{How many datasets a type must be in to be included in the
 output. The default of \code{Inf} => all datasets must contain the cell
@@ -176,6 +183,10 @@ lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75, idcol='key')
 ## The previous examples are for single datasets to avoid authentication issues
 ## on the build server, but similar queries could be run for multiple datasets
 cf_cosine_plot(cf_ids(flywire="/type:LAL.+", malecns="/type:LAL.+"))
+
+# we can use a range of dataset-specific columns to decorate labels
+cf_cosine_plot(cf_ids(flywire="/type:LAL0.+", hemibrain="/type:LAL0.+"),
+  labRow = "{top_nt}")
 
 cf_cosine_plot(cf_ids("/type:LAL.+", datasets='brain'))
 # same as since the default is brain
