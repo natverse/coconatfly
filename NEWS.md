@@ -1,4 +1,18 @@
-# coconatfly (development version)
+# coconatfly 0.2.2
+
+* support malecns superclass/class/subclass change. To stay backward compatible 
+  for the time being the class hierarchy is mapped onto
+  - class
+  - subclass
+  - subsubclass
+  but the intent is to switch to superclass/class/subclass in the next version
+  by @jefferis in https://github.com/natverse/coconatfly/pull/32
+* Correct handling of malecns lineage information by @jefferis in https://github.com/natverse/coconatfly/pull/33
+* `cf_cosine_plot()` now fetches all metadata cols by default (f1667a3c8318120626ae95c2116f73576fd2dfb4)
+* fix: pass on `keep.all` when `cf_meta()` receives keys
+
+**Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.1...v0.2.2
+
 
 # coconatfly 0.2.1
 
