@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">coconatfly</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,20 @@
       <small>Source: <a href="https://github.com/flyconnectome/coconatfly/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="coconatfly-development-version">coconatfly (development version)<a class="anchor" aria-label="anchor" href="#coconatfly-development-version"></a></h2></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.2" id="coconatfly-022">coconatfly 0.2.2<a class="anchor" aria-label="anchor" href="#coconatfly-022"></a></h2>
+<ul><li>support malecns superclass/class/subclass change. To stay backward compatible for the time being the class hierarchy is mapped onto<ul><li>class</li>
+<li>subclass</li>
+<li>subsubclass but the intent is to switch to superclass/class/subclass in the next version by <a href="https://github.com/jefferis" class="external-link">@jefferis</a> in <a href="https://github.com/natverse/coconatfly/pull/32" class="external-link uri">https://github.com/natverse/coconatfly/pull/32</a>
+</li>
+</ul></li>
+<li>Correct handling of malecns lineage information by <a href="https://github.com/jefferis" class="external-link">@jefferis</a> in <a href="https://github.com/natverse/coconatfly/pull/33" class="external-link uri">https://github.com/natverse/coconatfly/pull/33</a>
+</li>
+<li>
+<code><a href="../reference/cf_cosine_plot.html">cf_cosine_plot()</a></code> now fetches all metadata cols by default (f1667a3c8318120626ae95c2116f73576fd2dfb4)</li>
+<li>fix: pass on <code>keep.all</code> when <code><a href="../reference/cf_meta.html">cf_meta()</a></code> receives keys</li>
+</ul><p><strong>Full Changelog</strong>: <a href="https://github.com/natverse/coconatfly/compare/v0.2.1" class="external-link uri">https://github.com/natverse/coconatfly/compare/v0.2.1</a>…v0.2.2</p>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.1" id="coconatfly-021">coconatfly 0.2.1<a class="anchor" aria-label="anchor" href="#coconatfly-021"></a></h2>
 <ul><li>
