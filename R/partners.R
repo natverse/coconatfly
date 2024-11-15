@@ -168,10 +168,12 @@ match_types <- function(x, group="type", partners="", min_datasets=Inf) {
     dplyr::ungroup()
   todrop <- xg %>%
     dplyr::filter(nd<min_datasets)
-  message("Matching types across datasets. Dropping ",
-          nrow(todrop), "/", nrow(x),
+  message("Matching types across datasets. Keeping ",
+          nrow(x) - nrow(todrop), "/", nrow(x),
           " ", substr(partners,1,nchar(partners)-1),
-          " partner types with total weight ", sum(todrop$weight), "/", sum(x$weight))
+          " connections with total weight ", sum(x$weight) - sum(todrop$weight), "/", sum(x$weight),
+          " (", round(1-sum(todrop$weight)/sum(x$weight), digits = 2)*100, "%)"
+          )
   x <- xg %>%
     dplyr::filter(nd>=min_datasets) %>%
     dplyr::select(-nd)
