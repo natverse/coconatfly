@@ -10,6 +10,7 @@
 * Correct handling of malecns lineage information by @jefferis in https://github.com/natverse/coconatfly/pull/33
 * `cf_cosine_plot()` now fetches all metadata cols by default (f1667a3c8318120626ae95c2116f73576fd2dfb4)
 * fix: pass on `keep.all` when `cf_meta()` receives keys
+* `cf_cosine_plot()`: Now reports % of partner connections kept across datasets.
 
 **Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.1...v0.2.2
 
