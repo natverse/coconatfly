@@ -25,9 +25,9 @@ test_that("cosine plots work", {
   skip_if(nofw, message = 'No flywire annotations available.')
 
   lalids=cf_ids(hemibrain="/type:LAL(00.+|044)", flywire = "/type:LAL00.+")
-  hc=cf_cosine_plot(lalids, heatmap = F)
+  suppressWarnings(suppressMessages(hc <- cf_cosine_plot(lalids, heatmap = F)))
   suppressWarnings(suppressMessages(expect_message(hc1 <- cf_cosine_plot(lalids, min_datasets = -1, heatmap = F),
-                 "Dropping 0.*partner types")))
+                 "Keeping .*connections")))
   suppressWarnings(
     suppressMessages(
       expect_equal(cf_cosine_plot(lalids, min_datasets = 1, heatmap = F),
