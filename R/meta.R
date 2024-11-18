@@ -253,7 +253,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
       mutate(subclass=NA_character_) %>%
       mutate(id=as.character(id))
   }
-  if(length(ids))
+  if(!is.null(ids))
     left_join(data.frame(id=ids), metadf, by='id')
   else
     metadf
@@ -269,6 +269,7 @@ fanc_ids <- function(ids) {
 
 #' @importFrom dplyr pull
 fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
+  if(is.null(ids)) return(NULL)
   dataset=match.arg(dataset)
   # extract numeric ids if possible
   ids <- extract_ids(ids)

@@ -90,7 +90,10 @@ keys <- function(x, idcol='id') {
            )
     x$dataset=abbreviate_datasets(x$dataset)
   }
-  paste0(x[['dataset']],":", x[[idcol]])
+  if(nrow(x)>0)
+    paste0(x[['dataset']],":", x[[idcol]])
+  else
+    character()
 }
 
 is_key <- function(x, compound=FALSE) {
@@ -269,6 +272,7 @@ expand_ids <- function(ids, dataset) {
     ids=mapply(expand_ids, ids=ids, dataset=names(ids), SIMPLIFY = FALSE)
     return(ids)
   }
+  if(length(ids)==0) return(character())
   dataset=match_datasets(dataset)
   FUN <- switch(dataset,
     manc=function(ids) malevnc::manc_ids(ids, mustWork = F),

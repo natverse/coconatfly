@@ -17,3 +17,9 @@ test_that("metadata", {
     'data.frame')
   expect_contains(colnames(dna02meta2), c("serial", "birthtime"))
 })
+
+test_that("fanc/banc ids/metadata", {
+  skip_if_not_installed('fancr')
+  skip_if_not_installed('reticulate')
+  expect_null(cf_meta(cf_ids(banc='/rhubarb.+')))
+})

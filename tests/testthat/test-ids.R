@@ -37,8 +37,12 @@ test_that("key handling works", {
          flywire=as.character(1:5)))
 
   expect_output(print(res), regexp = 'flywire.*hemibrain')
-  
+
   expect_equal(keys(cf_ids(hemibrain = '/MBON01')), cf_ids(hemibrain = '/MBON01', keys = T))
+
+  expect_warning(
+    expect_equal(cf_ids(hemibrain = "/rhubarb", keys = T), character()),
+    "No matching ids")
 })
 
 test_that("fanc/banc ids/metadata", {
@@ -52,4 +56,7 @@ test_that("fanc/banc ids/metadata", {
   expect_length(dna02keys <- cf_ids(banc='/DNa02', keys = T), 2L)
   expect_warning(
     expect_in(cf_ids(banc='DNa02', keys = T), dna02keys))
+  expect_warning(
+    expect_equal(lengths(cf_ids(banc='/rhubarb.+', expand = TRUE)), 0L, ignore_attr=TRUE),
+               "No matching ids")
 })
