@@ -170,7 +170,7 @@ is_key <- function(x, compound=FALSE) {
 #' keys(c(cf_ids("/type:MBON1.+"), cf_ids(hemibrain = hbids)))
 #'
 #' # queries on classes respecting dataset idiosyncrasies
-#' cf_ids(manc='/class:descending.*', flywire='/super_class:descending.*', expand = T)
+#' cf_ids(manc="/class:descend.+", flywire="/super_class:descend.+", expand = TRUE)
 #' }
 cf_ids <- function(
     query=NULL,

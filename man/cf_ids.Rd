@@ -106,7 +106,7 @@ c(cf_ids("/type:MBON1.+", keys=TRUE), cf_ids(hemibrain = hbids, keys = TRUE))
 keys(c(cf_ids("/type:MBON1.+"), cf_ids(hemibrain = hbids)))
 
 # queries on classes respecting dataset idiosyncrasies
-cf_ids(manc='/class:descending.*', flywire='/super_class:descending.*', expand = T)
+cf_ids(manc="/class:descend.+", flywire="/super_class:descend.+", expand = TRUE)
 }
 c(cf_ids(flywire = 1, hemibrain = 2), cf_ids(hemibrain = 1:2, flywire=1:2))
 c(cf_ids(flywire = 1, hemibrain = 2), cf_ids(hemibrain = 1:2, flywire=1:2), unique=FALSE)
