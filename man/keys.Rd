@@ -64,7 +64,10 @@ keys(cf_ids(hemibrain=12345, flywire='4611686018427387904'))
 keys(cf_ids(hemibrain='MBON01'))
 }
 \donttest{
-
+keys2df(cf_ids('MBON01', datasets = c("hemibrain", "flywire")))
+}
+\donttest{
+keys2list(cf_ids('MBON01', datasets = c("hemibrain", "flywire")))
 }
 }
 \seealso{

@@ -300,10 +300,15 @@ expand_ids <- function(ids, dataset) {
 #'
 #' @rdname keys
 #' @export
+#' @examples
+#' \donttest{
+#' keys2df(cf_ids('MBON01', datasets = c("hemibrain", "flywire")))
+#' }
 keys2df <- function(keys, integer64=FALSE) {
   keys=keys(keys)
   res=stringr::str_match(keys, "^([a-z]{2}):([0-9]+)")
-  data.frame(id=res[,3], dataset=lengthen_datasets(res[,2]))
+  ids = if(integer64) bit64::as.integer64(res[,3]) else res[,3]
+  data.frame(id=ids, dataset=lengthen_datasets(res[,2]))
 }
 
 #' @description \code{keys2list} converts a character vector of keys to a list of ids with one list element for each dataset
@@ -317,7 +322,7 @@ keys2df <- function(keys, integer64=FALSE) {
 #' @export
 #' @examples
 #' \donttest{
-#'
+#' keys2list(cf_ids('MBON01', datasets = c("hemibrain", "flywire")))
 #' }
 keys2list <- function(keys, integer64=FALSE) {
   iddf=keys2df(keys)
