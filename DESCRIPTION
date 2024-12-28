@@ -59,9 +59,9 @@ Remotes:
     natverse/nat.h5reg,
     natverse/coconat
 RoxygenNote: 7.3.2
-URL: https://github.com/flyconnectome/coconatfly,
-    https://flyconnectome.github.io/coconatfly/
-BugReports: https://github.com/flyconnectome/coconatfly/issues
+URL: https://github.com/natverse/coconatfly,
+    https://natverse.org/coconatfly/
+BugReports: https://github.com/natverse/coconatfly/issues
 Config/testthat/edition: 3
 biocViews: Software
 VignetteBuilder: knitr
