@@ -1,3 +1,12 @@
+# coconatfly 0.2.3
+
+* empty query fixes for all keys and banc metadata by @jefferis in https://github.com/natverse/coconatfly/pull/34
+* Fix malecns class in cf_partners by @jefferis in https://github.com/natverse/coconatfly/pull/35
+* also support for rootSide in malecns in #35
+
+**Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.2...v0.2.3
+
+
 # coconatfly 0.2.2
 
 * support malecns superclass/class/subclass change. To stay backward compatible 
