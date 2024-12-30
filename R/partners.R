@@ -100,7 +100,10 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                  chunk = neuprint.chunksize)
       tres=do.call(malecns::mcns_connection_table, c(args, ma1))
       # nb the type information we care about here is for partners
-      tres2=tres %>% dplyr::select(partner, type, name) %>% dplyr::rename(bodyid=partner)
+      tres2=tres %>%
+        dplyr::select(partner, type, name) %>%
+        dplyr::rename(bodyid=partner)
+
       tres$type <- do.call(malecns::mcns_predict_type,
                            c(list(ids=tres2), ma2))
       # set the soma side either from manually reviewed data
@@ -108,7 +111,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
         dplyr::mutate(side=dplyr::case_when(
           !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ somaSide,
           T ~ malecns::mcns_soma_side(., method = "instance")
-        ))
+        )) |>
+        rename(class=superclass)
+
     } else if (n=='fanc') {
       args=list(fanc_ids(ids[[n]]),
                 partners = partners,
