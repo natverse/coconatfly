@@ -136,6 +136,10 @@ malecns_meta <- function(ids, ...) {
   tres=malecns::mcns_neuprint_meta(ids)
   tres <- tres %>%
     mutate(side=malecns::mcns_soma_side(.)) %>%
+    mutate(side=case_when(
+      is.na(side) ~ rootSide,
+      T ~ side
+    )) %>%
     mutate(pgroup=malecns::mcns_predict_group(.)) %>%
     mutate(ptype=malecns::mcns_predict_type(.)) %>%
     rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
