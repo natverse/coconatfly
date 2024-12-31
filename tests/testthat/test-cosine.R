@@ -33,3 +33,15 @@ test_that("cosine plots work", {
       expect_equal(cf_cosine_plot(lalids, min_datasets = 1, heatmap = F),
                    hc1)))
 })
+
+
+test_that("cosine plot with no partners", {
+  op <- options(fafbseg.use_static_celltypes=T)
+  on.exit(options(op))
+
+  suppressWarnings(
+    suppressMessages(
+      expect_warning(cf_cosine_plot(cf_ids(hemibrain = 'ORN_DA1', flywire = 'ORN_DA1'), threshold = 8),
+                     "no inputs.*flywire")
+    ))
+})

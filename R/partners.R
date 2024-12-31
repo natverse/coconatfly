@@ -143,12 +143,22 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
         ))
     }
     tres=coconat:::standardise_partner_summary(tres)
-    tres$dataset=n
+    if(nrow(tres)>0) {
+      tres$dataset=n
+    } else {
+      tres$dataset=character()
+      warning("no ", partners, " found for `", n, "` dataset.")
+    }
     tres$pre_key=keys(tres, idcol="pre_id")
     tres$post_key=keys(tres, idcol='post_id')
     res[[n]]=tres
   }
-  if(isTRUE(bind.rows)) bind_rows2(res) else res
+  if(isTRUE(bind.rows)) {
+    res=bind_rows2(res)
+    # record the datasets we tried to find
+    attr(res, 'datasets')=names(ids)
+    res
+  } else res
 }
 
 
