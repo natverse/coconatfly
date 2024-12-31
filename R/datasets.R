@@ -23,6 +23,7 @@ match_datasets <- function(ds) {
 #' @examples
 #' abbreviate_datasets(c("flywire", "flywire", "hemibrain"))
 abbreviate_datasets <- function(ds) {
+  if(length(ds)<1) return(ds)
   ds=match_datasets(ds)
   abbrevlist=c(hemibrain='hb', flywire='fw', manc='mv', fanc='fv', malecns='mc',
                opticlobe='ol', banc='bc')
