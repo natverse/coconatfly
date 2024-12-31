@@ -11,6 +11,9 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+# use released flywire cell types even if you have access to in progress
+# information
+options(fafbseg.use_static_celltypes = TRUE)
 ```
 
 
@@ -62,15 +65,22 @@ anticipated late 2024.
 
 ## Installation
 
-You can install the development version of **coconatfly** like so:
+We recommend installing the latest version of **coconatfly** from github like so:
 
-``` r
+```{r eval=FALSE}
 install.packages('natmanager')
 natmanager::install(pkgs = 'coconatfly')
 ```
 
-Some of the datasets exposed by **coconatfly** require authentication for access or
-are still being annotated in private pre-release. Please consult individual 
+but you may also choose a specific 
+[released version](https://github.com/natverse/coconatfly/releases) 
+for enhanced reproducibility:
+```{r eval=FALSE}
+natmanager::install(pkgs = 'coconatfly@v0.2.2')
+```
+
+Some of the datasets exposed by **coconatfly** require authentication for access
+or are still being annotated in private pre-release. Please consult individual 
 package dependencies for authentication details and do not be surprised if you
 do not have access to all datasets at this time.
 
@@ -96,7 +106,7 @@ library(dplyr)
 
 Two important functions are `cf_ids()` which allows you to specify a set of
 neurons from one or more datasets and `cf_meta()` which fetches information
-about the cell type. 
+about each neuron including its cell type.
 For example let's fetch information about DA1 projection neurons:
 
 ```{r}
@@ -191,7 +201,7 @@ cell type of two cells / hemisphere (i.e. they should not have been split into
 two cell types in the hemibrain).
 
 You can also see that cells from one hemibrain hemisphere often cluster slightly
-oddly (e.g. 387687146) - this is likely due to truncation of the axons or dendrites of these cells
+oddly (e.g. `387687146`) - this is likely due to truncation of the axons or dendrites of these cells
 or a paucity of partners from the left hand side of the hemibrain. 
 
 ## Going further
@@ -208,7 +218,7 @@ In addition in order to justify continued development of natverse tools in gener
 coconatfly in particular, we would appreciate two citations for
 
 * For the natverse: [Bates et al eLife 2020](https://doi.org/10.7554/eLife.53350)
-* For coconatfly: [Schlegel et al bioRxiv 2023](https://doi.org/10.1101/2023.06.27.546055)
+* For coconatfly: [Schlegel et al Nature 2024](https://doi.org/10.1038/s41586-024-07686-5)
 
 Should you make significant use of natverse packages in your paper
 (e.g. multiple panels or >1 figure), we would also strongly

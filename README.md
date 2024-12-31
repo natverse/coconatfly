@@ -60,11 +60,20 @@ anticipated late 2024.
 
 ## Installation
 
-You can install the development version of **coconatfly** like so:
+We recommend installing the latest version of **coconatfly** from github
+like so:
 
 ``` r
 install.packages('natmanager')
 natmanager::install(pkgs = 'coconatfly')
+```
+
+but you may also choose a specific [released
+version](https://github.com/natverse/coconatfly/releases) for enhanced
+reproducibility:
+
+``` r
+natmanager::install(pkgs = 'coconatfly@v0.2.2')
 ```
 
 Some of the datasets exposed by **coconatfly** require authentication
@@ -97,8 +106,8 @@ library(dplyr)
 
 Two important functions are `cf_ids()` which allows you to specify a set
 of neurons from one or more datasets and `cf_meta()` which fetches
-information about the cell type. For example let’s fetch information
-about DA1 projection neurons:
+information about each neuron including its cell type. For example let’s
+fetch information about DA1 projection neurons:
 
 ``` r
 cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
@@ -110,47 +119,44 @@ cf_meta(cf_ids('DA1_lPN', datasets = 'hemibrain'))
 #> 5  722817260 701 2435     2435       5635 Traced Roughly traced 1104413432
 #> 6  754534424 646 2364     2364       5309 Traced Roughly traced 1265805547
 #> 7  754538881 623 2320     2320       4867 Traced Roughly traced 1217284590
-#>   cropped  instance    type lineage notes  soma side class group   dataset
-#> 1   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>  <NA> hemibrain
-#> 2   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>  <NA> hemibrain
-#> 3   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>  <NA> hemibrain
-#> 4   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA> FALSE    R  <NA>  <NA> hemibrain
-#> 5   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA> FALSE    R  <NA>  <NA> hemibrain
-#> 6   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>  <NA> hemibrain
-#> 7   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>  <NA> hemibrain
-#>             key
-#> 1 hb:1734350788
-#> 2 hb:1734350908
-#> 3 hb:1765040289
-#> 4 hb:5813039315
-#> 5  hb:722817260
-#> 6  hb:754534424
-#> 7  hb:754538881
+#>   cropped  instance    type lineage notes  soma side class subclass subsubclass
+#> 1   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
+#> 2   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
+#> 3   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
+#> 4   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA> FALSE    R  <NA>     <NA>        <NA>
+#> 5   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA> FALSE    R  <NA>     <NA>        <NA>
+#> 6   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
+#> 7   FALSE DA1_lPN_R DA1_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
+#>   group   dataset           key
+#> 1  <NA> hemibrain hb:1734350788
+#> 2  <NA> hemibrain hb:1734350908
+#> 3  <NA> hemibrain hb:1765040289
+#> 4  <NA> hemibrain hb:5813039315
+#> 5  <NA> hemibrain  hb:722817260
+#> 6  <NA> hemibrain  hb:754534424
+#> 7  <NA> hemibrain  hb:754538881
 ```
 
 We can also do that for multiple brain datasets
 
 ``` r
 da1meta <- cf_meta(cf_ids('DA1_lPN', datasets = c('hemibrain', 'flywire')))
-#> Updating 6641 ids
-#> flywire_rootid_cached: Looking up 6641 missing keys
-#> Updating 5480 ids
-#> flywire_rootid_cached: Looking up 5480 missing keys
+#> Loading required namespace: git2r
 head(da1meta)
-#>                   id side   class    type      lineage group  instance dataset
-#> 1 720575940604407468    R central DA1_lPN ALl1_ventral  <NA> DA1_lPN_R flywire
-#> 2 720575940623543881    R central DA1_lPN ALl1_ventral  <NA> DA1_lPN_R flywire
-#> 3 720575940637469254    R central DA1_lPN ALl1_ventral  <NA> DA1_lPN_R flywire
-#> 4 720575940614309535    L central DA1_lPN ALl1_ventral  <NA> DA1_lPN_L flywire
-#> 5 720575940617229632    R central DA1_lPN ALl1_ventral  <NA> DA1_lPN_R flywire
-#> 6 720575940619385765    L central DA1_lPN ALl1_ventral  <NA> DA1_lPN_L flywire
-#>                     key
-#> 1 fw:720575940604407468
-#> 2 fw:720575940623543881
-#> 3 fw:720575940637469254
-#> 4 fw:720575940614309535
-#> 5 fw:720575940617229632
-#> 6 fw:720575940619385765
+#>                   id side   class subclass   subsubclass    type      lineage
+#> 1 720575940604407468    R central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#> 2 720575940623543881    R central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#> 3 720575940637469254    R central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#> 4 720575940614309535    L central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#> 5 720575940617229632    R central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#> 6 720575940619385765    L central     ALPN uniglomerular DA1_lPN ALl1_ventral
+#>   group  instance dataset                   key
+#> 1  <NA> DA1_lPN_R flywire fw:720575940604407468
+#> 2  <NA> DA1_lPN_R flywire fw:720575940623543881
+#> 3  <NA> DA1_lPN_R flywire fw:720575940637469254
+#> 4  <NA> DA1_lPN_L flywire fw:720575940614309535
+#> 5  <NA> DA1_lPN_R flywire fw:720575940617229632
+#> 6  <NA> DA1_lPN_L flywire fw:720575940619385765
 ```
 
 ``` r
@@ -275,10 +281,8 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Updating 6641 ids
-#> Updating 5480 ids
-#> Matching types across datasets. Dropping 510/1052 output partner types with total weight 9007/24134
-#> Matching types across datasets. Dropping 793/1493 input partner types with total weight 11121/27588
+#> Matching types across datasets. Keeping 542/1052 output connections with total weight 15127/24134 (63%)
+#> Matching types across datasets. Keeping 700/1493 input connections with total weight 16467/27588 (60%)
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />
@@ -293,7 +297,7 @@ constitute a single cell type of two cells / hemisphere (i.e. they
 should not have been split into two cell types in the hemibrain).
 
 You can also see that cells from one hemibrain hemisphere often cluster
-slightly oddly (e.g. 387687146) - this is likely due to truncation of
+slightly oddly (e.g. `387687146`) - this is likely due to truncation of
 the axons or dendrites of these cells or a paucity of partners from the
 left hand side of the hemibrain.
 
@@ -313,8 +317,8 @@ we would appreciate two citations for
 
 - For the natverse: [Bates et al eLife
   2020](https://doi.org/10.7554/eLife.53350)
-- For coconatfly: [Schlegel et al bioRxiv
-  2023](https://doi.org/10.1101/2023.06.27.546055)
+- For coconatfly: [Schlegel et al Nature
+  2024](https://doi.org/10.1038/s41586-024-07686-5)
 
 Should you make significant use of natverse packages in your paper
 (e.g. multiple panels or \>1 figure), we would also strongly appreciate
