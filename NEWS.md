@@ -1,9 +1,14 @@
 # coconatfly (development version)
 
+* warn but still complete without errors when there are no partners at all for
+  inputs or ouptuts in `cf_partners()`. An example of when this happens is when
+  running `cf_cosine_plot()` for sensory neurons where all the inputs are below
+  threshold. #36
+
 # coconatfly 0.2.3
 
 * empty query fixes for all keys and banc metadata by @jefferis in https://github.com/natverse/coconatfly/pull/34
-* Fix malecns class in cf_partners by @jefferis in https://github.com/natverse/coconatfly/pull/35
+* Fix malecns class in `cf_partners()` by @jefferis in https://github.com/natverse/coconatfly/pull/35
 * also support for rootSide in malecns in #35
 
 **Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.2...v0.2.3
