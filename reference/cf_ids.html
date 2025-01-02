@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Specify ids for fly connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/more-fanc-meta/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
       <div class="d-none name"><code>cf_ids.Rd</code></div>
     </div>
 
@@ -173,33 +173,33 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>WARNING:root:Deprecation: this method is to facilitate beta testing of this feature,             it will likely get removed in future versions. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 2 missing keys</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[65 ids]</span>: 720575941400612387 720575941407672494 720575941413591697 720575941426934100 720575941428592559 720575941432355086 720575941458631494 720575941461639312 720575941474777659 720575941475882545 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> flywire_rootid_cached: Looking up 11 missing keys</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[65 ids]</span>: 720575941400612387 720575941407672494 720575941407839150 720575941413591697 720575941426934100 720575941428592559 720575941432355086 720575941458631494 720575941461639312 720575941474777659 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">flywire</span> <span style="color: #555555;">[96 ids]</span>: 720575940624185095 720575940624117245 720575940638526278 720575940629585602 720575940637934308 720575940632118343 720575940609959637 720575940638163428 720575940630496374 720575940642142861 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[71 ids]</span>: 612371421 673509195 424789697 5813022341 487925037 612738462 487925063 613079053 1386512867 799586652 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">malecns</span> <span style="color: #555555;">[98 ids]</span>: 520151 10013 522444 522749 519373 521526 525780 530875 519371 10495 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return keys directly</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "bc:720575941400612387" "bc:720575941407672494" "bc:720575941413591697"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "bc:720575941426934100" "bc:720575941428592559" "bc:720575941432355086"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "bc:720575941458631494" "bc:720575941461639312" "bc:720575941474777659"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "bc:720575941475882545" "bc:720575941477553002" "bc:720575941479618979"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "bc:720575941485832077" "bc:720575941487270608" "bc:720575941489258441"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "bc:720575941489773621" "bc:720575941489798965" "bc:720575941490068169"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "bc:720575941492491440" "bc:720575941493981822" "bc:720575941494355070"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "bc:720575941498066249" "bc:720575941498202593" "bc:720575941506241815"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "bc:720575941510013394" "bc:720575941514838521" "bc:720575941515157850"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "bc:720575941517355180" "bc:720575941518103724" "bc:720575941518849134"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "bc:720575941520068787" "bc:720575941529029048" "bc:720575941531794149"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "bc:720575941536949480" "bc:720575941539422669" "bc:720575941541784156"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "bc:720575941544051973" "bc:720575941545226676" "bc:720575941546111880"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "bc:720575941546624948" "bc:720575941549399156" "bc:720575941550979327"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "bc:720575941400612387" "bc:720575941407672494" "bc:720575941407839150"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "bc:720575941413591697" "bc:720575941426934100" "bc:720575941428592559"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "bc:720575941432355086" "bc:720575941458631494" "bc:720575941461639312"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "bc:720575941474777659" "bc:720575941475882545" "bc:720575941477553002"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "bc:720575941479618979" "bc:720575941485832077" "bc:720575941487270608"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "bc:720575941489258441" "bc:720575941489773621" "bc:720575941489798965"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "bc:720575941490068169" "bc:720575941492491440" "bc:720575941493981822"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "bc:720575941494355070" "bc:720575941498066249" "bc:720575941498202593"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "bc:720575941506241815" "bc:720575941510013394" "bc:720575941514838521"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "bc:720575941515157850" "bc:720575941516147603" "bc:720575941517355180"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "bc:720575941518103724" "bc:720575941518849134" "bc:720575941520068787"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "bc:720575941529029048" "bc:720575941531794149" "bc:720575941539422669"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "bc:720575941541784156" "bc:720575941544051973" "bc:720575941545226676"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "bc:720575941546111880" "bc:720575941549399156" "bc:720575941550979327"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "bc:720575941553055515" "bc:720575941553361691" "bc:720575941555621604"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "bc:720575941559025134" "bc:720575941562860690" "bc:720575941564924055"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "bc:720575941567268090" "bc:720575941573578235" "bc:720575941574827151"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "bc:720575941575148982" "bc:720575941578741073" "bc:720575941590723980"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "bc:720575941592415339" "bc:720575941592931947" "bc:720575941597982656"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "bc:720575941575148982" "bc:720575941578741073" "bc:720575941592415339"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "bc:720575941592931947" "bc:720575941595952773" "bc:720575941597982656"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "bc:720575941599755049" "bc:720575941607000429" "bc:720575941628990758"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "bc:720575941630453218" "bc:720575941631918496" "bc:720575941662583676"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "bc:720575941687317231" "bc:720575941722399802" "fw:720575940624185095"</span>
