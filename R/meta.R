@@ -84,7 +84,8 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
       else
         tres %>%
         mutate(instance=case_when(
-          !is.na(type) ~ paste0(type, "_", side),
+          !is.na(type) & !is.na(side) ~ paste0(type, "_", side),
+          !is.na(type) ~ paste0(type, "_"),
           T ~ NA_character_))
     }
     tres$group=flywire_ids(tres$group, integer64 = integer64)
