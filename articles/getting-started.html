@@ -47,13 +47,14 @@
 
 
 
-<script src="getting-started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>1. Getting started with coconatfly</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/more-fanc-meta/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/more-instances/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -62,7 +63,10 @@
 <div class="section level2">
 <h2 id="setup-for-brain-connectome-data-">Setup for brain connectome data.<a class="anchor" aria-label="anchor" href="#setup-for-brain-connectome-data-"></a>
 </h2>
-<p>At the time of writing the main datasets of interest for coconatfly will be the hemibrain and flywire. Installing coconatfly will automatically install the natverse packages required for analysis. However, a few extra steps are still required.</p>
+<p>At the time of writing the main datasets of interest for coconatfly
+will be the hemibrain and flywire. Installing coconatfly will
+automatically install the natverse packages required for analysis.
+However, a few extra steps are still required.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># first install coconatfly</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">'natmanager'</span><span class="op">)</span><span class="op">)</span></span>
@@ -70,17 +74,23 @@
 <span><span class="fu">natmanager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">'coconatfly'</span><span class="op">)</span></span>
 <span><span class="co"># then get flywire data</span></span>
 <span><span class="fu">fafbseg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fafbseg/man/download_flywire_release_data.html" class="external-link">download_flywire_release_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>If you have not already done so, you will also need to record a neuprint token to access hemibrain data. Go to <a href="https://neuprint.janelia.org/account" class="external-link uri">https://neuprint.janelia.org/account</a>, copy your Auth Token and then edit your R environ file to do</p>
+<p>If you have not already done so, you will also need to record a
+neuprint token to access hemibrain data. Go to <a href="https://neuprint.janelia.org/account" class="external-link uri">https://neuprint.janelia.org/account</a>, copy your Auth
+Token and then edit your R environ file to do</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">edit_r_environ</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>and add a line like this:</p>
 <pre><code><span><span class="va">neuprint_token</span><span class="op">=</span><span class="st">"eyJhbH0lc9OqzJ6evvcJ23KmIi.eyJlb6B8nUg8senJO1ZVzHb6uQ1fvncAiWdFcTIwTQb0xOcxa3TjKHVdLZ5OAtHzjWJJLqpQjiTikWryIfgUHCKoq31RSdDMqD7mah0RWCFaEPrTDdPm7OfRBizNdoqyyWAE61g9FWb2CAh8kAfcsb3ylVG3MwFOYpX91ayWxtp1prfjtm9dte9mFddGdWdr8444Rrun8cLksyELl93utdnGAQReSgiNy-jDLujyRCSRCAOq23X049gRA9QtJcOKCDtdiFyQhMKzLk8EISt7Cnn9AS1"</span></span></code></pre>
-<p>Replacing with your auth token and being sure that is all on one line with a line break after the last quotation mark.</p>
+<p>Replacing with your auth token and being sure that is all on one line
+with a line break after the last quotation mark.</p>
 </div>
 <div class="section level2">
 <h2 id="set-up-for-vnc-data">Set up for VNC data<a class="anchor" aria-label="anchor" href="#set-up-for-vnc-data"></a>
 </h2>
-<p>For VNC data, the main datasets are FANC and MANC. MANC data will be available if you have set up your neuprint access token as described in the brain section. For FANC data you will need a separate <em>CAVE</em> access token. Essentially this is covered by:</p>
+<p>For VNC data, the main datasets are FANC and MANC. MANC data will be
+available if you have set up your neuprint access token as described in
+the brain section. For FANC data you will need a separate <em>CAVE</em>
+access token. Essentially this is covered by:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">fancr</span><span class="fu">::</span><span class="fu"><a href="https://flyconnectome.github.io/fancr/reference/fanc_set_token.html" class="external-link">fanc_set_token</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># check all is good</span></span>
@@ -89,11 +99,10 @@
 <div class="section level2">
 <h2 id="dataset-status">Dataset status<a class="anchor" aria-label="anchor" href="#dataset-status"></a>
 </h2>
-<p>You can get a useful overview of the current status of your access to different datasets with the <code><a href="../reference/dr_coconatfly.html">dr_coconatfly()</a></code> command.</p>
+<p>You can get a useful overview of the current status of your access to
+different datasets with the <code><a href="../reference/dr_coconatfly.html">dr_coconatfly()</a></code> command.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span>
 <span><span class="fu"><a href="../reference/dr_coconatfly.html">dr_coconatfly</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     dataset installed</span></span>
 <span><span class="co">#&gt; 1 hemibrain      TRUE</span></span>
@@ -117,23 +126,27 @@
 <span><span class="co">#&gt; 3               cns</span></span>
 <span><span class="co">#&gt; 4 optic-lobe:v1.0.1</span></span>
 <span><span class="co">#&gt; 5               783</span></span>
-<span><span class="co">#&gt; 6              1173</span></span>
-<span><span class="co">#&gt; 7               433</span></span>
+<span><span class="co">#&gt; 6              1183</span></span>
+<span><span class="co">#&gt; 7               442</span></span>
 <span><span class="co">#&gt; For additional information (inc auth issues) for flywire or fanc datasets, try:</span></span>
 <span><span class="co">#&gt;  `fafbseg::dr_fafbseg()` or  `fancr::dr_fanc()`</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="brain-example">Brain example<a class="anchor" aria-label="anchor" href="#brain-example"></a>
 </h2>
-<p>Ok with that in place, let’s check if we can use connectome data, starting with the brain.</p>
+<p>Ok with that in place, let’s check if we can use connectome data,
+starting with the brain.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
-<p>We use <code><a href="../reference/cf_ids.html">cf_ids()</a></code> to specify neurons in different datasets:</p>
+<p>We use <code><a href="../reference/cf_ids.html">cf_ids()</a></code> to specify neurons in different
+datasets:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="st">'ORN_DA2'</span>, expand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[35 ids]</span>: 1669017843 1669699714 1669946117 1670382036 1670386270 1670390647 1669358817 1671659809 1702107389 1702802179 ...</span></span></code></pre></div>
-<p>We can ask for the same specific cell type across datasets, here MBON01, mushroom body output neuron 1 (aka M6 or MBON-gamma5beta’2a).</p>
+<p>We can ask for the same specific cell type across datasets, here
+MBON01, mushroom body output neuron 1 (aka M6 or
+MBON-gamma5beta’2a).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">'MBON01'</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
@@ -655,7 +668,8 @@
 <span><span class="co">#&gt; 165         hb:5813033000</span></span>
 <span><span class="co">#&gt; 166          hb:518930199</span></span>
 <span><span class="co">#&gt; 167          hb:611089775</span></span></code></pre></div>
-<p>and then do some simple summaries on the metadata returned by <code><a href="../reference/cf_meta.html">cf_meta()</a></code>:</p>
+<p>and then do some simple summaries on the metadata returned by
+<code><a href="../reference/cf_meta.html">cf_meta()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbonmeta</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dss<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="../reference/abbreviate_datasets.html">abbreviate_datasets</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>, <span class="va">side</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -699,11 +713,20 @@
 <span><span class="co">#&gt;   MBON33          1   1   1   1</span></span>
 <span><span class="co">#&gt;   MBON34          0   0   1   1</span></span>
 <span><span class="co">#&gt;   MBON35          1   1   1   1</span></span></code></pre></div>
-<p>In general things look quite consistent across sides and datasets (although some neurons are of course missing from the LHS of the hemibrain).</p>
+<p>In general things look quite consistent across sides and datasets
+(although some neurons are of course missing from the LHS of the
+hemibrain).</p>
 <div class="section level3">
 <h3 id="connectivity-clustering">Connectivity clustering<a class="anchor" aria-label="anchor" href="#connectivity-clustering"></a>
 </h3>
-<p>We can then then inspect the situation for MBON25 and MBON34 which have been combined into a single compound type in FlyWire but were regarded as two distinct types in hemibrain. Notice that we pipe <code>%&gt;%</code> the dataframe containing metadata to the cf_cosine_plot function via a <code>filter</code> expression which picks out our cell type of interest as well as few similarly numbered ones. We use output connectivity clustering since we suspect the downstream cell type interactions are more diagnostic for</p>
+<p>We can then then inspect the situation for MBON25 and MBON34 which
+have been combined into a single compound type in FlyWire but were
+regarded as two distinct types in hemibrain. Notice that we pipe
+<code>%&gt;%</code> the dataframe containing metadata to the
+cf_cosine_plot function via a <code>filter</code> expression which picks
+out our cell type of interest as well as few similarly numbered ones. We
+use output connectivity clustering since we suspect the downstream cell
+type interactions are more diagnostic for</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbonmeta</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"MBON(25|34|24|26|33|35)"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
