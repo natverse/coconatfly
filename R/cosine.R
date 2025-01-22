@@ -311,6 +311,8 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    check_missing=TRUE,
                                    min_datasets=Inf
                                    ) {
+  if(isTRUE(group))
+    group='type'
   partners=match.arg(partners, several.ok = T)
   kk=keys(ids)
   if(length(partners)>1) {
