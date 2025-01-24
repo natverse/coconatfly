@@ -1,9 +1,16 @@
-# coconatfly (development version)
-
+# coconatfly 0.2.4
+## What's Changed
+* Handle missing partners in `cf_cosine_plot()` by @jefferis in https://github.com/natverse/coconatfly/pull/36
+* Fill in instance column across datasets by @jefferis in https://github.com/natverse/coconatfly/pull/39
 * warn but still complete without errors when there are no partners at all for
   inputs or ouptuts in `cf_partners()`. An example of when this happens is when
   running `cf_cosine_plot()` for sensory neurons where all the inputs are below
   threshold. #36
+* suggest malecns >= 0.3.3 (https://github.com/flyconnectome/malecns/releases/tag/v0.3.3) 
+  to prefer manc types for ANs + SAs (see https://github.com/flyconnectome/malecns/pull/28)
+
+**Full Changelog**: https://github.com/natverse/coconatfly/compare/v0.2.3...v0.2.4
+
 
 # coconatfly 0.2.3
 
