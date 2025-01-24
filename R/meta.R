@@ -84,9 +84,16 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
       else
         tres %>%
         mutate(instance=case_when(
-          !is.na(type) ~ paste0(type, "_", side),
+          !is.na(type) & !is.na(side) ~ paste0(type, "_", side),
+          !is.na(type) ~ paste0(type, "_"),
           T ~ NA_character_))
     }
+    tres <- tres |>
+      mutate(instance=case_when(
+        is.na(instance) & !is.na(type) & !is.na(side) ~ paste0(type, "_", side),
+        is.na(instance) & !is.na(type) ~ paste0(type, "_"),
+        !is.na(instance) ~ instance
+      ))
     tres$group=flywire_ids(tres$group, integer64 = integer64)
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if(length(missing_cols)>0)
