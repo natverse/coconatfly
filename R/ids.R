@@ -106,6 +106,33 @@ is_key <- function(x, compound=FALSE) {
     is.character(x) & grepl("^[a-z0-9]+:[0-9]{5,20}$", x)
 }
 
+id_spec_type <- function(x) {
+  if(is.numeric(x))
+    return("id")
+  if(is.character(x)) {
+    if(length(x) == 1) {
+      if(grepl("^http[s]{0,1}://", x))
+        return("url")
+      else if(isTRUE(substr(x,1,1)=="/"))
+        return("query")
+      else if(grepl("^\\s*([a-z:]{3}[0-9,\\s]+)+$", x, perl = T))
+        return("key")
+      else if(grepl("^\\s*([0-9,\\s]+)+$", x, perl = T))
+        return("id")
+      else
+        return("query")
+    }
+    if(all(grepl("^[a-z0-9]+:[0-9]{5,20}$", x)))
+      return("key")
+    if(all(grepl("^[0-9]{5,20}$", x)))
+      return("id")
+  }
+  if(inherits(x, "ngscene"))
+    return('ngscene')
+  return(NA_character_)
+}
+
+
 #' Specify ids for fly connectome datasets
 #'
 #' @param query A query (e.g. cell type name or regular expression)
