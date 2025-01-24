@@ -47,7 +47,7 @@ Suggests:
     tidyr,
     reticulate
 Enhances:
-    malecns (>= 0.3.2)
+    malecns (>= 0.3.3)
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/fancr,
