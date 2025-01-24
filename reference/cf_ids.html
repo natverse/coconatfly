@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">coconatfly</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Specify ids for fly connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/normalise-query-fields/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
       <div class="d-none name"><code>cf_ids.Rd</code></div>
     </div>
 
@@ -271,30 +271,40 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span><span class="va">hbids</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">264083994</span>, <span class="fl">5813022274</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span>, keys <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:malecns</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to process query for dataset:banc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fw:720575940629585602" "fw:720575940632118343" "fw:720575940642142861"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "fw:720575940634822751" "fw:720575940615221811" "fw:720575940614026193"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "fw:720575940633209647" "fw:720575940623001480" "fw:720575940608304220"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "fw:720575940621828443" "fw:720575940638774606" "fw:720575940639697827"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fw:720575940626833021" "fw:720575940635841143" "fw:720575940623905719"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "fw:720575940629529722" "fw:720575940645304430" "fw:720575940612196850"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "fw:720575940630767959" "fw:720575940635082347" "fw:720575940628757547"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "fw:720575940610647416" "fw:720575940622093436" "fw:720575940624696810"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "fw:720575940647328900" "fw:720575940650386553" "fw:720575940639556467"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "fw:720575940612455338" "fw:720575940617749538" "fw:720575940617760257"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "fw:720575940634482783" "fw:720575940626109315" "fw:720575940623377802"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34] "fw:720575940626744921" "fw:720575940630075703" "fw:720575940632535756"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "fw:720575940643696288" "fw:720575940623201833" "fw:720575940626315010"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [40] "fw:720575940624539284" "fw:720575940622997453" "fw:720575940623841463"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43] "hb:613719036"          "hb:672352543"          "hb:768555687"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "hb:424767514"          "hb:517518166"          "hb:704466265"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49] "hb:861665641"          "hb:1139667240"         "hb:300972942"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [52] "hb:394225044"          "hb:5813067721"         "hb:5813068729"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [55] "hb:642664141"          "hb:673702721"          "hb:457175171"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [58] "hb:579916831"          "hb:673366098"          "hb:5812981264"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61] "hb:5812981543"         "hb:457196444"          "hb:5813020828"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [64] "hb:423774471"          "hb:517854468"          "hb:264083994"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [67] "hb:5813022274"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "bc:720575941400612387" "bc:720575941407672494" "bc:720575941412255087"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "bc:720575941413591697" "bc:720575941426934100" "bc:720575941428592559"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "bc:720575941437960466" "bc:720575941469291741" "bc:720575941475882545"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "bc:720575941479618979" "bc:720575941483206653" "bc:720575941489773621"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "bc:720575941489798965" "bc:720575941493981822" "bc:720575941494355070"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "bc:720575941498066249" "bc:720575941498202593" "bc:720575941505683260"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "bc:720575941506691909" "bc:720575941514838521" "bc:720575941516299667"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "bc:720575941518103724" "bc:720575941518348204" "bc:720575941535475466"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "bc:720575941550979327" "bc:720575941553361691" "bc:720575941559025134"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "bc:720575941581292409" "bc:720575941594544854" "bc:720575941630453218"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "bc:720575941644923848" "bc:720575941670973863" "bc:720575941687317231"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "bc:720575941722399802" "fw:720575940629585602" "fw:720575940632118343"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "fw:720575940642142861" "fw:720575940634822751" "fw:720575940615221811"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "fw:720575940614026193" "fw:720575940633209647" "fw:720575940623001480"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "fw:720575940608304220" "fw:720575940621828443" "fw:720575940638774606"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "fw:720575940639697827" "fw:720575940626833021" "fw:720575940635841143"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "fw:720575940623905719" "fw:720575940629529722" "fw:720575940645304430"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "fw:720575940612196850" "fw:720575940630767959" "fw:720575940635082347"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "fw:720575940628757547" "fw:720575940610647416" "fw:720575940622093436"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "fw:720575940624696810" "fw:720575940647328900" "fw:720575940650386553"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "fw:720575940639556467" "fw:720575940612455338" "fw:720575940617749538"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "fw:720575940617760257" "fw:720575940634482783" "fw:720575940626109315"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "fw:720575940623377802" "fw:720575940626744921" "fw:720575940630075703"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "fw:720575940632535756" "fw:720575940643696288" "fw:720575940623201833"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "fw:720575940626315010" "fw:720575940624539284" "fw:720575940622997453"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "fw:720575940623841463" "hb:613719036"          "hb:672352543"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "hb:768555687"          "hb:424767514"          "hb:517518166"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "hb:704466265"          "hb:861665641"          "hb:1139667240"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "hb:300972942"          "hb:394225044"          "hb:5813067721"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "hb:5813068729"         "hb:642664141"          "hb:673702721"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "hb:457175171"          "hb:579916831"          "hb:673366098"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "hb:5812981264"         "hb:5812981543"         "hb:457196444"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "hb:5813020828"         "hb:423774471"          "hb:517854468"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "hb:264083994"          "hb:5813022274"        </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># now equivalent to</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="keys.html">keys</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
