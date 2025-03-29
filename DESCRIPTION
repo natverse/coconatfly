@@ -31,6 +31,7 @@ Imports:
     magrittr,
     bit64,
     usethis,
+    data.table,
     methods
 Suggests: 
     malevnc (> 0.3.1),
