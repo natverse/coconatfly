@@ -123,6 +123,7 @@ is_key <- function(x, compound=FALSE) {
 #' @param opticlobe Pass opticlobe specific query or ids to this argument
 #' @param fanc Pass fanc ids to this argument (at present we do not support
 #'   metadata queries for fanc)
+#' @param yakubavnc Pass yakuba VNC specific query or ids to this argument
 #' @param banc Pass banc ids to this argument (we only support basic metadata
 #'   queries for banc)
 #'
