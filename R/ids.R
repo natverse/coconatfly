@@ -175,21 +175,15 @@ is_key <- function(x, compound=FALSE) {
 cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
-               "opticlobe", "banc"),
+               "opticlobe", "banc", "yakubavnc"),
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL, banc=NULL) {
+    opticlobe=NULL, banc=NULL, yakubavnc=NULL) {
 
-  nds=sum(
-    !is.null(hemibrain),
-    !is.null(flywire),
-    !is.null(malecns),
-    !is.null(manc),
-    !is.null(fanc),
-    !is.null(opticlobe),
-    !is.null(banc)
-    )
+  dataset_args=intersect(names(sys.call()), cf_datasets())
+  nds=length(dataset_args)
+
   res <- if(!is.null(query)) {
     if(nds>0)
       warning("ignoring explicit dataset arguments")
@@ -200,14 +194,14 @@ cf_ids <- function(
     if('brain' %in% datasets)
       datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))
     if('vnc' %in% datasets)
-      datasets=union(datasets[datasets!='vnc'], c("manc", "fanc"))
+      datasets=union(datasets[datasets!='vnc'], c("manc", "fanc", "yakubavnc"))
     datasets=unique(datasets)
     structure(as.list(rep(query, length(datasets))), .Names=datasets)
   } else {
     if(nds==0)
       stop("You must supply either the `query` argument or one of hemibrain:banc!")
     l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
-           fanc=fanc, opticlobe=opticlobe, banc=banc)
+           fanc=fanc, opticlobe=opticlobe, banc=banc, yakubavnc=yakubavnc)
     # drop any empty datasets
     l[lengths(l)>0]
   }

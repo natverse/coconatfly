@@ -1,6 +1,6 @@
 cf_datasets <- function(rval=c("all", 'available')) {
   rval=match.arg(rval)
-  datasets=c("flywire", "malecns", 'manc', 'fanc', 'hemibrain', 'opticlobe', 'banc')
+  datasets=c("flywire", "malecns", 'manc', 'fanc', 'hemibrain', 'opticlobe', 'banc', 'yakubavnc')
   if(rval=='all')
     datasets
   else
@@ -26,13 +26,13 @@ abbreviate_datasets <- function(ds) {
   if(length(ds)<1) return(ds)
   ds=match_datasets(ds)
   abbrevlist=c(hemibrain='hb', flywire='fw', manc='mv', fanc='fv', malecns='mc',
-               opticlobe='ol', banc='bc')
+               opticlobe='ol', banc='bc', yakubavnc='yv')
   unname(abbrevlist[ds])
 }
 
 lengthen_datasets <- function(ds) {
   longlist=c(hb="hemibrain", fw="flywire", mv="manc", fv="fanc", mc="malecns",
-             ol='opticlobe', bc='banc')
+             ol='opticlobe', bc='banc', yv='yakubavnc')
   ds=match.arg(ds, names(longlist), several.ok = T)
   unname(longlist[ds])
 }

@@ -8,7 +8,7 @@
 cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
-    "opticlobe", "banc"),
+    "opticlobe", "banc", "yakubavnc"),
   expand = FALSE,
   keys = FALSE,
   hemibrain = NULL,
@@ -17,7 +17,8 @@ cf_ids(
   manc = NULL,
   fanc = NULL,
   opticlobe = NULL,
-  banc = NULL
+  banc = NULL,
+  yakubavnc = NULL
 )
 
 \method{c}{cidlist}(..., unique = TRUE)
