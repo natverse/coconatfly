@@ -135,7 +135,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     } else if(n %in% c('manc', 'yakubavnc')) {
       if(n == 'yakubavnc') {
         args=list(ids[[n]], partners = partners, threshold=threshold,
-                details = c("instance", "group", "type", "somaSide", "rootSide"),
+                details = c("instance", "group", "type", "class", "somaSide", "rootSide"),
                 conn = npconn(n), chunk = neuprint.chunksize)
         tres=do.call(neuprintr::neuprint_connection_table, c(args, ma))
       } else {
