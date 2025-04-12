@@ -270,7 +270,7 @@ expand_ids <- function(ids, dataset) {
   if(length(ids)==0) return(character())
   dataset=match_datasets(dataset)
   FUN <- switch(dataset,
-    manc=function(ids) malevnc::manc_ids(ids, mustWork = F),
+    manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
     fanc=fanc_ids,
     malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
     banc=banc_ids,
