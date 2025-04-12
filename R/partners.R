@@ -139,7 +139,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                 conn = npconn(n), chunk = neuprint.chunksize)
         tres=do.call(neuprintr::neuprint_connection_table, c(args, ma))
       } else {
-        args=list(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
+        args=list(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize, conn = npconn(n))
         tres=do.call(malevnc::manc_connection_table, c(args, ma))
       }
       # nb we do not get rootSide information with manc_connection_table
