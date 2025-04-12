@@ -10,8 +10,15 @@ npconn <- function(dataset) {
       dataset='optic-lobe:v1.0.1'))
   else if(dataset=='malecns')
     return(malecns::mcns_neuprint())
-  else if(dataset=='manc')
-    return(malevnc::manc_neuprint())
+  else if(dataset=='manc') {
+    # we have a little problem here. If someone has chosen e.g. yakuba
+    # then we need to switch back to MANC
+    mds=getOption("malevnc.dataset", default = 'MANC')
+    if(!mds %in% c("MANC", "VNC") )
+      mds='MANC'
+    withr::with_options(malevnc::choose_malevnc_dataset(mds, set = F),
+      return(malevnc::manc_neuprint()))
+  }
   else if(dataset=='yakubavnc')
     return(malevnc::manc_neuprint(
       dataset='yakuba-vnc',
@@ -170,7 +177,7 @@ malecns_meta <- function(ids, ...) {
 }
 
 manc_meta <- function(ids, ...) {
-  tres <- malevnc::manc_neuprint_meta(ids, ...) %>%
+  tres <- malevnc::manc_neuprint_meta(ids, conn=npconn('manc'), ...) %>%
     mutate(side=dplyr::case_when(
       !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
       !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
