@@ -31,7 +31,8 @@ Imports:
     magrittr,
     bit64,
     usethis,
-    methods
+    methods,
+    withr
 Suggests: 
     malevnc (> 0.3.1),
     fancr (>= 0.5.0),
