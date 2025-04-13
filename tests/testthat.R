@@ -10,6 +10,6 @@ library(testthat)
 library(coconatfly)
 
 if(nzchar(Sys.getenv('CI')))
-  dr_fafbseg()
+  dr_coconatfly()
 
 test_check("coconatfly")
