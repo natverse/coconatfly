@@ -9,4 +9,7 @@
 library(testthat)
 library(coconatfly)
 
+if(nzchar(Sys.getenv('CI')))
+  dr_fafbseg()
+
 test_check("coconatfly")
