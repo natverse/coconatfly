@@ -190,7 +190,7 @@ cf_ids <- function(
       warning("ignoring explicit dataset arguments")
     if(missing(datasets))
       datasets=datasets[1]
-    datasets=match.arg(datasets, several.ok = T)
+    datasets=match.arg(datasets, choices = union(datasets, cf_datasets()), several.ok = T)
 
     if('brain' %in% datasets)
       datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))

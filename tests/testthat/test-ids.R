@@ -60,3 +60,11 @@ test_that("fanc/banc ids/metadata", {
     expect_equal(lengths(cf_ids(banc='/rhubarb.+', expand = TRUE)), 0L, ignore_attr=TRUE),
                "No matching ids")
 })
+
+test_that("extra datasets", {
+  coconat::register_dataset('rhubarb', shortname = 'rb',
+                            species = 'Rheum rhabarbarum', sex='U', age='adult',
+                            namespace = 'coconatfly')
+
+  expect_equal(cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
+})
