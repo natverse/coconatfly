@@ -76,7 +76,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       tres <- tres %>%
         mutate(side=toupper(substr(.data$side, 1, 1))) %>%
         rename(class=super_class)
-    } else if(n=='hemibrain' || n=='opticlobe') {
+    } else if(n%in%c('hemibrain', 'opticlobe')) {
       # a bit inelegant but not sure how else to insist
       args=list(ids[[n]], partners = partners, threshold=threshold,
                   details = TRUE, conn = npconn(n), chunk = neuprint.chunksize)
@@ -132,9 +132,16 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       metadf=banc_meta()
       colnames(metadf)[[1]]=partner_col
       tres=left_join(tres, metadf, by = partner_col)
-    } else if(n=='manc') {
-      args=list(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize)
-      tres=do.call(malevnc::manc_connection_table, c(args, ma))
+    } else if(n %in% c('manc', 'yakubavnc')) {
+      if(n == 'yakubavnc') {
+        args=list(ids[[n]], partners = partners, threshold=threshold,
+                details = c("instance", "group", "type", "class", "somaSide", "rootSide"),
+                conn = npconn(n), chunk = neuprint.chunksize)
+        tres=do.call(neuprintr::neuprint_connection_table, c(args, ma))
+      } else {
+        args=list(ids[[n]],partners = partners, threshold=threshold, chunk = neuprint.chunksize, conn = npconn(n))
+        tres=do.call(malevnc::manc_connection_table, c(args, ma))
+      }
       # nb we do not get rootSide information with manc_connection_table
       tres <- tres %>%
         mutate(side=dplyr::case_when(
