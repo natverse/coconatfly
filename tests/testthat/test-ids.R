@@ -62,9 +62,8 @@ test_that("fanc/banc ids/metadata", {
 })
 
 test_that("extra datasets", {
-  coconat::register_dataset('rhubarb', shortname = 'rb',
-                            species = 'Rheum rhabarbarum', sex='U', age='adult',
-                            namespace = 'coconatfly')
-
+  register_rhubarb()
   expect_equal(cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
+  expect_equal(cf_ids(rhubarb=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
+  expect_equal(cf_ids(rhubar=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
 })

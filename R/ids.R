@@ -126,6 +126,15 @@ is_key <- function(x, compound=FALSE) {
 #' @param yakubavnc Pass yakuba VNC specific query or ids to this argument
 #' @param banc Pass banc ids to this argument (we only support basic metadata
 #'   queries for banc)
+#' @param ... Queries or ids for additional named datasets (in the style of
+#'   \code{hemibrain}). See \emph{Additional datasets} section.
+#'
+#' @section Additional datasets: coconatfly allows can be extended by
+#'   registering additional datasets using the
+#'   \code{coconat::\link{register_dataset}} function. You can use \code{cf_ids}
+#'   to support these additional datasets by passing additional named arguments.
+#'   The only inconvenience is that these will not be available for command
+#'   completion by your editor.
 #'
 #' @details You will often want to perform a query, most commonly for a cell
 #'   \emph{type} or cell \emph{class}, rather than specific numeric ids. The
@@ -180,9 +189,10 @@ cf_ids <- function(
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL, banc=NULL, yakubavnc=NULL) {
+    opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
 
-  dataset_args=intersect(names(sys.call()), cf_datasets())
+  argnames=names(sys.call())
+  dataset_args=match.arg(argnames, cf_datasets(), several.ok = T)
   nds=length(dataset_args)
 
   res <- if(!is.null(query)) {
@@ -203,6 +213,12 @@ cf_ids <- function(
       stop("You must supply either the `query` argument or one of hemibrain:banc!")
     l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
            fanc=fanc, opticlobe=opticlobe, banc=banc, yakubavnc=yakubavnc)
+    pl=pairlist(...)
+    if(length(pl)) {
+      names(pl)=match_datasets(names(pl))
+      l=c(l, pl)[dataset_args]
+    }
+
     # drop any empty datasets
     l[lengths(l)>0]
   }

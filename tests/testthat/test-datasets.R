@@ -9,9 +9,7 @@ test_that("dataset functions work", {
     abbreviate_datasets(c("flywire", "flywire", "hemibrain", "banc", "fanc", "manc")),
                c("fw", "fw", "hb", "bc", "fv", "mv"))
 
-  coconat::register_dataset('rhubarb', shortname = 'rb',
-                            species = 'Rheum rhabarbarum', sex='U', age='adult',
-                            namespace = 'coconatfly')
+  register_rhubarb()
   expect_equal(abbreviate_datasets("rhubarb"), "rb")
   expect_equal(lengthen_datasets("rb"), "rhubarb")
 })
