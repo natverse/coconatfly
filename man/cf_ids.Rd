@@ -18,7 +18,8 @@ cf_ids(
   fanc = NULL,
   opticlobe = NULL,
   banc = NULL,
-  yakubavnc = NULL
+  yakubavnc = NULL,
+  ...
 )
 
 \method{c}{cidlist}(..., unique = TRUE)
@@ -90,6 +91,15 @@ You will often want to perform a query, most commonly for a cell
   Feel free to \href{https://github.com/natverse/coconatfly/issues}{make an
   issue} if you find something that doesn't feel right or can suggest an improvement.
 }
+\section{Additional datasets}{
+ coconatfly allows can be extended by
+  registering additional datasets using the
+  \code{coconat::\link{register_dataset}} function. You can use \code{cf_ids}
+  to support these additional datasets by passing additional named arguments.
+  The only inconvenience is that these will not be available for command
+  completion by your editor.
+}
+
 \examples{
 \donttest{
 cf_ids("DA2_lPN", datasets='brain')

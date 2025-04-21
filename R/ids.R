@@ -126,6 +126,15 @@ is_key <- function(x, compound=FALSE) {
 #' @param yakubavnc Pass yakuba VNC specific query or ids to this argument
 #' @param banc Pass banc ids to this argument (we only support basic metadata
 #'   queries for banc)
+#' @param ... Queries or ids for additional named datasets (in the style of
+#'   \code{hemibrain}). See \emph{Additional datasets} section.
+#'
+#' @section Additional datasets: coconatfly allows can be extended by
+#'   registering additional datasets using the
+#'   \code{coconat::\link{register_dataset}} function. You can use \code{cf_ids}
+#'   to support these additional datasets by passing additional named arguments.
+#'   The only inconvenience is that these will not be available for command
+#'   completion by your editor.
 #'
 #' @details You will often want to perform a query, most commonly for a cell
 #'   \emph{type} or cell \emph{class}, rather than specific numeric ids. The
@@ -180,9 +189,13 @@ cf_ids <- function(
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL, banc=NULL, yakubavnc=NULL) {
+    opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
 
-  dataset_args=intersect(names(sys.call()), cf_datasets())
+  mc=match.call()
+  cand_datasets=setdiff(names(mc), c("query", "datasets", "expand", "keys", ""))
+  if(length(cand_datasets)>0) {
+    dataset_args=match.arg(cand_datasets, cf_datasets(), several.ok = T)
+  } else dataset_args=character(0L)
   nds=length(dataset_args)
 
   res <- if(!is.null(query)) {
@@ -190,7 +203,9 @@ cf_ids <- function(
       warning("ignoring explicit dataset arguments")
     if(missing(datasets))
       datasets=datasets[1]
-    datasets=match.arg(datasets, several.ok = T)
+    datasets=match.arg(datasets,
+                       choices = union(eval(formals()$datasets), cf_datasets()),
+                       several.ok = T)
 
     if('brain' %in% datasets)
       datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))
@@ -203,6 +218,12 @@ cf_ids <- function(
       stop("You must supply either the `query` argument or one of hemibrain:banc!")
     l=list(hemibrain=hemibrain, flywire=flywire, malecns=malecns, manc=manc,
            fanc=fanc, opticlobe=opticlobe, banc=banc, yakubavnc=yakubavnc)
+    pl=pairlist(...)
+    if(length(pl)) {
+      names(pl)=match_datasets(names(pl))
+      l=c(l, pl)[dataset_args]
+    }
+
     # drop any empty datasets
     l[lengths(l)>0]
   }
@@ -269,13 +290,21 @@ expand_ids <- function(ids, dataset) {
   }
   if(length(ids)==0) return(character())
   dataset=match_datasets(dataset)
-  FUN <- switch(dataset,
-    manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
-    fanc=fanc_ids,
-    malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
-    banc=banc_ids,
-    flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
-    function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
+  if(dataset %in% cf_datasets('builtin')) {
+    FUN <- switch(
+      dataset,
+      manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
+      fanc=fanc_ids,
+      malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
+      banc=banc_ids,
+      flywire=function(ids) fafbseg::flywire_ids(
+        ids,
+        version=fafbseg::flywire_connectome_data_version()),
+      function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
+  } else {
+    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+    FUN=dsd[['idfun']]
+  }
   tf=try(FUN(ids), silent = T)
   if(inherits(tf, 'try-error')) {
     warning("Unable to process query for dataset:", dataset)
