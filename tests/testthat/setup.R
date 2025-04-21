@@ -26,7 +26,7 @@ register_rhubarb <- function() {
                               namespace = 'coconatfly')
   }
   if(! 'badrhubarb' %in% cf_datasets()) {
-    coconat::register_dataset('badrhubarb', shortname = 'rb',
+    coconat::register_dataset('badrhubarb', shortname = 'bb',
                               species = 'Rheum rhabarbarum', sex='U', age='adult',
                               namespace = 'coconatfly')
   }
