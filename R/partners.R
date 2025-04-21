@@ -148,6 +148,19 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
           T ~ stringr::str_match(name, "_([LRM])$")[,2]
         ))
+    } else {
+      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
+      PFUN=dsd[['partnerfun']]
+      if(is.null(PFUN))
+        stop("There is no partner function defined for dataset: ", n)
+      args=list(ids[[n]],partners = partners, threshold=threshold)
+      tres=do.call(PFUN, c(args, ma))
+      partner_col=grep("_id", colnames(tres), value = T)
+      pids=unique(tres[[partner_col]])
+      metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
+      metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
+      colnames(metadf)[[1]]=partner_col
+      tres=left_join(tres, metadf, by = partner_col)
     }
     tres=coconat:::standardise_partner_summary(tres)
     if(nrow(tres)>0) {
