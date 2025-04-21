@@ -63,7 +63,10 @@ test_that("fanc/banc ids/metadata", {
 
 test_that("extra datasets", {
   register_rhubarb()
-  expect_equal(cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
-  expect_equal(cf_ids(rhubarb=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
-  expect_equal(cf_ids(rhubar=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
+  expect_equal(rhu <- cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
+  expect_equal(cf_ids(1, datasets = 'rhubar'), rhu)
+  expect_equal(length(cf_ids(1, datasets = c("brain", 'rhubar'))), 5L)
+
+  expect_equal(rhu2 <- cf_ids(rhubarb=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
+  expect_equal(cf_ids(rhubar=1:3), rhu2)
 })

@@ -191,8 +191,11 @@ cf_ids <- function(
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
     opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
 
-  argnames=names(sys.call())
-  dataset_args=match.arg(argnames, cf_datasets(), several.ok = T)
+  mc=match.call()
+  cand_datasets=setdiff(names(mc), c("query", "datasets", "expand", "keys", ""))
+  if(length(cand_datasets)>0) {
+    dataset_args=match.arg(cand_datasets, cf_datasets(), several.ok = T)
+  } else dataset_args=character(0L)
   nds=length(dataset_args)
 
   res <- if(!is.null(query)) {
@@ -200,7 +203,9 @@ cf_ids <- function(
       warning("ignoring explicit dataset arguments")
     if(missing(datasets))
       datasets=datasets[1]
-    datasets=match.arg(datasets, choices = union(datasets, cf_datasets()), several.ok = T)
+    datasets=match.arg(datasets,
+                       choices = union(eval(formals()$datasets), cf_datasets()),
+                       several.ok = T)
 
     if('brain' %in% datasets)
       datasets=union(datasets[datasets!='brain'], c("hemibrain", "flywire", "malecns", "banc"))
