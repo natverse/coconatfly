@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Specify ids for fly connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/register-dataset/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
       <div class="d-none name"><code>cf_ids.Rd</code></div>
     </div>
 
@@ -53,7 +53,8 @@
 <span>  fanc <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  opticlobe <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  banc <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  yakubavnc <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  yakubavnc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'cidlist'</span></span>
@@ -153,6 +154,15 @@ with <code>c.cidlist</code></p></dd>
   flywire='/super_class:descending.*')</code></p>
 <p>Feel free to <a href="https://github.com/natverse/coconatfly/issues" class="external-link">make an
   issue</a> if you find something that doesn't feel right or can suggest an improvement.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="additional-datasets">Additional datasets<a class="anchor" aria-label="anchor" href="#additional-datasets"></a></h2>
+    <p>coconatfly allows can be extended by
+  registering additional datasets using the
+  <code><a href="https://natverse.org/coconat/reference/register_dataset.html" class="external-link">coconat::register_dataset</a></code> function. You can use <code>cf_ids</code>
+  to support these additional datasets by passing additional named arguments.
+  The only inconvenience is that these will not be available for command
+  completion by your editor.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
