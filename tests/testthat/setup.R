@@ -1,6 +1,6 @@
 .rhubarb_meta <- function(ids=NULL) {
   df=data.frame(
-    id = c("1", "2", "3"),
+    id = 1:3,
     side='R',
     type = c("G1_PN", "G1.2_PN", "G2_PN"),
     group = c(10001, 10002, 10004),
@@ -9,9 +9,13 @@
     subclass = c("ALPN", "ALPN", "ALPN"),
     subsubclass = c("bilateral mALT PN", "bilateral mALT PN", "mALT PN"),
     lineage = c(NA, NA, "lPN"))
-  if(is.null(ids)) df else {
+  if(is.null(ids)) df else if(is.numeric(ids)) {
     df[ids,,drop=FALSE]
-  }
+  } else if(length(ids)==1 && grepl("type:", ids)) {
+    query=sub("type:", "", ids)
+    df=df[grepl(query, df$type),]
+  } else
+    stop("unsupported query")
 }
 
 register_rhubarb <- function() {

@@ -69,4 +69,6 @@ test_that("extra datasets", {
 
   expect_equal(rhu2 <- cf_ids(rhubarb=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
   expect_equal(cf_ids(rhubar=1:3), rhu2)
+  expect_equal(rhu2 <- cf_ids(rhubarb=1:3),
+               list(rhubarb=1:3), ignore_attr = TRUE)
 })

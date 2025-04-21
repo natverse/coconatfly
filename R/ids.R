@@ -290,13 +290,21 @@ expand_ids <- function(ids, dataset) {
   }
   if(length(ids)==0) return(character())
   dataset=match_datasets(dataset)
-  FUN <- switch(dataset,
-    manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
-    fanc=fanc_ids,
-    malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
-    banc=banc_ids,
-    flywire=function(ids) fafbseg::flywire_ids(ids, version=fafbseg::flywire_connectome_data_version()),
-    function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
+  if(dataset %in% cf_datasets('builtin')) {
+    FUN <- switch(
+      dataset,
+      manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
+      fanc=fanc_ids,
+      malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
+      banc=banc_ids,
+      flywire=function(ids) fafbseg::flywire_ids(
+        ids,
+        version=fafbseg::flywire_connectome_data_version()),
+      function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
+  } else {
+    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+    FUN=dsd[['idfun']]
+  }
   tf=try(FUN(ids), silent = T)
   if(inherits(tf, 'try-error')) {
     warning("Unable to process query for dataset:", dataset)
