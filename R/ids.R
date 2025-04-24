@@ -199,6 +199,8 @@ cf_ids <- function(
   nds=length(dataset_args)
 
   res <- if(!is.null(query)) {
+    if(length(query)>1)
+      stop("Sorry, `query` should be a single element character vector such as 'DNa02'")
     if(nds>0)
       warning("ignoring explicit dataset arguments")
     if(missing(datasets))
