@@ -72,15 +72,17 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
   names(res)=names(ids)
 
   for(n in names(ids)) {
-    # NB we need to use get not match.fun since the functions are not exported
-    if(n %in% cf_datasets('builtin'))
-      FUN <- get(paste0(n, '_meta'), mode = 'function')
-    else {
+
+    FUN=NULL
+    if(n %in% cf_datasets('external')) {
       dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
       FUN=dsd[['metafun']]
-      if(is.null(FUN))
-        stop("There is no metadata function defined for dataset: ", n)
     }
+    # NB we need to use get not match.fun since the functions are not exported
+    if(is.null(FUN) && n %in% cf_datasets('builtin'))
+      FUN <- get(paste0(n, '_meta'), mode = 'function')
+    if(is.null(FUN))
+      stop("There is no metadata function defined for dataset: ", n)
     args=list(ids=ids[[n]])
     args2=MoreArgs[[n]]
     if(length(args2)) args=c(args, args2)
