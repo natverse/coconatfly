@@ -89,7 +89,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       do.call(.flywire_partners, commonArgs)
     } else if(n%in%c('hemibrain', 'opticlobe')) {
       do.call(.neuprint_partners,
-              c(commonArgs, dataset=n, conn = npconn(n), chunk = neuprint.chunksize))
+              c(commonArgs, list( dataset=n, conn = npconn(n), chunk = neuprint.chunksize)))
     } else if(n=='malecns') {
       # different strategy as MoreArgs needs to be split into different dests
       .malecns_partners(commonArgs[1:3], ma = MoreArgs[[n]])
@@ -129,9 +129,10 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     rename(class="super_class")
 }
 
-.neuprint_partners <- function(ids, partners, threshold, dataset=NULL, ...) {
+.neuprint_partners <- function(ids, partners, threshold, conn, dataset=NULL, ...) {
 
   tres=neuprintr::neuprint_connection_table(ids, partners=partners,
+                                            conn=conn,
                                             threshold=threshold,
                                             details = TRUE, ...)
   tres <- tres %>%
