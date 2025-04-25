@@ -69,7 +69,22 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres=NULL
     ma=MoreArgs[[n]]
     if(!is.null(ma)) checkmate::assert_list(ma, names = 'named')
-    if(n=='flywire') {
+
+    PFUN=NULL
+    if(n %in% cf_datasets('external')) {
+      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
+      PFUN=dsd[['partnerfun']]
+    }
+    if(!is.null(PFUN)) {
+      args=list(ids[[n]],partners = partners, threshold=threshold)
+      tres=do.call(PFUN, c(args, ma))
+      partner_col=grep("_id", colnames(tres), value = T)
+      pids=unique(tres[[partner_col]])
+      metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
+      metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
+      colnames(metadf)[[1]]=partner_col
+      tres=left_join(tres, metadf, by = partner_col)
+    } else if(n=='flywire') {
       # nb different threshold definition here
       args=list(ids[[n]], partners = partners, threshold = threshold-1L)
       tres=do.call(flywire_partner_summary2, c(args, ma))
@@ -148,20 +163,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
           !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
           T ~ stringr::str_match(name, "_([LRM])$")[,2]
         ))
-    } else {
-      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
-      PFUN=dsd[['partnerfun']]
-      if(is.null(PFUN))
-        stop("There is no partner function defined for dataset: ", n)
-      args=list(ids[[n]],partners = partners, threshold=threshold)
-      tres=do.call(PFUN, c(args, ma))
-      partner_col=grep("_id", colnames(tres), value = T)
-      pids=unique(tres[[partner_col]])
-      metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
-      metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
-      colnames(metadf)[[1]]=partner_col
-      tres=left_join(tres, metadf, by = partner_col)
-    }
+    } else stop("There is no partner function defined for dataset: ", n)
+
     tres=coconat:::standardise_partner_summary(tres)
     if(nrow(tres)>0) {
       tres$dataset=n
