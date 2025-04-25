@@ -1,9 +1,11 @@
-cf_datasets <- function(rval=c("all", 'available', 'builtin')) {
+cf_datasets <- function(rval=c("all", 'available', 'builtin', 'external')) {
   rval=match.arg(rval)
   builtin_datasets=c("flywire", "malecns", 'manc', 'fanc', 'hemibrain', 'opticlobe', 'banc', 'yakubavnc')
   if(rval=='builtin')
     return(builtin_datasets)
   extra_datasets=coconat::dataset_names(namespace = 'coconatfly')
+  if(rval=='external')
+    return(extra_datasets)
   datasets=union(builtin_datasets, extra_datasets)
   if(rval=='all')
     datasets

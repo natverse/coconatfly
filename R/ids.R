@@ -292,7 +292,12 @@ expand_ids <- function(ids, dataset) {
   }
   if(length(ids)==0) return(character())
   dataset=match_datasets(dataset)
-  if(dataset %in% cf_datasets('builtin')) {
+  FUN <- NULL
+  if(dataset %in% cf_datasets('external')) {
+    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+    FUN=dsd[['idfun']]
+  }
+  if(is.null(FUN) && dataset %in% cf_datasets('builtin')) {
     FUN <- switch(
       dataset,
       manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
@@ -303,10 +308,9 @@ expand_ids <- function(ids, dataset) {
         ids,
         version=fafbseg::flywire_connectome_data_version()),
       function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
-  } else {
-    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
-    FUN=dsd[['idfun']]
   }
+  if(is.null(FUN))
+    stop("No id function for dataset ", dataset)
   tf=try(FUN(ids), silent = T)
   if(inherits(tf, 'try-error')) {
     warning("Unable to process query for dataset:", dataset)
