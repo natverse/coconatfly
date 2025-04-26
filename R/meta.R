@@ -22,7 +22,7 @@ npconn <- function(dataset) {
   else if(dataset=='yakubavnc')
     return(malevnc::manc_neuprint(
       dataset='yakuba-vnc',
-      server = 'https://neuprint-pre.janelia.org'))
+      server = 'https://neuprint-yakuba.janelia.org'))
   else stop("neuprint connection unavailable for dataset: ", dataset)
 }
 
