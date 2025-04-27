@@ -1,7 +1,7 @@
 Package: coconatfly
 Type: Package
 Title: Comparative Connectomics of Public and In Progress Drosophila Datasets
-Version: 0.2.4
+Version: 0.2.4.9000
 Authors@R:
     c(person(given = "Gregory",
            family = "Jefferis",
