@@ -79,10 +79,16 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres <- if(!is.null(PFUN)) {
       tres=do.call(PFUN, commonArgs)
       partner_col=grep("_id", colnames(tres), value = T)
+      if(!length(partner_col)==1)
+        partner_col=grep("^partner$", colnames(tres), value = T)
+      if(!length(partner_col)==1)
+        stop("Unable to find a unique partner column for dataset: ", n,
+             "\nExternal functions should return a table with bodyid and partner cols or query and pre/post_id")
       pids=unique(tres[[partner_col]])
       metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
       metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
       colnames(metadf)[[1]]=partner_col
+      tres[[partner_col]]=coconat::id2char(tres[[partner_col]])
       left_join(tres, metadf, by = partner_col)
     } else if(n=='flywire') {
       # nb different threshold definition here
