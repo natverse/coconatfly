@@ -206,17 +206,21 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   tres
 }
 
-.yakubavnc_partners <- function(ids, partners, threshold, ...) {
-  tres <- malevnc::manc_connection_table(ids, partners = partners,
+.yakubavnc_partners <- function(ids, partners, threshold,
+                                details = c("instance", "group", "type", "class", "somaSide", "rootSide"),
+                                ...) {
+  tres <- neuprintr::neuprint_connection_table(ids, partners = partners,
                                  threshold=threshold,
-                                 details = c("instance", "group", "type", "class", "somaSide", "rootSide"),
+                                 details=details,
                                  conn=npconn('yakubavnc'), ...)
+  if('somaSide' %in% colnames(tres)) {
 
   tres <- tres %>%
     mutate(side=dplyr::case_when(
       !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
       T ~ stringr::str_match(name, "_([LRM])$")[,2]
     ))
+  }
   tres
 }
 
