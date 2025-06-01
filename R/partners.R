@@ -321,9 +321,11 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
   rval=match.arg(rval)
   pp=cf_partners(ids, threshold = threshold, partners = partners, MoreArgs=MoreArgs)
   qmeta=cf_meta(ids)
-  if(!group %in% colnames(pp))
+  if(length(group)>1)
+    warning("The first grouping column will be used as a master group!")
+  if(!all(group %in% colnames(pp)))
     stop("Grouping column `", group, "` not present in cf_partners result!")
-  if(!group %in% colnames(qmeta))
+  if(!all(group %in% colnames(qmeta)))
     stop("Grouping column `", group, "` not present in cf_meta result for query!")
 
     # query and partner suffixes
@@ -353,7 +355,7 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     arrange(desc(weight))
   if(aggregate.query) {
     # make a query type
-    querygroupcol=paste0(group,".",qfix)
+    querygroupcol=paste0(group[1],".",qfix)
     pp2 <- pp2 %>%
       mutate(query=paste0(abbreviate_datasets(dataset),":",
                           .data[[querygroupcol]]))
@@ -367,6 +369,6 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
   pp2 %>%
     coconat::partner_summary2adjacency_matrix(
       inputcol = "query",
-      outputcol = ifelse(partners=='outputs', group.post, group.pre),
+      outputcol = ifelse(partners=='outputs', group.post[1], group.pre[1]),
       standardise_input = F, sparse = rval=="sparse")
 }
