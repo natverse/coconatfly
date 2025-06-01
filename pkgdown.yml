@@ -1,11 +1,11 @@
 pandoc: 3.1.3
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   AOTU063: AOTU063.html
   getting-started: getting-started.html
   TuTu: TuTu.html
-last_built: 2025-04-27T20:26Z
+last_built: 2025-06-01T08:05Z
 urls:
   reference: https://natverse.org/coconatfly/reference
   article: https://natverse.org/coconatfly/articles
