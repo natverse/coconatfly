@@ -287,6 +287,8 @@ connection_table2queryids <- function(x) {
 #' @param normalise Whether to normalise the reported weights as a fraction of
 #'   the total for each query cell type (or individual query neuron when
 #'   \code{aggregate.query=TRUE}).
+#' @param group Name of the column to use for grouping. Defaults to type but
+#'   other options could be useful e.g. class or group.
 #' @inheritParams cf_partners
 #' @return a data.frame or (sparse) matrix based on \code{rval}. The column
 #'   \code{n} refers to the number of \emph{partner} neurons.
@@ -311,6 +313,7 @@ connection_table2queryids <- function(x) {
 #'   arrange desc across ungroup
 cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                                aggregate.query=TRUE, normalise=FALSE,
+                               group='type',
                                rval=c("data.frame", "sparse", "matrix"),
                                MoreArgs=list()) {
   # ids=expand_ids(ids)
@@ -318,20 +321,25 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
   rval=match.arg(rval)
   pp=cf_partners(ids, threshold = threshold, partners = partners, MoreArgs=MoreArgs)
   qmeta=cf_meta(ids)
+  if(!group %in% colnames(pp))
+    stop("Grouping column `", group, "` not present in cf_partners result!")
+  if(!group %in% colnames(qmeta))
+    stop("Grouping column `", group, "` not present in cf_meta result for query!")
 
-  # query and partner suffixes
+    # query and partner suffixes
   qfix=ifelse(partners=='inputs', "post", "pre")
   pfix=setdiff(c("post", "pre"), qfix)
   join_spec="key"
   names(join_spec)=paste0(qfix, "_key")
   suffix=paste0(".",c(pfix, qfix))
-
-  gv <- if(aggregate.query) c("dataset", "type.pre", "type.post") else {
+  group.pre=paste0(group,".pre")
+  group.post=paste0(group,".post")
+  gv <- if(aggregate.query) c("dataset", group.pre, group.post) else {
     pp <- if(qfix=='post')
       pp %>% mutate(query=post_key)
     else
       pp %>% mutate(query=pre_key)
-    c("dataset", "query", "type.pre", "type.post")
+    c("dataset", "query", group.pre, group.post)
   }
 
   pp2 <- pp %>%
@@ -345,8 +353,10 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     arrange(desc(weight))
   if(aggregate.query) {
     # make a query type
+    querygroupcol=paste0(group,".",qfix)
     pp2 <- pp2 %>%
-      mutate(query=paste0(abbreviate_datasets(dataset),":", .data[[glue("type.{qfix}")]]))
+      mutate(query=paste0(abbreviate_datasets(dataset),":",
+                          .data[[querygroupcol]]))
   }
   if(normalise) {
     pp2 <- pp2 %>% group_by(query) %>% mutate(weight=weight/sum(weight)) %>% ungroup()
@@ -357,6 +367,6 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
   pp2 %>%
     coconat::partner_summary2adjacency_matrix(
       inputcol = "query",
-      outputcol = ifelse(partners=='outputs', "type.post","type.pre"),
+      outputcol = ifelse(partners=='outputs', group.post, group.pre),
       standardise_input = F, sparse = rval=="sparse")
 }
