@@ -10,6 +10,7 @@ cf_partner_summary(
   partners = c("inputs", "outputs"),
   aggregate.query = TRUE,
   normalise = FALSE,
+  group = "type",
   rval = c("data.frame", "sparse", "matrix"),
   MoreArgs = list()
 )
@@ -31,6 +32,9 @@ the partner neurons.}
 \item{normalise}{Whether to normalise the reported weights as a fraction of
 the total for each query cell type (or individual query neuron when
 \code{aggregate.query=TRUE}).}
+
+\item{group}{Name of the column to use for grouping. Defaults to type but
+other options could be useful e.g. class or group.}
 
 \item{rval}{Choose what the function will return. \code{sparse} and
 \code{matrix} return sparse and dense (standard) matrices, respectively.}
