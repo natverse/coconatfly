@@ -188,13 +188,20 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   tres
 }
 
-.banc_partners <- function(ids, partners, threshold, ...) {
-  # FIXME allow end user to override fanc version
-  tres=fancr::with_banc(fancr::fanc_partner_summary(banc_ids(ids),
+.banc_partners <- function(ids,
+                           partners,
+                           threshold,
+                           version=banc_version(),
+                           ...) {
+  tres=bancr::banc_partner_summary(banc_ids(ids),
                                    partners = partners,
                                    threshold = threshold-1L,
-                                   version=banc_version(), ...))
+                                   version=version,
+                                   ...)
   partner_col=grep("_id", colnames(tres), value = T)
+  for(pc in partner_col){
+    tres[[pc]] <- as.character(tres[[pc]])
+  }
   metadf=banc_meta()
   colnames(metadf)[[1]]=partner_col
   tres=left_join(tres, metadf, by = partner_col)

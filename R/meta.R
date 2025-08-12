@@ -220,11 +220,175 @@ fanc_meta <- function(ids=NULL, ...) {
   fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
 }
 
-banc_meta <- function(ids=NULL, ...) {
-  ids=banc_ids(ids)
-  fancr::with_banc(fancorbanc_meta(table='cell_info', ids=ids, ...))
-}
+#' Cache/re-cache a copy of BANC meta
+#'
+#' @details BANC meta can take a little time to pull, and so having a cached copy is handy.
+#' If you want to execute changes in the BANC CAVE table/seatable environments, you may
+#' wish to re-make this cache and make use of those updated labels.
+#'
+#' @param use_seatable Whether to build BANC meta data from the `codex_annotations` CAVE table
+#' (production) or our internal seatable (development). Both require different types of authenticated
+#' access, for details see `bancr` documentation.
+#' @param return Logical, whether or not to return the result as a tibble.
+#'
+#' @export
+#' @seealso \code{\link{cf_ids}}
+#' @examples
+#' \dontrun{
+#' # Requires authenticated access to BANC CAVE
+#' banc_meta_cache(use_seatable=FALSE)
+#'
+#' # Requires the system variable BANCTABLE_TOKEN
+#' banc_meta_cache(use_seatable=TRUE)
+#' }
+#' Create or refresh cache of BANC meta information
+#'
+#' @description
+#' `banc_meta_create_cache()` builds or refreshes an in-memory cache of BANC metadata
+#' for efficient repeated lookups. You can choose the data source using `use_seatable`.
+#' The main accessor function [banc_meta()] will always use the most recently created cache.
+#'
+#' @details
+#' BANC meta queries can be slow; caching avoids repeated computation/database access.
+#' Whenever labels are updated, simply rerun this function to update the cache.
+#'
+#' @param use_seatable Logical; if `TRUE`, build cache from the seatable (development labels).
+#'   If `FALSE`, build cache from the production codex table (production labels). You need to be
+#'   an authenticated user to use the seatable.
+#' @param return Logical; if `TRUE`, return the cache data.frame/invisible.
+#'
+#' @return Invisibly returns the cache (data.frame) if `return=TRUE`; otherwise invisibly `NULL`.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' banc_meta_create_cache(use_seatable=TRUE) # create cache
+#' result <- banc_meta() # use cache
+#'
+#' # use cache to quickly make plot
+#' cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("banc", "hemibrain")))
+#' }
+banc_meta_create_cache <- NULL # Placeholder, assigned below
 
+#' Query cached BANC meta data
+#'
+#' @description
+#' Returns results from the in-memory cache, filtered by `ids` if given.
+#' Cache must be created first using [banc_meta_create_cache()].
+#'
+#' @details
+#' `banc_meta()` never queries databases directly.
+#' If `ids` are given, filters the meta table by root_id.
+#'
+#' @param ids Vector of neuron/root IDs to select, or `NULL` for all.
+#' @return tibble/data.frame, possibly filtered by ids.
+#' @export
+#' @seealso [banc_meta_create_cache()]
+#'
+#' @examples
+#' \dontrun{
+#' banc_meta_create_cache() # build the cache
+#' all_meta <- banc_meta()  # retrieve all
+#' }
+banc_meta <- NULL # Placeholder, assigned below
+
+# hidden
+banc_meta <- local({
+  .banc_meta_cache <- NULL
+
+  .refresh_cache <- function(use_seatable=FALSE) {
+    if (use_seatable) {
+      # Read from seatable
+      banc.meta <- bancr::banctable_query(
+        "SELECT root_id, side, cell_type, cell_class, cell_sub_class from banc_meta"
+      )
+      banc.meta %>%
+        dplyr::rename(
+          id = root_id,
+          class = cell_class,
+          type = cell_type,
+          side = side,
+          subclass = cell_sub_class
+        ) %>%
+        dplyr::mutate(id = as.character(id))
+    } else {
+      banc.community.meta <- bancr::banc_cell_info() %>%
+        dplyr::filter(valid == 't') %>%
+        dplyr::arrange(pt_root_id, tag) %>%
+        dplyr::distinct(pt_root_id, tag2, tag, .keep_all = TRUE) %>%
+        dplyr::group_by(pt_root_id, tag2) %>%
+        dplyr::summarise(
+          tag = {
+            if (length(tag) > 1 && any(grepl("?", tag, fixed = TRUE))) {
+              usx = unique(sub("?", "", tag, fixed = TRUE))
+              if (length(usx) < length(tag)) tag = usx
+            }
+            paste0(tag, collapse = ";")
+          },
+          .groups = 'drop'
+        ) %>%
+        tidyr::pivot_wider(
+          id_cols = pt_root_id,
+          names_from = tag2,
+          values_from = tag,
+          values_fill = ""
+        ) %>%
+        dplyr::select(
+          id = pt_root_id,
+          class = `primary class`,
+          type = `neuron identity`,
+          side = `soma side`,
+          subclass = `anterior-posterior projection pattern`
+        ) %>%
+        dplyr::mutate(class = gsub(" ","_", class))
+
+      banc.codex.meta <- bancr::banc_codex_annotations() %>%
+        dplyr::distinct(pt_root_id, .keep_all = TRUE) %>%
+        dplyr::select(
+          id = pt_root_id,
+          class = cell_class,
+          type = cell_type,
+          side = side,
+          subclass = cell_sub_class
+        )
+
+      rbind(
+        banc.codex.meta,
+        banc.community.meta
+      ) %>%
+        dplyr::distinct(id, .keep_all = TRUE) %>%
+        dplyr::mutate(id = as.character(id))
+    }
+  }
+
+  list(
+    create_cache = function(use_seatable=FALSE, return = FALSE) {
+      meta <- .refresh_cache(use_seatable=use_seatable)
+      .banc_meta_cache <<- meta
+      if (return) meta else invisible()
+    },
+    get_meta = function(ids = NULL) {
+      if (is.null(.banc_meta_cache)){
+        warning("No BANC meta cache loaded. Creating with banc_meta_create_cache(use_seatable=FALSE)")
+        banc_meta_create_cache(use_seatable=FALSE)
+      }
+      meta <- .banc_meta_cache
+      ids <- extract_ids(unname(unlist(ids)))
+      ids <- tryCatch(bancr::banc_ids(ids), error = function(e) NULL)
+      if (length(ids)) {
+        meta %>% dplyr::filter(id %in% ids)
+      } else {
+        meta
+      }
+    }
+  )
+})
+
+# Exported user-friendly functions
+banc_meta_create_cache <- banc_meta$create_cache
+banc_meta <- banc_meta$get_meta
+
+# now for FANC meta mainly, but could switch back
 fancorbanc_meta <- function(table, ids=NULL, ...) {
   ol_classes=c("centrifugal", "distal medulla", "distal medulla dorsal rim area",
                "lamina intrinsic", "lamina monopolar", "lamina tangential",
@@ -308,51 +472,76 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
     metadf
 }
 
-banc_ids <- function(ids) {
-  fancorbanc_ids(ids, dataset='banc')
-}
-
-fanc_ids <- function(ids) {
-  fancorbanc_ids(ids, dataset='fanc')
-}
-
-#' @importFrom dplyr pull
-fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
+# hidden
+banc_ids <- function(ids=NULL) {
   if(is.null(ids)) return(NULL)
-  dataset=match.arg(dataset)
   # extract numeric ids if possible
   ids <- extract_ids(ids)
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
-    metadf=if(dataset=="banc") banc_meta() else fanc_meta()
+    metadf=banc_meta()
+    if(isTRUE(ids=='all')) return(bancr::banc_ids(metadf$id, integer64 = F))
+    if(isTRUE(ids=='neurons')) {
+      ids <- metadf %>%
+        filter(is.na(class) | class!='glia') %>%
+        pull(id)
+      return(bancr::banc_ids(ids, integer64 = F))
+    }
+    if(isTRUE(substr(ids, 1, 1)=="/"))
+      ids=substr(ids, 2, nchar(ids))
+    else warning("All BANC queries are regex queries. ",
+                 "Use an initial / to suppress this warning!")
+    if(!grepl(":", ids)) ids=paste0("type:", ids)
+    qsplit=stringr::str_match(ids, pattern = '[/]{0,1}(.+):(.+)')
+    field=qsplit[,2]
+    value=qsplit[,3]
+    if(!field %in% colnames(metadf)) {
+      stop(glue("BANC queries only work with these fields: ",
+                paste(colnames(metadf)[-1], collapse = ',')))
+    }
+    ids <- metadf %>%
+      filter(grepl(value, .data[[field]])) %>%
+      pull(id)
+  } else if(length(ids)>0) {
+    # check they are valid for current materialisation
+    bancr::banc_latestid(ids, version = banc_version())
+  }
+  return(bancr::banc_ids(ids, integer64 = F))
+}
+
+#' @importFrom dplyr pull
+fanc_ids <- function(ids) {
+  if(is.null(ids)) return(NULL)
+  # extract numeric ids if possible
+  ids <- extract_ids(ids)
+  if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
+    # query
+    metadf=fanc_meta()
     if(isTRUE(ids=='all')) return(fancr::fanc_ids(metadf$id, integer64 = F))
     if(isTRUE(ids=='neurons')) {
       ids <- metadf %>%
-        filter(is.na(.data$class) | .data$class!='glia') %>%
-        pull(.data$id)
+        filter(is.na(class) | class!='glia') %>%
+        pull(id)
       return(fancr::fanc_ids(ids, integer64 = F))
     }
     if(isTRUE(substr(ids, 1, 1)=="/"))
       ids=substr(ids, 2, nchar(ids))
-    else warning("All FANC/BANC queries are regex queries. ",
+    else warning("All FANC queries are regex queries. ",
               "Use an initial / to suppress this warning!")
     if(!grepl(":", ids)) ids=paste0("type:", ids)
     qsplit=stringr::str_match(ids, pattern = '[/]{0,1}(.+):(.+)')
     field=qsplit[,2]
     value=qsplit[,3]
     if(!field %in% colnames(metadf)) {
-      stop(glue("{dataset} queries only work with these fields: ",
+      stop(glue("FANC queries only work with these fields: ",
            paste(colnames(metadf)[-1], collapse = ',')))
     }
     ids <- metadf %>%
       filter(grepl(value, .data[[field]])) %>%
-      pull(.data$id)
+      pull(id)
   } else if(length(ids)>0) {
     # check they are valid for current materialisation
-    ids <- if(dataset=="banc")
-      fancr::with_banc(fafbseg::flywire_latestid(ids, version = banc_version()))
-    else
-      fancr::with_fanc(fafbseg::flywire_latestid(ids, version = fanc_version()))
+    fancr::with_fanc(fafbseg::flywire_latestid(ids, version = fanc_version()))
   }
   return(fancr::fanc_ids(ids, integer64 = F))
 }

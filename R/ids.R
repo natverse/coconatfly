@@ -189,7 +189,8 @@ cf_ids <- function(
     expand=FALSE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
-    opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
+    opticlobe=NULL, banc=NULL, yakubavnc=NULL,
+    ...) {
 
   mc=match.call()
   cand_datasets=setdiff(names(mc), c("query", "datasets", "expand", "keys", ""))

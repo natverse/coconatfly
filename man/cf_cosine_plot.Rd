@@ -29,7 +29,8 @@ multi_connection_table(
   threshold = 1L,
   group = "type",
   check_missing = TRUE,
-  min_datasets = Inf
+  min_datasets = Inf,
+  ...
 )
 }
 \arguments{

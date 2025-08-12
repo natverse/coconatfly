@@ -1,7 +1,7 @@
 Package: coconatfly
 Type: Package
 Title: Comparative Connectomics of Public and In Progress Drosophila Datasets
-Version: 0.2.4.9000
+Version: 0.2.5.0
 Authors@R:
     c(person(given = "Gregory",
            family = "Jefferis",
@@ -32,11 +32,13 @@ Imports:
     bit64,
     usethis,
     methods,
-    withr
+    withr,
+    memoise
 Suggests: 
     malevnc (> 0.3.1),
     fancr (>= 0.5.0),
     testthat (>= 3.0.0),
+    bancr,
     ComplexHeatmap,
     InteractiveComplexHeatmap,
     arrow,
@@ -52,6 +54,7 @@ Enhances:
 Remotes: 
     flyconnectome/malevnc,
     flyconnectome/fancr,
+    flyconnectome/bancr,
     natverse/fafbseg,
     natverse/nat,
     natverse/nat.templatebrains,

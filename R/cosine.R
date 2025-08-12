@@ -229,7 +229,9 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   filter(!class %in% c("RN", "uPN")) %>%
 #'   cf_cosine_plot()
 #' }
-cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
+cf_cosine_plot <- function(ids=NULL,
+                           ...,
+                           threshold=5,
                            partners = c("outputs", "inputs"),
                            labRow='{type}_{coconatfly::abbreviate_datasets(dataset)}{side}',
                            group='type',
@@ -248,12 +250,12 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
     x=ids
     partners=unique(x$partners)
   } else
-    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group, min_datasets = min_datasets)
+    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group, min_datasets = min_datasets, ...)
 
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
-    tm=cf_meta(colnames(cm), keep.all = keep.all.meta)
+    tm=cf_meta(colnames(cm), keep.all = keep.all.meta, ...)
     labRow <- glue::glue_data(labRow, .x = tm)
   } else if(is.character(labRow)) {
     # user has supplied labels but they are unlikely to be in the correct order
@@ -309,7 +311,8 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    threshold=1L, group='type',
                                    check_missing=TRUE,
-                                   min_datasets=Inf
+                                   min_datasets=Inf,
+                                   ...
                                    ) {
   if(isTRUE(group))
     group='type'
@@ -318,7 +321,7 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
   if(length(partners)>1) {
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
-                             check_missing=F, min_datasets = min_datasets))
+                             check_missing=F, min_datasets = min_datasets, ...))
     l=dplyr::bind_rows(l)
     if(check_missing) {
       query_keys <- l %>% group_by(partners) %>%
