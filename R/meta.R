@@ -220,27 +220,6 @@ fanc_meta <- function(ids=NULL, ...) {
   fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
 }
 
-#' Cache/re-cache a copy of BANC meta
-#'
-#' @details BANC meta can take a little time to pull, and so having a cached copy is handy.
-#' If you want to execute changes in the BANC CAVE table/seatable environments, you may
-#' wish to re-make this cache and make use of those updated labels.
-#'
-#' @param use_seatable Whether to build BANC meta data from the `codex_annotations` CAVE table
-#' (production) or our internal seatable (development). Both require different types of authenticated
-#' access, for details see `bancr` documentation.
-#' @param return Logical, whether or not to return the result as a tibble.
-#'
-#' @export
-#' @seealso \code{\link{cf_ids}}
-#' @examples
-#' \dontrun{
-#' # Requires authenticated access to BANC CAVE
-#' banc_meta_cache(use_seatable=FALSE)
-#'
-#' # Requires the system variable BANCTABLE_TOKEN
-#' banc_meta_cache(use_seatable=TRUE)
-#' }
 #' Create or refresh cache of BANC meta information
 #'
 #' @description
@@ -252,17 +231,21 @@ fanc_meta <- function(ids=NULL, ...) {
 #' BANC meta queries can be slow; caching avoids repeated computation/database access.
 #' Whenever labels are updated, simply rerun this function to update the cache.
 #'
-#' @param use_seatable Logical; if `TRUE`, build cache from the seatable (development labels).
-#'   If `FALSE`, build cache from the production codex table (production labels). You need to be
-#'   an authenticated user to use the seatable.
-#' @param return Logical; if `TRUE`, return the cache data.frame/invisible.
+#' @param use_seatable Whether to build BANC meta data from the `codex_annotations` CAVE table
+#' (production) or our internal seatable (development). Both require different types of authenticated
+#' access, for details see `bancr` documentation.
+#' @param return Logical; if `TRUE`, return the cache tibble/invisible.
 #'
 #' @return Invisibly returns the cache (data.frame) if `return=TRUE`; otherwise invisibly `NULL`.
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#' #' # Requires authenticated access to BANC CAVE
+#' banc_meta_cache(use_seatable=FALSE)
+#'
 #' banc_meta_create_cache(use_seatable=TRUE) # create cache
+#' ## BANCTABLE_TOKEN must be set, see bancr package
 #' result <- banc_meta() # use cache
 #'
 #' # use cache to quickly make plot

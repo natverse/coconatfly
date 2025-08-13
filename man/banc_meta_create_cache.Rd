@@ -2,16 +2,16 @@
 % Please edit documentation in R/meta.R
 \name{banc_meta_create_cache}
 \alias{banc_meta_create_cache}
-\title{Cache/re-cache a copy of BANC meta}
+\title{Create or refresh cache of BANC meta information}
 \usage{
 banc_meta_create_cache(use_seatable = FALSE, return = FALSE)
 }
 \arguments{
-\item{use_seatable}{Logical; if `TRUE`, build cache from the seatable (development labels).
-If `FALSE`, build cache from the production codex table (production labels). You need to be
-an authenticated user to use the seatable.}
+\item{use_seatable}{Whether to build BANC meta data from the `codex_annotations` CAVE table
+(production) or our internal seatable (development). Both require different types of authenticated
+access, for details see `bancr` documentation.}
 
-\item{return}{Logical; if `TRUE`, return the cache data.frame/invisible.}
+\item{return}{Logical; if `TRUE`, return the cache tibble/invisible.}
 }
 \value{
 Invisibly returns the cache (data.frame) if `return=TRUE`; otherwise invisibly `NULL`.
@@ -22,31 +22,19 @@ for efficient repeated lookups. You can choose the data source using `use_seatab
 The main accessor function [banc_meta()] will always use the most recently created cache.
 }
 \details{
-BANC meta can take a little time to pull, and so having a cached copy is handy.
-If you want to execute changes in the BANC CAVE table/seatable environments, you may
-wish to re-make this cache and make use of those updated labels.
-
 BANC meta queries can be slow; caching avoids repeated computation/database access.
 Whenever labels are updated, simply rerun this function to update the cache.
 }
 \examples{
 \dontrun{
-# Requires authenticated access to BANC CAVE
+#' # Requires authenticated access to BANC CAVE
 banc_meta_cache(use_seatable=FALSE)
 
-# Requires the system variable BANCTABLE_TOKEN
-banc_meta_cache(use_seatable=TRUE)
-}
-Create or refresh cache of BANC meta information
-
-\dontrun{
 banc_meta_create_cache(use_seatable=TRUE) # create cache
+## BANCTABLE_TOKEN must be set, see bancr package
 result <- banc_meta() # use cache
 
 # use cache to quickly make plot
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("banc", "hemibrain")))
 }
-}
-\seealso{
-\code{\link{cf_ids}}
 }
