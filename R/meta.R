@@ -480,12 +480,12 @@ banc_ids <- function(ids=NULL) {
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
     metadf=banc_meta()
-    if(isTRUE(ids=='all')) return(banc_ids(metadf$id, integer64 = F))
+    if(isTRUE(ids=='all')) return(bancr::banc_ids(metadf$id, integer64 = F))
     if(isTRUE(ids=='neurons')) {
       ids <- metadf %>%
         filter(is.na(class) | class!='glia') %>%
         pull(id)
-      return(banc_ids(ids, integer64 = F))
+      return(bancr::banc_ids(ids, integer64 = F))
     }
     if(isTRUE(substr(ids, 1, 1)=="/"))
       ids=substr(ids, 2, nchar(ids))
@@ -506,7 +506,7 @@ banc_ids <- function(ids=NULL) {
     # check they are valid for current materialisation
     bancr::banc_latestid(ids, version = banc_version())
   }
-  return(banc_ids(ids, integer64 = F))
+  return(bancr::banc_ids(ids, integer64 = F))
 }
 
 #' @importFrom dplyr pull
