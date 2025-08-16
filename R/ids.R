@@ -284,13 +284,8 @@ print.cidlist <- function(x, ..., truncate=10) {
   invisible(x)
 }
 
-# private function to expand queries into the corresponding ids
-expand_ids <- function(ids, dataset) {
-  if(is.list(ids)) {
-    ids=mapply(expand_ids, ids=ids, dataset=names(ids), SIMPLIFY = FALSE)
-    return(ids)
-  }
-  if(length(ids)==0) return(character())
+# private function to select an ids function for a dataset
+get_id_fun <- function(dataset) {
   dataset=match_datasets(dataset)
   FUN <- NULL
   if(dataset %in% cf_datasets('external')) {
@@ -311,6 +306,17 @@ expand_ids <- function(ids, dataset) {
   }
   if(is.null(FUN))
     stop("No id function for dataset ", dataset)
+  FUN
+}
+
+# private function to expand queries into the corresponding ids
+expand_ids <- function(ids, dataset) {
+  if(is.list(ids)) {
+    ids=mapply(expand_ids, ids=ids, dataset=names(ids), SIMPLIFY = FALSE)
+    return(ids)
+  }
+  if(length(ids)==0) return(character())
+  FUN=get_id_fun(dataset)
   tf=try(FUN(ids), silent = T)
   if(inherits(tf, 'try-error')) {
     warning("Unable to process query for dataset:", dataset)
