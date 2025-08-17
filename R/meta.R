@@ -26,6 +26,20 @@ npconn <- function(dataset) {
   else stop("neuprint connection unavailable for dataset: ", dataset)
 }
 
+get_meta_fun <- function(dataset) {
+  FUN=NULL
+  if(dataset %in% cf_datasets('external')) {
+    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+    FUN=dsd[['metafun']]
+  }
+  # NB we need to use get not match.fun since the functions are not exported
+  if(is.null(FUN) && dataset %in% cf_datasets('builtin'))
+    FUN <- get(paste0(dataset, '_meta'), mode = 'function')
+  if(is.null(FUN))
+    stop("There is no metadata function defined for dataset: ", dataset)
+  FUN
+}
+
 #' Fetch metadata for neurons from connectome datasets
 #'
 #' @details \code{MoreArgs} should be list named by the standard dataset names
@@ -73,20 +87,10 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
 
   for(n in names(ids)) {
 
-    FUN=NULL
-    if(n %in% cf_datasets('external')) {
-      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
-      FUN=dsd[['metafun']]
-    }
-    # NB we need to use get not match.fun since the functions are not exported
-    if(is.null(FUN) && n %in% cf_datasets('builtin'))
-      FUN <- get(paste0(n, '_meta'), mode = 'function')
-    if(is.null(FUN))
-      stop("There is no metadata function defined for dataset: ", n)
     args=list(ids=ids[[n]])
     args2=MoreArgs[[n]]
     if(length(args2)) args=c(args, args2)
-
+    FUN=get_meta_fun(n)
     tres=try(do.call(FUN, args), silent = F)
     # maybe our query didn't yield anything
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
