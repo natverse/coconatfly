@@ -194,7 +194,7 @@ cf_ids <- function(
   mc=match.call()
   cand_datasets=setdiff(names(mc), c("query", "datasets", "expand", "keys", ""))
   if(length(cand_datasets)>0) {
-    dataset_args=match.arg(cand_datasets, cf_datasets(), several.ok = T)
+    dataset_args=match_datasets(cand_datasets)
   } else dataset_args=character(0L)
   nds=length(dataset_args)
 
