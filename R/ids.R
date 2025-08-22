@@ -317,15 +317,16 @@ expand_ids <- function(ids, dataset) {
   }
   if(length(ids)==0) return(character())
   FUN=get_id_fun(dataset)
-  tf=try(FUN(ids), silent = T)
-  if(inherits(tf, 'try-error')) {
-    warning("Unable to process query for dataset:", dataset)
-    NULL
-  } else {
+  tryCatch({
+    tf=FUN(ids)
     if(length(tf)==0)
       warning("No matching ids when querying dataset:", dataset)
     tf
-  }
+  }, error=function(e) {
+    stop("In expand_ids: Unable to process query for dataset: `", dataset, "`. Details:\n", e,
+            call.=FALSE, immediate. = TRUE)
+    NULL
+  })
 }
 
 
