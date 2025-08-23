@@ -195,7 +195,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 }
 
 .banc_partners <- function(ids, partners, threshold, ...) {
-  # FIXME allow end user to override fanc version
+  banc_error()
   tres=fancr::with_banc(fancr::fanc_partner_summary(banc_ids(ids),
                                    partners = partners,
                                    threshold = threshold-1L,
