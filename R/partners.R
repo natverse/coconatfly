@@ -78,10 +78,10 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     commonArgs=c(list(ids[[n]], partners = partners, threshold=threshold), MoreArgs[[n]])
     tres <- if(!is.null(PFUN)) {
       tres=do.call(PFUN, commonArgs)
-      if(ncol(tres)<3)
+      if(is.null(tres) || ncol(tres)<3)
         stop("External functions should return a table with at least 3 columns:\n",
         "pre/post ids and weight with optional (partner) metadata!")
-      if(ncol==3) {
+      if(ncol(tres)==3) {
         # assume we need to fetch partner metadata
         partner_col=grep("_id", colnames(tres), value = T)
         if(!length(partner_col)==1)
@@ -95,7 +95,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
         colnames(metadf)[[1]]=partner_col
         tres[[partner_col]]=coconat::id2char(tres[[partner_col]])
         left_join(tres, metadf, by = partner_col)
-      }
+      } else tres
     } else if(n=='flywire') {
       # nb different threshold definition here
       do.call(.flywire_partners, commonArgs)
