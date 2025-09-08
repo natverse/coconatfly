@@ -81,7 +81,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       if(is.null(tres) || ncol(tres)<3)
         stop("External functions should return a table with at least 3 columns:\n",
         "pre/post ids and weight with optional (partner) metadata!")
-      if(ncol(tres)==3) {
+      if(ncol(tres)==3 || (ncol(tres)<=5 && !"type" %in% names(tres))) {
         # assume we need to fetch partner metadata
         partner_col=grep("_id", colnames(tres), value = T)
         if(!length(partner_col)==1)
