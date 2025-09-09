@@ -228,7 +228,7 @@ fanc_meta <- function(ids=NULL, ...) {
 # note that this will not be called after bancr::register_banc_coconat()
 # because that will override the built-in banc_* functions
 banc_error <- function() {
-  bv=try(packageVersion('bancr'), silent = T)
+  bv=try(utils::packageVersion('bancr'), silent = T)
   if(inherits(bv, 'try-error') || bv<'0.2.1')
     stop("To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` ",
          call. = FALSE)
