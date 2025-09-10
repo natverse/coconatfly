@@ -187,33 +187,24 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in clio_auth() : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trouble choosing default malecns dataset.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Try running dr_malecns() and then ask on #code or file an issue at</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> https://github.com/flyconnectome/malecns/issues</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using malecns dataset `CNS`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> You can switch to a snapshot dataset in this R session with:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> choose_mcns_dataset("male-cns:v0.9")</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Permanently switch by setting `options("malecns.dataset"=&lt;dataset&gt;)` in .Rprofile</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `malecns`. Details:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return keys directly</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `malecns`. Details:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>
 <span class="r-in"><span><span class="co"># one way of combining separate lists of neurons</span></span></span>
 <span class="r-in"><span><span class="va">hbids</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">264083994</span>, <span class="fl">5813022274</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON1.+"</span>, keys<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="fu">cf_ids</span><span class="op">(</span>hemibrain <span class="op">=</span> <span class="va">hbids</span>, keys <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `malecns`. Details:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># now equivalent to</span></span></span>
