@@ -78,18 +78,24 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     commonArgs=c(list(ids[[n]], partners = partners, threshold=threshold), MoreArgs[[n]])
     tres <- if(!is.null(PFUN)) {
       tres=do.call(PFUN, commonArgs)
-      partner_col=grep("_id", colnames(tres), value = T)
-      if(!length(partner_col)==1)
-        partner_col=grep("^partner$", colnames(tres), value = T)
-      if(!length(partner_col)==1)
-        stop("Unable to find a unique partner column for dataset: ", n,
-             "\nExternal functions should return a table with bodyid and partner cols or query and pre/post_id")
-      pids=unique(tres[[partner_col]])
-      metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
-      metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
-      colnames(metadf)[[1]]=partner_col
-      tres[[partner_col]]=coconat::id2char(tres[[partner_col]])
-      left_join(tres, metadf, by = partner_col)
+      if(is.null(tres) || ncol(tres)<3)
+        stop("External functions should return a table with at least 3 columns:\n",
+        "pre/post ids and weight with optional (partner) metadata!")
+      if(ncol(tres)==3 || (ncol(tres)<=5 && !"type" %in% names(tres))) {
+        # assume we need to fetch partner metadata
+        partner_col=grep("_id", colnames(tres), value = T)
+        if(!length(partner_col)==1)
+          partner_col=grep("^partner$", colnames(tres), value = T)
+        if(!length(partner_col)==1)
+          stop("Unable to find a unique partner column for dataset: ", n,
+               "\nExternal functions should return a table with bodyid and partner cols or query and pre/post_id")
+        pids=unique(tres[[partner_col]])
+        metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
+        metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
+        colnames(metadf)[[1]]=partner_col
+        tres[[partner_col]]=coconat::id2char(tres[[partner_col]])
+        left_join(tres, metadf, by = partner_col)
+      } else tres
     } else if(n=='flywire') {
       # nb different threshold definition here
       do.call(.flywire_partners, commonArgs)
@@ -189,7 +195,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 }
 
 .banc_partners <- function(ids, partners, threshold, ...) {
-  # FIXME allow end user to override fanc version
+  banc_error()
   tres=fancr::with_banc(fancr::fanc_partner_summary(banc_ids(ids),
                                    partners = partners,
                                    threshold = threshold-1L,

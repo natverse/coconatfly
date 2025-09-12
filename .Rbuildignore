@@ -8,3 +8,4 @@ package-secrets.txt
 ^README\.Rmd$
 ^codecov\.yml$
 ^samples/$
+^R/.*wip.R$

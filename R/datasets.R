@@ -15,7 +15,16 @@ cf_datasets <- function(rval=c("all", 'available', 'builtin', 'external')) {
 
 match_datasets <- function(ds) {
   ds=tolower(ds)
-  match.arg(ds, choices = cf_datasets('all'), several.ok = TRUE)
+  dss=cf_datasets('all')
+  res=pmatch(ds, table = dss, nomatch = 0L, duplicates.ok=TRUE)
+  missing_ds=ds[res==0]
+  if(length(missing_ds)>0) {
+    stop("unable to match dataset(s): ",
+         paste(paste0('`',missing_ds,'`'), collapse = ','),
+         "\n  to any of the supported datasets:\n    ",
+         paste(dss, collapse = ', '))
+  }
+  dss[res]
 }
 
 
