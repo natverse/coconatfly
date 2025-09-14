@@ -13,7 +13,7 @@ keys2df(keys, integer64 = FALSE)
 keys2list(keys, integer64 = FALSE)
 }
 \arguments{
-\item{x}{A list, dataframe, dendrogram, or character vector specifying both
+\item{x}{A list, data frame, dendrogram, or character vector specifying both
 within dataset ids and dataset names. See details and examples especially
 for character vector input.}
 
@@ -25,13 +25,14 @@ for character vector input.}
 default) or \code{integer64}}
 }
 \value{
-For \code{keys} as character vector of keys of the form
+For \code{keys} a character vector of keys of the form
   \code{"<dataset>:<id>"}.
 }
 \description{
 Neurons within a dataset will be identified by numeric ids but
-  these may not be unique across datasets. Therefore to make a unique dataset
-  we use \code{keys} of the form \code{"<dataset>:<id>"}.
+  these may not be unique across datasets. Therefore to make identifiers that
+  are unique across dataset we use \code{keys} of the form
+  \code{"<dataset>:<id>"}.
 
   \code{keys} either confirms/tidies up an existing set of keys or converts a
   \code{list} or \code{data.frame} to keys.

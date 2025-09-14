@@ -25,8 +25,9 @@ extract_ids <- function(x) {
 #' Interconvert between keys and ids/datasets
 #'
 #' @description Neurons within a dataset will be identified by numeric ids but
-#'   these may not be unique across datasets. Therefore to make a unique dataset
-#'   we use \code{keys} of the form \code{"<dataset>:<id>"}.
+#'   these may not be unique across datasets. Therefore to make identifiers that
+#'   are unique across dataset we use \code{keys} of the form
+#'   \code{"<dataset>:<id>"}.
 #'
 #'   \code{keys} either confirms/tidies up an existing set of keys or converts a
 #'   \code{list} or \code{data.frame} to keys.
@@ -40,12 +41,12 @@ extract_ids <- function(x) {
 #'   As a convenience \code{x} may also be a \code{dendrogram} or \code{hclust}
 #'   object resulting from a clustering operation.
 #'
-#' @param x A list, dataframe, dendrogram, or character vector specifying both
+#' @param x A list, data frame, dendrogram, or character vector specifying both
 #'   within dataset ids and dataset names. See details and examples especially
 #'   for character vector input.
 #' @param idcol optional string naming the column containing ids
 #'
-#' @return For \code{keys} as character vector of keys of the form
+#' @return For \code{keys} a character vector of keys of the form
 #'   \code{"<dataset>:<id>"}.
 #' @export
 #'
