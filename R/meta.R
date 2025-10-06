@@ -26,6 +26,20 @@ npconn <- function(dataset) {
   else stop("neuprint connection unavailable for dataset: ", dataset)
 }
 
+get_meta_fun <- function(dataset) {
+  FUN=NULL
+  if(dataset %in% cf_datasets('external')) {
+    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+    FUN=dsd[['metafun']]
+  }
+  # NB we need to use get not match.fun since the functions are not exported
+  if(is.null(FUN) && dataset %in% cf_datasets('builtin'))
+    FUN <- get(paste0(dataset, '_meta'), mode = 'function')
+  if(is.null(FUN))
+    stop("There is no metadata function defined for dataset: ", dataset)
+  FUN
+}
+
 #' Fetch metadata for neurons from connectome datasets
 #'
 #' @details \code{MoreArgs} should be list named by the standard dataset names
@@ -73,20 +87,10 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
 
   for(n in names(ids)) {
 
-    FUN=NULL
-    if(n %in% cf_datasets('external')) {
-      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
-      FUN=dsd[['metafun']]
-    }
-    # NB we need to use get not match.fun since the functions are not exported
-    if(is.null(FUN) && n %in% cf_datasets('builtin'))
-      FUN <- get(paste0(n, '_meta'), mode = 'function')
-    if(is.null(FUN))
-      stop("There is no metadata function defined for dataset: ", n)
     args=list(ids=ids[[n]])
     args2=MoreArgs[[n]]
     if(length(args2)) args=c(args, args2)
-
+    FUN=get_meta_fun(n)
     tres=try(do.call(FUN, args), silent = F)
     # maybe our query didn't yield anything
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
@@ -220,7 +224,20 @@ fanc_meta <- function(ids=NULL, ...) {
   fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
 }
 
+# private function to instruct users on new mechanism for banc dataset
+# note that this will not be called after bancr::register_banc_coconat()
+# because that will override the built-in banc_* functions
+banc_error <- function() {
+  bv=try(utils::packageVersion('bancr'), silent = T)
+  if(inherits(bv, 'try-error') || bv<'0.2.1')
+    stop("To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` ",
+         call. = FALSE)
+  stop("Please run `bancr::register_banc_coconat()` to use the banc dataset",
+       call. = FALSE)
+}
+
 banc_meta <- function(ids=NULL, ...) {
+  banc_error()
   ids=banc_ids(ids)
   fancr::with_banc(fancorbanc_meta(table='cell_info', ids=ids, ...))
 }
@@ -309,6 +326,7 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
 }
 
 banc_ids <- function(ids) {
+  banc_error()
   fancorbanc_ids(ids, dataset='banc')
 }
 

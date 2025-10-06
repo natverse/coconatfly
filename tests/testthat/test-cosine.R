@@ -45,3 +45,11 @@ test_that("cosine plot with no partners", {
                      "no inputs.*flywire")
     ))
 })
+
+
+test_that("cosine plot with v2 flywire data", {
+  skip_if(inherits(register_flywire2(), 'try-error'))
+  op <- options(fafbseg.use_static_celltypes=T)
+  on.exit(options(op))
+  cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("hemibrain", "fx")))
+})

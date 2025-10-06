@@ -195,7 +195,7 @@ cf_ids <- function(
   mc=match.call()
   cand_datasets=setdiff(names(mc), c("query", "datasets", "expand", "keys", ""))
   if(length(cand_datasets)>0) {
-    dataset_args=match.arg(cand_datasets, cf_datasets(), several.ok = T)
+    dataset_args=match_datasets(cand_datasets)
   } else dataset_args=character(0L)
   nds=length(dataset_args)
 
@@ -285,13 +285,8 @@ print.cidlist <- function(x, ..., truncate=10) {
   invisible(x)
 }
 
-# private function to expand queries into the corresponding ids
-expand_ids <- function(ids, dataset) {
-  if(is.list(ids)) {
-    ids=mapply(expand_ids, ids=ids, dataset=names(ids), SIMPLIFY = FALSE)
-    return(ids)
-  }
-  if(length(ids)==0) return(character())
+# private function to select an ids function for a dataset
+get_id_fun <- function(dataset) {
   dataset=match_datasets(dataset)
   FUN <- NULL
   if(dataset %in% cf_datasets('external')) {
@@ -312,15 +307,27 @@ expand_ids <- function(ids, dataset) {
   }
   if(is.null(FUN))
     stop("No id function for dataset ", dataset)
-  tf=try(FUN(ids), silent = T)
-  if(inherits(tf, 'try-error')) {
-    warning("Unable to process query for dataset:", dataset)
-    NULL
-  } else {
+  FUN
+}
+
+# private function to expand queries into the corresponding ids
+expand_ids <- function(ids, dataset) {
+  if(is.list(ids)) {
+    ids=mapply(expand_ids, ids=ids, dataset=names(ids), SIMPLIFY = FALSE)
+    return(ids)
+  }
+  if(length(ids)==0) return(character())
+  FUN=get_id_fun(dataset)
+  tryCatch({
+    tf=FUN(ids)
     if(length(tf)==0)
       warning("No matching ids when querying dataset:", dataset)
     tf
-  }
+  }, error=function(e) {
+    stop("In expand_ids: Unable to process query for dataset: `", dataset, "`. Details:\n", e,
+            call.=FALSE, immediate. = TRUE)
+    NULL
+  })
 }
 
 

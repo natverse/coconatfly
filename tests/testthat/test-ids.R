@@ -53,6 +53,8 @@ test_that("fanc/banc ids/metadata", {
     fancr::fanc_latestid(c("648518346488820970", "648518346475464576"),
                          version='latest'))
 
+  skip_if_not_installed('bancr')
+  skip_if(inherits(bancr::register_banc_coconat(), 'try-error'))
   expect_length(dna02keys <- cf_ids(banc='/DNa02', keys = T), 2L)
   expect_warning(
     expect_in(cf_ids(banc='DNa02', keys = T), dna02keys))
