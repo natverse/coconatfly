@@ -51,17 +51,12 @@ At present the following datasets are supported (dataset names used in the packa
 2. Female Adult Fly Brain - [FlyWire connectome](https://flywire.ai/) (**flywire**)
 3. [Janelia male Ventral Nerve Cord](https://www.janelia.org/project-team/flyem/manc-connectome) (**manc**)
 4. Wei Lee, John Tuthill and colleagues [Female Adult Nerve Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
-5. Janelia Male CNS (**malecns**)
+5. [Janelia Male CNS]() (**malecns**)
 6. Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
 7. Wei Lee and colleagues [Brain and Nerve Cord](https://github.com/jasper-tms/the-BANC-fly-connectome/wiki) (**banc**)
 
-Datasets 1-4 and 6, 7 are either public (hemibrain, manc, flywire, opticlobe) or 
-access can be requested subject to agreeing to certain terms of use (fanc, banc). 
-The Male CNS dataset is currently undergoing 
-proofreading and annotation in a collaboration between the 
-[FlyEM](https://www.janelia.org/project-team/flyem) and 
-[Cambridge Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated late 2024.
+All datasets are either public (hemibrain, manc, malecns, flywire, opticlobe) or 
+access can be requested subject to agreeing to certain terms of use (fanc, banc).
 
 ## Installation
 
@@ -80,21 +75,7 @@ natmanager::install(pkgs = 'coconatfly@v0.2.2')
 ```
 
 Some of the datasets exposed by **coconatfly** require authentication for access
-or are still being annotated in private pre-release. Please consult individual 
-package dependencies for authentication details and do not be surprised if you
-do not have access to all datasets at this time.
-
-For installation of private packages (currently restricted to the male cns
-dataset being developed with our collaborators at the 
-[FlyEM Team at Janelia](https://www.janelia.org/project-team/flyem))
-you will need a GITHUB_PAT (Personal Access Token - an alternative to 
-a username+password). 
-
-This code checks if you have a PAT GITHUB_PAT and offers to make one if necessary.
-
-```{r eval=FALSE}
-natmanager::check_pat()
-```
+or are still being annotated in private pre-release.
 
 ## An example
 

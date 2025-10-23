@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- devtools::build_readme() is a good way to build this -->
 
 <img src="man/figures/coconatfly-200.jpg" align="right" height="200" />
@@ -44,19 +45,15 @@ the package in brackets):
     (**manc**)
 4.  Wei Lee, John Tuthill and colleagues [Female Adult Nerve
     Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
-5.  Janelia Male CNS (**malecns**)
+5.  [Janelia Male CNS]() (**malecns**)
 6.  Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
 7.  Wei Lee and colleagues [Brain and Nerve
     Cord](https://github.com/jasper-tms/the-BANC-fly-connectome/wiki)
     (**banc**)
 
-Datasets 1-4 and 6, 7 are either public (hemibrain, manc, flywire,
+All datasets are either public (hemibrain, manc, malecns, flywire,
 opticlobe) or access can be requested subject to agreeing to certain
-terms of use (fanc, banc). The Male CNS dataset is currently undergoing
-proofreading and annotation in a collaboration between the
-[FlyEM](https://www.janelia.org/project-team/flyem) and [Cambridge
-Drosophila Connectomics Group](https://flyconnecto.me). Release is
-anticipated late 2024.
+terms of use (fanc, banc).
 
 ## Installation
 
@@ -77,23 +74,7 @@ natmanager::install(pkgs = 'coconatfly@v0.2.2')
 ```
 
 Some of the datasets exposed by **coconatfly** require authentication
-for access or are still being annotated in private pre-release. Please
-consult individual package dependencies for authentication details and
-do not be surprised if you do not have access to all datasets at this
-time.
-
-For installation of private packages (currently restricted to the male
-cns dataset being developed with our collaborators at the [FlyEM Team at
-Janelia](https://www.janelia.org/project-team/flyem)) you will need a
-GITHUB_PAT (Personal Access Token - an alternative to a
-username+password).
-
-This code checks if you have a PAT GITHUB_PAT and offers to make one if
-necessary.
-
-``` r
-natmanager::check_pat()
-```
+for access or are still being annotated in private pre-release.
 
 ## An example
 
@@ -192,7 +173,7 @@ da1ds %>%
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
 #> # A tibble: 381 × 6
-#> # Groups:   type, dataset [289]
+#> # Groups:   type, dataset [291]
 #>    type            dataset   side  weight  npre npost
 #>    <chr>           <chr>     <chr>  <int> <int> <int>
 #>  1 AL-AST1         flywire   L         31     5     1
@@ -226,8 +207,8 @@ da1ds.shared_types.wide <- da1ds %>%
 #> `summarise()` has grouped output by 'type', 'dataset'. You can override using
 #> the `.groups` argument.
 da1ds.shared_types.wide
-#> # A tibble: 42 × 4
-#> # Groups:   type [42]
+#> # A tibble: 44 × 4
+#> # Groups:   type [44]
 #>    type      fw_L  fw_R  hb_R
 #>    <chr>    <int> <int> <int>
 #>  1 AL-AST1     31    18    25
@@ -240,7 +221,7 @@ da1ds.shared_types.wide
 #>  8 LHAD1d2     72    43    15
 #>  9 LHAD1g1     62    60    48
 #> 10 LHAV2b11    44    77    29
-#> # ℹ 32 more rows
+#> # ℹ 34 more rows
 ```
 
 With the data organised like this, we can easily compare the connection
@@ -281,8 +262,8 @@ seems to work very well for this purpose.
 
 ``` r
 cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)', datasets = c("flywire", "hemibrain")))
-#> Matching types across datasets. Keeping 542/1052 output connections with total weight 15127/24134 (63%)
-#> Matching types across datasets. Keeping 700/1493 input connections with total weight 16467/27588 (60%)
+#> Matching types across datasets. Keeping 592/1052 output connections with total weight 15666/24134 (65%)
+#> Matching types across datasets. Keeping 694/1493 input connections with total weight 16136/27588 (58%)
 ```
 
 <img src="man/figures/README-lal-cosine-cluster-1.png" width="100%" />
