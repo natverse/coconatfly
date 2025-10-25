@@ -48,5 +48,5 @@ mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 }
 }
 \seealso{
-\code{\link{neuprint_ids}}
+\code{\link[neuprintr]{neuprint_ids}}
 }

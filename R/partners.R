@@ -301,7 +301,7 @@ connection_table2queryids <- function(x) {
 #' @export
 #' @details This function currently groups by dataset, and pre and postsynaptic
 #'   type. It does not currently group by side. The forms returning matrices
-#'   rely on \code{coconat::\link{partner_summary2adjacency_matrix}}.
+#'   rely on \code{coconat::\link[coconat]{partner_summary2adjacency_matrix}}.
 #'
 #' @examples
 #' \dontrun{

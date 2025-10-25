@@ -35,5 +35,8 @@ dna02meta <- cf_meta(cf_ids(fx='/type:DNa02', flywire='/type:DNa02'))
 dna02.comp=cf_partner_summary(dna02meta, partners = 'out', threshold = 10)
 cf_ids(banc='/type:DNa.+')
 
+# an example of across dataset cosine similarity plot
+cf_cosine_plot(cf_ids('/type:LAL0(08|09|10|42)',
+  datasets = c("flywire", "fx")))
 }
 }

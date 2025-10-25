@@ -59,7 +59,7 @@ triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version())
 #'   \code{triple_connection_table}
 #' @param fwtype Optional flywire ids interpreted by \code{flywire_ids} function
 #' @param version Connectome data dump version. See
-#'   \code{\link{flywire_connectome_data_version}} for details.
+#'   \code{\link[fafbseg]{flywire_connectome_data_version}} for details.
 #' @param ... Additional arguments to heatmap
 #' @param threshold Minimum connection weight to be included when finding
 #'   partners
@@ -95,7 +95,8 @@ triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version())
 #' # both hemibrain types
 #' triple_cosine_plot('LAL074,LAL084', partners = 'i')
 #' }
-#' @importFrom fafbseg flywire_connectome_data_version flytable_meta flywire_partner_summary2
+#' @importFrom fafbseg flywire_connectome_data_version flytable_meta
+#'   flywire_partner_summary2
 triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
                                partners = c("outputs", "inputs"),
                                labRow='{type}_{abbreviate_datasets(dataset)}{side}',

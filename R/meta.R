@@ -59,7 +59,7 @@ get_meta_fun <- function(dataset) {
 #' @importFrom dplyr mutate rename rename_with select case_when any_of
 #' @importFrom fafbseg flywire_ids
 #' @export
-#' @seealso \code{\link{neuprint_ids}}
+#' @seealso \code{\link[neuprintr]{neuprint_ids}}
 #' @examples
 #' \donttest{
 #' da2meta=cf_meta(cf_ids(hemibrain='DA2_lPN'))

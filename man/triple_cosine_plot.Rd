@@ -27,7 +27,7 @@ triple_cosine_plot(
 \item{fwtype}{Optional flywire ids interpreted by \code{flywire_ids} function}
 
 \item{version}{Connectome data dump version. See
-\code{\link{flywire_connectome_data_version}} for details.}
+\code{\link[fafbseg]{flywire_connectome_data_version}} for details.}
 
 \item{...}{Additional arguments to heatmap}
 

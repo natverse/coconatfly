@@ -94,10 +94,10 @@ You will often want to perform a query, most commonly for a cell
 \section{Additional datasets}{
  coconatfly allows can be extended by
   registering additional datasets using the
-  \code{coconat::\link{register_dataset}} function. You can use \code{cf_ids}
-  to support these additional datasets by passing additional named arguments.
-  The only inconvenience is that these will not be available for command
-  completion by your editor.
+  \code{coconat::\link[coconat]{register_dataset}} function. You can use
+  \code{cf_ids} to support these additional datasets by passing additional
+  named arguments. The only inconvenience is that these will not be available
+  for command completion by your editor.
 }
 
 \examples{
