@@ -37,7 +37,9 @@ enable more core functionality to be reused.
 At present the following datasets are supported (dataset names used in
 the package in brackets):
 
-1.  Janelia hemibrain (**hemibrain**)
+1.  [Janelia
+    hemibrain](https://www.janelia.org/project-team/flyem/hemibrain)
+    (**hemibrain**)
 2.  Female Adult Fly Brain - [FlyWire connectome](https://flywire.ai/)
     (**flywire**)
 3.  [Janelia male Ventral Nerve
@@ -45,8 +47,10 @@ the package in brackets):
     (**manc**)
 4.  Wei Lee, John Tuthill and colleagues [Female Adult Nerve
     Cord](https://github.com/htem/FANC_auto_recon) (**fanc**)
-5.  [Janelia Male CNS]() (**malecns**)
-6.  Janelia Male Optic Lobe (part of the malecns) (**opticlobe**)
+5.  [Janelia Male CNS](https://male-cns.janelia.org/) (**malecns**)
+6.  [Janelia Male Optic
+    Lobe](https://www.janelia.org/project-team/flyem/optic-lobe) (part
+    of the malecns) (**opticlobe**)
 7.  Wei Lee and colleagues [Brain and Nerve
     Cord](https://github.com/jasper-tms/the-BANC-fly-connectome/wiki)
     (**banc**)
