@@ -219,11 +219,6 @@ yakubavnc_meta <- function(ids, ...) {
   tres
 }
 
-fanc_meta <- function(ids=NULL, ...) {
-  ids=fanc_ids(ids)
-  fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
-}
-
 # private function to instruct users on new mechanism for banc dataset
 # note that this will not be called after bancr::register_banc_coconat()
 # because that will override the built-in banc_* functions
@@ -328,10 +323,6 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
 banc_ids <- function(ids) {
   banc_error()
   fancorbanc_ids(ids, dataset='banc')
-}
-
-fanc_ids <- function(ids) {
-  fancorbanc_ids(ids, dataset='fanc')
 }
 
 #' @importFrom dplyr pull
