@@ -22,6 +22,7 @@ fanc_meta <- function(ids=NULL, ...) {
 fanc_cfmeta <- function(ids=NULL, ignore.case = F, fixed = F,
                          which=NULL,
                          version=NULL, timestamp=NULL,
+                        keep.all=TRUE,
                          unique=TRUE, ...) {
   if(is.null(version))
     version=fanc_version()
@@ -35,7 +36,9 @@ fanc_cfmeta <- function(ids=NULL, ignore.case = F, fixed = F,
     dplyr::rename(class1=superclass, class2=class, subsubclass=subclass) %>%
     dplyr::rename(class=class1, subclass=class2) %>%
     dplyr::rename(lineage=hemilineage) %>%
-    dplyr::mutate(instance=paste0(type, "_", ifelse(is.na(side), "", side))) %>%
+    dplyr::mutate(instance=paste0(type, "_", ifelse(is.na(side), "", side)))
+  if(keep.all) return(df)
+  df %>%
     dplyr::select(id, supervoxel_id, side, type, group, class, subclass, subsubclass, lineage)
 }
 
