@@ -37,7 +37,7 @@ fanc_cfmeta <- function(ids=NULL, ignore.case = F, fixed = F,
     dplyr::rename(class=class1, subclass=class2) %>%
     dplyr::rename(lineage=hemilineage) %>%
     dplyr::mutate(instance=paste0(type, "_", ifelse(is.na(side), "", side)))
-  if(keep.all) return(df)
+  if(keep.all) return(select(df, id, dplyr::everything()))
   df %>%
     dplyr::select(id, supervoxel_id, side, type, group, class, subclass, subsubclass, lineage)
 }
