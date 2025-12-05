@@ -31,7 +31,7 @@ fanc_cfmeta <- function(ids=NULL, ignore.case = F, fixed = F,
                       ignore.case = ignore.case, fixed = fixed,
                       unique=unique,
                       version=version, timestamp=timestamp, ...))
-  df %>%
+  df <- df %>%
     dplyr::rename(id=root_id) %>%
     dplyr::rename(class1=superclass, class2=class, subsubclass=subclass) %>%
     dplyr::rename(class=class1, subclass=class2) %>%
