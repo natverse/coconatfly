@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/natverse/coconatfly/blob/feature/fanc-flytable/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/natverse/coconatfly/blob/master/DESCRIPTION)
 
 Jefferis G (2025). *coconatfly: Comparative Connectomics of Public and
 In Progress Drosophila Datasets*. R package version 0.2.4.9000,
