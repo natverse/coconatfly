@@ -24,7 +24,7 @@ Imports:
     glue,
     checkmate,
     dplyr,
-    coconat (>= 0.1.2),
+    coconat (> 0.1.2),
     stringr,
     magrittr,
     bit64,

@@ -162,5 +162,11 @@ dr_coconatfly <- function() {
     'No CAVE token found. This is required to access fanc/banc datasets!\n',
     "Set one with {usethis::ui_code('fancr::fanc_set_token()')}"))
 
+  # check for any extension datasets
+  xds=coconat:::dataset_summaries('coconatfly')
+  if(nrow(xds)>0) {
+    cat("The following extension datasets have also been registered:\n")
+    print(xds)
+  }
   invisible(cfc)
 }
