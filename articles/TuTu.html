@@ -174,7 +174,7 @@ cosine connectivity clustering on these neurons like so:</p>
 <span><span class="co">#&gt; Matching types across datasets. Keeping 908/2536 input connections with total weight 18626/44807 (42%)</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
-<p><img src="TuTu_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
+<p><img src="TuTu_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
 <p>So this is interesting at a couple of levels. First we can see that
 the TuTuB hemibrain neurons separate into two groups. This is true even
 though things are a bit messy for the <code>TuTuB_a_hbL</code> neuron
@@ -198,7 +198,7 @@ things resolve:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"TuTuA"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Matching types across datasets. Keeping 875/1843 input connections with total weight 17636/36231 (49%)</span></span></code></pre></div>
-<p><img src="TuTu_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700"></p>
+<p><img src="TuTu_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <p>Hmm the situation is still the same. Since the two flywire groups are
 so well-separated this is almost certainly a real split. In fact there
 is a candidate anatomical difference in the placement of the
@@ -234,7 +234,7 @@ we will observe this split in future connectomes though.</p>
 <span><span class="va">tutus.meta</span><span class="op">=</span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">tutus.hc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tutus.hc</span>, labels <span class="op">=</span> <span class="va">tutus.meta</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TuTu_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
+<p><img src="TuTu_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span><span class="op">=</span><span class="fu">coconat</span><span class="fu">::</span><span class="fu"><a href="https://natverse.org/coconat/reference/add_cluster_info.html" class="external-link">add_cluster_info</a></span><span class="op">(</span><span class="va">tutus.meta</span>, <span class="va">tutus.hc</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in coconat::add_cluster_info(tutus.meta, tutus.hc, k = 5): Multiple standard id columns are present in tutus.meta</span></span>

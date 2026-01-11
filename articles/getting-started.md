@@ -56,10 +56,10 @@ command.
 library(coconatfly)
 dr_coconatfly()
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/iQv5adfo2maKG5-5FtBgS/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/cD-I0nlkLjTc33LAIg3Uo/bin/python'
 #> -m pip freeze' had status 1
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/iQv5adfo2maKG5-5FtBgS/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/cD-I0nlkLjTc33LAIg3Uo/bin/python'
 #> -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
@@ -79,7 +79,7 @@ dr_coconatfly()
 #> 7 middleauth+https://cave.fanc-fly.com/segmentation/table/wclee_fly_cns_001
 #>             version
 #> 1  hemibrain:v1.2.1
-#> 2       manc:v1.2.1
+#> 2       manc:v1.2.3
 #> 3     male-cns:v0.9
 #> 4 optic-lobe:v1.0.1
 #> 5               783
