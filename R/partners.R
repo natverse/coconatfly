@@ -243,7 +243,11 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 #   different datasets so that when cell types are found in the dataset but
 #   missing from the partners we can use that negative result.
 # partners argument is just used to construct a warning message
-match_types <- function(x, group="type", partners="", min_datasets=Inf) {
+# historically drop.na was FALSE but I think should have been TRUE
+# We allow users to revert to the old behaviour using:
+# options("coconatfly.cluster.dropna")
+match_types <- function(x, group="type", partners="", min_datasets=Inf,
+                        drop.na=getOption("coconatfly.cluster.dropna", TRUE)) {
   stopifnot(is.data.frame(x))
   ndatasets=dplyr::n_distinct(x$dataset)
   if(!is.finite(min_datasets))
@@ -255,6 +259,13 @@ match_types <- function(x, group="type", partners="", min_datasets=Inf) {
     dplyr::group_by_at(group) %>%
     dplyr::mutate(nd=dplyr::n_distinct(dataset)) %>%
     dplyr::ungroup()
+  if(drop.na) {
+    xg <- xg %>%
+      dplyr::mutate(nd=case_when(
+        is.na(.data[[group]]) ~ 0,
+        T ~ nd
+      ))
+  }
   todrop <- xg %>%
     dplyr::filter(nd<min_datasets)
   if(ndatasets>1)
