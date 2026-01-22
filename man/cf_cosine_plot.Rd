@@ -101,7 +101,14 @@ The result of \code{\link{heatmap}} invisibly including the row and
   are the input or output neurons.
 }
 \description{
-Multi dataset cosine clustering
+\code{cf_cosine_plot} is the workhorse function for within and
+across dataset connectivity clustering. You can pass it the (processed)
+output of \code{multi_connection_table} if you need more control. See
+examples.
+
+\code{multi_connection_table} fetches partner connectivity data
+  (the first step in \code{cf_cosine_plot} but then gives you the option e.g.
+  to select specific classes of partner neurons. See examples.
 }
 \details{
 \code{group=FALSE} only makes sense for single dataset clustering -
@@ -148,7 +155,7 @@ cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"),
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
 
 # or outputs
-cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='out')
 
 # the same but without grouping partner connectivity by type
 # only makes sense for single dataset plots

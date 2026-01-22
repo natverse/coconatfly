@@ -37,6 +37,11 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 
 #' Multi dataset cosine clustering
 #'
+#' @description \code{cf_cosine_plot} is the workhorse function for within and
+#' across dataset connectivity clustering. You can pass it the (processed)
+#' output of \code{multi_connection_table} if you need more control. See
+#' examples.
+#'
 #' @details \code{group=FALSE} only makes sense for single dataset clustering -
 #'   type labels are essential for linking connectivity across datasets. However
 #'   \code{group=FALSE} can be useful e.g. for co-clustering columnar elements
@@ -110,7 +115,7 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
 #'
 #' # or outputs
-#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+#' cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='out')
 #'
 #' # the same but without grouping partner connectivity by type
 #' # only makes sense for single dataset plots
@@ -291,6 +296,10 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 }
 
 
+#' @description \code{multi_connection_table} fetches partner connectivity data
+#'   (the first step in \code{cf_cosine_plot} but then gives you the option e.g.
+#'   to select specific classes of partner neurons. See examples.
+#'
 #' @importFrom dplyr distinct all_of
 #' @param check_missing Whether to report if any query neurons are dropped (due
 #'   to insufficient partner neurons) (default:\code{TRUE}).
