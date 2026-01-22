@@ -1,6 +1,12 @@
 # Multi dataset cosine clustering
 
-Multi dataset cosine clustering
+`cf_cosine_plot` is the workhorse function for within and across dataset
+connectivity clustering. You can pass it the (processed) output of
+`multi_connection_table` if you need more control. See examples.
+
+`multi_connection_table` fetches partner connectivity data (the first
+step in `cf_cosine_plot` but then gives you the option e.g. to select
+specific classes of partner neurons. See examples.
 
 ## Usage
 
@@ -196,7 +202,8 @@ cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
 
 
 # or outputs
-cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='out')
+
 
 # the same but without grouping partner connectivity by type
 # only makes sense for single dataset plots
