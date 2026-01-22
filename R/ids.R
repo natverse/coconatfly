@@ -104,7 +104,7 @@ is_key <- function(x, compound=FALSE) {
       !grepl("http", x) &&
       grepl("^\\s*([a-z:]+[0-9,\\s]+)+$", x, perl = T)
   else
-    is.character(x) & grepl("^[a-z0-9]+:[0-9]{5,20}$", x)
+    is.character(x) & grepl("^[a-z0-9]+:([0-9]{5,20}|0)$", x)
 }
 
 #' Specify ids for fly connectome datasets
