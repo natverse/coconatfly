@@ -58,7 +58,7 @@ Remotes:
     catmaid=natverse/rcatmaid,
     natverse/nat.h5reg,
     natverse/coconat
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/natverse/coconatfly,
     https://natverse.org/coconatfly/
 BugReports: https://github.com/natverse/coconatfly/issues
