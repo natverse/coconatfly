@@ -36,9 +36,12 @@ fix_mixed_col_types <- function(l) {
     for (nm in intersect(tofix$name, names(d))) {
       x <- d[[nm]]
       if (!is.character(x)) {
-        # IMPORTANT: use id2char rather than as.character
-        d[[nm]] <- coconat::id2char(x)
+        # use id2char rather than as.character to ensure eg 100000 processed ok
+        ix <- try(coconat::id2char(x), silent = T)
+        # but fall back if id2char can't handle it
+        if(inherits(ix, 'try-error')) ix <- as.character(x)
       }
+      d[[nm]] <- ix
     }
     d
   })
