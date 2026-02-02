@@ -357,7 +357,8 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
                              check_missing=F, min_datasets = min_datasets,
-                             prefer.foreign=prefer.foreign, MoreArgs=MoreArgs, ...))
+                             prefer.foreign=prefer.foreign, MoreArgs=MoreArgs,
+                             keep.all=keep.all, ...))
     l=dplyr::bind_rows(l)
     if(check_missing) {
       query_keys <- l %>% group_by(partners) %>%
@@ -382,7 +383,8 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
        ((length(datasets)>1 && "malecns" %in% datasets) && is.na(prefer.foreign)))
       MoreArgs=list(malecns=list(prefer.foreign=TRUE))
   }
-  x <- cf_partners(kk, threshold = threshold, partners = partners, MoreArgs = MoreArgs, ...)
+  x <- cf_partners(kk, threshold = threshold, partners = partners,
+                   MoreArgs = MoreArgs, keep.all=keep.all, ...)
   if(is.character(group))
     x <- match_types(x, group, partners=partners, min_datasets = min_datasets)
   # mark which column was used for the query
