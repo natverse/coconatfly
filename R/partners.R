@@ -18,9 +18,10 @@
 #' @param partners Whether to return inputs or outputs
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
-#'   note that some columns will be dropped by default).
-#' @param keep.all Whether to keep all columns when \code{bind.rows=TRUE}.
-#'   Default \code{FALSE} only keeps shared columns.
+#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
+#' @param keep.all Whether to keep all columns when processing multiple datasets
+#'   rather than just those in common (default=\code{FALSE} only keeps shared
+#'   columns).
 #' @param MoreArgs Additional arguments in the form of a hierarchical list
 #'   (expert use; see details and examples).
 #'

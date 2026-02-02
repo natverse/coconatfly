@@ -297,24 +297,27 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 
 
 #'@description \code{multi_connection_table} fetches partner connectivity data
-#'  (the first step in \code{cf_cosine_plot} but then gives you the option e.g.
-#'  to select specific classes of partner neurons. See examples.
+#'  (the first step in \code{cf_cosine_plot}) but then gives you the option e.g.
+#'  to select specific classes of partner neurons, fix type names etc. See
+#'  examples.
 #'
 #'@details At present the malecns dataset is the best integrated of all with
 #'  "foreign type" columns referencing the prior flywire female brain and MANC
 #'  male nerve cord datasets. These in turn have been the target of ongoing FANC
 #'  and BANC annotation efforts. Therefore right now the simplest way to ensure
-#'  that types can be matched across datasets is to use \code{prefer.foreign=T}
-#'  when requesting multiple datasets. However when using just the malecns, the
-#'  standard typing for that dataset has some improvements, so
-#'  \code{prefer.foreign=FALSE} would be better. The default setting of
-#'  \code{prefer.foreign=NA} therefore chooses \code{prefer.foreign=TRUE} when
-#'  malecns and at least one other dataset are being requested and \code{FALSE}
-#'  otherwise.
+#'  that types can be matched across datasets is to use
+#'  \code{prefer.foreign=TRUE} when requesting multiple datasets. However when
+#'  using just the malecns, the standard typing for that dataset has some
+#'  improvements, so \code{prefer.foreign=FALSE} would be better. The default
+#'  setting of \code{prefer.foreign=NA} therefore chooses
+#'  \code{prefer.foreign=TRUE} when malecns and at least one other dataset are
+#'  being requested and \code{FALSE} otherwise.
 #'
 #'  Nevertheless, if you want really tight control of the type to type mapping
 #'  it is recommended to fetch with \code{prefer.foreign=F, min_datasets=1} and
-#'  then manually review and fix up any types that you know should match.
+#'  then manually review and fix up any types that you know should match. If you
+#'  also set \code{keep.all=T} they you can access the foreign types columns
+#'  as part of your logic for doing this.
 #'
 #'@importFrom dplyr distinct all_of
 #'@param check_missing Whether to report if any query neurons are dropped (due
@@ -329,6 +332,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 #'  including malecns are requested. See details.
 #'@param MoreArgs Passed to \code{\link{cf_partners}} For expert use only.
 #'@param ... additional arguments passed to \code{\link{cf_partners}}
+#'@inheritParams cf_partners
 #'
 #'@rdname cf_cosine_plot
 #'@export
@@ -341,6 +345,7 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    check_missing=TRUE,
                                    min_datasets=Inf,
                                    prefer.foreign=NA,
+                                   keep.all=FALSE,
                                    MoreArgs=NULL,
                                    ...
                                    ) {
