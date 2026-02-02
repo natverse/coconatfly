@@ -19,7 +19,7 @@ other input that can be processed by the \code{\link{keys}} function
 
 \item{bind.rows}{Whether to bind data.frames for each dataset together,
 keeping only the common columns (default \code{TRUE} for convenience but
-note that some columns will be dropped).}
+note that some columns will be dropped by default).}
 
 \item{integer64}{Whether ids should be character vectors (default) or 64 bit
 ints (more compact but a little fragile as they rely on the \code{bit64}
