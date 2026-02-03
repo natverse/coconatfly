@@ -19,15 +19,15 @@ other input that can be processed by the \code{\link{keys}} function
 
 \item{bind.rows}{Whether to bind data.frames for each dataset together,
 keeping only the common columns (default \code{TRUE} for convenience but
-note that some columns will be dropped).}
+note that some columns will be dropped by unless \code{keep.all=TRUE}).}
 
 \item{integer64}{Whether ids should be character vectors (default) or 64 bit
 ints (more compact but a little fragile as they rely on the \code{bit64}
 extension package.)}
 
-\item{keep.all}{When fetching metadata from different datasets, whether to
-keep all metadata columns rather than just those in common
-(default=\code{FALSE})}
+\item{keep.all}{Whether to keep all columns when processing multiple datasets
+rather than just those in common (default=\code{FALSE} only keeps shared
+columns).}
 
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
 for a given function. See details.}

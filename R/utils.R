@@ -11,9 +11,40 @@ bind_rows2 <- function(l, keep.all=FALSE) {
     l=lapply(l, "[", commoncols)
     l <- do.call(function(...) rbind(..., make.row.names=FALSE), l)
   } else {
-    l <- dplyr::bind_rows(l)
+    l2=fix_mixed_col_types(l)
+    l <- dplyr::bind_rows(l2)
   }
   l
+}
+
+fix_mixed_col_types <- function(l) {
+  dd=dplyr::bind_rows(
+    lapply(l, function(x) tibble::tibble(
+      name=names(x),
+      mode=sapply(x, mode))),
+    .id = 'dfname')
+  tofix <- dd %>%
+    group_by(name) %>%
+    summarise(nmodes=n_distinct(mode),
+              ndfs=n_distinct(dfname),
+              some_character=any(mode=='character')) %>%
+    filter(some_character & nmodes>1)
+  if(nrow(tofix)<1)
+    return(l)
+
+  lapply(l, function(d) {
+    for (nm in intersect(tofix$name, names(d))) {
+      x <- d[[nm]]
+      if (!is.character(x)) {
+        # use id2char rather than as.character to ensure eg 100000 processed ok
+        ix <- try(coconat::id2char(x), silent = T)
+        # but fall back if id2char can't handle it
+        if(inherits(ix, 'try-error')) ix <- as.character(x)
+      }
+      d[[nm]] <- ix
+    }
+    d
+  })
 }
 
 cf_connections <- function() {

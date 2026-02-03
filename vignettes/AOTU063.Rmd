@@ -33,16 +33,16 @@ library(dplyr)
 For this analysis we will use the version 630 connectivity / annotation data
 released in June 2023. We will set an option use the lower level fafbseg package
 to ensure this.
+You may need to download the relevant data dumps if you have not done so previously.
+
+```{r}
+fafbseg::download_flywire_release_data(version = 630)
+```
 
 ```{r}
 fafbseg::flywire_connectome_data_version(set = 630)
 ```
 
-You may need to download the relevant data dumps if you have not done so previously.
-
-```{r, eval=FALSE}
-fafbseg::download_flywire_release_data(version = 630)
-```
 
 ```{r}
 aotu63=cf_meta(cf_ids(query = '/type:AOTU063.*', datasets = c("flywire","hemibrain")))

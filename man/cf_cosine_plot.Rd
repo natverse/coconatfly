@@ -29,7 +29,11 @@ multi_connection_table(
   threshold = 1L,
   group = "type",
   check_missing = TRUE,
-  min_datasets = Inf
+  min_datasets = Inf,
+  prefer.foreign = NA,
+  keep.all = FALSE,
+  MoreArgs = NULL,
+  ...
 )
 }
 \arguments{
@@ -37,7 +41,7 @@ multi_connection_table(
 wrapped by \code{\link{cf_ids}} \emph{or} a dataframe compatible with the
 \code{\link{keys}} function.}
 
-\item{...}{Additional arguments passed to \code{\link{heatmap}}}
+\item{...}{additional arguments passed to \code{\link{cf_partners}}}
 
 \item{threshold}{return only edges with at least this many matches. 0 is an
 option since neuprint sometimes returns 0 weight edges.}
@@ -77,8 +81,8 @@ for details.}
 
 \item{min_datasets}{How many datasets a type must be in to be included in the
 output. The default of \code{Inf} => all datasets must contain the cell
-type. A negative number defines the number of datasets from which a type
-can be missing. For example \code{-1} would mean that types would still be
+type. A negative number defines the number of datasets from which a type can
+be missing. For example \code{-1} would mean that types would still be
 included even if they are missing from one dataset.}
 
 \item{nas}{What to do with entries that have NAs. Default is to set them to 0
@@ -88,6 +92,16 @@ similarity.}
 
 \item{check_missing}{Whether to report if any query neurons are dropped (due
 to insufficient partner neurons) (default:\code{TRUE}).}
+
+\item{prefer.foreign}{Whether to use foreign types for male CNS data. The
+default value of \code{NA} prefers foreign types when multiple datasets
+including malecns are requested. See details.}
+
+\item{keep.all}{Whether to keep all columns when processing multiple datasets
+rather than just those in common (default=\code{FALSE} only keeps shared
+columns).}
+
+\item{MoreArgs}{Passed to \code{\link{cf_partners}} For expert use only.}
 }
 \value{
 The result of \code{\link{heatmap}} invisibly including the row and
@@ -96,9 +110,9 @@ The result of \code{\link{heatmap}} invisibly including the row and
   matrix.
 
 \code{multi_connection_table} returns a connectivity dataframe as
-  returned by \code{cf_partners} but with an additional column
-  \code{partners} which indicates (for each row) whether the partner neurons
-  are the input or output neurons.
+ returned by \code{cf_partners} but with an additional column \code{partners}
+ which indicates (for each row) whether the partner neurons are the input or
+ output neurons.
 }
 \description{
 \code{cf_cosine_plot} is the workhorse function for within and
@@ -107,8 +121,9 @@ output of \code{multi_connection_table} if you need more control. See
 examples.
 
 \code{multi_connection_table} fetches partner connectivity data
-  (the first step in \code{cf_cosine_plot} but then gives you the option e.g.
-  to select specific classes of partner neurons. See examples.
+ (the first step in \code{cf_cosine_plot}) but then gives you the option e.g.
+ to select specific classes of partner neurons, fix type names etc. See
+ examples.
 }
 \details{
 \code{group=FALSE} only makes sense for single dataset clustering -
@@ -141,6 +156,24 @@ examples.
   argument then you will get an error. This is because \code{cf_cosine_plot}
   has no way of knowing which label corresponds to which neuron, almost
   certainly resulting in incorrect row labels on your dendrogram.
+
+At present the malecns dataset is the best integrated of all with
+ "foreign type" columns referencing the prior flywire female brain and MANC
+ male nerve cord datasets. These in turn have been the target of ongoing FANC
+ and BANC annotation efforts. Therefore right now the simplest way to ensure
+ that types can be matched across datasets is to use
+ \code{prefer.foreign=TRUE} when requesting multiple datasets. However when
+ using just the malecns, the standard typing for that dataset has some
+ improvements, so \code{prefer.foreign=FALSE} would be better. The default
+ setting of \code{prefer.foreign=NA} therefore chooses
+ \code{prefer.foreign=TRUE} when malecns and at least one other dataset are
+ being requested and \code{FALSE} otherwise.
+
+ Nevertheless, if you want really tight control of the type to type mapping
+ it is recommended to fetch with \code{prefer.foreign=F, min_datasets=1} and
+ then manually review and fix up any types that you know should match. If you
+ also set \code{keep.all=T} they you can access the foreign types columns
+ as part of your logic for doing this.
 }
 \examples{
 \donttest{

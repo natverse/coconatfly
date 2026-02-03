@@ -18,7 +18,10 @@
 #' @param partners Whether to return inputs or outputs
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
-#'   note that some columns will be dropped).
+#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
+#' @param keep.all Whether to keep all columns when processing multiple datasets
+#'   rather than just those in common (default=\code{FALSE} only keeps shared
+#'   columns).
 #' @param MoreArgs Additional arguments in the form of a hierarchical list
 #'   (expert use; see details and examples).
 #'
@@ -42,7 +45,7 @@
 #'   MoreArgs = list(malecns=list(prefer.foreign=TRUE))
 #' }
 cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
-                        bind.rows=TRUE, MoreArgs=list()) {
+                        bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
@@ -127,7 +130,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     res[[n]]=tres
   }
   if(isTRUE(bind.rows)) {
-    res=bind_rows2(res)
+    res=bind_rows2(res, keep.all = keep.all)
     # record the datasets we tried to find
     attr(res, 'datasets')=names(ids)
     res

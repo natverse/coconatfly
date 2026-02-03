@@ -50,10 +50,6 @@ get_meta_fun <- function(dataset) {
 #'   extension package.)
 #' @param MoreArgs A named list of arguments to be passed when fetching metadata
 #'   for a given function. See details.
-#' @param keep.all When fetching metadata from different datasets, whether to
-#'   keep all metadata columns rather than just those in common
-#'   (default=\code{FALSE})
-#'
 #' @inheritParams cf_partners
 #'
 #' @importFrom dplyr mutate rename rename_with select case_when any_of

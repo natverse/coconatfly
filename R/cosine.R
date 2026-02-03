@@ -296,29 +296,58 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 }
 
 
-#' @description \code{multi_connection_table} fetches partner connectivity data
-#'   (the first step in \code{cf_cosine_plot} but then gives you the option e.g.
-#'   to select specific classes of partner neurons. See examples.
+#'@description \code{multi_connection_table} fetches partner connectivity data
+#'  (the first step in \code{cf_cosine_plot}) but then gives you the option e.g.
+#'  to select specific classes of partner neurons, fix type names etc. See
+#'  examples.
 #'
-#' @importFrom dplyr distinct all_of
-#' @param check_missing Whether to report if any query neurons are dropped (due
-#'   to insufficient partner neurons) (default:\code{TRUE}).
-#' @param min_datasets How many datasets a type must be in to be included in the
-#'   output. The default of \code{Inf} => all datasets must contain the cell
-#'   type. A negative number defines the number of datasets from which a type
-#'   can be missing. For example \code{-1} would mean that types would still be
-#'   included even if they are missing from one dataset.
+#'@details At present the malecns dataset is the best integrated of all with
+#'  "foreign type" columns referencing the prior flywire female brain and MANC
+#'  male nerve cord datasets. These in turn have been the target of ongoing FANC
+#'  and BANC annotation efforts. Therefore right now the simplest way to ensure
+#'  that types can be matched across datasets is to use
+#'  \code{prefer.foreign=TRUE} when requesting multiple datasets. However when
+#'  using just the malecns, the standard typing for that dataset has some
+#'  improvements, so \code{prefer.foreign=FALSE} would be better. The default
+#'  setting of \code{prefer.foreign=NA} therefore chooses
+#'  \code{prefer.foreign=TRUE} when malecns and at least one other dataset are
+#'  being requested and \code{FALSE} otherwise.
 #'
-#' @rdname cf_cosine_plot
-#' @export
-#' @return \code{multi_connection_table} returns a connectivity dataframe as
-#'   returned by \code{cf_partners} but with an additional column
-#'   \code{partners} which indicates (for each row) whether the partner neurons
-#'   are the input or output neurons.
+#'  Nevertheless, if you want really tight control of the type to type mapping
+#'  it is recommended to fetch with \code{prefer.foreign=F, min_datasets=1} and
+#'  then manually review and fix up any types that you know should match. If you
+#'  also set \code{keep.all=T} they you can access the foreign types columns
+#'  as part of your logic for doing this.
+#'
+#'@importFrom dplyr distinct all_of
+#'@param check_missing Whether to report if any query neurons are dropped (due
+#'  to insufficient partner neurons) (default:\code{TRUE}).
+#'@param min_datasets How many datasets a type must be in to be included in the
+#'  output. The default of \code{Inf} => all datasets must contain the cell
+#'  type. A negative number defines the number of datasets from which a type can
+#'  be missing. For example \code{-1} would mean that types would still be
+#'  included even if they are missing from one dataset.
+#'@param prefer.foreign Whether to use foreign types for male CNS data. The
+#'  default value of \code{NA} prefers foreign types when multiple datasets
+#'  including malecns are requested. See details.
+#'@param MoreArgs Passed to \code{\link{cf_partners}} For expert use only.
+#'@param ... additional arguments passed to \code{\link{cf_partners}}
+#'@inheritParams cf_partners
+#'
+#'@rdname cf_cosine_plot
+#'@export
+#'@return \code{multi_connection_table} returns a connectivity dataframe as
+#'  returned by \code{cf_partners} but with an additional column \code{partners}
+#'  which indicates (for each row) whether the partner neurons are the input or
+#'  output neurons.
 multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    threshold=1L, group='type',
                                    check_missing=TRUE,
-                                   min_datasets=Inf
+                                   min_datasets=Inf,
+                                   prefer.foreign=NA,
+                                   keep.all=FALSE,
+                                   MoreArgs=NULL,
+                                   ...
                                    ) {
   if(isTRUE(group))
     group='type'
@@ -327,7 +356,9 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
   if(length(partners)>1) {
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
-                             check_missing=F, min_datasets = min_datasets))
+                             check_missing=F, min_datasets = min_datasets,
+                             prefer.foreign=prefer.foreign, MoreArgs=MoreArgs,
+                             keep.all=keep.all, ...))
     l=dplyr::bind_rows(l)
     if(check_missing) {
       query_keys <- l %>% group_by(partners) %>%
@@ -346,10 +377,14 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
   }
   kdf=keys2df(kk)
   datasets=unique(kdf$dataset)
-  MoreArgs=list()
-  if(length(datasets)>1 && "malecns" %in% datasets)
-    MoreArgs=list(malecns=list(prefer.foreign=TRUE))
-  x <- cf_partners(kk, threshold = threshold, partners = partners, MoreArgs = MoreArgs)
+  if(is.null(MoreArgs)){
+    MoreArgs=list()
+    if(isTRUE(prefer.foreign) ||
+       ((length(datasets)>1 && "malecns" %in% datasets) && is.na(prefer.foreign)))
+      MoreArgs=list(malecns=list(prefer.foreign=TRUE))
+  }
+  x <- cf_partners(kk, threshold = threshold, partners = partners,
+                   MoreArgs = MoreArgs, keep.all=keep.all, ...)
   if(is.character(group))
     x <- match_types(x, group, partners=partners, min_datasets = min_datasets)
   # mark which column was used for the query

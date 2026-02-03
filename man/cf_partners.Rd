@@ -9,7 +9,8 @@ cf_partners(
   threshold = 1L,
   partners = c("inputs", "outputs"),
   bind.rows = TRUE,
-  MoreArgs = list()
+  MoreArgs = list(),
+  keep.all = FALSE
 )
 }
 \arguments{
@@ -24,10 +25,14 @@ option since neuprint sometimes returns 0 weight edges.}
 
 \item{bind.rows}{Whether to bind data.frames for each dataset together,
 keeping only the common columns (default \code{TRUE} for convenience but
-note that some columns will be dropped).}
+note that some columns will be dropped by unless \code{keep.all=TRUE}).}
 
 \item{MoreArgs}{Additional arguments in the form of a hierarchical list
 (expert use; see details and examples).}
+
+\item{keep.all}{Whether to keep all columns when processing multiple datasets
+rather than just those in common (default=\code{FALSE} only keeps shared
+columns).}
 }
 \value{
 A data.frame or a named list (when \code{bind.rows=FALSE})
