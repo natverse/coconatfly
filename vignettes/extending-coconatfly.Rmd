@@ -1,8 +1,8 @@
 ---
-title: "Extending coconatfly with external data sources"
+title: "4. Extending coconatfly with external data sources"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Extending coconatfly with external data sources}
+  %\VignetteIndexEntry{4. Extending coconatfly with external data sources}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
