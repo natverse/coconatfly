@@ -10,7 +10,8 @@ cf_partners(
   threshold = 1L,
   partners = c("inputs", "outputs"),
   bind.rows = TRUE,
-  MoreArgs = list()
+  MoreArgs = list(),
+  keep.all = FALSE
 )
 ```
 
@@ -36,12 +37,17 @@ cf_partners(
 
   Whether to bind data.frames for each dataset together, keeping only
   the common columns (default `TRUE` for convenience but note that some
-  columns will be dropped).
+  columns will be dropped by unless `keep.all=TRUE`).
 
 - MoreArgs:
 
   Additional arguments in the form of a hierarchical list (expert use;
   see details and examples).
+
+- keep.all:
+
+  Whether to keep all columns when processing multiple datasets rather
+  than just those in common (default=`FALSE` only keeps shared columns).
 
 ## Value
 

@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/natverse/coconatfly/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/natverse/coconatfly/blob/feature/mct-foreign-keepall/DESCRIPTION)
 
 Jefferis G (2026). *coconatfly: Comparative Connectomics of Public and
 In Progress Drosophila Datasets*. R package version 0.2.4.9000,

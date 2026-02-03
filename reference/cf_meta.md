@@ -27,7 +27,7 @@ cf_meta(
 
   Whether to bind data.frames for each dataset together, keeping only
   the common columns (default `TRUE` for convenience but note that some
-  columns will be dropped).
+  columns will be dropped by unless `keep.all=TRUE`).
 
 - integer64:
 
@@ -37,8 +37,8 @@ cf_meta(
 
 - keep.all:
 
-  When fetching metadata from different datasets, whether to keep all
-  metadata columns rather than just those in common (default=`FALSE`)
+  Whether to keep all columns when processing multiple datasets rather
+  than just those in common (default=`FALSE` only keeps shared columns).
 
 - MoreArgs:
 

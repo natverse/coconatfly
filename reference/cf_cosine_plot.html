@@ -4,14 +4,16 @@ across dataset connectivity clustering. You can pass it the (processed)
 output of multi_connection_table if you need more control. See
 examples.
 multi_connection_table fetches partner connectivity data
-  (the first step in cf_cosine_plot but then gives you the option e.g.
-  to select specific classes of partner neurons. See examples."><meta property="og:description" content="cf_cosine_plot is the workhorse function for within and
+ (the first step in cf_cosine_plot) but then gives you the option e.g.
+ to select specific classes of partner neurons, fix type names etc. See
+ examples."><meta property="og:description" content="cf_cosine_plot is the workhorse function for within and
 across dataset connectivity clustering. You can pass it the (processed)
 output of multi_connection_table if you need more control. See
 examples.
 multi_connection_table fetches partner connectivity data
-  (the first step in cf_cosine_plot but then gives you the option e.g.
-  to select specific classes of partner neurons. See examples."></head><body>
+ (the first step in cf_cosine_plot) but then gives you the option e.g.
+ to select specific classes of partner neurons, fix type names etc. See
+ examples."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -42,7 +44,7 @@ multi_connection_table fetches partner connectivity data
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Multi dataset cosine clustering</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/mct-foreign-keepall/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
       <div class="d-none name"><code>cf_cosine_plot.Rd</code></div>
     </div>
 
@@ -52,8 +54,9 @@ across dataset connectivity clustering. You can pass it the (processed)
 output of <code>multi_connection_table</code> if you need more control. See
 examples.</p>
 <p><code>multi_connection_table</code> fetches partner connectivity data
-  (the first step in <code>cf_cosine_plot</code> but then gives you the option e.g.
-  to select specific classes of partner neurons. See examples.</p>
+ (the first step in <code>cf_cosine_plot</code>) but then gives you the option e.g.
+ to select specific classes of partner neurons, fix type names etc. See
+ examples.</p>
     </div>
 
     <div class="section level2">
@@ -82,7 +85,11 @@ examples.</p>
 <span>  threshold <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  group <span class="op">=</span> <span class="st">"type"</span>,</span>
 <span>  check_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  min_datasets <span class="op">=</span> <span class="cn">Inf</span></span>
+<span>  min_datasets <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  prefer.foreign <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  MoreArgs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -97,7 +104,7 @@ wrapped by <code><a href="cf_ids.html">cf_ids</a></code> <em>or</em> a dataframe
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code></p></dd>
+<dd><p>additional arguments passed to <code><a href="cf_partners.html">cf_partners</a></code></p></dd>
 
 
 <dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
@@ -157,8 +164,8 @@ for details.</p></dd>
 <dt id="arg-min-datasets">min_datasets<a class="anchor" aria-label="anchor" href="#arg-min-datasets"></a></dt>
 <dd><p>How many datasets a type must be in to be included in the
 output. The default of <code>Inf</code> =&gt; all datasets must contain the cell
-type. A negative number defines the number of datasets from which a type
-can be missing. For example <code>-1</code> would mean that types would still be
+type. A negative number defines the number of datasets from which a type can
+be missing. For example <code>-1</code> would mean that types would still be
 included even if they are missing from one dataset.</p></dd>
 
 
@@ -175,6 +182,22 @@ similarity.</p></dd>
 <dd><p>Whether to report if any query neurons are dropped (due
 to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 
+
+<dt id="arg-prefer-foreign">prefer.foreign<a class="anchor" aria-label="anchor" href="#arg-prefer-foreign"></a></dt>
+<dd><p>Whether to use foreign types for male CNS data. The
+default value of <code>NA</code> prefers foreign types when multiple datasets
+including malecns are requested. See details.</p></dd>
+
+
+<dt id="arg-keep-all">keep.all<a class="anchor" aria-label="anchor" href="#arg-keep-all"></a></dt>
+<dd><p>Whether to keep all columns when processing multiple datasets
+rather than just those in common (default=<code>FALSE</code> only keeps shared
+columns).</p></dd>
+
+
+<dt id="arg-moreargs">MoreArgs<a class="anchor" aria-label="anchor" href="#arg-moreargs"></a></dt>
+<dd><p>Passed to <code><a href="cf_partners.html">cf_partners</a></code> For expert use only.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -183,9 +206,9 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
   <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code> dendrogram <em>or</em> when <code>maxtrix=TRUE</code> a cosine
   matrix.</p>
 <p><code>multi_connection_table</code> returns a connectivity dataframe as
-  returned by <code>cf_partners</code> but with an additional column
-  <code>partners</code> which indicates (for each row) whether the partner neurons
-  are the input or output neurons.</p>
+ returned by <code>cf_partners</code> but with an additional column <code>partners</code>
+ which indicates (for each row) whether the partner neurons are the input or
+ output neurons.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -215,6 +238,22 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
   argument then you will get an error. This is because <code>cf_cosine_plot</code>
   has no way of knowing which label corresponds to which neuron, almost
   certainly resulting in incorrect row labels on your dendrogram.</p>
+<p>At present the malecns dataset is the best integrated of all with
+ "foreign type" columns referencing the prior flywire female brain and MANC
+ male nerve cord datasets. These in turn have been the target of ongoing FANC
+ and BANC annotation efforts. Therefore right now the simplest way to ensure
+ that types can be matched across datasets is to use
+ <code>prefer.foreign=TRUE</code> when requesting multiple datasets. However when
+ using just the malecns, the standard typing for that dataset has some
+ improvements, so <code>prefer.foreign=FALSE</code> would be better. The default
+ setting of <code>prefer.foreign=NA</code> therefore chooses
+ <code>prefer.foreign=TRUE</code> when malecns and at least one other dataset are
+ being requested and <code>FALSE</code> otherwise.</p>
+<p>Nevertheless, if you want really tight control of the type to type mapping
+ it is recommended to fetch with <code>prefer.foreign=F, min_datasets=1</code> and
+ then manually review and fix up any types that you know should match. If you
+ also set <code>keep.all=T</code> they you can access the foreign types columns
+ as part of your logic for doing this.</p>
     </div>
 
     <div class="section level2">
@@ -342,7 +381,7 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mct3</span><span class="op">=</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:lLN2.+"</span>, datasets<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hemibrain"</span>, <span class="st">"flywire"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">multi_connection_table</span><span class="op">(</span><span class="va">.</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>class<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>class<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"LN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">"LN"</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"RN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">"RN"</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^M.*PN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">'mPN'</span>,</span></span>
@@ -350,7 +389,7 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 <span class="r-in"><span>   <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">'other'</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="co"># try merging connectivity for partners that don't have much specificity</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">class</span><span class="op">==</span><span class="st">"RN"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"_.+"</span>, <span class="st">""</span>, <span class="va">type</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="va">class</span><span class="op">==</span><span class="st">"uPN"</span> <span class="op">~</span> <span class="st">'uPN'</span>,</span></span>
 <span class="r-in"><span>  <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">type</span></span></span>
@@ -377,14 +416,14 @@ to insufficient partner neurons) (default:<code>TRUE</code>).</p></dd>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">lLN1</span><span class="op">=</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"/type:lLN1_.+"</span>, datasets<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hemibrain"</span>, <span class="st">"flywire"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">multi_connection_table</span><span class="op">(</span><span class="va">.</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>class<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>class<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"LN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">"LN"</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"RN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">"RN"</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^M.*PN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">'mPN'</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"PN"</span>, <span class="va">type</span><span class="op">)</span> <span class="op">~</span> <span class="st">'uPN'</span>,</span></span>
 <span class="r-in"><span>   <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">'other'</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">class</span><span class="op">==</span><span class="st">"RN"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"_.+"</span>, <span class="st">""</span>, <span class="va">type</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="va">class</span><span class="op">==</span><span class="st">"uPN"</span> <span class="op">~</span> <span class="st">'uPN'</span>,</span></span>
 <span class="r-in"><span>  <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">type</span></span></span>

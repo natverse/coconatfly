@@ -1,0 +1,194 @@
+# 4. Extending coconatfly with external data sources
+
+This vignette explains how and why developers and end users might want
+to extend coconatfly to support an
+
+## tldr
+
+Register a new external dataset (or override an existing one) by doing:
+
+``` r
+coconat::register_dataset(
+  name = 'fcns', shortname = 'fc', namespace = 'coconatfly',
+  metafun=function(ids, ...) {
+    # first column must be within dataset id
+    # additional metadata can include columns like type and side
+    data.frame(id=1234, type="DNp25", side="L", class='descending_neuron')
+  },
+  partnerfun = function(ids, partners=c("inputs", "outputs"), threshold = 1, ...) {
+    # data frame should contain 3 columns
+    data.frame(query=1234, partner=4567, weight=10)
+  }
+  )
+```
+
+Read on for more details, including additional functions that you can
+provide.
+
+## introduction
+
+coconatfly has built-in support for a number of datasets corresponding
+to named arguments of the
+[`cf_ids()`](https://natverse.org/coconatfly/reference/cf_ids.md)
+function.
+
+``` r
+library(coconatfly)
+cf_ids(hemibrain='LAL008', flywire='LAL008', expand = TRUE)
+#> flywire [2 ids]: 720575940639138382 720575940643829704
+#> hemibrain [2 ids]: 1170352367 1605181883
+```
+
+While it is likely that additional datasets will be added over time,
+there are reasons why adding more and more built-in datasets could cause
+trouble in the long term. These include
+
+- introducing additional dependencies that make `coconatfly` package
+  installation increasingly fragile
+- slower development by relying on lead developer(s) for integration.
+
+Conversely giving users a mechanism to add external datasets gives
+benefits including:
+
+- rapid support for new datasets even when they are evolving
+- support for private/pre-release data
+- support for new kinds of metadata source
+- ability for end users to modify behaviour of existing built-in
+  datasets e.g. fix a few cell types for a public dataset.
+
+In order to achieve this you must tell coconatfly about your new
+dataset, what it is called and what functions are available to get the
+relevant data.
+
+## registering a dataset
+
+The process of telling coconatfly about a new dataset is called
+registration and relies on a function in the base `coconat` package
+called
+[`coconat::register_dataset()`](https://natverse.org/coconat/reference/register_dataset.html).
+
+You need to supply both **information** about the dataset and
+**functions** that interact with it. Some of this is essential, other
+parts are optional. Starting with the information, something like this
+would be standard:
+
+``` r
+coconat::register_dataset(
+  # crucial arguments
+  name = 'fcns', shortname = 'fc', namespace = 'coconatfly', 
+  # optional information
+  species = 'Drosophila melanogaster', sex = 'F', age = 'adult 7d',
+  description = 'Complete female CNS dataset',
+  # [functions omitted]
+  )
+```
+
+The `name` argument gives the dataset name that will be used in the
+[`cf_ids()`](https://natverse.org/coconatfly/reference/cf_ids.md)
+function. Note that `cf_ids` will not have an argument named `fcns` but
+after dataset registration it will correctly process specifications
+like:
+
+``` r
+cf_ids(fcns='/DNa02', expand = TRUE)
+```
+
+which with give
+
+    fcns [2 ids]: 1234 5678
+
+``` r
+try(cf_ids(rhubarb='/DNa02', expand = T))
+```
+
+Besides the name argument the only other completely essential argument
+is `namespace = 'coconatfly'`. This is what ensures that the
+`coconatfly` package will know about this dataset.
+
+All the optional information is nice to have but not really used at the
+moment.
+
+## dataset functions
+
+It’s great to have told coconatfly the name of your dataset, but that
+doesn’t provide any real functionality. In addition you’ll want to
+supply functions that do metadata or connectivity queries. There are
+three named arguments in
+[`coconat::register_dataset()`](https://natverse.org/coconat/reference/register_dataset.html)
+each of which expects to be passed a function:
+
+- `idfun` process queries or ids
+- `metafun` return metadata for given ids or query
+- `partnerfun` return connectivity information
+
+### idfun
+
+`idfun` is the most basic it turns ids or queries into a character
+vector of ids.
+
+Typical queries might look like: `ids='/type:DNa02'` to find descending
+neurons with cell type DNa02.
+
+``` r
+myidfun <- function(ids, ...) {
+  # return value should be character vector (integer64 is also accepted)
+}
+```
+
+Although basic, it is not essential to specify an `idfun` as it will by
+default use the supplied `metadata` function to handle queries.
+
+### metafun
+
+The function to return metadata is a little more complicated. The input
+`ids` specification will be the same as for the previous function. But
+this time we return a data frame.
+
+``` r
+mymetafun <- function(ids, ...) {
+  data.frame(id=as.character(c(123, 456)), side=c("L", "R"), class='descending_neuron', subclass='DNa', type='DNp42')
+}
+```
+
+The return value should be a `data.frame` whose first column is the
+within dataset `id`; although normally numeric, we recommend encoding as
+a character. Additional columns can include `side`, `class`, `subclass`,
+`subsubclass`, `type`, `lineage`, `instance`. Note that side should be
+encoded as `L`, `R`, `M` (for midline) or `NA` for unknown. Additional
+columns can be returned but may be dropped by downstream functions. Note
+that although it is recommended that the id should be a character
+vector, you can also use the `integer64` type returned by the `bit64`
+package for some speed/size savings but these are likely to be minor.
+
+### partnerfun
+
+The final function gives per neuron information about connectivity.
+
+In addition to the ids (which can be queries processed by the idfun or
+metafun above.
+
+``` r
+my_partners <- function(ids, partners=c('in', out), threshold=1L, ...) {
+  cf_ids()
+}
+```
+
+## Inheriting vs defining
+
+One reason to register a new dataset is if you want to tweak an existing
+dataset. For example you might decide that you need to modify some cell
+type labels. You can use the inherits argument to simplify this. For
+example:
+
+``` r
+my_banc_meta = function(ids, ...) {
+  meta=cf_meta(cf_ids(banc=ids))
+  meta %>% 
+    mutate(type=case_when(
+      type=='AN09B001' ~ "AN05B102",
+      TRUE ~ type
+    ))
+}
+coconat::register_dataset(name = 'bancy', shortname = 'by', 
+                          metafun = my_banc_meta)
+```

@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fetch metadata for neurons from connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/mct-foreign-keepall/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
       <div class="d-none name"><code>cf_meta.Rd</code></div>
     </div>
 
@@ -62,7 +62,7 @@ other input that can be processed by the <code><a href="keys.html">keys</a></cod
 <dt id="arg-bind-rows">bind.rows<a class="anchor" aria-label="anchor" href="#arg-bind-rows"></a></dt>
 <dd><p>Whether to bind data.frames for each dataset together,
 keeping only the common columns (default <code>TRUE</code> for convenience but
-note that some columns will be dropped).</p></dd>
+note that some columns will be dropped by unless <code>keep.all=TRUE</code>).</p></dd>
 
 
 <dt id="arg-integer-">integer64<a class="anchor" aria-label="anchor" href="#arg-integer-"></a></dt>
@@ -72,9 +72,9 @@ extension package.)</p></dd>
 
 
 <dt id="arg-keep-all">keep.all<a class="anchor" aria-label="anchor" href="#arg-keep-all"></a></dt>
-<dd><p>When fetching metadata from different datasets, whether to
-keep all metadata columns rather than just those in common
-(default=<code>FALSE</code>)</p></dd>
+<dd><p>Whether to keep all columns when processing multiple datasets
+rather than just those in common (default=<code>FALSE</code> only keeps shared
+columns).</p></dd>
 
 
 <dt id="arg-moreargs">MoreArgs<a class="anchor" aria-label="anchor" href="#arg-moreargs"></a></dt>

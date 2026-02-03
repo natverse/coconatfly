@@ -8,3 +8,5 @@
   neurons](https://natverse.org/coconatfly/articles/TuTu.md):
 - [3. Splitting AOTU063 cell
   type](https://natverse.org/coconatfly/articles/AOTU063.md):
+- [4. Extending coconatfly with external data
+  sources](https://natverse.org/coconatfly/articles/extending-coconatfly.md):

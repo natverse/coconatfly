@@ -5,8 +5,8 @@ connectivity clustering. You can pass it the (processed) output of
 `multi_connection_table` if you need more control. See examples.
 
 `multi_connection_table` fetches partner connectivity data (the first
-step in `cf_cosine_plot` but then gives you the option e.g. to select
-specific classes of partner neurons. See examples.
+step in `cf_cosine_plot`) but then gives you the option e.g. to select
+specific classes of partner neurons, fix type names etc. See examples.
 
 ## Usage
 
@@ -35,7 +35,11 @@ multi_connection_table(
   threshold = 1L,
   group = "type",
   check_missing = TRUE,
-  min_datasets = Inf
+  min_datasets = Inf,
+  prefer.foreign = NA,
+  keep.all = FALSE,
+  MoreArgs = NULL,
+  ...
 )
 ```
 
@@ -52,8 +56,8 @@ multi_connection_table(
 
 - ...:
 
-  Additional arguments passed to
-  [`heatmap`](https://rdrr.io/r/stats/heatmap.html)
+  additional arguments passed to
+  [`cf_partners`](https://natverse.org/coconatfly/reference/cf_partners.md)
 
 - threshold:
 
@@ -134,6 +138,23 @@ multi_connection_table(
   Whether to report if any query neurons are dropped (due to
   insufficient partner neurons) (default:`TRUE`).
 
+- prefer.foreign:
+
+  Whether to use foreign types for male CNS data. The default value of
+  `NA` prefers foreign types when multiple datasets including malecns
+  are requested. See details.
+
+- keep.all:
+
+  Whether to keep all columns when processing multiple datasets rather
+  than just those in common (default=`FALSE` only keeps shared columns).
+
+- MoreArgs:
+
+  Passed to
+  [`cf_partners`](https://natverse.org/coconatfly/reference/cf_partners.md)
+  For expert use only.
+
 ## Value
 
 The result of [`heatmap`](https://rdrr.io/r/stats/heatmap.html)
@@ -183,6 +204,25 @@ without supplying an explicitly ordered set of neurons to the `ids`
 argument then you will get an error. This is because `cf_cosine_plot`
 has no way of knowing which label corresponds to which neuron, almost
 certainly resulting in incorrect row labels on your dendrogram.
+
+At present the malecns dataset is the best integrated of all with
+"foreign type" columns referencing the prior flywire female brain and
+MANC male nerve cord datasets. These in turn have been the target of
+ongoing FANC and BANC annotation efforts. Therefore right now the
+simplest way to ensure that types can be matched across datasets is to
+use `prefer.foreign=TRUE` when requesting multiple datasets. However
+when using just the malecns, the standard typing for that dataset has
+some improvements, so `prefer.foreign=FALSE` would be better. The
+default setting of `prefer.foreign=NA` therefore chooses
+`prefer.foreign=TRUE` when malecns and at least one other dataset are
+being requested and `FALSE` otherwise.
+
+Nevertheless, if you want really tight control of the type to type
+mapping it is recommended to fetch with
+`prefer.foreign=F, min_datasets=1` and then manually review and fix up
+any types that you know should match. If you also set `keep.all=T` they
+you can access the foreign types columns as part of your logic for doing
+this.
 
 ## Examples
 

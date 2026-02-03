@@ -20,22 +20,22 @@ library(dplyr)
 
 For this analysis we will use the version 630 connectivity / annotation
 data released in June 2023. We will set an option use the lower level
-fafbseg package to ensure this.
+fafbseg package to ensure this. You may need to download the relevant
+data dumps if you have not done so previously.
+
+``` r
+fafbseg::download_flywire_release_data(version = 630)
+#> Checking for connectivity files to download
+#> Checking for annotation files to download
+#> Loading required namespace: git2r
+```
 
 ``` r
 fafbseg::flywire_connectome_data_version(set = 630)
 ```
 
-You may need to download the relevant data dumps if you have not done so
-previously.
-
-``` r
-fafbseg::download_flywire_release_data(version = 630)
-```
-
 ``` r
 aotu63=cf_meta(cf_ids(query = '/type:AOTU063.*', datasets = c("flywire","hemibrain")))
-#> Loading required namespace: git2r
 aotu63
 #>                   id side   class subclass subsubclass     type
 #> 1 720575940620326253    R central     <NA>        <NA> AOTU063a
@@ -179,8 +179,12 @@ aotu63in %>%
     values_fill = 0) %>% 
   # convert from synaptic counts to percentages of total input
   mutate(across(-type, ~round(100*.x/sum(.x))))
-#> `summarise()` has grouped output by 'qtype', 'dataset'. You can override using
-#> the `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by qtype, dataset, and type.
+#> ℹ Output is grouped by qtype and dataset.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(qtype, dataset, type))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 49 × 5
 #>    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb
 #>    <chr>         <dbl>       <dbl>       <dbl>       <dbl>
@@ -227,8 +231,12 @@ aotu63out %>%
   tidyr::pivot_wider(names_from = c(qtype, dataset), values_from = weight, values_fill = 0) %>% 
   # convert from raw to pct
   mutate(across(-type, ~round(100*.x/sum(.x))))
-#> `summarise()` has grouped output by 'qtype', 'dataset'. You can override using
-#> the `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by qtype, dataset, and type.
+#> ℹ Output is grouped by qtype and dataset.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(qtype, dataset, type))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 77 × 5
 #>    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb
 #>    <chr>         <dbl>       <dbl>       <dbl>       <dbl>
