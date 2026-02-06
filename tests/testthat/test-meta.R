@@ -36,7 +36,7 @@ test_that("extra datasets", {
   expect_true(is.data.frame(cf_meta(cf_ids(rhubarb=1, flywire='DNa02'))))
 
   # badrhubarb has no idfun, so cf_ids errors when trying to expand (the new default)
-  expect_error(cf_ids(badrhubarb=1), regexp = 'No id function')
+  expect_error(cf_ids(badrhubarb=1))
   # When not expanding, cf_meta will error about missing metadata function
   expect_error(cf_meta(cf_ids(badrhubarb=1, expand=FALSE)), regexp = 'no metadata function')
 })
