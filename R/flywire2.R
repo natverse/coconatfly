@@ -38,7 +38,7 @@ register_flywire2 <- function(name='fx', ..., showerror=TRUE){
       .flywire_partners(ids, version='783.2', ...)
     },
     metafun=function(ids, ...) {
-      coconatfly:::flywire_meta(ids, ...)
+      flywire_meta(ids, ...)
     },
     ...
   )
