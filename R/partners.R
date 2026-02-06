@@ -65,6 +65,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   names(ids)=match_datasets(names(ids))
   stopifnot(all(names(ids) %in% cf_datasets('all')))
 
+  # Check that IDs have been expanded (queries resolved)
+  check_expanded(ids)
+
   res=vector(mode = 'list', length = length(ids))
   names(res)=names(ids)
 
@@ -186,7 +189,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 
 .fanc_partners <- function(ids, partners, threshold, ...) {
   # FIXME allow end user to override fanc version
-  tres=fancr::fanc_partner_summary(fanc_ids(ids),
+  tres=fancr::fanc_partner_summary(ids,
                                    partners = partners,
                                    threshold = threshold-1L,
                                    version=fanc_version(), ...)
@@ -199,7 +202,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
 
 .banc_partners <- function(ids, partners, threshold, ...) {
   banc_error()
-  tres=fancr::with_banc(fancr::fanc_partner_summary(banc_ids(ids),
+  tres=fancr::with_banc(fancr::fanc_partner_summary(ids,
                                    partners = partners,
                                    threshold = threshold-1L,
                                    version=banc_version(), ...))

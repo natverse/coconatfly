@@ -78,6 +78,9 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
   names(ids)=match_datasets(names(ids))
   stopifnot(all(names(ids) %in% cf_datasets('all')))
 
+  # Check that IDs have been expanded (queries resolved)
+  check_expanded(ids)
+
   res=vector(mode = 'list', length = length(ids))
   names(res)=names(ids)
 
