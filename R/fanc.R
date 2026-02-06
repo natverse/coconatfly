@@ -3,18 +3,18 @@ use_fanc_flytable <- function(flytable=T) {
   options(coconatfly.fanc.flytable=flytable)
 }
 
-fanc_ids <- function(ids) {
+.fanc_ids <- function(ids) {
   if(getOption("coconatfly.fanc.flytable", default = F))
-     fanc_meta(ids)$id
+     .fanc_meta(ids)$id
   else
     fancorbanc_ids(ids, dataset='fanc')
 }
 
-fanc_meta <- function(ids=NULL, ...) {
+.fanc_meta <- function(ids=NULL, ...) {
   if(getOption("coconatfly.fanc.flytable", default = F))
     fanc_cfmeta(ids=ids, ...)
   else {
-    ids=fanc_ids(ids)
+    ids=.fanc_ids(ids)
     fancr::with_fanc(fancorbanc_meta(table='neuron_information', ids=ids, ...))
   }
 }
@@ -40,5 +40,24 @@ fanc_cfmeta <- function(ids=NULL, ignore.case = F, fixed = F,
   if(keep.all) return(select(df, id, dplyr::everything()))
   df %>%
     dplyr::select(id, supervoxel_id, side, type, group, class, subclass, subsubclass, lineage)
+}
+
+fanc_version <- function() {
+  fcc=fancr::fanc_cave_client()
+  ver=fcc$materialize$version
+  ver
+}
+
+.fanc_partners <- function(ids, partners, threshold, ...) {
+  # FIXME allow end user to override fanc version
+  tres=fancr::fanc_partner_summary(ids,
+                                   partners = partners,
+                                   threshold = threshold-1L,
+                                   version=fanc_version(), ...)
+  partner_col=grep("_id", colnames(tres), value = TRUE)
+  metadf=.fanc_meta()
+  colnames(metadf)[[1]]=partner_col
+  tres=dplyr::left_join(tres, metadf, by = partner_col)
+  tres
 }
 
