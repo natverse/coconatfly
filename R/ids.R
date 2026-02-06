@@ -187,7 +187,7 @@ cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
                "opticlobe", "banc", "yakubavnc"),
-    expand=FALSE,
+    expand=TRUE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
     opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
@@ -235,6 +235,7 @@ cf_ids <- function(
   }
   res=res[sort(names(res))]
   class(res)=union('cidlist', class(res))
+  attr(res, 'expanded') <- isTRUE(expand) || isTRUE(keys)
   if(isTRUE(keys)) keys(res) else res
 }
 
@@ -254,8 +255,8 @@ c.cidlist <- function(..., unique=TRUE) {
   apl=list(...)
   apl=apl[lengths(apl)>0]
   if(length(apl)<1) return(list())
-  # expand all of them
-  apl=lapply(apl, expand_ids)
+  # check all inputs are expanded
+  lapply(apl, check_expanded)
   nn=unique(unlist(sapply(apl, names), use.names = F))
   res=list()
   for(n in sort(nn)) {
@@ -264,6 +265,7 @@ c.cidlist <- function(..., unique=TRUE) {
     res[[n]]=ul
   }
   class(res)=union('cidlist', class(res))
+  attr(res, 'expanded') <- TRUE
   res
 }
 
@@ -328,6 +330,33 @@ expand_ids <- function(ids, dataset) {
             call.=FALSE, immediate. = TRUE)
     NULL
   })
+}
+
+# Check that IDs have been expanded (queries resolved to numeric IDs)
+# This ensures all query resolution goes through cf_ids
+check_expanded <- function(ids) {
+  # If it's a cidlist, check the expanded attribute
+  if(inherits(ids, 'cidlist')) {
+    expanded <- attr(ids, 'expanded')
+    if(isTRUE(expanded)) return(invisible(TRUE))
+    if(isFALSE(expanded)) {
+      stop("IDs contain unexpanded queries. Please use cf_ids(..., expand=TRUE) ",
+           "before passing to cf_partners/cf_meta.", call. = FALSE)
+    }
+  }
+  # For raw lists or cidlists without the attribute, check if any values look like queries
+  for(n in names(ids)) {
+    vals <- ids[[n]]
+    # Numeric or integer64 values are OK
+    if(is.numeric(vals) || bit64::is.integer64(vals)) next
+    # Character values that are valid IDs are OK
+    if(is.character(vals) && all(fafbseg:::valid_id(vals, na.ok = TRUE))) next
+    # Otherwise it's probably a query string
+    stop("IDs for dataset '", n, "' contain unexpanded queries. ",
+         "Please use cf_ids(..., expand=TRUE) before passing to cf_partners/cf_meta.",
+         call. = FALSE)
+  }
+  invisible(TRUE)
 }
 
 

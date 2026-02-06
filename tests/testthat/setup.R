@@ -18,11 +18,24 @@
     stop("unsupported query")
 }
 
+.rhubarb_ids <- function(ids) {
+  # Simple id function for test dataset - just returns numeric ids
+  if(is.numeric(ids)) return(ids)
+  # If query, resolve via meta function
+  if(is.character(ids) && length(ids)==1 && grepl("/", ids)) {
+    query <- sub("^/", "", ids)
+    df <- .rhubarb_meta(query)
+    return(df$id)
+  }
+  ids
+}
+
 register_rhubarb <- function() {
   if(! 'rhubarb' %in% cf_datasets()) {
     coconat::register_dataset('rhubarb', shortname = 'rb',
                               species = 'Rheum rhabarbarum', sex='U', age='adult',
                               metafun=.rhubarb_meta,
+                              idfun=.rhubarb_ids,
                               namespace = 'coconatfly')
   }
   if(! 'badrhubarb' %in% cf_datasets()) {

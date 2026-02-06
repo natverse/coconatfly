@@ -56,6 +56,8 @@ jobs:
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
+        with:
+          extra-packages: flyconnectome/malecns
 
       - name: Deploy package
         run: |

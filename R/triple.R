@@ -20,9 +20,12 @@ triple_connection_table <- function(hbtype, fwtype=hbtype, partners=c("inputs", 
     return(l)
   }
   stopifnot(isTRUE(hbdetails))
-  hb=cf_partners(list(hemibrain=hbtype), partners = partners,
+  # Expand IDs before passing to cf_partners
+  hbids=cf_ids(hemibrain=hbtype)
+  fwids=cf_ids(flywire=fwtype)
+  hb=cf_partners(hbids, partners = partners,
                  threshold=threshold, bind.rows = F)[[1]]
-  fw=cf_partners(list(flywire=fwtype), partners = partners,
+  fw=cf_partners(fwids, partners = partners,
                  threshold = threshold, bind.rows = F)[[1]]
   stopifnot(isTRUE(version==fafbseg::flywire_connectome_data_version()))
 
