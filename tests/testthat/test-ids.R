@@ -54,8 +54,8 @@ test_that("fanc/banc ids/metadata", {
                          version='latest'))
 
   skip_if_not_installed('bancr')
-  skip_if(inherits(bancr::register_banc_coconat(), 'try-error'))
-  expect_length(dna02keys <- cf_ids(banc='/DNa02', keys = T), 2L)
+  skip_if(inherits(suppressWarnings(bancr::register_banc_coconat()), 'try-error'))
+  expect_length(dna02keys <- suppressWarnings(cf_ids(banc='/DNa02', keys = T)), 2L)
   expect_warning(
     expect_in(cf_ids(banc='DNa02', keys = T), dna02keys))
   expect_warning(
@@ -67,7 +67,10 @@ test_that("extra datasets", {
   register_rhubarb()
   expect_equal(rhu <- cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
   expect_equal(cf_ids(1, datasets = 'rhubar'), rhu)
-  expect_equal(length(cf_ids(1, datasets = c("brain", 'rhubar'))), 5L)
+  skip_if_not_installed('malecns')
+  expect_warning(
+    expect_equal(length(cf_ids(1, datasets = c("brain", 'rhubar'))), 5L),
+    "unable to map")
 
   expect_equal(rhu2 <- cf_ids(rhubarb=1:3), list(rhubarb=1:3), ignore_attr = TRUE)
   expect_equal(cf_ids(rhubar=1:3), rhu2)

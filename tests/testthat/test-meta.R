@@ -1,9 +1,13 @@
 test_that("metadata", {
 
-  expect_equal(
-    cf_meta(ids = cf_ids(hemibrain = 'AOTU012', flywire = 'rhubarb')),
-    cf_meta(ids = cf_ids(hemibrain = 'AOTU012'))
-  )
+  expect_warning(
+    expect_equal(
+      cf_meta(ids = cf_ids(hemibrain = 'AOTU012', flywire = 'rhubarb')),
+      cf_meta(ids = cf_ids(hemibrain = 'AOTU012'))
+    ),
+    "No matching ids")
+
+  expect_error(cf_meta(ids = cf_ids(hemibrain = 'AOTU012', expand = F)))
 
   skip_if_not_installed('malevnc')
   expect_true(all(grepl("descending",
@@ -21,7 +25,13 @@ test_that("metadata", {
 test_that("fanc/banc ids/metadata", {
   skip_if_not_installed('fancr')
   skip_if_not_installed('reticulate')
-  expect_null(cf_meta(cf_ids(banc='/rhubarb.+')))
+  skip_if_not_installed('bancr', minimum_version = '0.2.1')
+  # bancr must be registered for banc queries to work
+  skip_if_not(tryCatch({suppressWarnings(bancr::register_banc_coconat()); TRUE}, error=function(e) FALSE),
+              message = "bancr not properly configured")
+  expect_warning(
+    expect_null(cf_meta(cf_ids(banc='/rhubarb.+'))),
+    "No matching ids")
 })
 
 test_that("extra datasets", {
@@ -31,7 +41,8 @@ test_that("extra datasets", {
 
   expect_true(is.data.frame(cf_meta(cf_ids(rhubarb=1, flywire='DNa02'))))
 
-  expect_error(cf_meta(cf_ids(badrhubarb=1)), regexp = 'no metadata function')
+  # badrhubarb has no idfun, so cf_ids errors when trying to expand (the new default)
+  expect_error(cf_ids(badrhubarb=1))
 })
 
 
