@@ -40,28 +40,14 @@ match_datasets <- function(ds) {
 abbreviate_datasets <- function(ds) {
   if(length(ds)<1) return(ds)
   ds=match_datasets(ds)
-  abbrevlist=c(hemibrain='hb', flywire='fw', manc='mv', fanc='fv', malecns='mc',
-               opticlobe='ol', banc='bc', yakubavnc='yv')
-  # add any extra datasets
-  abbrevlist2=coconat:::dataset_shortnames('coconatfly')
-  if(length(abbrevlist2)>0) {
-    nn=setdiff(names(abbrevlist2), names(abbrevlist))
-    abbrevlist=c(abbrevlist, abbrevlist2[nn])
-  }
+  abbrevlist=coconat:::dataset_shortnames('coconatfly')
   unname(abbrevlist[ds])
 }
 
 lengthen_datasets <- function(ds) {
-  longlist=c(hb="hemibrain", fw="flywire", mv="manc", fv="fanc", mc="malecns",
-             ol='opticlobe', bc='banc', yv='yakubavnc')
-  abbrevlist2=coconat:::dataset_shortnames('coconatfly')
-  if(length(abbrevlist2)>0) {
-    longlist2=names(abbrevlist2)
-    names(longlist2)=unname(abbrevlist2)
-    nn=setdiff(names(longlist2), names(longlist))
-    longlist=c(longlist, longlist2[nn])
-  }
-
-  ds=match.arg(ds, names(longlist), several.ok = T)
+  abbrevlist=coconat:::dataset_shortnames('coconatfly')
+  longlist=names(abbrevlist)
+  names(longlist)=unname(abbrevlist)
+  ds=match.arg(ds, names(longlist), several.ok = TRUE)
   unname(longlist[ds])
 }

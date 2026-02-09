@@ -113,7 +113,7 @@ is_key <- function(x, compound=FALSE) {
 #' @param datasets Character vector naming datasets to which the \code{query}
 #'   should be applied.
 #' @param expand Whether to expand any queries into the matching ids (this will
-#'   involve one or more calls to corresponding servers). Default \code{FALSE}.
+#'   involve one or more calls to corresponding servers). Default \code{TRUE}.
 #' @param keys Whether to turn the ids into keys \code{hb:12345} right away.
 #'   Default \code{FALSE} but you may find this useful e.g. for combining lists
 #'   of neurons (see examples).
@@ -290,25 +290,10 @@ print.cidlist <- function(x, ..., truncate=10) {
 # private function to select an ids function for a dataset
 get_id_fun <- function(dataset) {
   dataset=match_datasets(dataset)
-  FUN <- NULL
-  if(dataset %in% cf_datasets('external')) {
-    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
-    FUN=dsd[['idfun']]
-  }
-  if(is.null(FUN) && dataset %in% cf_datasets('builtin')) {
-    FUN <- switch(
-      dataset,
-      manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
-      fanc=fanc_ids,
-      malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
-      banc=banc_ids,
-      flywire=function(ids) fafbseg::flywire_ids(
-        ids,
-        version=fafbseg::flywire_connectome_data_version()),
-      function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
-  }
+  dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+  FUN=dsd[['idfun']]
   if(is.null(FUN))
-    stop("No id function for dataset ", dataset)
+    stop("No id function registered for dataset: ", dataset)
   FUN
 }
 

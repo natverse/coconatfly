@@ -9,7 +9,7 @@ cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
     "opticlobe", "banc", "yakubavnc"),
-  expand = FALSE,
+  expand = TRUE,
   keys = FALSE,
   hemibrain = NULL,
   flywire = NULL,
@@ -31,7 +31,7 @@ cf_ids(
 should be applied.}
 
 \item{expand}{Whether to expand any queries into the matching ids (this will
-involve one or more calls to corresponding servers). Default \code{FALSE}.}
+involve one or more calls to corresponding servers). Default \code{TRUE}.}
 
 \item{keys}{Whether to turn the ids into keys \code{hb:12345} right away.
 Default \code{FALSE} but you may find this useful e.g. for combining lists

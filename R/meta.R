@@ -27,16 +27,11 @@ npconn <- function(dataset) {
 }
 
 get_meta_fun <- function(dataset) {
-  FUN=NULL
-  if(dataset %in% cf_datasets('external')) {
-    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
-    FUN=dsd[['metafun']]
-  }
-  # NB we need to use get not match.fun since the functions are not exported
-  if(is.null(FUN) && dataset %in% cf_datasets('builtin'))
-    FUN <- get(paste0(dataset, '_meta'), mode = 'function')
+  dataset=match_datasets(dataset)
+  dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+  FUN=dsd[['metafun']]
   if(is.null(FUN))
-    stop("There is no metadata function defined for dataset: ", dataset)
+    stop("No metadata function registered for dataset: ", dataset)
   FUN
 }
 
@@ -129,113 +124,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
   if(bind.rows) bind_rows2(res, keep.all=keep.all) else res
 }
 
-flywire_meta <- function(ids, type=c("cell_type","hemibrain_type"), ...) {
-  type=match.arg(type)
-  tres=flytable_meta(ids,
-                     version = fafbseg::flywire_connectome_data_version(),
-                     unique = T, ...)
-  tres <- tres %>%
-    rename(id=root_id) %>%
-    mutate(id=fafbseg::flywire_ids(id, integer64=T)) %>%
-    mutate(side=toupper(substr(side,1,1))) %>%
-    rename_with(~ sub(".+_", "", .x), .cols=any_of(type)) %>%
-    rename(class=super_class, subclass=cell_class, subsubclass=cell_sub_class) %>%
-    rename(lineage=ito_lee_hemilineage)
-}
-
-hemibrain_meta <- function(ids, ...) {
-  tres=neuprintr::neuprint_get_meta(ids, conn = npconn('hemibrain'), ...)
-  tres <- tres %>%
-    rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])")[,2]) %>%
-    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_) %>%
-    rename(lineage=cellBodyFiber)
-  tres
-}
-
-opticlobe_meta <- function(ids, ...) {
-  tres=neuprintr::neuprint_get_meta(ids, conn = npconn('opticlobe'), ...)
-  tres <- tres %>%
-    rename(id=bodyid) %>%
-    mutate(side=stringr::str_match(tres$name, "_([LR])$")[,2]) %>%
-    mutate(class=NA_character_, subclass=NA_character_, subsubclass=NA_character_)
-  tres
-}
-
-malecns_meta <- function(ids, ...) {
-  tres=malecns::mcns_neuprint_meta(ids)
-  tres <- tres %>%
-    mutate(side=malecns::mcns_soma_side(.)) %>%
-    mutate(side=case_when(
-      is.na(side) ~ rootSide,
-      T ~ side
-    )) %>%
-    mutate(pgroup=malecns::mcns_predict_group(.)) %>%
-    mutate(ptype=malecns::mcns_predict_type(.)) %>%
-    rename(otype=type, type=ptype, ogroup=group, group=pgroup) %>%
-    # special case DNs
-    mutate(type=case_when(
-      grepl("DN[A-z0-9_]+,", name) ~ stringr::str_match(name, "(DN[A-z0-9_]+),")[,2],
-      T ~ type
-    )) %>%
-    rename(id=bodyid) %>%
-    rename(class1=superclass, class2=class, subsubclass=subclass) %>%
-    rename(class=class1, subclass=class2) %>%
-    mutate(lineage=case_when(
-      !is.na(itoleeHl) & nzchar(itoleeHl) ~ itoleeHl,
-      T ~ trumanHl
-    ))
-  tres
-}
-
-manc_meta <- function(ids, ...) {
-  tres <- malevnc::manc_neuprint_meta(ids, conn=npconn('manc'), ...) %>%
-    mutate(side=dplyr::case_when(
-      !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
-      !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
-      T ~ NA_character_
-    )) %>%
-    rename(id=bodyid, lineage=hemilineage) %>%
-    mutate(subsubclass=NA_character_)
-  tres
-}
-
-yakubavnc_meta <- function(ids, ...) {
-  tres <- malevnc::manc_neuprint_meta(ids, conn = npconn('yakubavnc'), ...)
-  if(!"rootSide" %in% colnames(tres))
-    tres$rootSide=NA_character_
-  if(!"subclass" %in% colnames(tres))
-    tres$subclass=NA_character_
-
-  tres <- tres %>%
-    mutate(side=dplyr::case_when(
-      !is.na(somaSide) ~ toupper(substr(somaSide, 1, 1)),
-      !is.na(rootSide) ~ toupper(substr(rootSide, 1, 1)),
-      T ~ NA_character_
-    )) %>%
-    rename(id=bodyid, lineage=hemilineage) %>%
-    mutate(subsubclass=NA_character_)
-  tres
-}
-
-# private function to instruct users on new mechanism for banc dataset
-# note that this will not be called after bancr::register_banc_coconat()
-# because that will override the built-in banc_* functions
-banc_error <- function() {
-  bv=try(utils::packageVersion('bancr'), silent = T)
-  if(inherits(bv, 'try-error') || bv<'0.2.1')
-    stop("To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` ",
-         call. = FALSE)
-  stop("Please run `bancr::register_banc_coconat()` to use the banc dataset",
-       call. = FALSE)
-}
-
-banc_meta <- function(ids=NULL, ...) {
-  banc_error()
-  ids=banc_ids(ids)
-  fancr::with_banc(fancorbanc_meta(table='cell_info', ids=ids, ...))
-}
-
+# Shared helper for fanc and banc metadata
 fancorbanc_meta <- function(table, ids=NULL, ...) {
   ol_classes=c("centrifugal", "distal medulla", "distal medulla dorsal rim area",
                "lamina intrinsic", "lamina monopolar", "lamina tangential",
@@ -314,16 +203,12 @@ fancorbanc_meta <- function(table, ids=NULL, ...) {
       mutate(id=as.character(id))
   }
   if(!is.null(ids))
-    left_join(data.frame(id=ids), metadf, by='id')
+    dplyr::left_join(data.frame(id=ids), metadf, by='id')
   else
     metadf
 }
 
-banc_ids <- function(ids) {
-  banc_error()
-  fancorbanc_ids(ids, dataset='banc')
-}
-
+# Shared helper for fanc and banc ID resolution
 #' @importFrom dplyr pull
 fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
   if(is.null(ids)) return(NULL)
@@ -332,7 +217,7 @@ fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
   ids <- extract_ids(ids)
   if(is.character(ids) && length(ids)==1 && !fafbseg:::valid_id(ids)) {
     # query
-    metadf=if(dataset=="banc") banc_meta() else fanc_meta()
+    metadf=if(dataset=="banc") .banc_meta() else .fanc_meta()
     if(isTRUE(ids=='all')) return(fancr::fanc_ids(metadf$id, integer64 = F))
     if(isTRUE(ids=='neurons')) {
       ids <- metadf %>%
@@ -362,15 +247,5 @@ fancorbanc_ids <- function(ids, dataset=c("banc", "fanc")) {
     else
       fancr::with_fanc(fafbseg::flywire_latestid(ids, version = fanc_version()))
   }
-  return(fancr::fanc_ids(ids, integer64 = F))
-}
-
-banc_version <- function() {
-  fancr::with_banc(fanc_version())
-}
-
-fanc_version <- function() {
-  fcc=fancr::fanc_cave_client()
-  ver=fcc$materialize$version
-  ver
+  return(fancr::fanc_ids(ids, integer64 = FALSE))
 }

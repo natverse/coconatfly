@@ -50,7 +50,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
 
-  neuprint.chunksize=10000
+  neuprint.chunksize=10000L
 
   if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
@@ -75,51 +75,25 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres=NULL
     if(!is.null(MoreArgs[[n]])) checkmate::assert_list(MoreArgs[[n]], names = 'named')
 
-    PFUN=NULL
-    if(n %in% cf_datasets('external')) {
-      dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
-      PFUN=dsd[['partnerfun']]
-    }
+    dsd=coconat:::dataset_details(n, namespace = 'coconatfly')
+    PFUN=dsd[['partnerfun']]
+    if(is.null(PFUN))
+      stop("No partner function registered for dataset: ", n)
+
     # everyone needs these
     commonArgs=c(list(ids[[n]], partners = partners, threshold=threshold), MoreArgs[[n]])
-    tres <- if(!is.null(PFUN)) {
-      tres=do.call(PFUN, commonArgs)
-      if(is.null(tres) || ncol(tres)<3)
-        stop("External functions should return a table with at least 3 columns:\n",
-        "pre/post ids and weight with optional (partner) metadata!")
-      if(ncol(tres)==3 || (ncol(tres)<=5 && !"type" %in% names(tres))) {
-        # assume we need to fetch partner metadata
-        partner_col=grep("_id", colnames(tres), value = T)
-        if(!length(partner_col)==1)
-          partner_col=grep("^partner$", colnames(tres), value = T)
-        if(!length(partner_col)==1)
-          stop("Unable to find a unique partner column for dataset: ", n,
-               "\nExternal functions should return a table with bodyid and partner cols or query and pre/post_id")
-        pids=unique(tres[[partner_col]])
-        metadf=cf_meta(keys(data.frame(id=pids, dataset=n)))
-        metadf=metadf[setdiff(colnames(metadf), c("dataset","key"))]
-        colnames(metadf)[[1]]=partner_col
-        tres[[partner_col]]=coconat::id2char(tres[[partner_col]])
-        left_join(tres, metadf, by = partner_col)
-      } else tres
-    } else if(n=='flywire') {
-      # nb different threshold definition here
-      do.call(.flywire_partners, commonArgs)
-    } else if(n%in%c('hemibrain', 'opticlobe')) {
-      do.call(.neuprint_partners,
-              c(commonArgs, list( dataset=n, conn = npconn(n), chunk = neuprint.chunksize)))
-    } else if(n=='malecns') {
-      # different strategy as MoreArgs needs to be split into different dests
+
+    # Add chunk parameter for neuprint-based datasets
+    if(n %in% c('hemibrain', 'opticlobe', 'yakubavnc', 'manc')) {
+      commonArgs=c(commonArgs, list(chunk=neuprint.chunksize))
+    }
+
+    # malecns has a special signature (args, ma) for MoreArgs handling
+    tres <- if(n=='malecns') {
       .malecns_partners(commonArgs[1:3], ma = MoreArgs[[n]])
-    } else if (n=='fanc') {
-      do.call(.fanc_partners, commonArgs)
-    } else if (n=='banc') {
-      do.call(.banc_partners, commonArgs)
-    } else if(n=='manc') {
-      do.call(.manc_partners, c(commonArgs, chunk = neuprint.chunksize))
-    } else if(n == 'yakubavnc') {
-      do.call(.yakubavnc_partners, c(commonArgs, chunk = neuprint.chunksize))
-    } else stop("There is no partner function defined for dataset: ", n)
+    } else {
+      do.call(PFUN, commonArgs)
+    }
 
     tres=coconat:::standardise_partner_summary(tres)
     if(nrow(tres)>0) {
@@ -138,108 +112,6 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     attr(res, 'datasets')=names(ids)
     res
   } else res
-}
-
-.flywire_partners <- function(ids, partners, threshold, ...) {
-  tres=flywire_partner_summary2(ids, partners=partners, threshold = threshold-1L, ...)
-  tres <- tres %>%
-    mutate(side=toupper(substr(.data$side, 1, 1))) %>%
-    rename(class="super_class")
-}
-
-.neuprint_partners <- function(ids, partners, threshold, conn, dataset=NULL, ...) {
-
-  tres=neuprintr::neuprint_connection_table(ids, partners=partners,
-                                            conn=conn,
-                                            threshold=threshold,
-                                            details = TRUE, ...)
-  tres <- tres %>%
-    dplyr::mutate(
-      type=dplyr::case_when(
-        is.na(type) ~ paste0(abbreviate_datasets(dataset), partner),
-        T ~ type),
-      side=stringr::str_match(.data$name, '_([LR])$')[,2],
-      side=dplyr::case_when(
-        is.na(side) ~ 'R',
-        T ~ side))
-}
-
-.malecns_partners <- function(args, ma) {
-  # we need to send any extra arguments to the right function
-  fa1=methods::formalArgs(malecns::mcns_connection_table)[-1]
-  fa2=methods::formalArgs(malecns::mcns_predict_type)[-1]
-  ma1=ma[setdiff(names(ma), fa2)]
-  ma2=ma[setdiff(names(ma), names(ma1))]
-  tres=do.call(malecns::mcns_connection_table, c(args, ma1))
-  # nb the type information we care about here is for partners
-  tres2=tres %>%
-    dplyr::select("partner", "type", "name") %>%
-    dplyr::rename(bodyid=partner)
-
-  tres$type <- do.call(malecns::mcns_predict_type,
-                       c(list(ids=tres2), ma2))
-  # set the soma side either from manually reviewed data
-  tres <-  tres %>%
-    dplyr::mutate(side=dplyr::case_when(
-      !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ somaSide,
-      T ~ malecns::mcns_soma_side(., method = "instance")
-    )) |>
-    rename(class=superclass)
-}
-
-.fanc_partners <- function(ids, partners, threshold, ...) {
-  # FIXME allow end user to override fanc version
-  tres=fancr::fanc_partner_summary(ids,
-                                   partners = partners,
-                                   threshold = threshold-1L,
-                                   version=fanc_version(), ...)
-  partner_col=grep("_id", colnames(tres), value = T)
-  metadf=fanc_meta()
-  colnames(metadf)[[1]]=partner_col
-  tres=left_join(tres, metadf, by = partner_col)
-  tres
-}
-
-.banc_partners <- function(ids, partners, threshold, ...) {
-  banc_error()
-  tres=fancr::with_banc(fancr::fanc_partner_summary(ids,
-                                   partners = partners,
-                                   threshold = threshold-1L,
-                                   version=banc_version(), ...))
-  partner_col=grep("_id", colnames(tres), value = T)
-  metadf=banc_meta()
-  colnames(metadf)[[1]]=partner_col
-  tres=left_join(tres, metadf, by = partner_col)
-  tres
-}
-
-.manc_partners <- function(ids, partners, threshold, ...) {
-  tres <- malevnc::manc_connection_table(ids,partners = partners,
-                                 threshold=threshold, conn=npconn('manc'), ...)
-  tres <- tres %>%
-    mutate(side=dplyr::case_when(
-      !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
-      T ~ stringr::str_match(name, "_([LRM])$")[,2]
-    ))
-  tres
-}
-
-.yakubavnc_partners <- function(ids, partners, threshold,
-                                details = c("instance", "group", "type", "class", "somaSide", "rootSide"),
-                                ...) {
-  tres <- neuprintr::neuprint_connection_table(ids, partners = partners,
-                                 threshold=threshold,
-                                 details=details,
-                                 conn=npconn('yakubavnc'), ...)
-  if('somaSide' %in% colnames(tres)) {
-
-  tres <- tres %>%
-    mutate(side=dplyr::case_when(
-      !is.na(somaSide) & somaSide!='NA' & somaSide!='' ~ substr(somaSide,1,1),
-      T ~ stringr::str_match(name, "_([LRM])$")[,2]
-    ))
-  }
-  tres
 }
 
 # private function to match types across datasets
