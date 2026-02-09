@@ -68,6 +68,7 @@ test_that("extra datasets", {
   expect_equal(rhu <- cf_ids(1, datasets = 'rhubarb'), list(rhubarb=1), ignore_attr = TRUE)
   expect_equal(cf_ids(1, datasets = 'rhubar'), rhu)
   skip_if_not_installed('malecns')
+  skip_if_not_installed('bancr')
   expect_warning(
     expect_equal(length(cf_ids(1, datasets = c("brain", 'rhubar'))), 5L),
     "unable to map")
