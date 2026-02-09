@@ -95,6 +95,9 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
       do.call(PFUN, commonArgs)
     }
 
+    # Enrich with partner metadata if partnerfun returned minimal data
+    tres <- add_partner_metadata(tres, dataset = n, partners = partners)
+
     tres=coconat:::standardise_partner_summary(tres)
     if(nrow(tres)>0) {
       tres$dataset=n
@@ -255,4 +258,67 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
       inputcol = "query",
       outputcol = ifelse(partners=='outputs', group.post[1], group.pre[1]),
       standardise_input = F, sparse = rval=="sparse")
+}
+
+
+# Add metadata to partner results if the partnerfun returned minimal columns
+# This allows partnerfuns to return just ids + weight and have metadata added
+# automatically via cf_meta()
+add_partner_metadata <- function(tres, dataset, partners) {
+  if (is.null(tres) || !is.data.frame(tres) || nrow(tres) == 0) {
+    return(tres)
+  }
+
+  # Check if we need to fetch partner metadata:
+  # - 3 columns (pre_id, post_id, weight) always needs enrichment
+  # - <=5 columns without 'type' likely needs enrichment
+  needs_enrichment <- ncol(tres) == 3 ||
+    (ncol(tres) <= 5 && !"type" %in% names(tres))
+
+  if (!needs_enrichment) {
+    return(tres)
+  }
+
+  # Find the partner column based on query direction
+  # For outputs: partners are post_id; for inputs: partners are pre_id
+  partner_col <- if (partners == "outputs") "post_id" else "pre_id"
+
+  # Check if expected column exists, otherwise try to find it
+
+  if (!partner_col %in% colnames(tres)) {
+    # Fallback: look for a single *_id column or 'partner' column
+    id_cols <- grep("_id$", colnames(tres), value = TRUE)
+    if (length(id_cols) == 1) {
+      partner_col <- id_cols
+    } else {
+      partner_col <- grep("^partner$", colnames(tres), value = TRUE)
+    }
+  }
+
+  if (length(partner_col) != 1 || !partner_col %in% colnames(tres)) {
+    warning("Unable to find partner column for dataset: ", dataset,
+            "\nPartnerfuns should return pre_id/post_id columns or include metadata")
+    return(tres)
+  }
+
+  # Fetch metadata for unique partner IDs
+  pids <- unique(tres[[partner_col]])
+  # Convert to character for keys() and ensure dataset uses abbreviation
+  pids_char <- coconat::id2char(pids)
+  metadf <- cf_meta(keys(data.frame(id = pids_char, dataset = dataset)))
+
+  if (is.null(metadf) || nrow(metadf) == 0) {
+    return(tres)
+  }
+
+  # Remove columns that will be added by cf_partners later
+  metadf <- metadf[setdiff(colnames(metadf), c("dataset", "key"))]
+
+  # Rename id column to match partner column for joining
+  colnames(metadf)[1] <- partner_col
+
+  # Ensure partner column is character for joining
+  tres[[partner_col]] <- coconat::id2char(tres[[partner_col]])
+
+  dplyr::left_join(tres, metadf, by = partner_col)
 }

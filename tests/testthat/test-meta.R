@@ -36,13 +36,13 @@ test_that("fanc/banc ids/metadata", {
 
 test_that("extra datasets", {
   register_rhubarb()
-  expect_true(is.data.frame(df <- cf_meta(cf_ids(rhubarb=1:3))))
-  expect_equal(cf_meta(cf_ids(rhubarb=1)), df[1,,drop=FALSE])
+  expect_true(is.data.frame(df <- cf_meta(cf_ids(rhubarb=10001:10003))))
+  expect_equal(cf_meta(cf_ids(rhubarb=10001)), df[1,,drop=FALSE])
 
-  expect_true(is.data.frame(cf_meta(cf_ids(rhubarb=1, flywire='DNa02'))))
+  expect_true(is.data.frame(cf_meta(cf_ids(rhubarb=10001, flywire='DNa02'))))
 
   # badrhubarb has no idfun, so cf_ids errors when trying to expand (the new default)
-  expect_error(cf_ids(badrhubarb=1))
+  expect_error(cf_ids(badrhubarb=10001))
 })
 
 
