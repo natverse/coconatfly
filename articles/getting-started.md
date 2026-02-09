@@ -56,10 +56,10 @@ command.
 library(coconatfly)
 dr_coconatfly()
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/41qid57SR9_c68tOq11UN/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/SmBRTp1RXnBcn4OtyaoXs/bin/python'
 #> -m pip freeze' had status 1
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/41qid57SR9_c68tOq11UN/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/SmBRTp1RXnBcn4OtyaoXs/bin/python'
 #> -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
