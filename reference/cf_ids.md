@@ -9,7 +9,7 @@ cf_ids(
   query = NULL,
   datasets = c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
     "opticlobe", "banc", "yakubavnc"),
-  expand = FALSE,
+  expand = TRUE,
   keys = FALSE,
   hemibrain = NULL,
   flywire = NULL,
@@ -40,7 +40,7 @@ c(..., unique = TRUE)
 - expand:
 
   Whether to expand any queries into the matching ids (this will involve
-  one or more calls to corresponding servers). Default `FALSE`.
+  one or more calls to corresponding servers). Default `TRUE`.
 
 - keys:
 
@@ -138,21 +138,19 @@ Other ids: [`keys()`](https://natverse.org/coconatfly/reference/keys.md)
 ``` r
 # \donttest{
 cf_ids("DA2_lPN", datasets='brain')
-#> banc [1 ids]: DA2_lPN
-#> flywire [1 ids]: DA2_lPN
-#> hemibrain [1 ids]: DA2_lPN
-#> malecns [1 ids]: DA2_lPN
+#> Using malecns dataset `male-cns:v0.9`.
+#> See ?malecns section Package Options for details.
+#> Error: In expand_ids: Unable to process query for dataset: `banc`. Details:
+#> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` 
+#> TRUE
 # / introduces a regular expression
 cf_ids("/MBON.+", datasets='brain')
-#> banc [1 ids]: /MBON.+
-#> flywire [1 ids]: /MBON.+
-#> hemibrain [1 ids]: /MBON.+
-#> malecns [1 ids]: /MBON.+
+#> Error: In expand_ids: Unable to process query for dataset: `flywire`. Details:
+#> Error in flytable_cell_types(pattern = x, target = target, version = version, : Malformed regex query:`/MBON.+`! Should look like `/<field>:<regex`
+#> TRUE
 
 # expand query into actual ids
 cf_ids("/type:MBON.+", datasets='brain', expand=TRUE)
-#> Using malecns dataset `male-cns:v0.9`.
-#> See ?malecns section Package Options for details.
 #> Error: In expand_ids: Unable to process query for dataset: `banc`. Details:
 #> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` 
 #> TRUE

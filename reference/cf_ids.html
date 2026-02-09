@@ -44,7 +44,7 @@
 <span>  query <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"brain"</span>, <span class="st">"vnc"</span>, <span class="st">"hemibrain"</span>, <span class="st">"flywire"</span>, <span class="st">"malecns"</span>, <span class="st">"manc"</span>, <span class="st">"fanc"</span>,</span>
 <span>    <span class="st">"opticlobe"</span>, <span class="st">"banc"</span>, <span class="st">"yakubavnc"</span><span class="op">)</span>,</span>
-<span>  expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  expand <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  keys <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  hemibrain <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  flywire <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -76,7 +76,7 @@ should be applied.</p></dd>
 
 <dt id="arg-expand">expand<a class="anchor" aria-label="anchor" href="#arg-expand"></a></dt>
 <dd><p>Whether to expand any queries into the matching ids (this will
-involve one or more calls to corresponding servers). Default <code>FALSE</code>.</p></dd>
+involve one or more calls to corresponding servers). Default <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-keys">keys<a class="anchor" aria-label="anchor" href="#arg-keys"></a></dt>
@@ -174,21 +174,19 @@ with <code>c.cidlist</code></p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"DA2_lPN"</span>, datasets<span class="op">=</span><span class="st">'brain'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[1 ids]</span>: DA2_lPN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">flywire</span> <span style="color: #555555;">[1 ids]</span>: DA2_lPN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[1 ids]</span>: DA2_lPN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">malecns</span> <span style="color: #555555;">[1 ids]</span>: DA2_lPN</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using malecns dataset `male-cns:v0.9`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> See ?malecns section Package Options for details.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>
 <span class="r-in"><span><span class="co"># / introduces a regular expression</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">banc</span> <span style="color: #555555;">[1 ids]</span>: /MBON.+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">flywire</span> <span style="color: #555555;">[1 ids]</span>: /MBON.+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hemibrain</span> <span style="color: #555555;">[1 ids]</span>: /MBON.+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">malecns</span> <span style="color: #555555;">[1 ids]</span>: /MBON.+</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `flywire`. Details:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Error in flytable_cell_types(pattern = x, target = target, version = version, : Malformed regex query:`/MBON.+`! Should look like `/&lt;field&gt;:&lt;regex`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># expand query into actual ids</span></span></span>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"/type:MBON.+"</span>, datasets<span class="op">=</span><span class="st">'brain'</span>, expand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Using malecns dataset `male-cns:v0.9`.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> See ?malecns section Package Options for details.</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>

@@ -99,6 +99,7 @@ partners or output partners but not both.
 # AOTU063 should be separated into two subtypes.
 # Very clear based on output clustering and also some small morphological differences.
 triple_cosine_plot('AOTU063', partners = 'o')
+#> Warning: No matching ids when querying dataset:flywire
 #> Error in add_celltype_info(res, idcol = partner_col, version = version): Expect either character or integer64 ids!
 
 # LAL074/LAL084 are the same type.
