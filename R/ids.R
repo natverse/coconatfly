@@ -113,7 +113,7 @@ is_key <- function(x, compound=FALSE) {
 #' @param datasets Character vector naming datasets to which the \code{query}
 #'   should be applied.
 #' @param expand Whether to expand any queries into the matching ids (this will
-#'   involve one or more calls to corresponding servers). Default \code{FALSE}.
+#'   involve one or more calls to corresponding servers). Default \code{TRUE}.
 #' @param keys Whether to turn the ids into keys \code{hb:12345} right away.
 #'   Default \code{FALSE} but you may find this useful e.g. for combining lists
 #'   of neurons (see examples).
@@ -187,7 +187,7 @@ cf_ids <- function(
     query=NULL,
     datasets=c("brain", "vnc", "hemibrain", "flywire", "malecns", "manc", "fanc",
                "opticlobe", "banc", "yakubavnc"),
-    expand=FALSE,
+    expand=TRUE,
     keys=FALSE,
     hemibrain=NULL, flywire=NULL, malecns=NULL, manc=NULL, fanc=NULL,
     opticlobe=NULL, banc=NULL, yakubavnc=NULL, ...) {
@@ -235,6 +235,7 @@ cf_ids <- function(
   }
   res=res[sort(names(res))]
   class(res)=union('cidlist', class(res))
+  attr(res, 'expanded') <- isTRUE(expand) || isTRUE(keys)
   if(isTRUE(keys)) keys(res) else res
 }
 
@@ -254,8 +255,8 @@ c.cidlist <- function(..., unique=TRUE) {
   apl=list(...)
   apl=apl[lengths(apl)>0]
   if(length(apl)<1) return(list())
-  # expand all of them
-  apl=lapply(apl, expand_ids)
+  # check all inputs are expanded
+  lapply(apl, check_expanded)
   nn=unique(unlist(sapply(apl, names), use.names = F))
   res=list()
   for(n in sort(nn)) {
@@ -264,6 +265,7 @@ c.cidlist <- function(..., unique=TRUE) {
     res[[n]]=ul
   }
   class(res)=union('cidlist', class(res))
+  attr(res, 'expanded') <- TRUE
   res
 }
 
@@ -288,25 +290,10 @@ print.cidlist <- function(x, ..., truncate=10) {
 # private function to select an ids function for a dataset
 get_id_fun <- function(dataset) {
   dataset=match_datasets(dataset)
-  FUN <- NULL
-  if(dataset %in% cf_datasets('external')) {
-    dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
-    FUN=dsd[['idfun']]
-  }
-  if(is.null(FUN) && dataset %in% cf_datasets('builtin')) {
-    FUN <- switch(
-      dataset,
-      manc=function(ids) malevnc::manc_ids(ids, mustWork = F, conn = npconn('manc')),
-      fanc=fanc_ids,
-      malecns=function(ids) malecns::mcns_ids(ids, mustWork = F),
-      banc=banc_ids,
-      flywire=function(ids) fafbseg::flywire_ids(
-        ids,
-        version=fafbseg::flywire_connectome_data_version()),
-      function(ids) neuprintr::neuprint_ids(ids, conn=npconn(dataset), mustWork = F))
-  }
+  dsd=coconat:::dataset_details(dataset, namespace = 'coconatfly')
+  FUN=dsd[['idfun']]
   if(is.null(FUN))
-    stop("No id function for dataset ", dataset)
+    stop("No id function registered for dataset: ", dataset)
   FUN
 }
 
@@ -328,6 +315,33 @@ expand_ids <- function(ids, dataset) {
             call.=FALSE, immediate. = TRUE)
     NULL
   })
+}
+
+# Check that IDs have been expanded (queries resolved to numeric IDs)
+# This ensures all query resolution goes through cf_ids
+check_expanded <- function(ids) {
+  # If it's a cidlist, check the expanded attribute
+  if(inherits(ids, 'cidlist')) {
+    expanded <- attr(ids, 'expanded')
+    if(isTRUE(expanded)) return(invisible(TRUE))
+    if(isFALSE(expanded)) {
+      stop("IDs contain unexpanded queries. Please use cf_ids(..., expand=TRUE) ",
+           "before passing to cf_partners/cf_meta.", call. = FALSE)
+    }
+  }
+  # For raw lists or cidlists without the attribute, check if any values look like queries
+  for(n in names(ids)) {
+    vals <- ids[[n]]
+    # Numeric or integer64 values are OK
+    if(is.numeric(vals) || bit64::is.integer64(vals)) next
+    # Character values that are valid IDs are OK
+    if(is.character(vals) && all(fafbseg:::valid_id(vals, na.ok = TRUE))) next
+    # Otherwise it's probably a query string
+    stop("IDs for dataset '", n, "' contain unexpanded queries. ",
+         "Please use cf_ids(..., expand=TRUE) before passing to cf_partners/cf_meta.",
+         call. = FALSE)
+  }
+  invisible(TRUE)
 }
 
 
