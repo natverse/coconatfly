@@ -19,10 +19,28 @@ match_datasets <- function(ds) {
   res=pmatch(ds, table = dss, nomatch = 0L, duplicates.ok=TRUE)
   missing_ds=ds[res==0]
   if(length(missing_ds)>0) {
-    stop("unable to match dataset(s): ",
-         paste(paste0('`',missing_ds,'`'), collapse = ','),
-         "\n  to any of the supported datasets:\n    ",
-         paste(dss, collapse = ', '))
+    # Try approximate matching for each missing dataset
+    suggestions <- vapply(missing_ds, function(m) {
+      distances <- adist(m, dss, ignore.case = TRUE)
+      closest_idx <- which.min(distances)
+      min_dist <- distances[closest_idx]
+      if (min_dist <= 3) {
+        paste0("Did you mean '", dss[closest_idx], "'?")
+      } else {
+        ""
+      }
+    }, character(1))
+
+    suggestion_text <- suggestions[nzchar(suggestions)]
+    suggestion_msg <- if(length(suggestion_text) > 0) {
+      paste0(" ", paste(suggestion_text, collapse = " "))
+    } else ""
+
+    stop("Unknown dataset: ", paste(paste0("'", missing_ds, "'"), collapse = ", "),
+         ".", suggestion_msg,
+         "\nAvailable datasets: ", paste(dss, collapse = ", "),
+         "\nNote: Additional datasets may need to be registered manually. ",
+         "See ?coconat::register_dataset", call. = FALSE)
   }
   dss[res]
 }
