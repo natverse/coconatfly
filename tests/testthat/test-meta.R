@@ -1,3 +1,23 @@
+test_that("use_superclass renames columns correctly", {
+  meta <- cf_meta(cf_ids(hemibrain = "MBON01"))
+  expect_true("class" %in% colnames(meta))
+  expect_true("subclass" %in% colnames(meta))
+
+  meta_super <- cf_meta(cf_ids(hemibrain = "MBON01"), use_superclass = TRUE)
+  expect_true("superclass" %in% colnames(meta_super))
+  expect_true("class" %in% colnames(meta_super))
+  expect_false("subsubclass" %in% colnames(meta_super))
+})
+
+test_that("coconatfly.use_superclass option works", {
+  old_opt <- getOption("coconatfly.use_superclass")
+  on.exit(options(coconatfly.use_superclass = old_opt))
+
+  options(coconatfly.use_superclass = TRUE)
+  meta <- cf_meta(cf_ids(hemibrain = "MBON01"))
+  expect_true("superclass" %in% colnames(meta))
+})
+
 test_that("metadata", {
 
   expect_warning(

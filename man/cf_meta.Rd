@@ -9,6 +9,7 @@ cf_meta(
   bind.rows = TRUE,
   integer64 = FALSE,
   keep.all = FALSE,
+  use_superclass = getOption("coconatfly.use_superclass", FALSE),
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 }
@@ -28,6 +29,10 @@ extension package.)}
 \item{keep.all}{Whether to keep all columns when processing multiple datasets
 rather than just those in common (default=\code{FALSE} only keeps shared
 columns).}
+
+\item{use_superclass}{If \code{TRUE}, rename class/subclass/subsubclass
+columns to superclass/class/subclass. Can also be set via the
+\code{coconatfly.use_superclass} option.}
 
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
 for a given function. See details.}

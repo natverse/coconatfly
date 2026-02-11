@@ -10,7 +10,8 @@ cf_partners(
   partners = c("inputs", "outputs"),
   bind.rows = TRUE,
   MoreArgs = list(),
-  keep.all = FALSE
+  keep.all = FALSE,
+  use_superclass = getOption("coconatfly.use_superclass", FALSE)
 )
 }
 \arguments{

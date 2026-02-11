@@ -45,7 +45,8 @@
 #'   MoreArgs = list(malecns=list(prefer.foreign=TRUE))
 #' }
 cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
-                        bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE) {
+                        bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE,
+                        use_superclass=getOption("coconatfly.use_superclass", FALSE)) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
@@ -57,7 +58,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   if(is.data.frame(ids)) {
     ss=split(ids$id, ids$dataset)
     res=cf_partners(ss, threshold = threshold, partners = partners,
-                    bind.rows = bind.rows, MoreArgs=MoreArgs)
+                    bind.rows = bind.rows, MoreArgs=MoreArgs,
+                    use_superclass=use_superclass)
     return(res)
   }
 
@@ -113,8 +115,11 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     res=bind_rows2(res, keep.all = keep.all)
     # record the datasets we tried to find
     attr(res, 'datasets')=names(ids)
-    res
-  } else res
+  }
+  if (isTRUE(use_superclass)) {
+    res <- rename_to_superclass(res)
+  }
+  res
 }
 
 # private function to match types across datasets
@@ -202,7 +207,8 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
                                aggregate.query=TRUE, normalise=FALSE,
                                group='type',
                                rval=c("data.frame", "sparse", "matrix"),
-                               MoreArgs=list()) {
+                               MoreArgs=list(),
+                               use_superclass=getOption("coconatfly.use_superclass", FALSE)) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
   rval=match.arg(rval)
@@ -251,8 +257,12 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     pp2 <- pp2 %>% group_by(query) %>% mutate(weight=weight/sum(weight)) %>% ungroup()
   }
 
-  if(rval=='data.frame')
+  if(rval=='data.frame') {
+    if (isTRUE(use_superclass)) {
+      pp2 <- rename_to_superclass(pp2)
+    }
     return(pp2)
+  }
   pp2 %>%
     coconat::partner_summary2adjacency_matrix(
       inputcol = "query",

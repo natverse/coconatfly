@@ -12,7 +12,8 @@ cf_partner_summary(
   normalise = FALSE,
   group = "type",
   rval = c("data.frame", "sparse", "matrix"),
-  MoreArgs = list()
+  MoreArgs = list(),
+  use_superclass = getOption("coconatfly.use_superclass", FALSE)
 )
 }
 \arguments{

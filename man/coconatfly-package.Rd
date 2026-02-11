@@ -8,6 +8,17 @@
 \description{
 Experimental package to enable comparative connectomics analysis of multiple Drosophila connectomics datasets, including some private ones still under development.
 }
+\section{Package Options}{
+
+\describe{
+  \item{\code{coconatfly.use_superclass}}{Logical. If \code{TRUE}, rename
+  class/subclass/subsubclass columns to superclass/class/subclass in
+  \code{\link{cf_meta}}, \code{\link{cf_partners}}, and
+  \code{\link{cf_partner_summary}}. Default: \code{FALSE}.
+  Set with \code{options(coconatfly.use_superclass = TRUE)}.}
+}
+}
+
 \seealso{
 Useful links:
 \itemize{
