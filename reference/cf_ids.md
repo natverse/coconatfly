@@ -140,6 +140,9 @@ Other ids: [`keys()`](https://natverse.org/coconatfly/reference/keys.md)
 cf_ids("DA2_lPN", datasets='brain')
 #> Using malecns dataset `male-cns:v0.9`.
 #> See ?malecns section Package Options for details.
+#> For high-quality h5 bridging registrations (malecns <-> JRC2018U),
+#> run mcns_download_xforms2() once to download, then
+#> mcns_register_xforms2() once per session to activate.
 #> Error: In expand_ids: Unable to process query for dataset: `banc`. Details:
 #> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` 
 #> TRUE

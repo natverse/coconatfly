@@ -13,7 +13,8 @@ cf_partner_summary(
   normalise = FALSE,
   group = "type",
   rval = c("data.frame", "sparse", "matrix"),
-  MoreArgs = list()
+  MoreArgs = list(),
+  use_superclass = getOption("coconatfly.use_superclass", FALSE)
 )
 ```
 
@@ -60,6 +61,12 @@ cf_partner_summary(
 
   Additional arguments in the form of a hierarchical list (expert use;
   see details and examples).
+
+- use_superclass:
+
+  If `TRUE`, rename class/subclass/subsubclass columns to
+  superclass/class/subclass. Can also be set via the
+  `coconatfly.use_superclass` option.
 
 ## Value
 

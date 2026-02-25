@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>coconatfly: Comparative Connectomics of Public and In Progress Drosophila Datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/coconatfly-package.R" class="external-link"><code>R/coconatfly-package.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/use-superclass/R/coconatfly-package.R" class="external-link"><code>R/coconatfly-package.R</code></a></small>
       <div class="d-none name"><code>coconatfly-package.Rd</code></div>
     </div>
 
@@ -39,6 +39,19 @@
     </div>
 
 
+    <div class="section level2">
+    <h2 id="package-options">Package Options<a class="anchor" aria-label="anchor" href="#package-options"></a></h2>
+
+
+<dl><dt><code>coconatfly.use_superclass</code></dt>
+<dd><p>Logical. If <code>TRUE</code>, rename
+  class/subclass/subsubclass columns to superclass/class/subclass in
+  <code><a href="cf_meta.html">cf_meta</a></code>, <code><a href="cf_partners.html">cf_partners</a></code>, and
+  <code><a href="cf_partner_summary.html">cf_partner_summary</a></code>. Default: <code>FALSE</code>.
+  Set with <code>options(coconatfly.use_superclass = TRUE)</code>.</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://github.com/natverse/coconatfly" class="external-link">https://github.com/natverse/coconatfly</a></p></li>

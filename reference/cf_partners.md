@@ -11,7 +11,8 @@ cf_partners(
   partners = c("inputs", "outputs"),
   bind.rows = TRUE,
   MoreArgs = list(),
-  keep.all = FALSE
+  keep.all = FALSE,
+  use_superclass = getOption("coconatfly.use_superclass", FALSE)
 )
 ```
 
@@ -49,6 +50,12 @@ cf_partners(
   Whether to keep all columns when processing multiple datasets rather
   than just those in common (default=`FALSE` only keeps shared columns).
 
+- use_superclass:
+
+  If `TRUE`, rename class/subclass/subsubclass columns to
+  superclass/class/subclass. Can also be set via the
+  `coconatfly.use_superclass` option.
+
 ## Value
 
 A data.frame or a named list (when `bind.rows=FALSE`)
@@ -61,8 +68,8 @@ relationship.
 
 `MoreArgs` is structured as a list with a top layer naming datasets
 (using the same long names as
-[`cf_ids`](https://natverse.org/coconatfly/reference/cf_ids.md). The
-second (lower) layer names the arguments that will be passed to
+[`cf_datasets`](https://natverse.org/coconatfly/reference/cf_datasets.md).
+The second (lower) layer names the arguments that will be passed to
 dataset-specific functions such as
 [`fafbseg::flywire_partner_summary2`](https://rdrr.io/pkg/fafbseg/man/flywire_partner_summary2.html)
 and

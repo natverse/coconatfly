@@ -10,6 +10,7 @@ cf_meta(
   bind.rows = TRUE,
   integer64 = FALSE,
   keep.all = FALSE,
+  use_superclass = getOption("coconatfly.use_superclass", FALSE),
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 ```
@@ -40,6 +41,12 @@ cf_meta(
   Whether to keep all columns when processing multiple datasets rather
   than just those in common (default=`FALSE` only keeps shared columns).
 
+- use_superclass:
+
+  If `TRUE`, rename class/subclass/subsubclass columns to
+  superclass/class/subclass. Can also be set via the
+  `coconatfly.use_superclass` option.
+
 - MoreArgs:
 
   A named list of arguments to be passed when fetching metadata for a
@@ -47,8 +54,11 @@ cf_meta(
 
 ## Details
 
-`MoreArgs` should be list named by the standard dataset names (e.g. as
-returned by `cf_datasets`.
+`MoreArgs` is structured as a list with a top layer naming datasets
+(using the same long names as
+[`cf_datasets`](https://natverse.org/coconatfly/reference/cf_datasets.md).
+The second (lower) layer names the arguments that will be passed to
+dataset-specific functions.
 
 ## See also
 

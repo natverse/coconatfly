@@ -33,9 +33,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="neuron-ids">Neuron IDs<a class="anchor" aria-label="anchor" href="#neuron-ids"></a></h2>
 
-
+      <div class="section-desc"><p>Functions for specifying and manipulating neuron IDs across datasets</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -44,20 +44,6 @@
 
       <dl><dt>
 
-          <code><a href="abbreviate_datasets.html">abbreviate_datasets()</a></code>
-
-        </dt>
-        <dd>Abbreviate fly connectomics dataset names</dd>
-
-        <dt>
-
-          <code><a href="cf_cosine_plot.html">cf_cosine_plot()</a></code> <code><a href="cf_cosine_plot.html">multi_connection_table()</a></code>
-
-        </dt>
-        <dd>Multi dataset cosine clustering</dd>
-
-        <dt>
-
           <code><a href="cf_ids.html">cf_ids()</a></code> <code><a href="cf_ids.html">c(<i>&lt;cidlist&gt;</i>)</a></code>
 
         </dt>
@@ -65,17 +51,26 @@
 
         <dt>
 
+          <code><a href="keys.html">keys()</a></code> <code><a href="keys.html">keys2df()</a></code> <code><a href="keys.html">keys2list()</a></code>
+
+        </dt>
+        <dd>Interconvert between keys and ids/datasets</dd>
+      </dl></div><div class="section level2">
+      <h2 id="metadata-and-connectivity">Metadata and connectivity<a class="anchor" aria-label="anchor" href="#metadata-and-connectivity"></a></h2>
+
+      <div class="section-desc"><p>Fetch neuron metadata and synaptic partner information</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
           <code><a href="cf_meta.html">cf_meta()</a></code>
 
         </dt>
         <dd>Fetch metadata for neurons from connectome datasets</dd>
-
-        <dt>
-
-          <code><a href="cf_partner_summary.html">cf_partner_summary()</a></code>
-
-        </dt>
-        <dd>Summarise the connectivity of a set of neurons grouping by type</dd>
 
         <dt>
 
@@ -86,24 +81,33 @@
 
         <dt>
 
-          <code><a href="dr_coconatfly.html">dr_coconatfly()</a></code>
+          <code><a href="cf_partner_summary.html">cf_partner_summary()</a></code>
 
         </dt>
-        <dd>Status report for coconatfly installation</dd>
+        <dd>Summarise the connectivity of a set of neurons grouping by type</dd>
 
         <dt>
 
-          <code><a href="keys.html">keys()</a></code> <code><a href="keys.html">keys2df()</a></code> <code><a href="keys.html">keys2list()</a></code>
+          <code><a href="cf_cosine_plot.html">cf_cosine_plot()</a></code> <code><a href="cf_cosine_plot.html">multi_connection_table()</a></code>
 
         </dt>
-        <dd>Interconvert between keys and ids/datasets</dd>
+        <dd>Multi dataset cosine clustering</dd>
+      </dl></div><div class="section level2">
+      <h2 id="visualisation">Visualisation<a class="anchor" aria-label="anchor" href="#visualisation"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Plot and visualise connectivity data</p></div>
 
-          <code><a href="register_flywire2.html">register_flywire2()</a></code>
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cf_cosine_plot.html">cf_cosine_plot()</a></code> <code><a href="cf_cosine_plot.html">multi_connection_table()</a></code>
 
         </dt>
-        <dd>Use FlyWire v2 (Princeton) synapses as an extra dataset with coconatfly</dd>
+        <dd>Multi dataset cosine clustering</dd>
 
         <dt>
 
@@ -111,8 +115,46 @@
 
         </dt>
         <dd>Cosine cluster across hemibrain and flywire</dd>
+      </dl></div><div class="section level2">
+      <h2 id="datasets-and-setup">Datasets and setup<a class="anchor" aria-label="anchor" href="#datasets-and-setup"></a></h2>
+
+      <div class="section-desc"><p>List, abbreviate, and register connectome datasets</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cf_datasets.html">cf_datasets()</a></code>
+
+        </dt>
+        <dd>List connectomics datasets known to coconatfly</dd>
+
+        <dt>
+
+          <code><a href="abbreviate_datasets.html">abbreviate_datasets()</a></code>
+
+        </dt>
+        <dd>Abbreviate fly connectomics dataset names</dd>
+
+        <dt>
+
+          <code><a href="dr_coconatfly.html">dr_coconatfly()</a></code>
+
+        </dt>
+        <dd>Status report for coconatfly installation</dd>
+
+        <dt>
+
+          <code><a href="register_flywire2.html">register_flywire2()</a></code>
+
+        </dt>
+        <dd>Use FlyWire v2 (Princeton) synapses as an extra dataset with coconatfly</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

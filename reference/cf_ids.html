@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Specify ids for fly connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/use-superclass/R/ids.R" class="external-link"><code>R/ids.R</code></a></small>
       <div class="d-none name"><code>cf_ids.Rd</code></div>
     </div>
 
@@ -176,6 +176,9 @@ with <code>c.cidlist</code></p></dd>
 <span class="r-in"><span><span class="fu">cf_ids</span><span class="op">(</span><span class="st">"DA2_lPN"</span>, datasets<span class="op">=</span><span class="st">'brain'</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using malecns dataset `male-cns:v0.9`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> See ?malecns section Package Options for details.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> For high-quality h5 bridging registrations (malecns &lt;-&gt; JRC2018U),</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> run mcns_download_xforms2() once to download, then</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> mcns_register_xforms2() once per session to activate.</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> In expand_ids: Unable to process query for dataset: `banc`. Details:</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> Error: To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> TRUE</span>

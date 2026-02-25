@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Flexible function for fetching partner data across datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/partners.R" class="external-link"><code>R/partners.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/use-superclass/R/partners.R" class="external-link"><code>R/partners.R</code></a></small>
       <div class="d-none name"><code>cf_partners.Rd</code></div>
     </div>
 
@@ -46,7 +46,8 @@
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inputs"</span>, <span class="st">"outputs"</span><span class="op">)</span>,</span>
 <span>  bind.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  MoreArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  use_superclass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.use_superclass"</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,6 +86,12 @@ note that some columns will be dropped by unless <code>keep.all=TRUE</code>).</p
 rather than just those in common (default=<code>FALSE</code> only keeps shared
 columns).</p></dd>
 
+
+<dt id="arg-use-superclass">use_superclass<a class="anchor" aria-label="anchor" href="#arg-use-superclass"></a></dt>
+<dd><p>If <code>TRUE</code>, rename class/subclass/subsubclass
+columns to superclass/class/subclass. Can also be set via the
+<code>coconatfly.use_superclass</code> option.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -96,7 +103,7 @@ columns).</p></dd>
   relationship for the threshold, but here (as of May 2024) it is uniformly a
   <code>&gt;=</code> relationship.</p>
 <p><code>MoreArgs</code> is structured as a list with a top layer naming datasets
-  (using the same long names as <code><a href="cf_ids.html">cf_ids</a></code>. The second (lower)
+  (using the same long names as <code><a href="cf_datasets.html">cf_datasets</a></code>. The second (lower)
   layer names the arguments that will be passed to dataset-specific functions
   such as <code><a href="https://rdrr.io/pkg/fafbseg/man/flywire_partner_summary2.html" class="external-link">fafbseg::flywire_partner_summary2</a></code> and
   <code><a href="https://natverse.org/malevnc/reference/manc_connection_table.html" class="external-link">malevnc::manc_connection_table</a></code>.</p>
