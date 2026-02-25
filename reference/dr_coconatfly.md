@@ -19,8 +19,8 @@ A dataframe containing status information for connectome datasets
 # \donttest{
 dr_coconatfly()
 #> # Dataset details
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1QIyz11oFz4J3z2M9sifu/bin/python' -m pip freeze' had status 1
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1QIyz11oFz4J3z2M9sifu/bin/python' -m pip freeze' had status 1
+#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python' -m pip freeze' had status 1
+#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python' -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
 #> 2      manc      TRUE
