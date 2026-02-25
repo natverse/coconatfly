@@ -41,8 +41,9 @@ for a given function. See details.}
 Fetch metadata for neurons from connectome datasets
 }
 \details{
-\code{MoreArgs} should be list named by the standard dataset names
-  (e.g. as returned by \code{cf_datasets}.
+\code{MoreArgs} is structured as a list with a top layer naming datasets
+  (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+  layer names the arguments that will be passed to dataset-specific functions.
 }
 \examples{
 \donttest{

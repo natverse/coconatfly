@@ -5,26 +5,18 @@
 #'   \code{>=} relationship.
 #'
 #'   \code{MoreArgs} is structured as a list with a top layer naming datasets
-#'   (using the same long names as \code{\link{cf_ids}}. The second (lower)
+#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
 #'   layer names the arguments that will be passed to dataset-specific functions
 #'   such as \code{fafbseg::flywire_partner_summary2} and
 #'   \code{malevnc::manc_connection_table}.
 #'
-#' @param ids A list of ids named by the relevant datasets (see examples) or any
-#'   other input that can be processed by the \code{\link{keys}} function
-#'   (including a \code{hclust} dendrogram object.)
 #' @param threshold return only edges with at least this many matches. 0 is an
 #'   option since neuprint sometimes returns 0 weight edges.
 #' @param partners Whether to return inputs or outputs
-#' @param bind.rows Whether to bind data.frames for each dataset together,
-#'   keeping only the common columns (default \code{TRUE} for convenience but
-#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
-#' @param keep.all Whether to keep all columns when processing multiple datasets
-#'   rather than just those in common (default=\code{FALSE} only keeps shared
-#'   columns).
 #' @param MoreArgs Additional arguments in the form of a hierarchical list
 #'   (expert use; see details and examples).
 #'
+#' @inheritParams cf_meta
 #' @return A data.frame or a named list (when \code{bind.rows=FALSE})
 #' @export
 #' @examples

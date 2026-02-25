@@ -68,9 +68,13 @@ rename_to_superclass <- function(df) {
 
 #' Fetch metadata for neurons from connectome datasets
 #'
-#' @details \code{MoreArgs} should be list named by the standard dataset names
-#'   (e.g. as returned by \code{cf_datasets}.
+#' @details \code{MoreArgs} is structured as a list with a top layer naming datasets
+#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+#'   layer names the arguments that will be passed to dataset-specific functions.
 #'
+#' @param ids A list of ids named by the relevant datasets (see examples) or any
+#'   other input that can be processed by the \code{\link{keys}} function
+#'   (including a \code{hclust} dendrogram object.)
 #' @param integer64 Whether ids should be character vectors (default) or 64 bit
 #'   ints (more compact but a little fragile as they rely on the \code{bit64}
 #'   extension package.)
@@ -79,7 +83,12 @@ rename_to_superclass <- function(df) {
 #' @param use_superclass If \code{TRUE}, rename class/subclass/subsubclass
 #'   columns to superclass/class/subclass. Can also be set via the
 #'   \code{coconatfly.use_superclass} option.
-#' @inheritParams cf_partners
+#' @param bind.rows Whether to bind data.frames for each dataset together,
+#'   keeping only the common columns (default \code{TRUE} for convenience but
+#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
+#' @param keep.all Whether to keep all columns when processing multiple datasets
+#'   rather than just those in common (default=\code{FALSE} only keeps shared
+#'   columns).
 #'
 #' @importFrom dplyr mutate rename rename_with select case_when any_of
 #' @importFrom fafbseg flywire_ids

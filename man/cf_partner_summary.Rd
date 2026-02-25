@@ -42,6 +42,10 @@ other options could be useful e.g. class or group.}
 
 \item{MoreArgs}{Additional arguments in the form of a hierarchical list
 (expert use; see details and examples).}
+
+\item{use_superclass}{If \code{TRUE}, rename class/subclass/subsubclass
+columns to superclass/class/subclass. Can also be set via the
+\code{coconatfly.use_superclass} option.}
 }
 \value{
 a data.frame or (sparse) matrix based on \code{rval}. The column

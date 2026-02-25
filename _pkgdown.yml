@@ -2,6 +2,34 @@ url: https://natverse.org/coconatfly/
 template:
   bootstrap: 5
 
+reference:
+- title: Neuron IDs
+  desc: Functions for specifying and manipulating neuron IDs across datasets
+  contents:
+  - cf_ids
+  - keys
+  - keys2df
+  - keys2list
+- title: Metadata and connectivity
+  desc: Fetch neuron metadata and synaptic partner information
+  contents:
+  - cf_meta
+  - cf_partners
+  - cf_partner_summary
+  - multi_connection_table
+- title: Visualisation
+  desc: Plot and visualise connectivity data
+  contents:
+  - cf_cosine_plot
+  - triple_cosine_plot
+- title: Datasets and setup
+  desc: List, abbreviate, and register connectome datasets
+  contents:
+  - cf_datasets
+  - abbreviate_datasets
+  - dr_coconatfly
+  - register_flywire2
+
 articles:
 - title: All vignettes
   contents:
