@@ -5,26 +5,18 @@
 #'   \code{>=} relationship.
 #'
 #'   \code{MoreArgs} is structured as a list with a top layer naming datasets
-#'   (using the same long names as \code{\link{cf_ids}}. The second (lower)
+#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
 #'   layer names the arguments that will be passed to dataset-specific functions
 #'   such as \code{fafbseg::flywire_partner_summary2} and
 #'   \code{malevnc::manc_connection_table}.
 #'
-#' @param ids A list of ids named by the relevant datasets (see examples) or any
-#'   other input that can be processed by the \code{\link{keys}} function
-#'   (including a \code{hclust} dendrogram object.)
 #' @param threshold return only edges with at least this many matches. 0 is an
 #'   option since neuprint sometimes returns 0 weight edges.
 #' @param partners Whether to return inputs or outputs
-#' @param bind.rows Whether to bind data.frames for each dataset together,
-#'   keeping only the common columns (default \code{TRUE} for convenience but
-#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
-#' @param keep.all Whether to keep all columns when processing multiple datasets
-#'   rather than just those in common (default=\code{FALSE} only keeps shared
-#'   columns).
 #' @param MoreArgs Additional arguments in the form of a hierarchical list
 #'   (expert use; see details and examples).
 #'
+#' @inheritParams cf_meta
 #' @return A data.frame or a named list (when \code{bind.rows=FALSE})
 #' @export
 #' @examples
@@ -45,7 +37,8 @@
 #'   MoreArgs = list(malecns=list(prefer.foreign=TRUE))
 #' }
 cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
-                        bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE) {
+                        bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE,
+                        use_superclass=getOption("coconatfly.use_superclass", FALSE)) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
@@ -57,7 +50,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
   if(is.data.frame(ids)) {
     ss=split(ids$id, ids$dataset)
     res=cf_partners(ss, threshold = threshold, partners = partners,
-                    bind.rows = bind.rows, MoreArgs=MoreArgs)
+                    bind.rows = bind.rows, MoreArgs=MoreArgs,
+                    use_superclass=use_superclass)
     return(res)
   }
 
@@ -113,8 +107,11 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     res=bind_rows2(res, keep.all = keep.all)
     # record the datasets we tried to find
     attr(res, 'datasets')=names(ids)
-    res
-  } else res
+  }
+  if (isTRUE(use_superclass)) {
+    res <- rename_to_superclass(res)
+  }
+  res
 }
 
 # private function to match types across datasets
@@ -202,7 +199,8 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
                                aggregate.query=TRUE, normalise=FALSE,
                                group='type',
                                rval=c("data.frame", "sparse", "matrix"),
-                               MoreArgs=list()) {
+                               MoreArgs=list(),
+                               use_superclass=getOption("coconatfly.use_superclass", FALSE)) {
   # ids=expand_ids(ids)
   partners=match.arg(partners)
   rval=match.arg(rval)
@@ -251,8 +249,12 @@ cf_partner_summary <- function(ids, threshold=1L, partners=c("inputs", "outputs"
     pp2 <- pp2 %>% group_by(query) %>% mutate(weight=weight/sum(weight)) %>% ungroup()
   }
 
-  if(rval=='data.frame')
+  if(rval=='data.frame') {
+    if (isTRUE(use_superclass)) {
+      pp2 <- rename_to_superclass(pp2)
+    }
     return(pp2)
+  }
   pp2 %>%
     coconat::partner_summary2adjacency_matrix(
       inputcol = "query",

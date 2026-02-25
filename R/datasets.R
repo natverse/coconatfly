@@ -1,3 +1,20 @@
+#' List connectomics datasets known to coconatfly
+#'
+#' @param rval Character string specifying which datasets to return. One of:
+#'   \itemize{
+#'     \item \code{"all"} (default) all known datasets (builtin + externally
+#'       registered)
+#'     \item \code{"builtin"} only the datasets hardcoded into the package
+#'     \item \code{"external"} only datasets registered via the
+#'       \code{\link[coconat]{register_dataset}} mechanism
+#'   }
+#'
+#' @return A character vector of dataset names.
+#' @export
+#' @seealso \code{\link{abbreviate_datasets}}, \code{\link{cf_ids}}
+#' @examples
+#' cf_datasets()
+#' cf_datasets('builtin')
 cf_datasets <- function(rval=c("all", 'available', 'builtin', 'external')) {
   rval=match.arg(rval)
   builtin_datasets=c("flywire", "malecns", 'manc', 'fanc', 'hemibrain', 'opticlobe', 'banc', 'yakubavnc')

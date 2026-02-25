@@ -35,17 +35,60 @@ get_meta_fun <- function(dataset) {
   FUN
 }
 
+#' Rename class columns to superclass hierarchy
+#'
+#' Renames class/subclass/subsubclass to superclass/class/subclass.
+#' Only renames columns that exist in the dataframe.
+#' @param df A data frame
+#' @return The data frame with renamed columns
+#' @noRd
+rename_to_superclass <- function(df) {
+  if (!is.data.frame(df) || nrow(df) == 0) return(df)
+
+  cols <- colnames(df)
+
+  # Build the rename mapping based on existing columns
+  # Must apply in reverse order: subsubclass -> subclass -> class -> superclass
+  if ("subsubclass" %in% cols) {
+    colnames(df)[colnames(df) == "subsubclass"] <- "subclass"
+  }
+  # Check original cols for subclass (before any renaming happened in this call)
+  if ("subclass" %in% cols) {
+    # Find position using original column names
+    idx <- which(cols == "subclass")
+    colnames(df)[idx] <- "class"
+  }
+  if ("class" %in% cols) {
+    idx <- which(cols == "class")
+    colnames(df)[idx] <- "superclass"
+  }
+
+  df
+}
+
 #' Fetch metadata for neurons from connectome datasets
 #'
-#' @details \code{MoreArgs} should be list named by the standard dataset names
-#'   (e.g. as returned by \code{cf_datasets}.
+#' @details \code{MoreArgs} is structured as a list with a top layer naming datasets
+#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+#'   layer names the arguments that will be passed to dataset-specific functions.
 #'
+#' @param ids A list of ids named by the relevant datasets (see examples) or any
+#'   other input that can be processed by the \code{\link{keys}} function
+#'   (including a \code{hclust} dendrogram object.)
 #' @param integer64 Whether ids should be character vectors (default) or 64 bit
 #'   ints (more compact but a little fragile as they rely on the \code{bit64}
 #'   extension package.)
 #' @param MoreArgs A named list of arguments to be passed when fetching metadata
 #'   for a given function. See details.
-#' @inheritParams cf_partners
+#' @param use_superclass If \code{TRUE}, rename class/subclass/subsubclass
+#'   columns to superclass/class/subclass. Can also be set via the
+#'   \code{coconatfly.use_superclass} option.
+#' @param bind.rows Whether to bind data.frames for each dataset together,
+#'   keeping only the common columns (default \code{TRUE} for convenience but
+#'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
+#' @param keep.all Whether to keep all columns when processing multiple datasets
+#'   rather than just those in common (default=\code{FALSE} only keeps shared
+#'   columns).
 #'
 #' @importFrom dplyr mutate rename rename_with select case_when any_of
 #' @importFrom fafbseg flywire_ids
@@ -59,13 +102,15 @@ get_meta_fun <- function(dataset) {
 #' mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 #' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
+                    use_superclass=getOption("coconatfly.use_superclass", FALSE),
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
   if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
   if(is.data.frame(ids)) {
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
-    res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs, keep.all=keep.all)
+    res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs, keep.all=keep.all,
+                use_superclass=use_superclass)
     res=res[match(keys(ids), res$key),,drop=F]
     return(res)
   }
@@ -121,7 +166,11 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     res[[n]]=tres
   }
   if(length(res)==0) return(NULL)
-  if(bind.rows) bind_rows2(res, keep.all=keep.all) else res
+  res <- if(bind.rows) bind_rows2(res, keep.all=keep.all) else res
+  if (isTRUE(use_superclass)) {
+    res <- rename_to_superclass(res)
+  }
+  res
 }
 
 # Shared helper for fanc and banc metadata
