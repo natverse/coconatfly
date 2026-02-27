@@ -100,9 +100,11 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     if(nrow(tres)>0) {
       tres$dataset=n
       tres$tissue=dataset_tissue(n)
+      tres$sex=dataset_sex(n)
     } else {
       tres$dataset=character()
       tres$tissue=character()
+      tres$sex=character()
       warning("no ", partners, " found for `", n, "` dataset.")
     }
     tres$pre_key=keys(tres, idcol="pre_id")

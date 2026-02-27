@@ -168,6 +168,15 @@ dataset_tissue <- function(ds) {
   )
 }
 
+#' Get sex for a dataset from registration
+#' @noRd
+dataset_sex <- function(ds) {
+
+  dsd <- coconat:::dataset_details(ds, namespace = 'coconatfly')
+  sex <- dsd[['sex']]
+  if (is.null(sex)) NA_character_ else sex
+}
+
 #' Normalise side values to L/R/M/NA
 #'
 #' Accepts various input formats (left, right, midline, L, R, M, etc.)
@@ -256,7 +265,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
       next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "subclass", "type", 'side', 'tissue', 'group', "instance")
+    cols_we_want=c("id", "class", "subclass", "type", 'side', 'sex', 'tissue', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if('class' %in% missing_cols)
       tres$class=NA_character_
@@ -268,6 +277,8 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
       tres$group=bit64::as.integer64(NA)
     if('tissue' %in% missing_cols)
       tres$tissue=dataset_tissue(n)
+    if('sex' %in% missing_cols)
+      tres$sex=dataset_sex(n)
     if('side' %in% missing_cols)
       tres$side=NA_character_
     if('instance' %in% missing_cols) {

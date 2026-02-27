@@ -39,11 +39,19 @@ test_that("tissue column is based on dataset", {
   expect_equal(dataset_tissue("unknown"), NA_character_)
 })
 
-test_that("cf_meta includes tissue column and normalised side", {
+test_that("sex column comes from dataset registration", {
+  expect_equal(dataset_sex("hemibrain"), "F")
+  expect_equal(dataset_sex("malecns"), "F")
+  expect_equal(dataset_sex("manc"), "M")
+})
+
+test_that("cf_meta includes tissue, sex, and normalised side", {
   meta <- cf_meta(cf_ids(hemibrain = "MBON01"))
   expect_true("tissue" %in% colnames(meta))
+  expect_true("sex" %in% colnames(meta))
   expect_true("side" %in% colnames(meta))
   expect_equal(unique(meta$tissue), "brain")
+  expect_equal(unique(meta$sex), "F")
   # hemibrain MBON01 should have R/L sides
   expect_true(all(meta$side %in% c("L", "R", "M", NA_character_)))
 })
