@@ -198,8 +198,21 @@ normalise_side <- function(x) {
 
 #' Fetch metadata for neurons from connectome datasets
 #'
-#' @details \code{MoreArgs} is structured as a list with a top layer naming datasets
-#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+#' @details The returned data frame includes these standard columns:
+#' \itemize{
+#'   \item \code{id}, \code{key}: neuron identifiers (key is unique across datasets)
+#'   \item \code{class}, \code{subclass}, \code{type}: cell class hierarchy
+#'     (harmonised to malecns style across datasets)
+#'   \item \code{instance}: summarises properties of individual neurons
+#'   \item \code{side}: normalised to L/R/M (left/right/midline) or NA
+#'   \item \code{sex}: M or F, from dataset registration
+#'   \item \code{tissue}: brain, vnc, or cns depending on dataset
+#'   \item \code{group}: numeric, defines related neurons within dataset
+#'   \item \code{dataset}: source dataset name
+#' }
+#'
+#' \code{MoreArgs} is structured as a list with a top layer naming datasets
+#'   (using the same long names as \code{\link{cf_datasets}}). The second (lower)
 #'   layer names the arguments that will be passed to dataset-specific functions.
 #'
 #' @param ids A list of ids named by the relevant datasets (see examples) or any
