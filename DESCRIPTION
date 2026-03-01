@@ -33,8 +33,10 @@ Imports:
     withr,
     utils,
     tibble
-Suggests: 
+Suggests:
     malevnc (> 0.3.1),
+    malecns (>= 0.3.3),
+    snakecase,
     fancr (>= 0.5.0),
     testthat (>= 3.0.0),
     ComplexHeatmap,
@@ -47,10 +49,9 @@ Suggests:
     dendroextras,
     tidyr,
     reticulate
-Enhances:
-    malecns (>= 0.3.3)
-Remotes: 
+Remotes:
     flyconnectome/malevnc,
+    flyconnectome/malecns,
     flyconnectome/fancr,
     natverse/fafbseg,
     natverse/nat,
