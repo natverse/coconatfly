@@ -66,6 +66,92 @@ rename_to_superclass <- function(df) {
   df
 }
 
+#' Harmonise top-level class values across datasets
+#'
+#' Uses regex-based rules to normalise class labels to malecns-style values.
+#' Rules are applied in order; first match wins. For base classes (sensory,
+#' motor, etc.), a domain prefix (cb/vnc/ol) is added based on dataset.
+#'
+#' @param class Character vector of class values
+#' @param dataset Character vector of dataset names (recycled if length 1)
+#' @param unknown_as_na If TRUE, return NA for unmatched values
+#' @return Character vector of normalised class values
+#' @noRd
+harmonise_top_class_values <- function(class, dataset, unknown_as_na = FALSE) {
+  if (length(class) == 0) return(class)
+  class <- as.character(class)
+  dataset <- as.character(dataset)
+  if (length(dataset) == 1L) dataset <- rep(dataset, length(class))
+  stopifnot(length(dataset) == length(class))
+
+  # Normalise to lowercase with underscores
+  toks <- tolower(trimws(class))
+  toks <- gsub("[[:space:]-]+", "_", toks)
+  toks <- gsub("_+", "_", toks)  # collapse multiple underscores
+  toks <- gsub("^_|_$", "", toks)  # remove leading/trailing underscores
+
+  # Helper to extract direction (ascending/descending) from token
+  get_direction <- function(tok) {
+    if (grepl("ascending", tok)) "ascending"
+    else if (grepl("descending", tok)) "descending"
+    else NA_character_
+  }
+
+  mapped <- class
+  for (i in seq_along(toks)) {
+    ds <- dataset[i]
+    # Skip datasets already in target schema or not yet supported
+    if (ds %in% c("malecns", "banc")) next
+
+    tok <- toks[i]
+    dir <- get_direction(tok)
+
+    # Apply rules in order (first match wins)
+    result <- if (grepl("sensory|sensory_tbd", tok) && !is.na(dir)) {
+      paste0("sensory_", dir)
+    } else if (grepl("efferent", tok) && !is.na(dir)) {
+      paste0("efferent_", dir)
+    } else if (grepl("^(ascending|descending)(_neuron)?$", tok) && !is.na(dir)) {
+      paste0(dir, "_neuron")
+    } else if (grepl("centrifugal", tok)) {
+      "visual_centrifugal"
+    } else if (grepl("visual.*projection|^projection$", tok)) {
+      "visual_projection"
+    } else if (grepl("endocrine", tok)) {
+      "endocrine"
+    } else if (grepl("^optic$", tok)) {
+      "ol_intrinsic"
+    } else if (grepl("sensory|sensory_tbd", tok)) {
+      paste0(dataset_domain(ds), "_sensory")
+    } else if (grepl("efferent", tok)) {
+      paste0(dataset_domain(ds), "_efferent")
+    } else if (grepl("motor", tok)) {
+      paste0(dataset_domain(ds), "_motor")
+    } else if (grepl("intrinsic|central", tok)) {
+      paste0(dataset_domain(ds), "_intrinsic")
+    } else {
+      if (unknown_as_na) NA_character_ else class[i]
+    }
+
+    mapped[i] <- result
+  }
+  mapped
+}
+
+#' Get tissue domain prefix for a dataset
+#' @noRd
+dataset_domain <- function(ds) {
+  switch(ds,
+    manc = "vnc",
+    fanc = "vnc",
+    yakubavnc = "vnc",
+    flywire = "cb",
+    hemibrain = "cb",
+    opticlobe = "ol",
+    NA_character_
+  )
+}
+
 #' Fetch metadata for neurons from connectome datasets
 #'
 #' @details \code{MoreArgs} is structured as a list with a top layer naming datasets
@@ -161,6 +247,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if(length(missing_cols)>0)
       stop("We are missing columns: ", paste(missing_cols, collapse = ','))
+    tres$class=harmonise_top_class_values(tres$class, n)
     tres$dataset=n
     tres$key=keys(tres)
     res[[n]]=tres

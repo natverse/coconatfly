@@ -93,6 +93,8 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres <- add_partner_metadata(tres, dataset = n, partners = partners)
 
     tres=coconat:::standardise_partner_summary(tres)
+    if("class" %in% colnames(tres))
+      tres$class=harmonise_top_class_values(tres$class, n)
     if(nrow(tres)>0) {
       tres$dataset=n
     } else {
