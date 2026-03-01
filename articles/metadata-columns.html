@@ -64,9 +64,9 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>When querying metadata across multiple connectome datasets with
-<code><a href="../reference/cf_meta.html">cf_meta()</a></code>, coconatfly returns a standardised set of
-columns. This vignette documents these columns and explains how values
-are harmonised across datasets.</p>
+<code><a href="../reference/cf_meta.html">cf_meta()</a></code>, <em>coconatfly</em> returns a standardised set
+of columns. This vignette documents these columns and explains how
+values are harmonised across datasets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/coconatfly" class="external-link">coconatfly</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -74,31 +74,89 @@ are harmonised across datasets.</p>
 <div class="section level2">
 <h2 id="standard-columns">Standard columns<a class="anchor" aria-label="anchor" href="#standard-columns"></a>
 </h2>
-<p>The <code><a href="../reference/cf_meta.html">cf_meta()</a></code> function returns these standard columns: |
-Column | Description | |——–|————-| | <code>id</code> | Neuron identifier
-(dataset-specific) | | <code>key</code> | Unique identifier across all
-datasets (format: <code>dataset:id</code>) | | <code>class</code> |
-Top-level cell class (optionally harmonised) | | <code>subclass</code> |
-Cell subclass | | <code>type</code> | Cell type name | |
-<code>instance</code> | Individual neuron properties (typically
-<code>type_side</code>) | | <code>side</code> | Normalised to L/R/M
-(left/right/midline) or NA | | <code>sex</code> | M or F, based on the
-dataset | | <code>tissue</code> | brain, vnc, or cns depending on
-dataset | | <code>group</code> | Numeric grouping of related neurons
-within dataset | | <code>dataset</code> | Source dataset name |</p>
+<p>The <code><a href="../reference/cf_meta.html">cf_meta()</a></code> function returns these standard
+columns:</p>
+<table class="table">
+<colgroup>
+<col width="38%">
+<col width="61%">
+</colgroup>
+<thead><tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>Neuron identifier (dataset-specific)</td>
+</tr>
+<tr class="even">
+<td><code>key</code></td>
+<td>Unique identifier across all datasets (format:
+<code>dataset:id</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>dataset</code></td>
+<td>Source dataset name</td>
+</tr>
+<tr class="even">
+<td><code>class</code></td>
+<td>Top-level cell class (optionally harmonised)</td>
+</tr>
+<tr class="odd">
+<td><code>subclass</code></td>
+<td>Cell subclass</td>
+</tr>
+<tr class="even">
+<td><code>type</code></td>
+<td>Cell type name, the finest classification level</td>
+</tr>
+<tr class="odd">
+<td><code>instance</code></td>
+<td>Individual neuron properties (typically formatted as
+<code>{type}_{side}</code>)</td>
+</tr>
+<tr class="even">
+<td><code>side</code></td>
+<td>Normalised to L/R/M (left/right/midline) or NA</td>
+</tr>
+<tr class="odd">
+<td><code>sex</code></td>
+<td>M or F, based on the dataset</td>
+</tr>
+<tr class="even">
+<td><code>tissue</code></td>
+<td>brain, vnc, or cns depending on dataset</td>
+</tr>
+<tr class="odd">
+<td><code>group</code></td>
+<td>Numeric grouping of related neurons within dataset</td>
+</tr>
+</tbody>
+</table>
 <div class="section level3">
 <h3 id="example-mbon01-across-datasets">Example: MBON01 across datasets<a class="anchor" aria-label="anchor" href="#example-mbon01-across-datasets"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mbon01</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"MBON01"</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"hemibrain"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mbon01</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"MBON01"</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"flywire"</span>, <span class="st">"malecns"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: git2r</span></span>
+<span><span class="co">#&gt; Using malecns dataset `male-cns:v0.9`.</span></span>
+<span><span class="co">#&gt; See ?malecns section Package Options for details.</span></span>
+<span><span class="co">#&gt; For high-quality h5 bridging registrations (malecns &lt;-&gt; JRC2018U),</span></span>
+<span><span class="co">#&gt; run mcns_download_xforms2() once to download, then</span></span>
+<span><span class="co">#&gt; mcns_register_xforms2() once per session to activate.</span></span>
 <span><span class="va">mbon01</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">type</span>, <span class="va">side</span>, <span class="va">sex</span>, <span class="va">tissue</span>, <span class="va">dataset</span>, <span class="va">key</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   id   type side sex tissue   dataset                   key</span></span>
-<span><span class="co">#&gt; 1 720575940624117245 MBON01    R   F  brain   flywire fw:720575940624117245</span></span>
-<span><span class="co">#&gt; 2 720575940643309197 MBON01    L   F  brain   flywire fw:720575940643309197</span></span>
-<span><span class="co">#&gt; 3          612371421 MBON01    R   F  brain hemibrain          hb:612371421</span></span>
-<span><span class="co">#&gt; 4          673509195 MBON01    L   F  brain hemibrain          hb:673509195</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">class</span>, <span class="va">type</span>, <span class="va">side</span>, <span class="va">sex</span>, <span class="va">tissue</span>, <span class="va">dataset</span>, <span class="va">key</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                   id        class   type side sex tissue dataset</span></span>
+<span><span class="co">#&gt; 1 720575940624117245      central MBON01    R   F  brain flywire</span></span>
+<span><span class="co">#&gt; 2 720575940643309197      central MBON01    L   F  brain flywire</span></span>
+<span><span class="co">#&gt; 3             520151 cb_intrinsic MBON01    L   M    cns malecns</span></span>
+<span><span class="co">#&gt; 4              10013 cb_intrinsic MBON01    R   M    cns malecns</span></span>
+<span><span class="co">#&gt;                     key</span></span>
+<span><span class="co">#&gt; 1 fw:720575940624117245</span></span>
+<span><span class="co">#&gt; 2 fw:720575940643309197</span></span>
+<span><span class="co">#&gt; 3             mc:520151</span></span>
+<span><span class="co">#&gt; 4              mc:10013</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -162,7 +220,8 @@ the dataset was derived:</p>
 <div class="section level3">
 <h3 id="tissue">Tissue<a class="anchor" aria-label="anchor" href="#tissue"></a>
 </h3>
-<p>The <code>tissue</code> column indicates the tissue type:</p>
+<p>The <code>tissue</code> column indicates the region of the nervous
+system:</p>
 <ul>
 <li>
 <code>brain</code>: Brain datasets (flywire, hemibrain,
@@ -194,11 +253,45 @@ letters:</p>
 “L”.</p>
 </div>
 <div class="section level2">
+<h2 id="superclassclass-field-names">Superclass/class field names<a class="anchor" aria-label="anchor" href="#superclassclass-field-names"></a>
+</h2>
+<p>Most datasets have a multi-level annotation hierarchy from very broad
+terms to terminal cell types, which represent the finest level of
+conservation across datasets. Different datasets use different
+conventions for names and values of these fields. We have already noted
+that <code>type</code> is our default name for the finest level
+classification. The flywire data model calls this <code>cell_type</code>
+but we always remap the column name to type.</p>
+<p>For malecns, the top level in the <code>class</code> hierarchy is
+<code>superclass</code>, while flywire uses <code>super_class</code> and
+manc uses <code>class</code>. For historical reasons, the default is to
+rename all of these to <code>class</code>. You can opt to have the top
+level column as <code>superclass</code>. The renaming can be controlled
+by the <code>coconatfly.use_superclass</code> package option.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>coconatfly.use_superclass <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># or</span></span>
+<span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">ids</span>, use_superclass <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>This currently defaults to FALSE, but we expect a future version to
+use this by default, more closely emulating the male cns.</p>
+<ul>
+<li>
+<code>class</code> -&gt; <code>superclass</code> (values like
+ascending_neuron)</li>
+<li>
+<code>subclass</code> -&gt; <code>class</code> (values like
+ALPN)</li>
+<li>
+<code>subsubclass</code> -&gt; <code>subclass</code>
+</li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="class-harmonisation">Class harmonisation<a class="anchor" aria-label="anchor" href="#class-harmonisation"></a>
 </h2>
-<p>Different datasets use different conventions for the
-<code>class</code> column. For example, ascending neurons might be
-labelled:</p>
+<p>Even when the columns have the same name, values may differ. For
+example, ascending neurons that project from the VNC to the brain might
+be labelled:</p>
 <ul>
 <li>malecns: <code>ascending_neuron</code>
 </li>
@@ -207,17 +300,21 @@ labelled:</p>
 <li>flywire: <code>ascending</code>
 </li>
 </ul>
+<p>in different datasets.</p>
 <div class="section level3">
 <h3 id="enabling-harmonisation">Enabling harmonisation<a class="anchor" aria-label="anchor" href="#enabling-harmonisation"></a>
 </h3>
-<p>By default, class values are <strong>not</strong> harmonised to
-preserve original dataset values. To enable harmonisation to
-malecns-style values:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>coconatfly.harmonise_class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Or use the <code>harmonise_class</code> parameter:</p>
+<p>By default, class values are <strong>not</strong> harmonised,
+preserving the original values in each dataset. To enable harmonisation
+to malecns-style values, use the <code>harmonise_class</code> parameter
+or set a global option:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">ids</span>, harmonise_class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">ids</span>, harmonise_class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>coconatfly.harmonise_class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">ids</span><span class="op">)</span></span></code></pre></div>
+<p>A future version of coconatfly will make harmonisation the
+default.</p>
 </div>
 <div class="section level3">
 <h3 id="example-ascending-neurons">Example: Ascending neurons<a class="anchor" aria-label="anchor" href="#example-ascending-neurons"></a>
@@ -225,13 +322,7 @@ malecns-style values:</p>
 <p>Without harmonisation, class values differ between datasets:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">an_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="fu"><a href="../reference/cf_ids.html">cf_ids</a></span><span class="op">(</span><span class="st">"AN07B004"</span>, datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"manc"</span>, <span class="st">"malecns"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Using malecns dataset `male-cns:v0.9`.</span></span>
-<span><span class="co">#&gt; See ?malecns section Package Options for details.</span></span>
-<span><span class="co">#&gt; For high-quality h5 bridging registrations (malecns &lt;-&gt; JRC2018U),</span></span>
-<span><span class="co">#&gt; run mcns_download_xforms2() once to download, then</span></span>
-<span><span class="co">#&gt; mcns_register_xforms2() once per session to activate.</span></span>
 <span><span class="va">an_meta</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">class</span>, <span class="va">side</span>, <span class="va">dataset</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       type            class side dataset</span></span>
 <span><span class="co">#&gt; 1 AN07B004 ascending_neuron    L malecns</span></span>
@@ -319,29 +410,6 @@ malecns conventions:</p>
 <code>vnc</code>, or <code>ol</code> (optic lobe) based on the
 dataset.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="superclass-option">Superclass option<a class="anchor" aria-label="anchor" href="#superclass-option"></a>
-</h2>
-<p>The <code>coconatfly.use_superclass</code> option renames the class
-hierarchy columns:</p>
-<ul>
-<li>
-<code>class</code> -&gt; <code>superclass</code>
-</li>
-<li>
-<code>subclass</code> -&gt; <code>class</code>
-</li>
-<li>
-<code>subsubclass</code> -&gt; <code>subclass</code>
-</li>
-</ul>
-<p>This can be useful when working with datasets that have a deeper
-class hierarchy.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>coconatfly.use_superclass <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># or</span></span>
-<span><span class="fu"><a href="../reference/cf_meta.html">cf_meta</a></span><span class="op">(</span><span class="va">ids</span>, use_superclass <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
