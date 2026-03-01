@@ -10,6 +10,7 @@ cf_meta(
   integer64 = FALSE,
   keep.all = FALSE,
   use_superclass = getOption("coconatfly.use_superclass", FALSE),
+  harmonise_class = getOption("coconatfly.harmonise_class", FALSE),
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 }
@@ -34,6 +35,10 @@ columns).}
 columns to superclass/class/subclass. Can also be set via the
 \code{coconatfly.use_superclass} option.}
 
+\item{harmonise_class}{If \code{TRUE}, harmonise class values to malecns
+style across all datasets. Can also be set via the
+\code{coconatfly.harmonise_class} option.}
+
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
 for a given function. See details.}
 }
@@ -41,8 +46,21 @@ for a given function. See details.}
 Fetch metadata for neurons from connectome datasets
 }
 \details{
+The returned data frame includes these standard columns:
+\itemize{
+  \item \code{id}, \code{key}: neuron identifiers (key is unique across datasets)
+  \item \code{class}, \code{subclass}, \code{type}: cell class hierarchy
+    (harmonised to malecns style across datasets)
+  \item \code{instance}: summarises properties of individual neurons
+  \item \code{side}: normalised to L/R/M (left/right/midline) or NA
+  \item \code{sex}: M or F, from dataset registration
+  \item \code{tissue}: brain, vnc, or cns depending on dataset
+  \item \code{group}: numeric, defines related neurons within dataset
+  \item \code{dataset}: source dataset name
+}
+
 \code{MoreArgs} is structured as a list with a top layer naming datasets
-  (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+  (using the same long names as \code{\link{cf_datasets}}). The second (lower)
   layer names the arguments that will be passed to dataset-specific functions.
 }
 \examples{

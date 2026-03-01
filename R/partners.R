@@ -38,7 +38,8 @@
 #' }
 cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
                         bind.rows=TRUE, MoreArgs=list(), keep.all=FALSE,
-                        use_superclass=getOption("coconatfly.use_superclass", FALSE)) {
+                        use_superclass=getOption("coconatfly.use_superclass", FALSE),
+                        harmonise_class=getOption("coconatfly.harmonise_class", FALSE)) {
   partners=match.arg(partners)
   threshold <- checkmate::assert_integerish(
     threshold, lower=0L,len = 1, null.ok = F, all.missing = F)
@@ -51,7 +52,7 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     ss=split(ids$id, ids$dataset)
     res=cf_partners(ss, threshold = threshold, partners = partners,
                     bind.rows = bind.rows, MoreArgs=MoreArgs,
-                    use_superclass=use_superclass)
+                    use_superclass=use_superclass, harmonise_class=harmonise_class)
     return(res)
   }
 
@@ -93,10 +94,18 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres <- add_partner_metadata(tres, dataset = n, partners = partners)
 
     tres=coconat:::standardise_partner_summary(tres)
+    if(isTRUE(harmonise_class) && "class" %in% colnames(tres))
+      tres$class=harmonise_top_class_values(tres$class, n)
+    if("side" %in% colnames(tres))
+      tres$side=normalise_side(tres$side)
     if(nrow(tres)>0) {
       tres$dataset=n
+      tres$tissue=dataset_tissue(n)
+      tres$sex=dataset_sex(n)
     } else {
       tres$dataset=character()
+      tres$tissue=character()
+      tres$sex=character()
       warning("no ", partners, " found for `", n, "` dataset.")
     }
     tres$pre_key=keys(tres, idcol="pre_id")

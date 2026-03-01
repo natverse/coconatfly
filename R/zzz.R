@@ -9,6 +9,7 @@ register_builtin_datasets <- function() {
     idfun = .flywire_ids,
     partnerfun = .flywire_partners,
     shortname = "fw",
+    sex = "F",
     namespace = "coconatfly"
   )
 
@@ -18,6 +19,7 @@ register_builtin_datasets <- function() {
     idfun = .hemibrain_ids,
     partnerfun = .hemibrain_partners,
     shortname = "hb",
+    sex = "F",
     namespace = "coconatfly"
   )
 
@@ -27,6 +29,7 @@ register_builtin_datasets <- function() {
     idfun = .opticlobe_ids,
     partnerfun = .opticlobe_partners,
     shortname = "ol",
+    sex = "M",
     namespace = "coconatfly"
   )
 
@@ -36,6 +39,7 @@ register_builtin_datasets <- function() {
     idfun = .malecns_ids,
     partnerfun = .malecns_partners,
     shortname = "mc",
+    sex = "M",
     namespace = "coconatfly"
   )
 
@@ -45,6 +49,7 @@ register_builtin_datasets <- function() {
     idfun = .manc_ids,
     partnerfun = .manc_partners,
     shortname = "mv",
+    sex = "M",
     namespace = "coconatfly"
   )
 
@@ -54,6 +59,7 @@ register_builtin_datasets <- function() {
     idfun = .fanc_ids,
     partnerfun = .fanc_partners,
     shortname = "fv",
+    sex = "F",
     namespace = "coconatfly"
   )
 
@@ -63,6 +69,7 @@ register_builtin_datasets <- function() {
     idfun = .banc_ids,
     partnerfun = .banc_partners,
     shortname = "bc",
+    sex = "F",
     namespace = "coconatfly"
   )
 
@@ -72,6 +79,7 @@ register_builtin_datasets <- function() {
     idfun = .yakubavnc_ids,
     partnerfun = .yakubavnc_partners,
     shortname = "yv",
+    sex = "M",
     namespace = "coconatfly"
   )
 }

@@ -66,10 +66,153 @@ rename_to_superclass <- function(df) {
   df
 }
 
+#' Harmonise top-level class values across datasets
+#'
+#' Uses regex-based rules to normalise class labels to malecns-style values.
+#' Rules are applied in order; first match wins. For base classes (sensory,
+#' motor, etc.), a domain prefix (cb/vnc/ol) is added based on dataset.
+#'
+#' @param class Character vector of class values
+#' @param dataset Character vector of dataset names (recycled if length 1)
+#' @param unknown_as_na If TRUE, return NA for unmatched values
+#' @return Character vector of normalised class values
+#' @noRd
+harmonise_top_class_values <- function(class, dataset, unknown_as_na = FALSE) {
+  if (length(class) == 0) return(class)
+  class <- as.character(class)
+  dataset <- as.character(dataset)
+  if (length(dataset) == 1L) dataset <- rep(dataset, length(class))
+  stopifnot(length(dataset) == length(class))
+
+  # Normalise to lowercase with underscores
+  toks <- tolower(trimws(class))
+  toks <- gsub("[[:space:]-]+", "_", toks)
+  toks <- gsub("_+", "_", toks)  # collapse multiple underscores
+  toks <- gsub("^_|_$", "", toks)  # remove leading/trailing underscores
+
+  # Helper to extract direction (ascending/descending) from token
+  get_direction <- function(tok) {
+    if (grepl("ascending", tok)) "ascending"
+    else if (grepl("descending", tok)) "descending"
+    else NA_character_
+  }
+
+  mapped <- class
+  for (i in seq_along(toks)) {
+    ds <- dataset[i]
+    # Skip datasets already in target schema or not yet supported
+    if (ds %in% c("malecns", "banc")) next
+
+    tok <- toks[i]
+    dir <- get_direction(tok)
+
+    # Apply rules in order (first match wins)
+    result <- if (grepl("sensory|sensory_tbd", tok) && !is.na(dir)) {
+      paste0("sensory_", dir)
+    } else if (grepl("efferent", tok) && !is.na(dir)) {
+      paste0("efferent_", dir)
+    } else if (grepl("^(ascending|descending)(_neuron)?$", tok) && !is.na(dir)) {
+      paste0(dir, "_neuron")
+    } else if (grepl("centrifugal", tok)) {
+      "visual_centrifugal"
+    } else if (grepl("visual.*projection|^projection$", tok)) {
+      "visual_projection"
+    } else if (grepl("endocrine", tok)) {
+      "endocrine"
+    } else if (grepl("^optic$", tok)) {
+      "ol_intrinsic"
+    } else if (grepl("sensory|sensory_tbd", tok)) {
+      paste0(dataset_domain(ds), "_sensory")
+    } else if (grepl("efferent", tok)) {
+      paste0(dataset_domain(ds), "_efferent")
+    } else if (grepl("motor", tok)) {
+      paste0(dataset_domain(ds), "_motor")
+    } else if (grepl("intrinsic|central", tok)) {
+      paste0(dataset_domain(ds), "_intrinsic")
+    } else {
+      if (unknown_as_na) NA_character_ else class[i]
+    }
+
+    mapped[i] <- result
+  }
+  mapped
+}
+
+#' Get tissue domain prefix for a dataset (used for class harmonisation)
+#' @noRd
+dataset_domain <- function(ds) {
+  switch(ds,
+    manc = "vnc",
+    fanc = "vnc",
+    yakubavnc = "vnc",
+    flywire = "cb",
+    hemibrain = "cb",
+    opticlobe = "ol",
+    NA_character_
+  )
+}
+
+#' Get tissue type for a dataset
+#' @noRd
+dataset_tissue <- function(ds) {
+  switch(ds,
+    flywire = "brain",
+    hemibrain = "brain",
+    opticlobe = "brain",
+    manc = "vnc",
+    fanc = "vnc",
+    yakubavnc = "vnc",
+    malecns = "cns",
+    banc = "cns",
+    NA_character_
+  )
+}
+
+#' Get sex for a dataset from registration
+#' @noRd
+dataset_sex <- function(ds) {
+
+  dsd <- coconat:::dataset_details(ds, namespace = 'coconatfly')
+  sex <- dsd[['sex']]
+  if (is.null(sex)) NA_character_ else sex
+}
+
+#' Normalise side values to L/R/M/NA
+#'
+#' Accepts various input formats (left, right, midline, L, R, M, etc.)
+#' and normalises to single uppercase letters or NA.
+#' @param x Character vector of side values
+#' @return Character vector with values L, R, M, or NA only
+#' @noRd
+normalise_side <- function(x) {
+  x <- as.character(x)
+  x <- tolower(trimws(x))
+
+  result <- rep(NA_character_, length(x))
+  result[grepl("^l(eft)?$", x)] <- "L"
+  result[grepl("^r(ight)?$", x)] <- "R"
+  result[grepl("^m(idline)?$|^c(enter|entre)?$", x)] <- "M"
+
+  result
+}
+
 #' Fetch metadata for neurons from connectome datasets
 #'
-#' @details \code{MoreArgs} is structured as a list with a top layer naming datasets
-#'   (using the same long names as \code{\link{cf_datasets}}. The second (lower)
+#' @details The returned data frame includes these standard columns:
+#' \itemize{
+#'   \item \code{id}, \code{key}: neuron identifiers (key is unique across datasets)
+#'   \item \code{class}, \code{subclass}, \code{type}: cell class hierarchy
+#'     (harmonised to malecns style across datasets)
+#'   \item \code{instance}: summarises properties of individual neurons
+#'   \item \code{side}: normalised to L/R/M (left/right/midline) or NA
+#'   \item \code{sex}: M or F, from dataset registration
+#'   \item \code{tissue}: brain, vnc, or cns depending on dataset
+#'   \item \code{group}: numeric, defines related neurons within dataset
+#'   \item \code{dataset}: source dataset name
+#' }
+#'
+#' \code{MoreArgs} is structured as a list with a top layer naming datasets
+#'   (using the same long names as \code{\link{cf_datasets}}). The second (lower)
 #'   layer names the arguments that will be passed to dataset-specific functions.
 #'
 #' @param ids A list of ids named by the relevant datasets (see examples) or any
@@ -83,6 +226,9 @@ rename_to_superclass <- function(df) {
 #' @param use_superclass If \code{TRUE}, rename class/subclass/subsubclass
 #'   columns to superclass/class/subclass. Can also be set via the
 #'   \code{coconatfly.use_superclass} option.
+#' @param harmonise_class If \code{TRUE}, harmonise class values to malecns
+#'   style across all datasets. Can also be set via the
+#'   \code{coconatfly.harmonise_class} option.
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
 #'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
@@ -103,6 +249,7 @@ rename_to_superclass <- function(df) {
 #' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
                     use_superclass=getOption("coconatfly.use_superclass", FALSE),
+                    harmonise_class=getOption("coconatfly.harmonise_class", FALSE),
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
   if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
@@ -110,7 +257,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
     res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs, keep.all=keep.all,
-                use_superclass=use_superclass)
+                use_superclass=use_superclass, harmonise_class=harmonise_class)
     res=res[match(keys(ids), res$key),,drop=F]
     return(res)
   }
@@ -135,12 +282,22 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
       next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "subclass", "type", 'side', 'group', "instance")
+    cols_we_want=c("id", "class", "subclass", "type", 'side', 'sex', 'tissue', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if('class' %in% missing_cols)
       tres$class=NA_character_
+    if('subclass' %in% missing_cols)
+      tres$subclass=NA_character_
+    if('type' %in% missing_cols)
+      tres$type=NA_character_
     if('group' %in% missing_cols)
       tres$group=bit64::as.integer64(NA)
+    if('tissue' %in% missing_cols)
+      tres$tissue=dataset_tissue(n)
+    if('sex' %in% missing_cols)
+      tres$sex=dataset_sex(n)
+    if('side' %in% missing_cols)
+      tres$side=NA_character_
     if('instance' %in% missing_cols) {
       tres <-if('name' %in% colnames(tres))
         tres %>% rename(instance=name)
@@ -161,6 +318,10 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if(length(missing_cols)>0)
       stop("We are missing columns: ", paste(missing_cols, collapse = ','))
+    if(isTRUE(harmonise_class))
+      tres$class=harmonise_top_class_values(tres$class, n)
+    if("side" %in% colnames(tres))
+      tres$side=normalise_side(tres$side)
     tres$dataset=n
     tres$key=keys(tres)
     res[[n]]=tres
