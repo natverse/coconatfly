@@ -1,4 +1,4 @@
-# 2. Clustering TuTu neurons
+# 3. Clustering TuTu neurons
 
 ## Introduction
 

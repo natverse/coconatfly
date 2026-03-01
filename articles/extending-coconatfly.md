@@ -1,4 +1,4 @@
-# 4. Extending coconatfly with external data sources
+# 5. Extending coconatfly with external data sources
 
 This vignette explains how and why developers and end users might want
 to extend coconatfly to support an

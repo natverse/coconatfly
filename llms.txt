@@ -363,9 +363,9 @@ List, abbreviate, and register connectome datasets
   coconatfly](https://natverse.org/coconatfly/articles/getting-started.md):
 - [2. Metadata columns and
   harmonisation](https://natverse.org/coconatfly/articles/metadata-columns.md):
-- [2. Clustering TuTu
+- [3. Clustering TuTu
   neurons](https://natverse.org/coconatfly/articles/TuTu.md):
-- [3. Splitting AOTU063 cell
+- [4. Splitting AOTU063 cell
   type](https://natverse.org/coconatfly/articles/AOTU063.md):
-- [4. Extending coconatfly with external data
+- [5. Extending coconatfly with external data
   sources](https://natverse.org/coconatfly/articles/extending-coconatfly.md):

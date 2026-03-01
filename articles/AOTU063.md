@@ -1,4 +1,4 @@
-# 3. Splitting AOTU063 cell type
+# 4. Splitting AOTU063 cell type
 
 ## Intro
 
