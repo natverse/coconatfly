@@ -95,10 +95,14 @@ cf_partners <- function(ids, threshold=1L, partners=c("inputs", "outputs"),
     tres=coconat:::standardise_partner_summary(tres)
     if("class" %in% colnames(tres))
       tres$class=harmonise_top_class_values(tres$class, n)
+    if("side" %in% colnames(tres))
+      tres$side=normalise_side(tres$side)
     if(nrow(tres)>0) {
       tres$dataset=n
+      tres$tissue=dataset_tissue(n)
     } else {
       tres$dataset=character()
+      tres$tissue=character()
       warning("no ", partners, " found for `", n, "` dataset.")
     }
     tres$pre_key=keys(tres, idcol="pre_id")

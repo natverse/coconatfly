@@ -18,6 +18,36 @@ test_that("coconatfly.use_superclass option works", {
   expect_true("superclass" %in% colnames(meta))
 })
 
+test_that("side values are normalised to L/R/M/NA", {
+  expect_equal(normalise_side(c("left", "L", "l", "LEFT")), c("L", "L", "L", "L"))
+  expect_equal(normalise_side(c("right", "R", "r", "RIGHT")), c("R", "R", "R", "R"))
+  expect_equal(normalise_side(c("midline", "M", "m", "center", "centre")),
+               c("M", "M", "M", "M", "M"))
+  expect_equal(normalise_side(c(NA, "", "unknown")),
+               c(NA_character_, NA_character_, NA_character_))
+})
+
+test_that("tissue column is based on dataset", {
+  expect_equal(dataset_tissue("flywire"), "brain")
+  expect_equal(dataset_tissue("hemibrain"), "brain")
+  expect_equal(dataset_tissue("opticlobe"), "brain")
+  expect_equal(dataset_tissue("manc"), "vnc")
+  expect_equal(dataset_tissue("fanc"), "vnc")
+  expect_equal(dataset_tissue("yakubavnc"), "vnc")
+  expect_equal(dataset_tissue("malecns"), "cns")
+  expect_equal(dataset_tissue("banc"), "cns")
+  expect_equal(dataset_tissue("unknown"), NA_character_)
+})
+
+test_that("cf_meta includes tissue column and normalised side", {
+  meta <- cf_meta(cf_ids(hemibrain = "MBON01"))
+  expect_true("tissue" %in% colnames(meta))
+  expect_true("side" %in% colnames(meta))
+  expect_equal(unique(meta$tissue), "brain")
+  # hemibrain MBON01 should have R/L sides
+  expect_true(all(meta$side %in% c("L", "R", "M", NA_character_)))
+})
+
 test_that("top-level class values are harmonised to malecns style", {
   ds <- c(
     rep("flywire", 10),

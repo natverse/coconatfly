@@ -138,7 +138,7 @@ harmonise_top_class_values <- function(class, dataset, unknown_as_na = FALSE) {
   mapped
 }
 
-#' Get tissue domain prefix for a dataset
+#' Get tissue domain prefix for a dataset (used for class harmonisation)
 #' @noRd
 dataset_domain <- function(ds) {
   switch(ds,
@@ -150,6 +150,41 @@ dataset_domain <- function(ds) {
     opticlobe = "ol",
     NA_character_
   )
+}
+
+#' Get tissue type for a dataset
+#' @noRd
+dataset_tissue <- function(ds) {
+  switch(ds,
+    flywire = "brain",
+    hemibrain = "brain",
+    opticlobe = "brain",
+    manc = "vnc",
+    fanc = "vnc",
+    yakubavnc = "vnc",
+    malecns = "cns",
+    banc = "cns",
+    NA_character_
+  )
+}
+
+#' Normalise side values to L/R/M/NA
+#'
+#' Accepts various input formats (left, right, midline, L, R, M, etc.)
+#' and normalises to single uppercase letters or NA.
+#' @param x Character vector of side values
+#' @return Character vector with values L, R, M, or NA only
+#' @noRd
+normalise_side <- function(x) {
+  x <- as.character(x)
+  x <- tolower(trimws(x))
+
+  result <- rep(NA_character_, length(x))
+  result[grepl("^l(eft)?$", x)] <- "L"
+  result[grepl("^r(ight)?$", x)] <- "R"
+  result[grepl("^m(idline)?$|^c(enter|entre)?$", x)] <- "M"
+
+  result
 }
 
 #' Fetch metadata for neurons from connectome datasets
@@ -221,12 +256,20 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(inherits(tres, 'try-error') || is.null(tres) || !isTRUE(nrow(tres)>0))
       next
     tres$id=flywire_ids(tres$id, integer64=integer64, na_ok=TRUE)
-    cols_we_want=c("id", "class", "subclass", "type", 'side', 'group', "instance")
+    cols_we_want=c("id", "class", "subclass", "type", 'side', 'tissue', 'group', "instance")
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if('class' %in% missing_cols)
       tres$class=NA_character_
+    if('subclass' %in% missing_cols)
+      tres$subclass=NA_character_
+    if('type' %in% missing_cols)
+      tres$type=NA_character_
     if('group' %in% missing_cols)
       tres$group=bit64::as.integer64(NA)
+    if('tissue' %in% missing_cols)
+      tres$tissue=dataset_tissue(n)
+    if('side' %in% missing_cols)
+      tres$side=NA_character_
     if('instance' %in% missing_cols) {
       tres <-if('name' %in% colnames(tres))
         tres %>% rename(instance=name)
@@ -248,6 +291,8 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     if(length(missing_cols)>0)
       stop("We are missing columns: ", paste(missing_cols, collapse = ','))
     tres$class=harmonise_top_class_values(tres$class, n)
+    if("side" %in% colnames(tres))
+      tres$side=normalise_side(tres$side)
     tres$dataset=n
     tres$key=keys(tres)
     res[[n]]=tres
