@@ -19,8 +19,8 @@ A dataframe containing status information for connectome datasets
 # \donttest{
 dr_coconatfly()
 #> # Dataset details
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python' -m pip freeze' had status 1
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python' -m pip freeze' had status 1
+#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1US2PJmYZczGHkRgZ6n2M/bin/python' -m pip freeze' had status 1
+#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1US2PJmYZczGHkRgZ6n2M/bin/python' -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
 #> 2      manc      TRUE
@@ -56,10 +56,10 @@ dr_coconatfly()
 #> 2      fanc        fv   F      .fanc_ids      .fanc_meta      .fanc_partners
 #> 3   flywire        fw   F   .flywire_ids   .flywire_meta   .flywire_partners
 #> 4 hemibrain        hb   F .hemibrain_ids .hemibrain_meta .hemibrain_partners
-#> 5   malecns        mc   F   .malecns_ids   .malecns_meta   .malecns_partners
-#> 6      manc        mv   F      .manc_ids      .manc_meta      .manc_partners
-#> 7 opticlobe        ol   F .opticlobe_ids .opticlobe_meta .opticlobe_partners
-#> 8 yakubavnc        yv   F .yakubavnc_ids .yakubavnc_meta .yakubavnc_partners
+#> 5   malecns        mc   M   .malecns_ids   .malecns_meta   .malecns_partners
+#> 6      manc        mv   M      .manc_ids      .manc_meta      .manc_partners
+#> 7 opticlobe        ol   M .opticlobe_ids .opticlobe_meta .opticlobe_partners
+#> 8 yakubavnc        yv   M .yakubavnc_ids .yakubavnc_meta .yakubavnc_partners
 #>    namespace
 #> 1 coconatfly
 #> 2 coconatfly

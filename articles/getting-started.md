@@ -56,10 +56,10 @@ command.
 library(coconatfly)
 dr_coconatfly()
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1US2PJmYZczGHkRgZ6n2M/bin/python'
 #> -m pip freeze' had status 1
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/dYjLHL9KIkL72jfDZkbuI/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/1US2PJmYZczGHkRgZ6n2M/bin/python'
 #> -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
@@ -93,10 +93,10 @@ dr_coconatfly()
 #> 2      fanc        fv   F      .fanc_ids      .fanc_meta      .fanc_partners
 #> 3   flywire        fw   F   .flywire_ids   .flywire_meta   .flywire_partners
 #> 4 hemibrain        hb   F .hemibrain_ids .hemibrain_meta .hemibrain_partners
-#> 5   malecns        mc   F   .malecns_ids   .malecns_meta   .malecns_partners
-#> 6      manc        mv   F      .manc_ids      .manc_meta      .manc_partners
-#> 7 opticlobe        ol   F .opticlobe_ids .opticlobe_meta .opticlobe_partners
-#> 8 yakubavnc        yv   F .yakubavnc_ids .yakubavnc_meta .yakubavnc_partners
+#> 5   malecns        mc   M   .malecns_ids   .malecns_meta   .malecns_partners
+#> 6      manc        mv   M      .manc_ids      .manc_meta      .manc_partners
+#> 7 opticlobe        ol   M .opticlobe_ids .opticlobe_meta .opticlobe_partners
+#> 8 yakubavnc        yv   M .yakubavnc_ids .yakubavnc_meta .yakubavnc_partners
 #>    namespace
 #> 1 coconatfly
 #> 2 coconatfly
@@ -137,11 +137,11 @@ cf_meta(cf_ids('MBON01', datasets = c("flywire", "hemibrain")))
 #> 2 720575940643309197    L central     MBON        <NA> MBON01 putative_primary
 #> 3          612371421    R    <NA>     <NA>        <NA> MBON01            ADM07
 #> 4          673509195    L    <NA>     <NA>        <NA> MBON01            ADM07
-#>   group         instance   dataset                   key
-#> 1  <NA>         MBON01_R   flywire fw:720575940624117245
-#> 2  <NA>         MBON01_L   flywire fw:720575940643309197
-#> 3  <NA> MBON01(y5B'2a)_R hemibrain          hb:612371421
-#> 4  <NA> MBON01(y5B'2a)_L hemibrain          hb:673509195
+#>   group tissue sex         instance   dataset                   key
+#> 1  <NA>  brain   F         MBON01_R   flywire fw:720575940624117245
+#> 2  <NA>  brain   F         MBON01_L   flywire fw:720575940643309197
+#> 3  <NA>  brain   F MBON01(y5B'2a)_R hemibrain          hb:612371421
+#> 4  <NA>  brain   F MBON01(y5B'2a)_L hemibrain          hb:673509195
 ```
 
 We can do a regular expression query returning all MBONs:
@@ -317,174 +317,174 @@ mbonmeta
 #> 165         5813033000    R    <NA>     <NA>        <NA>        MBON34
 #> 166          518930199    R    <NA>     <NA>        <NA>        MBON35
 #> 167          611089775    L    <NA>     <NA>        <NA>        MBON35
-#>              lineage group                    instance   dataset
-#> 1   putative_primary  <NA>                    MBON02_L   flywire
-#> 2   putative_primary  <NA>                    MBON01_R   flywire
-#> 3   putative_primary  <NA>                    MBON32_R   flywire
-#> 4               EBa1  <NA>                    MBON10_R   flywire
-#> 5   putative_primary  <NA>                    MBON30_R   flywire
-#> 6               EBa1  <NA>                    MBON10_L   flywire
-#> 7   putative_primary  <NA>                    MBON32_L   flywire
-#> 8   putative_primary  <NA>                    MBON06_L   flywire
-#> 9   putative_primary  <NA>                    MBON05_R   flywire
-#> 10              EBa1  <NA>                    MBON10_L   flywire
-#> 11  putative_primary  <NA>                    MBON20_R   flywire
-#> 12        DL1_dorsal  <NA>               MBON17-like_R   flywire
-#> 13  putative_primary  <NA>                    MBON02_R   flywire
-#> 14  putative_primary  <NA>                    MBON33_R   flywire
-#> 15        DL1_dorsal  <NA>                    MBON23_L   flywire
-#> 16       DL2_ventral  <NA>                    MBON29_R   flywire
-#> 17              EBa1  <NA>                    MBON10_R   flywire
-#> 18             FLAa2  <NA>                    MBON14_R   flywire
-#> 19              EBa1  <NA>                    MBON10_L   flywire
-#> 20             FLAa2  <NA>                    MBON12_R   flywire
-#> 21        DL1_dorsal  <NA>               MBON15-like_R   flywire
-#> 22        DL1_dorsal  <NA>                    MBON28_L   flywire
-#> 23  putative_primary  <NA>                    MBON31_R   flywire
-#> 24             FLAa2  <NA>                    MBON12_L   flywire
-#> 25  putative_primary  <NA>                    MBON35_L   flywire
-#> 26        DL1_dorsal  <NA>                    MBON17_L   flywire
-#> 27             FLAa2  <NA>                    MBON14_R   flywire
-#> 28        DL1_dorsal  <NA>                    MBON19_L   flywire
-#> 29  putative_primary  <NA>                    MBON30_L   flywire
-#> 30        DL1_dorsal  <NA>                    MBON15_L   flywire
-#> 31  putative_primary  <NA>                    MBON27_R   flywire
-#> 32  putative_primary  <NA>                    MBON09_L   flywire
-#> 33             FLAa2  <NA>                    MBON12_R   flywire
-#> 34              EBa1  <NA>                    MBON10_L   flywire
-#> 35            SMPad3  <NA>             MBON25,MBON34_L   flywire
-#> 36  putative_primary  <NA>                    MBON03_R   flywire
-#> 37             FLAa2  <NA>                    MBON13_L   flywire
-#> 38        DL1_dorsal  <NA>               MBON15-like_R   flywire
-#> 39        DL1_dorsal  <NA>                    MBON15_L   flywire
-#> 40        DL1_dorsal  <NA>               MBON15-like_L   flywire
-#> 41        DL1_dorsal  <NA>               MBON15-like_L   flywire
-#> 42            SMPad3  <NA>             MBON25,MBON34_R   flywire
-#> 43              EBa1  <NA>                    MBON10_R   flywire
-#> 44        DL1_dorsal  <NA>                    MBON15_R   flywire
-#> 45        DL1_dorsal  <NA>               MBON15-like_L   flywire
-#> 46  putative_primary  <NA>                    MBON09_L   flywire
-#> 47              EBa1  <NA>                    MBON10_R   flywire
-#> 48        DL1_dorsal  <NA>               MBON17-like_L   flywire
-#> 49              EBa1  <NA>                    MBON10_R   flywire
-#> 50        DL1_dorsal  <NA>                    MBON15_R   flywire
-#> 51  putative_primary  <NA>                    MBON11_R   flywire
-#> 52        DL1_dorsal  <NA>                    MBON17_R   flywire
-#> 53            SMPad3  <NA>             MBON25,MBON34_R   flywire
-#> 54        DL1_dorsal  <NA>                    MBON19_R   flywire
-#> 55  putative_primary  <NA>                    MBON31_L   flywire
-#> 56        DL1_dorsal  <NA>                    MBON19_R   flywire
-#> 57        DL1_dorsal  <NA>                    MBON16_L   flywire
-#> 58        DL1_dorsal  <NA>                    MBON16_R   flywire
-#> 59  putative_primary  <NA>                    MBON24_R   flywire
-#> 60  putative_primary  <NA>                    MBON27_L   flywire
-#> 61        DL1_dorsal  <NA>                    MBON28_R   flywire
-#> 62  putative_primary  <NA>                    MBON21_L   flywire
-#> 63  putative_primary  <NA>                    MBON20_L   flywire
-#> 64  putative_primary  <NA>                    MBON21_R   flywire
-#> 65        DL1_dorsal  <NA>                    MBON23_R   flywire
-#> 66             FLAa2  <NA>                    MBON12_L   flywire
-#> 67  putative_primary  <NA>                    MBON07_L   flywire
-#> 68             FLAa2  <NA>                    MBON14_L   flywire
-#> 69             FLAa2  <NA>                    MBON14_L   flywire
-#> 70  putative_primary  <NA>                    MBON11_L   flywire
-#> 71  putative_primary  <NA>                    MBON22_R   flywire
-#> 72  putative_primary  <NA>                    MBON22_L   flywire
-#> 73  putative_primary  <NA>                    MBON26_L   flywire
-#> 74  putative_primary  <NA>                    MBON33_L   flywire
-#> 75             FLAa2  <NA>                    MBON13_R   flywire
-#> 76  putative_primary  <NA>                    MBON35_R   flywire
-#> 77        DL1_dorsal  <NA>                    MBON18_L   flywire
-#> 78  putative_primary  <NA>                    MBON04_L   flywire
-#> 79  putative_primary  <NA>                    MBON07_R   flywire
-#> 80  putative_primary  <NA>                    MBON01_L   flywire
-#> 81       DL2_ventral  <NA>                    MBON29_L   flywire
-#> 82  putative_primary  <NA>                    MBON07_L   flywire
-#> 83        DL1_dorsal  <NA>                    MBON18_R   flywire
-#> 84  putative_primary  <NA>                    MBON03_L   flywire
-#> 85  putative_primary  <NA>                    MBON04_R   flywire
-#> 86  putative_primary  <NA>                    MBON09_R   flywire
-#> 87  putative_primary  <NA>                    MBON26_R   flywire
-#> 88  putative_primary  <NA>                    MBON07_R   flywire
-#> 89  putative_primary  <NA>                    MBON09_R   flywire
-#> 90  putative_primary  <NA>                    MBON06_R   flywire
-#> 91  putative_primary  <NA>                    MBON05_L   flywire
-#> 92        DL1_dorsal  <NA>                    MBON19_L   flywire
-#> 93  putative_primary  <NA>                    MBON24_L   flywire
-#> 94            SMPad3  <NA>             MBON25,MBON34_R   flywire
-#> 95            SMPad3  <NA>             MBON25,MBON34_L   flywire
-#> 96            SMPad3  <NA>             MBON25,MBON34_L   flywire
-#> 97             ADM07  <NA>            MBON01(y5B'2a)_R hemibrain
-#> 98             ADM07  <NA>            MBON01(y5B'2a)_L hemibrain
-#> 99             ADM07  <NA>            MBON02(B2B'2a)_R hemibrain
-#> 100            ADM07  <NA>            MBON02(B2B'2a)_L hemibrain
-#> 101            ADM07  <NA>             MBON03(B'2mp)_R hemibrain
-#> 102            ADM07  <NA>             MBON03(B'2mp)_L hemibrain
-#> 103            ADM07  <NA>   MBON04(B'2mp_bilateral)_R hemibrain
-#> 104            ADM07  <NA>   MBON04(B'2mp_bilateral)_L hemibrain
-#> 105            AVM07  <NA>           MBON05(y4>y1y2)_R hemibrain
-#> 106             <NA>  <NA>    MBON05(y4>y1y2)(AVM07)_L hemibrain
-#> 107             <NA>  <NA>       MBON06(B1>a)(AVM07)_L hemibrain
-#> 108            AVM07  <NA>              MBON06(B1>a)_R hemibrain
-#> 109             <NA>  <NA>                MBON07(a1)_R hemibrain
-#> 110             <NA>  <NA>                MBON07(a1)_L hemibrain
-#> 111            ADM10  <NA>                MBON07(a1)_R hemibrain
-#> 112             <NA>  <NA>                MBON07(a1)_L hemibrain
-#> 113             <NA>  <NA>      MBON09(y3B'1)(AVM17)_L hemibrain
-#> 114             <NA>  <NA>      MBON09(y3B'1)(AVM17)_L hemibrain
-#> 115            AVM17  <NA>             MBON09(y3B'1)_R hemibrain
-#> 116            AVM07  <NA>               MBON10(B'1)_R hemibrain
-#> 117            AVM07  <NA>               MBON10(B'1)_R hemibrain
-#> 118            AVM07  <NA>               MBON10(B'1)_R hemibrain
-#> 119            ADM05  <NA>        MBON11(y1pedc>a/B)_R hemibrain
-#> 120             <NA>  <NA> MBON11(y1pedc>a/B)(ADM05)_L hemibrain
-#> 121             <NA>  <NA>             MBON12(y2a'1)_R hemibrain
-#> 122             <NA>  <NA>             MBON12(y2a'1)_R hemibrain
-#> 123             <NA>  <NA>               MBON13(a'2)_R hemibrain
-#> 124             <NA>  <NA>                MBON14(a3)_R hemibrain
-#> 125             <NA>  <NA>                MBON14(a3)_L hemibrain
-#> 126             <NA>  <NA>                MBON14(a3)_L hemibrain
-#> 127             <NA>  <NA>                MBON14(a3)_R hemibrain
-#> 128            PDL05  <NA>               MBON15(a'1)_R hemibrain
-#> 129            PDL05  <NA>               MBON15(a'1)_R hemibrain
-#> 130            PDL05  <NA>       MBON15-like(a'1a'2)_R hemibrain
-#> 131            PDL05  <NA>       MBON15-like(a'1a'2)_R hemibrain
-#> 132            PDL05  <NA>             MBON16(a'3ap)_R hemibrain
-#> 133            PDL05  <NA>              MBON17(a'3m)_R hemibrain
-#> 134            PDL05  <NA>       MBON17-like(a'2a'3)_R hemibrain
-#> 135             <NA>  <NA>       MBON18(a2sc)(PDL05)_L hemibrain
-#> 136            PDL05  <NA>              MBON18(a2sc)_R hemibrain
-#> 137            PDL05  <NA>             MBON19(a2p3p)_R hemibrain
-#> 138            PDL19  <NA>             MBON19(a2p3p)_R hemibrain
-#> 139            AVM04  <NA>              MBON20(y1y2)_R hemibrain
-#> 140            PVL06  <NA>              MBON21(y4y5)_R hemibrain
-#> 141             <NA>  <NA>       MBON21(y4y5)(PVL06)_L hemibrain
-#> 142            PVL06  <NA>             MBON22(calyx)_R hemibrain
-#> 143             <NA>  <NA>      MBON22(calyx)(PVL06)_L hemibrain
-#> 144            PDL05  <NA>              MBON23(a2sp)_R hemibrain
-#> 145            PDL05  <NA>              MBON24(B2y5)_R hemibrain
-#> 146             <NA>  <NA>       MBON24(B2y5)(PDL05)_L hemibrain
-#> 147            ADM07  <NA>              MBON25(y1y2)_L hemibrain
-#> 148            ADM07  <NA>              MBON25(y1y2)_R hemibrain
-#> 149             <NA>  <NA>       MBON26(B'2d)(PDM28)_L hemibrain
-#> 150            PDM28  <NA>              MBON26(B'2d)_R hemibrain
-#> 151             <NA>  <NA>        MBON27(y5d)(PVM03)_L hemibrain
-#> 152            PVM03  <NA>               MBON27(y5d)_R hemibrain
-#> 153            PDL05  <NA>         MBON16-like(a'3a)_R hemibrain
-#> 154            PVL06  <NA>              MBON29(y4y5)_R hemibrain
-#> 155             <NA>  <NA>       MBON29(y4y5)(PVL06)_L hemibrain
-#> 156            AVM07  <NA>            MBON30(y1y2y3)_R hemibrain
-#> 157             <NA>  <NA>     MBON30(y1y2y3)(AVM07)_L hemibrain
-#> 158             <NA>  <NA>       MBON31(a'1a)(ADM10)_L hemibrain
-#> 159            ADM10  <NA>              MBON31(a'1a)_R hemibrain
-#> 160            ADM08  <NA>                MBON32(y2)_R hemibrain
-#> 161             <NA>  <NA>         MBON32(y2)(ADM08)_L hemibrain
-#> 162             <NA>  <NA>       MBON33(y2y3)(ADM05)_L hemibrain
-#> 163            ADM05  <NA>              MBON33(y2y3)_R hemibrain
-#> 164            ADM07  <NA>                MBON34(y2)_L hemibrain
-#> 165            ADM07  <NA>                MBON34(y2)_R hemibrain
-#> 166            ADM02  <NA>                MBON35(y2)_R hemibrain
-#> 167             <NA>  <NA>                MBON35(y2)_L hemibrain
+#>              lineage group tissue sex                    instance   dataset
+#> 1   putative_primary  <NA>  brain   F                    MBON02_L   flywire
+#> 2   putative_primary  <NA>  brain   F                    MBON01_R   flywire
+#> 3   putative_primary  <NA>  brain   F                    MBON32_R   flywire
+#> 4               EBa1  <NA>  brain   F                    MBON10_R   flywire
+#> 5   putative_primary  <NA>  brain   F                    MBON30_R   flywire
+#> 6               EBa1  <NA>  brain   F                    MBON10_L   flywire
+#> 7   putative_primary  <NA>  brain   F                    MBON32_L   flywire
+#> 8   putative_primary  <NA>  brain   F                    MBON06_L   flywire
+#> 9   putative_primary  <NA>  brain   F                    MBON05_R   flywire
+#> 10              EBa1  <NA>  brain   F                    MBON10_L   flywire
+#> 11  putative_primary  <NA>  brain   F                    MBON20_R   flywire
+#> 12        DL1_dorsal  <NA>  brain   F               MBON17-like_R   flywire
+#> 13  putative_primary  <NA>  brain   F                    MBON02_R   flywire
+#> 14  putative_primary  <NA>  brain   F                    MBON33_R   flywire
+#> 15        DL1_dorsal  <NA>  brain   F                    MBON23_L   flywire
+#> 16       DL2_ventral  <NA>  brain   F                    MBON29_R   flywire
+#> 17              EBa1  <NA>  brain   F                    MBON10_R   flywire
+#> 18             FLAa2  <NA>  brain   F                    MBON14_R   flywire
+#> 19              EBa1  <NA>  brain   F                    MBON10_L   flywire
+#> 20             FLAa2  <NA>  brain   F                    MBON12_R   flywire
+#> 21        DL1_dorsal  <NA>  brain   F               MBON15-like_R   flywire
+#> 22        DL1_dorsal  <NA>  brain   F                    MBON28_L   flywire
+#> 23  putative_primary  <NA>  brain   F                    MBON31_R   flywire
+#> 24             FLAa2  <NA>  brain   F                    MBON12_L   flywire
+#> 25  putative_primary  <NA>  brain   F                    MBON35_L   flywire
+#> 26        DL1_dorsal  <NA>  brain   F                    MBON17_L   flywire
+#> 27             FLAa2  <NA>  brain   F                    MBON14_R   flywire
+#> 28        DL1_dorsal  <NA>  brain   F                    MBON19_L   flywire
+#> 29  putative_primary  <NA>  brain   F                    MBON30_L   flywire
+#> 30        DL1_dorsal  <NA>  brain   F                    MBON15_L   flywire
+#> 31  putative_primary  <NA>  brain   F                    MBON27_R   flywire
+#> 32  putative_primary  <NA>  brain   F                    MBON09_L   flywire
+#> 33             FLAa2  <NA>  brain   F                    MBON12_R   flywire
+#> 34              EBa1  <NA>  brain   F                    MBON10_L   flywire
+#> 35            SMPad3  <NA>  brain   F             MBON25,MBON34_L   flywire
+#> 36  putative_primary  <NA>  brain   F                    MBON03_R   flywire
+#> 37             FLAa2  <NA>  brain   F                    MBON13_L   flywire
+#> 38        DL1_dorsal  <NA>  brain   F               MBON15-like_R   flywire
+#> 39        DL1_dorsal  <NA>  brain   F                    MBON15_L   flywire
+#> 40        DL1_dorsal  <NA>  brain   F               MBON15-like_L   flywire
+#> 41        DL1_dorsal  <NA>  brain   F               MBON15-like_L   flywire
+#> 42            SMPad3  <NA>  brain   F             MBON25,MBON34_R   flywire
+#> 43              EBa1  <NA>  brain   F                    MBON10_R   flywire
+#> 44        DL1_dorsal  <NA>  brain   F                    MBON15_R   flywire
+#> 45        DL1_dorsal  <NA>  brain   F               MBON15-like_L   flywire
+#> 46  putative_primary  <NA>  brain   F                    MBON09_L   flywire
+#> 47              EBa1  <NA>  brain   F                    MBON10_R   flywire
+#> 48        DL1_dorsal  <NA>  brain   F               MBON17-like_L   flywire
+#> 49              EBa1  <NA>  brain   F                    MBON10_R   flywire
+#> 50        DL1_dorsal  <NA>  brain   F                    MBON15_R   flywire
+#> 51  putative_primary  <NA>  brain   F                    MBON11_R   flywire
+#> 52        DL1_dorsal  <NA>  brain   F                    MBON17_R   flywire
+#> 53            SMPad3  <NA>  brain   F             MBON25,MBON34_R   flywire
+#> 54        DL1_dorsal  <NA>  brain   F                    MBON19_R   flywire
+#> 55  putative_primary  <NA>  brain   F                    MBON31_L   flywire
+#> 56        DL1_dorsal  <NA>  brain   F                    MBON19_R   flywire
+#> 57        DL1_dorsal  <NA>  brain   F                    MBON16_L   flywire
+#> 58        DL1_dorsal  <NA>  brain   F                    MBON16_R   flywire
+#> 59  putative_primary  <NA>  brain   F                    MBON24_R   flywire
+#> 60  putative_primary  <NA>  brain   F                    MBON27_L   flywire
+#> 61        DL1_dorsal  <NA>  brain   F                    MBON28_R   flywire
+#> 62  putative_primary  <NA>  brain   F                    MBON21_L   flywire
+#> 63  putative_primary  <NA>  brain   F                    MBON20_L   flywire
+#> 64  putative_primary  <NA>  brain   F                    MBON21_R   flywire
+#> 65        DL1_dorsal  <NA>  brain   F                    MBON23_R   flywire
+#> 66             FLAa2  <NA>  brain   F                    MBON12_L   flywire
+#> 67  putative_primary  <NA>  brain   F                    MBON07_L   flywire
+#> 68             FLAa2  <NA>  brain   F                    MBON14_L   flywire
+#> 69             FLAa2  <NA>  brain   F                    MBON14_L   flywire
+#> 70  putative_primary  <NA>  brain   F                    MBON11_L   flywire
+#> 71  putative_primary  <NA>  brain   F                    MBON22_R   flywire
+#> 72  putative_primary  <NA>  brain   F                    MBON22_L   flywire
+#> 73  putative_primary  <NA>  brain   F                    MBON26_L   flywire
+#> 74  putative_primary  <NA>  brain   F                    MBON33_L   flywire
+#> 75             FLAa2  <NA>  brain   F                    MBON13_R   flywire
+#> 76  putative_primary  <NA>  brain   F                    MBON35_R   flywire
+#> 77        DL1_dorsal  <NA>  brain   F                    MBON18_L   flywire
+#> 78  putative_primary  <NA>  brain   F                    MBON04_L   flywire
+#> 79  putative_primary  <NA>  brain   F                    MBON07_R   flywire
+#> 80  putative_primary  <NA>  brain   F                    MBON01_L   flywire
+#> 81       DL2_ventral  <NA>  brain   F                    MBON29_L   flywire
+#> 82  putative_primary  <NA>  brain   F                    MBON07_L   flywire
+#> 83        DL1_dorsal  <NA>  brain   F                    MBON18_R   flywire
+#> 84  putative_primary  <NA>  brain   F                    MBON03_L   flywire
+#> 85  putative_primary  <NA>  brain   F                    MBON04_R   flywire
+#> 86  putative_primary  <NA>  brain   F                    MBON09_R   flywire
+#> 87  putative_primary  <NA>  brain   F                    MBON26_R   flywire
+#> 88  putative_primary  <NA>  brain   F                    MBON07_R   flywire
+#> 89  putative_primary  <NA>  brain   F                    MBON09_R   flywire
+#> 90  putative_primary  <NA>  brain   F                    MBON06_R   flywire
+#> 91  putative_primary  <NA>  brain   F                    MBON05_L   flywire
+#> 92        DL1_dorsal  <NA>  brain   F                    MBON19_L   flywire
+#> 93  putative_primary  <NA>  brain   F                    MBON24_L   flywire
+#> 94            SMPad3  <NA>  brain   F             MBON25,MBON34_R   flywire
+#> 95            SMPad3  <NA>  brain   F             MBON25,MBON34_L   flywire
+#> 96            SMPad3  <NA>  brain   F             MBON25,MBON34_L   flywire
+#> 97             ADM07  <NA>  brain   F            MBON01(y5B'2a)_R hemibrain
+#> 98             ADM07  <NA>  brain   F            MBON01(y5B'2a)_L hemibrain
+#> 99             ADM07  <NA>  brain   F            MBON02(B2B'2a)_R hemibrain
+#> 100            ADM07  <NA>  brain   F            MBON02(B2B'2a)_L hemibrain
+#> 101            ADM07  <NA>  brain   F             MBON03(B'2mp)_R hemibrain
+#> 102            ADM07  <NA>  brain   F             MBON03(B'2mp)_L hemibrain
+#> 103            ADM07  <NA>  brain   F   MBON04(B'2mp_bilateral)_R hemibrain
+#> 104            ADM07  <NA>  brain   F   MBON04(B'2mp_bilateral)_L hemibrain
+#> 105            AVM07  <NA>  brain   F           MBON05(y4>y1y2)_R hemibrain
+#> 106             <NA>  <NA>  brain   F    MBON05(y4>y1y2)(AVM07)_L hemibrain
+#> 107             <NA>  <NA>  brain   F       MBON06(B1>a)(AVM07)_L hemibrain
+#> 108            AVM07  <NA>  brain   F              MBON06(B1>a)_R hemibrain
+#> 109             <NA>  <NA>  brain   F                MBON07(a1)_R hemibrain
+#> 110             <NA>  <NA>  brain   F                MBON07(a1)_L hemibrain
+#> 111            ADM10  <NA>  brain   F                MBON07(a1)_R hemibrain
+#> 112             <NA>  <NA>  brain   F                MBON07(a1)_L hemibrain
+#> 113             <NA>  <NA>  brain   F      MBON09(y3B'1)(AVM17)_L hemibrain
+#> 114             <NA>  <NA>  brain   F      MBON09(y3B'1)(AVM17)_L hemibrain
+#> 115            AVM17  <NA>  brain   F             MBON09(y3B'1)_R hemibrain
+#> 116            AVM07  <NA>  brain   F               MBON10(B'1)_R hemibrain
+#> 117            AVM07  <NA>  brain   F               MBON10(B'1)_R hemibrain
+#> 118            AVM07  <NA>  brain   F               MBON10(B'1)_R hemibrain
+#> 119            ADM05  <NA>  brain   F        MBON11(y1pedc>a/B)_R hemibrain
+#> 120             <NA>  <NA>  brain   F MBON11(y1pedc>a/B)(ADM05)_L hemibrain
+#> 121             <NA>  <NA>  brain   F             MBON12(y2a'1)_R hemibrain
+#> 122             <NA>  <NA>  brain   F             MBON12(y2a'1)_R hemibrain
+#> 123             <NA>  <NA>  brain   F               MBON13(a'2)_R hemibrain
+#> 124             <NA>  <NA>  brain   F                MBON14(a3)_R hemibrain
+#> 125             <NA>  <NA>  brain   F                MBON14(a3)_L hemibrain
+#> 126             <NA>  <NA>  brain   F                MBON14(a3)_L hemibrain
+#> 127             <NA>  <NA>  brain   F                MBON14(a3)_R hemibrain
+#> 128            PDL05  <NA>  brain   F               MBON15(a'1)_R hemibrain
+#> 129            PDL05  <NA>  brain   F               MBON15(a'1)_R hemibrain
+#> 130            PDL05  <NA>  brain   F       MBON15-like(a'1a'2)_R hemibrain
+#> 131            PDL05  <NA>  brain   F       MBON15-like(a'1a'2)_R hemibrain
+#> 132            PDL05  <NA>  brain   F             MBON16(a'3ap)_R hemibrain
+#> 133            PDL05  <NA>  brain   F              MBON17(a'3m)_R hemibrain
+#> 134            PDL05  <NA>  brain   F       MBON17-like(a'2a'3)_R hemibrain
+#> 135             <NA>  <NA>  brain   F       MBON18(a2sc)(PDL05)_L hemibrain
+#> 136            PDL05  <NA>  brain   F              MBON18(a2sc)_R hemibrain
+#> 137            PDL05  <NA>  brain   F             MBON19(a2p3p)_R hemibrain
+#> 138            PDL19  <NA>  brain   F             MBON19(a2p3p)_R hemibrain
+#> 139            AVM04  <NA>  brain   F              MBON20(y1y2)_R hemibrain
+#> 140            PVL06  <NA>  brain   F              MBON21(y4y5)_R hemibrain
+#> 141             <NA>  <NA>  brain   F       MBON21(y4y5)(PVL06)_L hemibrain
+#> 142            PVL06  <NA>  brain   F             MBON22(calyx)_R hemibrain
+#> 143             <NA>  <NA>  brain   F      MBON22(calyx)(PVL06)_L hemibrain
+#> 144            PDL05  <NA>  brain   F              MBON23(a2sp)_R hemibrain
+#> 145            PDL05  <NA>  brain   F              MBON24(B2y5)_R hemibrain
+#> 146             <NA>  <NA>  brain   F       MBON24(B2y5)(PDL05)_L hemibrain
+#> 147            ADM07  <NA>  brain   F              MBON25(y1y2)_L hemibrain
+#> 148            ADM07  <NA>  brain   F              MBON25(y1y2)_R hemibrain
+#> 149             <NA>  <NA>  brain   F       MBON26(B'2d)(PDM28)_L hemibrain
+#> 150            PDM28  <NA>  brain   F              MBON26(B'2d)_R hemibrain
+#> 151             <NA>  <NA>  brain   F        MBON27(y5d)(PVM03)_L hemibrain
+#> 152            PVM03  <NA>  brain   F               MBON27(y5d)_R hemibrain
+#> 153            PDL05  <NA>  brain   F         MBON16-like(a'3a)_R hemibrain
+#> 154            PVL06  <NA>  brain   F              MBON29(y4y5)_R hemibrain
+#> 155             <NA>  <NA>  brain   F       MBON29(y4y5)(PVL06)_L hemibrain
+#> 156            AVM07  <NA>  brain   F            MBON30(y1y2y3)_R hemibrain
+#> 157             <NA>  <NA>  brain   F     MBON30(y1y2y3)(AVM07)_L hemibrain
+#> 158             <NA>  <NA>  brain   F       MBON31(a'1a)(ADM10)_L hemibrain
+#> 159            ADM10  <NA>  brain   F              MBON31(a'1a)_R hemibrain
+#> 160            ADM08  <NA>  brain   F                MBON32(y2)_R hemibrain
+#> 161             <NA>  <NA>  brain   F         MBON32(y2)(ADM08)_L hemibrain
+#> 162             <NA>  <NA>  brain   F       MBON33(y2y3)(ADM05)_L hemibrain
+#> 163            ADM05  <NA>  brain   F              MBON33(y2y3)_R hemibrain
+#> 164            ADM07  <NA>  brain   F                MBON34(y2)_L hemibrain
+#> 165            ADM07  <NA>  brain   F                MBON34(y2)_R hemibrain
+#> 166            ADM02  <NA>  brain   F                MBON35(y2)_R hemibrain
+#> 167             <NA>  <NA>  brain   F                MBON35(y2)_L hemibrain
 #>                       key
 #> 1   fw:720575940624185095
 #> 2   fw:720575940624117245

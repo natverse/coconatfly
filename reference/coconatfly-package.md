@@ -17,6 +17,12 @@ still under development.
   Default: `FALSE`. Set with
   `options(coconatfly.use_superclass = TRUE)`.
 
+- `coconatfly.harmonise_class`:
+
+  Logical. If `TRUE`, harmonise class values to malecns style across all
+  datasets. Default: `FALSE`. Set with
+  `options(coconatfly.harmonise_class = TRUE)`.
+
 ## See also
 
 Useful links:

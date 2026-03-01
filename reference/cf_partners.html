@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Flexible function for fetching partner data across datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/partners.R" class="external-link"><code>R/partners.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/normalise-superclass-values/R/partners.R" class="external-link"><code>R/partners.R</code></a></small>
       <div class="d-none name"><code>cf_partners.Rd</code></div>
     </div>
 
@@ -47,7 +47,8 @@
 <span>  bind.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  MoreArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  use_superclass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.use_superclass"</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  use_superclass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.use_superclass"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  harmonise_class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.harmonise_class"</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -91,6 +92,12 @@ columns).</p></dd>
 <dd><p>If <code>TRUE</code>, rename class/subclass/subsubclass
 columns to superclass/class/subclass. Can also be set via the
 <code>coconatfly.use_superclass</code> option.</p></dd>
+
+
+<dt id="arg-harmonise-class">harmonise_class<a class="anchor" aria-label="anchor" href="#arg-harmonise-class"></a></dt>
+<dd><p>If <code>TRUE</code>, harmonise class values to malecns
+style across all datasets. Can also be set via the
+<code>coconatfly.harmonise_class</code> option.</p></dd>
 
 </dl></div>
     <div class="section level2">

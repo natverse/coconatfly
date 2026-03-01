@@ -54,7 +54,7 @@
       <h1>2. Clustering TuTu neurons</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/normalise-superclass-values/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
       <div class="d-none name"><code>TuTu.Rmd</code></div>
     </div>
 
@@ -131,23 +131,40 @@ any number of characters can follow TuTu in the type name.</p>
 <span><span class="co">#&gt; 14          770226597    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a</span></span>
 <span><span class="co">#&gt; 15          769544445    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
 <span><span class="co">#&gt; 16          987759904    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b</span></span>
-<span><span class="co">#&gt;             lineage group         instance   dataset                   key</span></span>
-<span><span class="co">#&gt; 1  putative_primary  &lt;NA&gt;          TuTuA_L   flywire fw:720575940621226846</span></span>
-<span><span class="co">#&gt; 2  putative_primary  &lt;NA&gt;        TuTuB_a_R   flywire fw:720575940633550431</span></span>
-<span><span class="co">#&gt; 3  putative_primary  &lt;NA&gt;          TuTuA_L   flywire fw:720575940612218547</span></span>
-<span><span class="co">#&gt; 4  putative_primary  &lt;NA&gt;        TuTuB_b_L   flywire fw:720575940635979000</span></span>
-<span><span class="co">#&gt; 5  putative_primary  &lt;NA&gt;        TuTuB_b_R   flywire fw:720575940637997427</span></span>
-<span><span class="co">#&gt; 6  putative_primary  &lt;NA&gt;        TuTuB_a_L   flywire fw:720575940623326868</span></span>
-<span><span class="co">#&gt; 7  putative_primary  &lt;NA&gt;          TuTuA_R   flywire fw:720575940614041238</span></span>
-<span><span class="co">#&gt; 8  putative_primary  &lt;NA&gt;          TuTuA_R   flywire fw:720575940622538520</span></span>
-<span><span class="co">#&gt; 9              &lt;NA&gt;  &lt;NA&gt;   TuTuA(ADL19)_L hemibrain         hb:5813013691</span></span>
-<span><span class="co">#&gt; 10             &lt;NA&gt;  &lt;NA&gt;   TuTuA(ADL19)_L hemibrain          hb:676836779</span></span>
-<span><span class="co">#&gt; 11            ADL19  &lt;NA&gt;          TuTuA_R hemibrain          hb:708290604</span></span>
-<span><span class="co">#&gt; 12            ADL19  &lt;NA&gt;          TuTuA_R hemibrain          hb:925008763</span></span>
-<span><span class="co">#&gt; 13            ADL19  &lt;NA&gt;        TuTuB_a_R hemibrain         hb:5813014028</span></span>
-<span><span class="co">#&gt; 14             &lt;NA&gt;  &lt;NA&gt; TuTuB_a(ADL19)_L hemibrain          hb:770226597</span></span>
-<span><span class="co">#&gt; 15            ADL19  &lt;NA&gt;        TuTuB_b_R hemibrain          hb:769544445</span></span>
-<span><span class="co">#&gt; 16             &lt;NA&gt;  &lt;NA&gt; TuTuB_b(ADL19)_L hemibrain          hb:987759904</span></span></code></pre></div>
+<span><span class="co">#&gt;             lineage group tissue sex         instance   dataset</span></span>
+<span><span class="co">#&gt; 1  putative_primary  &lt;NA&gt;  brain   F          TuTuA_L   flywire</span></span>
+<span><span class="co">#&gt; 2  putative_primary  &lt;NA&gt;  brain   F        TuTuB_a_R   flywire</span></span>
+<span><span class="co">#&gt; 3  putative_primary  &lt;NA&gt;  brain   F          TuTuA_L   flywire</span></span>
+<span><span class="co">#&gt; 4  putative_primary  &lt;NA&gt;  brain   F        TuTuB_b_L   flywire</span></span>
+<span><span class="co">#&gt; 5  putative_primary  &lt;NA&gt;  brain   F        TuTuB_b_R   flywire</span></span>
+<span><span class="co">#&gt; 6  putative_primary  &lt;NA&gt;  brain   F        TuTuB_a_L   flywire</span></span>
+<span><span class="co">#&gt; 7  putative_primary  &lt;NA&gt;  brain   F          TuTuA_R   flywire</span></span>
+<span><span class="co">#&gt; 8  putative_primary  &lt;NA&gt;  brain   F          TuTuA_R   flywire</span></span>
+<span><span class="co">#&gt; 9              &lt;NA&gt;  &lt;NA&gt;  brain   F   TuTuA(ADL19)_L hemibrain</span></span>
+<span><span class="co">#&gt; 10             &lt;NA&gt;  &lt;NA&gt;  brain   F   TuTuA(ADL19)_L hemibrain</span></span>
+<span><span class="co">#&gt; 11            ADL19  &lt;NA&gt;  brain   F          TuTuA_R hemibrain</span></span>
+<span><span class="co">#&gt; 12            ADL19  &lt;NA&gt;  brain   F          TuTuA_R hemibrain</span></span>
+<span><span class="co">#&gt; 13            ADL19  &lt;NA&gt;  brain   F        TuTuB_a_R hemibrain</span></span>
+<span><span class="co">#&gt; 14             &lt;NA&gt;  &lt;NA&gt;  brain   F TuTuB_a(ADL19)_L hemibrain</span></span>
+<span><span class="co">#&gt; 15            ADL19  &lt;NA&gt;  brain   F        TuTuB_b_R hemibrain</span></span>
+<span><span class="co">#&gt; 16             &lt;NA&gt;  &lt;NA&gt;  brain   F TuTuB_b(ADL19)_L hemibrain</span></span>
+<span><span class="co">#&gt;                      key</span></span>
+<span><span class="co">#&gt; 1  fw:720575940621226846</span></span>
+<span><span class="co">#&gt; 2  fw:720575940633550431</span></span>
+<span><span class="co">#&gt; 3  fw:720575940612218547</span></span>
+<span><span class="co">#&gt; 4  fw:720575940635979000</span></span>
+<span><span class="co">#&gt; 5  fw:720575940637997427</span></span>
+<span><span class="co">#&gt; 6  fw:720575940623326868</span></span>
+<span><span class="co">#&gt; 7  fw:720575940614041238</span></span>
+<span><span class="co">#&gt; 8  fw:720575940622538520</span></span>
+<span><span class="co">#&gt; 9          hb:5813013691</span></span>
+<span><span class="co">#&gt; 10          hb:676836779</span></span>
+<span><span class="co">#&gt; 11          hb:708290604</span></span>
+<span><span class="co">#&gt; 12          hb:925008763</span></span>
+<span><span class="co">#&gt; 13         hb:5813014028</span></span>
+<span><span class="co">#&gt; 14          hb:770226597</span></span>
+<span><span class="co">#&gt; 15          hb:769544445</span></span>
+<span><span class="co">#&gt; 16          hb:987759904</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">type</span>, <span class="va">side</span><span class="op">)</span></span>
@@ -258,11 +275,16 @@ we will observe this split in future connectomes though.</p>
 <span><span class="co">#&gt; 2 720575940635979000    L central     &lt;NA&gt;        &lt;NA&gt; TuTuB_b putative_primary</span></span>
 <span><span class="co">#&gt; 3          769544445    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b            ADL19</span></span>
 <span><span class="co">#&gt; 4          987759904    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_b             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;   group         instance   dataset                   key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1  &lt;NA&gt;        TuTuB_b_R   flywire fw:720575940637997427     11        4</span></span>
-<span><span class="co">#&gt; 2  &lt;NA&gt;        TuTuB_b_L   flywire fw:720575940635979000     10        4</span></span>
-<span><span class="co">#&gt; 3  &lt;NA&gt;        TuTuB_b_R hemibrain          hb:769544445      9        4</span></span>
-<span><span class="co">#&gt; 4  &lt;NA&gt; TuTuB_b(ADL19)_L hemibrain          hb:987759904     12        4</span></span></code></pre></div>
+<span><span class="co">#&gt;   group tissue sex         instance   dataset                   key dendid</span></span>
+<span><span class="co">#&gt; 1  &lt;NA&gt;  brain   F        TuTuB_b_R   flywire fw:720575940637997427     11</span></span>
+<span><span class="co">#&gt; 2  &lt;NA&gt;  brain   F        TuTuB_b_L   flywire fw:720575940635979000     10</span></span>
+<span><span class="co">#&gt; 3  &lt;NA&gt;  brain   F        TuTuB_b_R hemibrain          hb:769544445      9</span></span>
+<span><span class="co">#&gt; 4  &lt;NA&gt;  brain   F TuTuB_b(ADL19)_L hemibrain          hb:987759904     12</span></span>
+<span><span class="co">#&gt;   group_k5</span></span>
+<span><span class="co">#&gt; 1        4</span></span>
+<span><span class="co">#&gt; 2        4</span></span>
+<span><span class="co">#&gt; 3        4</span></span>
+<span><span class="co">#&gt; 4        4</span></span></code></pre></div>
 <p>Group 5 contains the TuTuB_b neurons</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.meta2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -272,11 +294,16 @@ we will observe this split in future connectomes though.</p>
 <span><span class="co">#&gt; 2 720575940633550431    R central     &lt;NA&gt;        &lt;NA&gt; TuTuB_a putative_primary</span></span>
 <span><span class="co">#&gt; 3          770226597    L    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a             &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 4         5813014028    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt; TuTuB_a            ADL19</span></span>
-<span><span class="co">#&gt;   group         instance   dataset                   key dendid group_k5</span></span>
-<span><span class="co">#&gt; 1  &lt;NA&gt;        TuTuB_a_L   flywire fw:720575940623326868     15        5</span></span>
-<span><span class="co">#&gt; 2  &lt;NA&gt;        TuTuB_a_R   flywire fw:720575940633550431     16        5</span></span>
-<span><span class="co">#&gt; 3  &lt;NA&gt; TuTuB_a(ADL19)_L hemibrain          hb:770226597     13        5</span></span>
-<span><span class="co">#&gt; 4  &lt;NA&gt;        TuTuB_a_R hemibrain         hb:5813014028     14        5</span></span></code></pre></div>
+<span><span class="co">#&gt;   group tissue sex         instance   dataset                   key dendid</span></span>
+<span><span class="co">#&gt; 1  &lt;NA&gt;  brain   F        TuTuB_a_L   flywire fw:720575940623326868     15</span></span>
+<span><span class="co">#&gt; 2  &lt;NA&gt;  brain   F        TuTuB_a_R   flywire fw:720575940633550431     16</span></span>
+<span><span class="co">#&gt; 3  &lt;NA&gt;  brain   F TuTuB_a(ADL19)_L hemibrain          hb:770226597     13</span></span>
+<span><span class="co">#&gt; 4  &lt;NA&gt;  brain   F        TuTuB_a_R hemibrain         hb:5813014028     14</span></span>
+<span><span class="co">#&gt;   group_k5</span></span>
+<span><span class="co">#&gt; 1        5</span></span>
+<span><span class="co">#&gt; 2        5</span></span>
+<span><span class="co">#&gt; 3        5</span></span>
+<span><span class="co">#&gt; 4        5</span></span></code></pre></div>
 <p>The following code could help find the Flybase/Virtual Fly Brain
 anatomy ontology (FBbt) ids for these neurons:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">

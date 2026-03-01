@@ -81,23 +81,40 @@ tutus
 #> 14          770226597    L    <NA>     <NA>        <NA> TuTuB_a
 #> 15          769544445    R    <NA>     <NA>        <NA> TuTuB_b
 #> 16          987759904    L    <NA>     <NA>        <NA> TuTuB_b
-#>             lineage group         instance   dataset                   key
-#> 1  putative_primary  <NA>          TuTuA_L   flywire fw:720575940621226846
-#> 2  putative_primary  <NA>        TuTuB_a_R   flywire fw:720575940633550431
-#> 3  putative_primary  <NA>          TuTuA_L   flywire fw:720575940612218547
-#> 4  putative_primary  <NA>        TuTuB_b_L   flywire fw:720575940635979000
-#> 5  putative_primary  <NA>        TuTuB_b_R   flywire fw:720575940637997427
-#> 6  putative_primary  <NA>        TuTuB_a_L   flywire fw:720575940623326868
-#> 7  putative_primary  <NA>          TuTuA_R   flywire fw:720575940614041238
-#> 8  putative_primary  <NA>          TuTuA_R   flywire fw:720575940622538520
-#> 9              <NA>  <NA>   TuTuA(ADL19)_L hemibrain         hb:5813013691
-#> 10             <NA>  <NA>   TuTuA(ADL19)_L hemibrain          hb:676836779
-#> 11            ADL19  <NA>          TuTuA_R hemibrain          hb:708290604
-#> 12            ADL19  <NA>          TuTuA_R hemibrain          hb:925008763
-#> 13            ADL19  <NA>        TuTuB_a_R hemibrain         hb:5813014028
-#> 14             <NA>  <NA> TuTuB_a(ADL19)_L hemibrain          hb:770226597
-#> 15            ADL19  <NA>        TuTuB_b_R hemibrain          hb:769544445
-#> 16             <NA>  <NA> TuTuB_b(ADL19)_L hemibrain          hb:987759904
+#>             lineage group tissue sex         instance   dataset
+#> 1  putative_primary  <NA>  brain   F          TuTuA_L   flywire
+#> 2  putative_primary  <NA>  brain   F        TuTuB_a_R   flywire
+#> 3  putative_primary  <NA>  brain   F          TuTuA_L   flywire
+#> 4  putative_primary  <NA>  brain   F        TuTuB_b_L   flywire
+#> 5  putative_primary  <NA>  brain   F        TuTuB_b_R   flywire
+#> 6  putative_primary  <NA>  brain   F        TuTuB_a_L   flywire
+#> 7  putative_primary  <NA>  brain   F          TuTuA_R   flywire
+#> 8  putative_primary  <NA>  brain   F          TuTuA_R   flywire
+#> 9              <NA>  <NA>  brain   F   TuTuA(ADL19)_L hemibrain
+#> 10             <NA>  <NA>  brain   F   TuTuA(ADL19)_L hemibrain
+#> 11            ADL19  <NA>  brain   F          TuTuA_R hemibrain
+#> 12            ADL19  <NA>  brain   F          TuTuA_R hemibrain
+#> 13            ADL19  <NA>  brain   F        TuTuB_a_R hemibrain
+#> 14             <NA>  <NA>  brain   F TuTuB_a(ADL19)_L hemibrain
+#> 15            ADL19  <NA>  brain   F        TuTuB_b_R hemibrain
+#> 16             <NA>  <NA>  brain   F TuTuB_b(ADL19)_L hemibrain
+#>                      key
+#> 1  fw:720575940621226846
+#> 2  fw:720575940633550431
+#> 3  fw:720575940612218547
+#> 4  fw:720575940635979000
+#> 5  fw:720575940637997427
+#> 6  fw:720575940623326868
+#> 7  fw:720575940614041238
+#> 8  fw:720575940622538520
+#> 9          hb:5813013691
+#> 10          hb:676836779
+#> 11          hb:708290604
+#> 12          hb:925008763
+#> 13         hb:5813014028
+#> 14          hb:770226597
+#> 15          hb:769544445
+#> 16          hb:987759904
 ```
 
 ``` r
@@ -230,11 +247,16 @@ tutus.meta2 %>%
 #> 2 720575940635979000    L central     <NA>        <NA> TuTuB_b putative_primary
 #> 3          769544445    R    <NA>     <NA>        <NA> TuTuB_b            ADL19
 #> 4          987759904    L    <NA>     <NA>        <NA> TuTuB_b             <NA>
-#>   group         instance   dataset                   key dendid group_k5
-#> 1  <NA>        TuTuB_b_R   flywire fw:720575940637997427     11        4
-#> 2  <NA>        TuTuB_b_L   flywire fw:720575940635979000     10        4
-#> 3  <NA>        TuTuB_b_R hemibrain          hb:769544445      9        4
-#> 4  <NA> TuTuB_b(ADL19)_L hemibrain          hb:987759904     12        4
+#>   group tissue sex         instance   dataset                   key dendid
+#> 1  <NA>  brain   F        TuTuB_b_R   flywire fw:720575940637997427     11
+#> 2  <NA>  brain   F        TuTuB_b_L   flywire fw:720575940635979000     10
+#> 3  <NA>  brain   F        TuTuB_b_R hemibrain          hb:769544445      9
+#> 4  <NA>  brain   F TuTuB_b(ADL19)_L hemibrain          hb:987759904     12
+#>   group_k5
+#> 1        4
+#> 2        4
+#> 3        4
+#> 4        4
 ```
 
 Group 5 contains the TuTuB_b neurons
@@ -247,11 +269,16 @@ tutus.meta2 %>%
 #> 2 720575940633550431    R central     <NA>        <NA> TuTuB_a putative_primary
 #> 3          770226597    L    <NA>     <NA>        <NA> TuTuB_a             <NA>
 #> 4         5813014028    R    <NA>     <NA>        <NA> TuTuB_a            ADL19
-#>   group         instance   dataset                   key dendid group_k5
-#> 1  <NA>        TuTuB_a_L   flywire fw:720575940623326868     15        5
-#> 2  <NA>        TuTuB_a_R   flywire fw:720575940633550431     16        5
-#> 3  <NA> TuTuB_a(ADL19)_L hemibrain          hb:770226597     13        5
-#> 4  <NA>        TuTuB_a_R hemibrain         hb:5813014028     14        5
+#>   group tissue sex         instance   dataset                   key dendid
+#> 1  <NA>  brain   F        TuTuB_a_L   flywire fw:720575940623326868     15
+#> 2  <NA>  brain   F        TuTuB_a_R   flywire fw:720575940633550431     16
+#> 3  <NA>  brain   F TuTuB_a(ADL19)_L hemibrain          hb:770226597     13
+#> 4  <NA>  brain   F        TuTuB_a_R hemibrain         hb:5813014028     14
+#>   group_k5
+#> 1        5
+#> 2        5
+#> 3        5
+#> 4        5
 ```
 
 The following code could help find the Flybase/Virtual Fly Brain anatomy

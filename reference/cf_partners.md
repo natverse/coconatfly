@@ -12,7 +12,8 @@ cf_partners(
   bind.rows = TRUE,
   MoreArgs = list(),
   keep.all = FALSE,
-  use_superclass = getOption("coconatfly.use_superclass", FALSE)
+  use_superclass = getOption("coconatfly.use_superclass", FALSE),
+  harmonise_class = getOption("coconatfly.harmonise_class", FALSE)
 )
 ```
 
@@ -55,6 +56,11 @@ cf_partners(
   If `TRUE`, rename class/subclass/subsubclass columns to
   superclass/class/subclass. Can also be set via the
   `coconatfly.use_superclass` option.
+
+- harmonise_class:
+
+  If `TRUE`, harmonise class values to malecns style across all
+  datasets. Can also be set via the `coconatfly.harmonise_class` option.
 
 ## Value
 

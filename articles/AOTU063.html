@@ -54,7 +54,7 @@
       <h1>3. Splitting AOTU063 cell type</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/normalise-superclass-values/vignettes/AOTU063.Rmd" class="external-link"><code>vignettes/AOTU063.Rmd</code></a></small>
       <div class="d-none name"><code>AOTU063.Rmd</code></div>
     </div>
 
@@ -95,13 +95,20 @@ relevant data dumps if you have not done so previously.</p>
 <span><span class="co">#&gt; 4 720575940631129362    L central     &lt;NA&gt;        &lt;NA&gt; AOTU063a</span></span>
 <span><span class="co">#&gt; 5          791039731    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;  AOTU063</span></span>
 <span><span class="co">#&gt; 6          800929667    R    &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;  AOTU063</span></span>
-<span><span class="co">#&gt;            lineage group          instance   dataset                   key</span></span>
-<span><span class="co">#&gt; 1 putative_primary  &lt;NA&gt;        AOTU063a_R   flywire fw:720575940620326253</span></span>
-<span><span class="co">#&gt; 2 putative_primary  &lt;NA&gt;        AOTU063b_L   flywire fw:720575940618697118</span></span>
-<span><span class="co">#&gt; 3 putative_primary  &lt;NA&gt;        AOTU063b_R   flywire fw:720575940621925631</span></span>
-<span><span class="co">#&gt; 4 putative_primary  &lt;NA&gt;        AOTU063a_L   flywire fw:720575940631129362</span></span>
-<span><span class="co">#&gt; 5             &lt;NA&gt;  &lt;NA&gt; AOTU063(SCB058)_R hemibrain          hb:791039731</span></span>
-<span><span class="co">#&gt; 6             &lt;NA&gt;  &lt;NA&gt; AOTU063(SCB058)_R hemibrain          hb:800929667</span></span></code></pre></div>
+<span><span class="co">#&gt;            lineage group tissue sex          instance   dataset</span></span>
+<span><span class="co">#&gt; 1 putative_primary  &lt;NA&gt;  brain   F        AOTU063a_R   flywire</span></span>
+<span><span class="co">#&gt; 2 putative_primary  &lt;NA&gt;  brain   F        AOTU063b_L   flywire</span></span>
+<span><span class="co">#&gt; 3 putative_primary  &lt;NA&gt;  brain   F        AOTU063b_R   flywire</span></span>
+<span><span class="co">#&gt; 4 putative_primary  &lt;NA&gt;  brain   F        AOTU063a_L   flywire</span></span>
+<span><span class="co">#&gt; 5             &lt;NA&gt;  &lt;NA&gt;  brain   F AOTU063(SCB058)_R hemibrain</span></span>
+<span><span class="co">#&gt; 6             &lt;NA&gt;  &lt;NA&gt;  brain   F AOTU063(SCB058)_R hemibrain</span></span>
+<span><span class="co">#&gt;                     key</span></span>
+<span><span class="co">#&gt; 1 fw:720575940620326253</span></span>
+<span><span class="co">#&gt; 2 fw:720575940618697118</span></span>
+<span><span class="co">#&gt; 3 fw:720575940621925631</span></span>
+<span><span class="co">#&gt; 4 fw:720575940631129362</span></span>
+<span><span class="co">#&gt; 5          hb:791039731</span></span>
+<span><span class="co">#&gt; 6          hb:800929667</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aotu63</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -151,19 +158,19 @@ AOTU063 type (i.e. AOTU063a or AOTU063b) as a new column called
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cf_partners.html">cf_partners</a></span><span class="op">(</span><span class="va">aotu63</span>, partners <span class="op">=</span> <span class="st">'in'</span>, threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">aotu63in</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 8</span></span></span>
-<span><span class="co">#&gt;     pre_id post_id weight side  type    dataset pre_key               post_key  </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    118 R     LT52    flywire fw:720575940640004174 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     LT52    flywire fw:720575940618982725 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     AOTU041 flywire fw:720575940627738640 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     96 L     LT52    flywire fw:720575940612465777 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     95 R     LT52    flywire fw:720575940612837811 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     90 L     AOTU042 flywire fw:720575940619453861 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     87 R     SIP034  flywire fw:720575940628728172 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     LT52    flywire fw:720575940626024336 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire fw:720575940638668659 fw:720575…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire fw:720575940620321158 fw:720575…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 657 × 10</span></span></span>
+<span><span class="co">#&gt;     pre_id post_id weight side  type    dataset tissue sex   pre_key    post_key</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    118 R     LT52    flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     LT52    flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17    109 R     AOTU041 flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     96 L     LT52    flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     95 R     LT52    flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     90 L     AOTU042 flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     87 R     SIP034  flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     LT52    flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     83 R     AOTU041 flywire brain  F     fw:720575… fw:7205…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    7<span style="color: #949494;">e</span>17    7<span style="color: #949494;">e</span>17     82 R     AOTU014 flywire brain  F     fw:720575… fw:7205…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 647 more rows</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that AOTU063 neurons will be the postsynaptic partners in this dataframe</span></span>

@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fetch metadata for neurons from connectome datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/normalise-superclass-values/R/meta.R" class="external-link"><code>R/meta.R</code></a></small>
       <div class="d-none name"><code>cf_meta.Rd</code></div>
     </div>
 
@@ -46,6 +46,7 @@
 <span>  integer64 <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep.all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  use_superclass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.use_superclass"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  harmonise_class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"coconatfly.harmonise_class"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  MoreArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>flywire <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_type"</span>, <span class="st">"hemibrain_type"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -84,6 +85,12 @@ columns to superclass/class/subclass. Can also be set via the
 <code>coconatfly.use_superclass</code> option.</p></dd>
 
 
+<dt id="arg-harmonise-class">harmonise_class<a class="anchor" aria-label="anchor" href="#arg-harmonise-class"></a></dt>
+<dd><p>If <code>TRUE</code>, harmonise class values to malecns
+style across all datasets. Can also be set via the
+<code>coconatfly.harmonise_class</code> option.</p></dd>
+
+
 <dt id="arg-moreargs">MoreArgs<a class="anchor" aria-label="anchor" href="#arg-moreargs"></a></dt>
 <dd><p>A named list of arguments to be passed when fetching metadata
 for a given function. See details.</p></dd>
@@ -91,8 +98,17 @@ for a given function. See details.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>MoreArgs</code> is structured as a list with a top layer naming datasets
-  (using the same long names as <code><a href="cf_datasets.html">cf_datasets</a></code>. The second (lower)
+    <p>The returned data frame includes these standard columns:</p><ul><li><p><code>id</code>, <code>key</code>: neuron identifiers (key is unique across datasets)</p></li>
+<li><p><code>class</code>, <code>subclass</code>, <code>type</code>: cell class hierarchy
+    (harmonised to malecns style across datasets)</p></li>
+<li><p><code>instance</code>: summarises properties of individual neurons</p></li>
+<li><p><code>side</code>: normalised to L/R/M (left/right/midline) or NA</p></li>
+<li><p><code>sex</code>: M or F, from dataset registration</p></li>
+<li><p><code>tissue</code>: brain, vnc, or cns depending on dataset</p></li>
+<li><p><code>group</code>: numeric, defines related neurons within dataset</p></li>
+<li><p><code>dataset</code>: source dataset name</p></li>
+</ul><p><code>MoreArgs</code> is structured as a list with a top layer naming datasets
+  (using the same long names as <code><a href="cf_datasets.html">cf_datasets</a></code>). The second (lower)
   layer names the arguments that will be passed to dataset-specific functions.</p>
     </div>
     <div class="section level2">
@@ -117,12 +133,12 @@ for a given function. See details.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   FALSE DA2_lPN_R DA2_lPN   AVM02  &lt;NA&gt; FALSE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4   FALSE DA2_lPN_R DA2_lPN   AVM02  &lt;NA&gt;  TRUE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   FALSE DA2_lPN_R DA2_lPN   AVM02  &lt;NA&gt; FALSE    R  &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   group   dataset           key</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  &lt;NA&gt; hemibrain hb:1796817841</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  &lt;NA&gt; hemibrain hb:1796818119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  &lt;NA&gt; hemibrain hb:1797505019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  &lt;NA&gt; hemibrain hb:1827516355</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  &lt;NA&gt; hemibrain  hb:818983130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   group tissue sex   dataset           key</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  &lt;NA&gt;  brain   F hemibrain hb:1796817841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  &lt;NA&gt;  brain   F hemibrain hb:1796818119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  &lt;NA&gt;  brain   F hemibrain hb:1797505019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  &lt;NA&gt;  brain   F hemibrain hb:1827516355</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  &lt;NA&gt;  brain   F hemibrain  hb:818983130</span>
 <span class="r-in"><span><span class="co"># / introduces a regular expression</span></span></span>
 <span class="r-in"><span><span class="va">mbonmeta</span><span class="op">=</span><span class="fu">cf_meta</span><span class="op">(</span><span class="fu"><a href="cf_ids.html">cf_ids</a></span><span class="op">(</span>hemibrain<span class="op">=</span><span class="st">'/MBON.+'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

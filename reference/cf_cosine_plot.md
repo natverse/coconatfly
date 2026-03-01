@@ -288,13 +288,13 @@ head(lalmeta2)
 #> 4   FALSE LAL004_R LAL004   ADL06  <NA> TRUE    R  <NA>     <NA>        <NA>
 #> 5   FALSE LAL005_R LAL005   ADL06  <NA> TRUE    R  <NA>     <NA>        <NA>
 #> 6   FALSE LAL005_R LAL005   ADL06  <NA> TRUE    R  <NA>     <NA>        <NA>
-#>   group   dataset           key mytype             label
-#> 1  <NA> hemibrain hb:5813047453  alice LAL001_R :: alice
-#> 2  <NA> hemibrain hb:1011611587    bob   LAL002_R :: bob
-#> 3  <NA> hemibrain hb:5813041304   <NA>    LAL003_R :: NA
-#> 4  <NA> hemibrain  hb:894362173   <NA>    LAL004_R :: NA
-#> 5  <NA> hemibrain hb:1572520204   <NA>    LAL005_R :: NA
-#> 6  <NA> hemibrain hb:5901201676   <NA>    LAL005_R :: NA
+#>   group tissue sex   dataset           key mytype             label
+#> 1  <NA>  brain   F hemibrain hb:5813047453  alice LAL001_R :: alice
+#> 2  <NA>  brain   F hemibrain hb:1011611587    bob   LAL002_R :: bob
+#> 3  <NA>  brain   F hemibrain hb:5813041304   <NA>    LAL003_R :: NA
+#> 4  <NA>  brain   F hemibrain  hb:894362173   <NA>    LAL004_R :: NA
+#> 5  <NA>  brain   F hemibrain hb:1572520204   <NA>    LAL005_R :: NA
+#> 6  <NA>  brain   F hemibrain hb:5901201676   <NA>    LAL005_R :: NA
 
 # now use that in the plot
 # NB with function allows cf_cosine_plot to use dataframe columns directly

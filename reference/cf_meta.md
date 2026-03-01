@@ -11,6 +11,7 @@ cf_meta(
   integer64 = FALSE,
   keep.all = FALSE,
   use_superclass = getOption("coconatfly.use_superclass", FALSE),
+  harmonise_class = getOption("coconatfly.harmonise_class", FALSE),
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 ```
@@ -47,6 +48,11 @@ cf_meta(
   superclass/class/subclass. Can also be set via the
   `coconatfly.use_superclass` option.
 
+- harmonise_class:
+
+  If `TRUE`, harmonise class values to malecns style across all
+  datasets. Can also be set via the `coconatfly.harmonise_class` option.
+
 - MoreArgs:
 
   A named list of arguments to be passed when fetching metadata for a
@@ -54,9 +60,28 @@ cf_meta(
 
 ## Details
 
+The returned data frame includes these standard columns:
+
+- `id`, `key`: neuron identifiers (key is unique across datasets)
+
+- `class`, `subclass`, `type`: cell class hierarchy (harmonised to
+  malecns style across datasets)
+
+- `instance`: summarises properties of individual neurons
+
+- `side`: normalised to L/R/M (left/right/midline) or NA
+
+- `sex`: M or F, from dataset registration
+
+- `tissue`: brain, vnc, or cns depending on dataset
+
+- `group`: numeric, defines related neurons within dataset
+
+- `dataset`: source dataset name
+
 `MoreArgs` is structured as a list with a top layer naming datasets
 (using the same long names as
-[`cf_datasets`](https://natverse.org/coconatfly/reference/cf_datasets.md).
+[`cf_datasets`](https://natverse.org/coconatfly/reference/cf_datasets.md)).
 The second (lower) layer names the arguments that will be passed to
 dataset-specific functions.
 
@@ -82,12 +107,12 @@ da2meta
 #> 3   FALSE DA2_lPN_R DA2_lPN   AVM02  <NA> FALSE    R  <NA>     <NA>        <NA>
 #> 4   FALSE DA2_lPN_R DA2_lPN   AVM02  <NA>  TRUE    R  <NA>     <NA>        <NA>
 #> 5   FALSE DA2_lPN_R DA2_lPN   AVM02  <NA> FALSE    R  <NA>     <NA>        <NA>
-#>   group   dataset           key
-#> 1  <NA> hemibrain hb:1796817841
-#> 2  <NA> hemibrain hb:1796818119
-#> 3  <NA> hemibrain hb:1797505019
-#> 4  <NA> hemibrain hb:1827516355
-#> 5  <NA> hemibrain  hb:818983130
+#>   group tissue sex   dataset           key
+#> 1  <NA>  brain   F hemibrain hb:1796817841
+#> 2  <NA>  brain   F hemibrain hb:1796818119
+#> 3  <NA>  brain   F hemibrain hb:1797505019
+#> 4  <NA>  brain   F hemibrain hb:1827516355
+#> 5  <NA>  brain   F hemibrain  hb:818983130
 # / introduces a regular expression
 mbonmeta=cf_meta(cf_ids(hemibrain='/MBON.+'))
 # }
