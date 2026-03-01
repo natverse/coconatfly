@@ -41,7 +41,7 @@ test_that("tissue column is based on dataset", {
 
 test_that("sex column comes from dataset registration", {
   expect_equal(dataset_sex("hemibrain"), "F")
-  expect_equal(dataset_sex("malecns"), "F")
+  expect_equal(dataset_sex("malecns"), "M")
   expect_equal(dataset_sex("manc"), "M")
 })
 
@@ -54,6 +54,27 @@ test_that("cf_meta includes tissue, sex, and normalised side", {
   expect_equal(unique(meta$sex), "F")
   # hemibrain MBON01 should have R/L sides
   expect_true(all(meta$side %in% c("L", "R", "M", NA_character_)))
+})
+
+test_that("coconatfly.harmonise_class option works", {
+  skip_if_not_installed('malevnc')
+  old_opt <- getOption("coconatfly.harmonise_class")
+  on.exit(options(coconatfly.harmonise_class = old_opt))
+
+  # Without harmonisation, manc and malecns have different class values
+  options(coconatfly.harmonise_class = FALSE)
+  meta_off <- cf_meta(cf_ids(manc = "AN07B004", malecns = "AN07B004"))
+  manc_class <- unique(meta_off$class[meta_off$dataset == "manc"])
+  malecns_class <- unique(meta_off$class[meta_off$dataset == "malecns"])
+  # manc uses "ascending neuron", malecns uses "ascending_neuron"
+  expect_false(identical(manc_class, malecns_class))
+
+  # With harmonisation enabled, classes should match
+  options(coconatfly.harmonise_class = TRUE)
+  meta_on <- cf_meta(cf_ids(manc = "AN07B004", malecns = "AN07B004"))
+  manc_class_h <- unique(meta_on$class[meta_on$dataset == "manc"])
+  malecns_class_h <- unique(meta_on$class[meta_on$dataset == "malecns"])
+  expect_equal(manc_class_h, malecns_class_h)
 })
 
 test_that("top-level class values are harmonised to malecns style", {

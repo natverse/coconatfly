@@ -226,6 +226,9 @@ normalise_side <- function(x) {
 #' @param use_superclass If \code{TRUE}, rename class/subclass/subsubclass
 #'   columns to superclass/class/subclass. Can also be set via the
 #'   \code{coconatfly.use_superclass} option.
+#' @param harmonise_class If \code{TRUE}, harmonise class values to malecns
+#'   style across all datasets. Can also be set via the
+#'   \code{coconatfly.harmonise_class} option.
 #' @param bind.rows Whether to bind data.frames for each dataset together,
 #'   keeping only the common columns (default \code{TRUE} for convenience but
 #'   note that some columns will be dropped by unless \code{keep.all=TRUE}).
@@ -246,6 +249,7 @@ normalise_side <- function(x) {
 #' }
 cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
                     use_superclass=getOption("coconatfly.use_superclass", FALSE),
+                    harmonise_class=getOption("coconatfly.harmonise_class", FALSE),
                     MoreArgs=list(flywire=list(type=c("cell_type","hemibrain_type")))) {
   if(is.character(ids) || inherits(ids, 'dendrogram') || inherits(ids, 'hclust'))
     ids=keys2df(ids)
@@ -253,7 +257,7 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     stopifnot(bind.rows)
     ss=split(ids$id, ids$dataset)
     res=cf_meta(ss, integer64 = integer64, MoreArgs = MoreArgs, keep.all=keep.all,
-                use_superclass=use_superclass)
+                use_superclass=use_superclass, harmonise_class=harmonise_class)
     res=res[match(keys(ids), res$key),,drop=F]
     return(res)
   }
@@ -314,7 +318,8 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
     missing_cols=setdiff(cols_we_want, colnames(tres))
     if(length(missing_cols)>0)
       stop("We are missing columns: ", paste(missing_cols, collapse = ','))
-    tres$class=harmonise_top_class_values(tres$class, n)
+    if(isTRUE(harmonise_class))
+      tres$class=harmonise_top_class_values(tres$class, n)
     if("side" %in% colnames(tres))
       tres$side=normalise_side(tres$side)
     tres$dataset=n

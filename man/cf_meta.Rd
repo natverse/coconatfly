@@ -10,6 +10,7 @@ cf_meta(
   integer64 = FALSE,
   keep.all = FALSE,
   use_superclass = getOption("coconatfly.use_superclass", FALSE),
+  harmonise_class = getOption("coconatfly.harmonise_class", FALSE),
   MoreArgs = list(flywire = list(type = c("cell_type", "hemibrain_type")))
 )
 }
@@ -33,6 +34,10 @@ columns).}
 \item{use_superclass}{If \code{TRUE}, rename class/subclass/subsubclass
 columns to superclass/class/subclass. Can also be set via the
 \code{coconatfly.use_superclass} option.}
+
+\item{harmonise_class}{If \code{TRUE}, harmonise class values to malecns
+style across all datasets. Can also be set via the
+\code{coconatfly.harmonise_class} option.}
 
 \item{MoreArgs}{A named list of arguments to be passed when fetching metadata
 for a given function. See details.}

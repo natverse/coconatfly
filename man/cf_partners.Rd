@@ -11,7 +11,8 @@ cf_partners(
   bind.rows = TRUE,
   MoreArgs = list(),
   keep.all = FALSE,
-  use_superclass = getOption("coconatfly.use_superclass", FALSE)
+  use_superclass = getOption("coconatfly.use_superclass", FALSE),
+  harmonise_class = getOption("coconatfly.harmonise_class", FALSE)
 )
 }
 \arguments{
@@ -38,6 +39,10 @@ columns).}
 \item{use_superclass}{If \code{TRUE}, rename class/subclass/subsubclass
 columns to superclass/class/subclass. Can also be set via the
 \code{coconatfly.use_superclass} option.}
+
+\item{harmonise_class}{If \code{TRUE}, harmonise class values to malecns
+style across all datasets. Can also be set via the
+\code{coconatfly.harmonise_class} option.}
 }
 \value{
 A data.frame or a named list (when \code{bind.rows=FALSE})
