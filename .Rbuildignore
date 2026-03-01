@@ -9,3 +9,8 @@ package-secrets.txt
 ^codecov\.yml$
 ^samples/$
 ^R/.*wip.R$
+^vignettes/VS\.Rmd$
+^vignettes/allns\.Rmd$
+^vignettes/MZ_lv2PN\.Rmd$
+^vignettes/TuBu-orig\.Rmd$
+^vignettes/TuBu\.Rmd$

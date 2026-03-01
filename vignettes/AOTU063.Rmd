@@ -1,8 +1,8 @@
 ---
-title: "3. Splitting AOTU063 cell type"
+title: "4. Splitting AOTU063 cell type"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{3. Splitting AOTU063 cell type}
+  %\VignetteIndexEntry{4. Splitting AOTU063 cell type}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
