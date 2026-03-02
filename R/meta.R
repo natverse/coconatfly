@@ -428,17 +428,11 @@ cf_add_meta <- function(x, keycol = "key", suffix = NULL, cols = NULL, ...) {
     kc <- keycol[i]
     sf <- suffix[i]
 
-    # Prepare metadata with suffixed column names (except key)
-    meta_i <- meta
-    if (sf != "") {
-      names(meta_i) <- ifelse(names(meta_i) == "key",
-                               "key",
-                               paste0(names(meta_i), sf))
-    }
-
-    # Join by key column
-    join_by <- stats::setNames("key", kc)
-    x <- dplyr::left_join(x, meta_i, by = join_by)
+    # Rename key column to match keycol, add suffix to other columns, then join
+    x <- meta %>%
+      dplyr::rename(!!kc := key) %>%
+      dplyr::rename_with(~paste0(.x, sf), .cols = -dplyr::all_of(kc)) %>%
+      dplyr::left_join(x, ., by = kc)
   }
 
   x
