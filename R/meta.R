@@ -390,14 +390,25 @@ cf_add_meta <- function(x, keycol = "key", suffix = NULL, cols = NULL, ...) {
 
   # Extract unique keys and fetch metadata once
   all_keys <- unique(unlist(x[keycol], use.names = FALSE))
-  all_keys <- all_keys[!is.na(all_keys) & nzchar(all_keys)]
+  all_keys <- all_keys[!is.na(all_keys) & nzchar(as.character(all_keys))]
 
   if (length(all_keys) == 0) {
     warning("No valid keys found in specified columns")
     return(x)
   }
 
-  meta <- cf_meta(all_keys, ...)
+  # cf_meta needs dataset information to look up metadata
+  # Build a dataframe with key->dataset mapping from the input
+  if ("dataset" %in% names(x)) {
+    # Use first keycol to build key-dataset mapping
+    key_ds <- unique(x[c(keycol[1], "dataset")])
+    names(key_ds) <- c("id", "dataset")
+    key_ds <- key_ds[key_ds$id %in% all_keys, , drop = FALSE]
+    meta <- cf_meta(key_ds, ...)
+  } else {
+    stop("Input dataframe must have a 'dataset' column for cf_add_meta to look up metadata. ",
+         "Alternatively, use cf_meta() directly with cf_ids().")
+  }
 
   if (is.null(meta) || nrow(meta) == 0) {
     warning("No metadata found for provided keys")
