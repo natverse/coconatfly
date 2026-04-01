@@ -147,6 +147,22 @@ test_that("cf_add_meta handles multiple key columns with suffixes", {
   expect_true("type.post" %in% names(result))
   expect_true("class.pre" %in% names(result))
   expect_true("class.post" %in% names(result))
+  expect_equal(unique(result$type.pre), "G1_PN")
+  expect_true(all(c("G1.2_PN", "G2_PN") %in% result$type.post))
+})
+
+
+test_that("cf_add_meta uses dataset-encoded keys without requiring dataset column", {
+  register_rhubarb()
+
+  partners <- cf_partners(cf_ids(rhubarb = 10001), partners = "outputs",
+                          threshold = 1, details = "neither")
+  partners$dataset <- NULL
+
+  result <- cf_add_meta(partners, keycol = "post_key")
+
+  expect_true("type" %in% names(result))
+  expect_true(all(c("G1.2_PN", "G2_PN") %in% result$type))
 })
 
 

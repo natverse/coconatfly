@@ -379,7 +379,9 @@ cf_add_meta <- function(x, keycol = "key", suffix = NULL, cols = NULL, ...) {
 
   missing_cols <- setdiff(keycol, names(x))
   if (length(missing_cols))
-    stop("Column(s) not found in x: ", paste(missing_cols, collapse = ", "))
+    stop("keycol column(s) not found in x: ", paste(missing_cols, collapse = ", "),
+         "\nHint: use keys(x) to add a '", paste(missing_cols, collapse = "/"),
+         "' column, or set keycol= to identify the correct key column.")
 
   # Set default suffixes
   if (is.null(suffix)) {
