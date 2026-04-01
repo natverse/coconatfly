@@ -41,7 +41,7 @@ match_datasets <- function(ds) {
       distances <- utils::adist(m, dss, ignore.case = TRUE, partial=TRUE)
       closest_idx <- which.min(distances)
       min_dist <- distances[closest_idx]
-      if (min_dist <= 3) {
+      if (min_dist <= 2) {
         paste0("Did you mean '", dss[closest_idx], "'?")
       } else {
         ""
