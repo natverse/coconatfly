@@ -142,8 +142,14 @@ cosine connectivity clustering on these neurons like so:
 ``` r
 tutus %>% 
   cf_cosine_plot()
-#> Matching types across datasets. Keeping 638/2063 output connections with total weight 13502/35096 (38%)
-#> Matching types across datasets. Keeping 908/2536 input connections with total weight 18626/44807 (42%)
+#> Matching types across datasets. Keeping 672/2063 output connections with total weight 13837/35096 (39%)
+#> Matching types across datasets. Keeping 997/2536 input connections with total weight 20209/44807 (45%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =
+#> "pre_key", : Dropping: 34/672 neurons representing 335/13837 synapses due to
+#> missing ids!
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =
+#> groupcol, : Dropping: 89/997 neurons representing 1583/20209 synapses due to
+#> missing ids!
 #> Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite
 #> entries; finite result is doubtful
 ```
@@ -175,7 +181,10 @@ things resolve:
 tutus %>% 
   filter(grepl("TuTuA", type)) %>% 
   cf_cosine_plot(partners = 'in')
-#> Matching types across datasets. Keeping 875/1843 input connections with total weight 17636/36231 (49%)
+#> Matching types across datasets. Keeping 958/1843 input connections with total weight 19159/36231 (53%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =
+#> groupcol, : Dropping: 83/958 neurons representing 1523/19159 synapses due to
+#> missing ids!
 ```
 
 ![](TuTu_files/figure-html/unnamed-chunk-6-1.png)
@@ -209,8 +218,14 @@ we will observe this split in future connectomes though.
 ``` r
 tutus.hc <- tutus %>% 
   cf_cosine_plot(heatmap = F)
-#> Matching types across datasets. Keeping 638/2063 output connections with total weight 13502/35096 (38%)
-#> Matching types across datasets. Keeping 908/2536 input connections with total weight 18626/44807 (42%)
+#> Matching types across datasets. Keeping 672/2063 output connections with total weight 13837/35096 (39%)
+#> Matching types across datasets. Keeping 997/2536 input connections with total weight 20209/44807 (45%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =
+#> "pre_key", : Dropping: 34/672 neurons representing 335/13837 synapses due to
+#> missing ids!
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =
+#> groupcol, : Dropping: 89/997 neurons representing 1583/20209 synapses due to
+#> missing ids!
 #> Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite
 #> entries; finite result is doubtful
 # nb as a convenience cf_meta accepts an hclust object as input

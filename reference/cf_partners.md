@@ -12,6 +12,7 @@ cf_partners(
   bind.rows = TRUE,
   MoreArgs = list(),
   keep.all = FALSE,
+  details = c("partner", "query", "both", "neither"),
   use_superclass = getOption("coconatfly.use_superclass", FALSE),
   harmonise_class = getOption("coconatfly.harmonise_class", FALSE)
 )
@@ -50,6 +51,21 @@ cf_partners(
 
   Whether to keep all columns when processing multiple datasets rather
   than just those in common (default=`FALSE` only keeps shared columns).
+
+- details:
+
+  Which neurons to enrich with metadata. Options:
+
+  - `"partner"` (default): Add metadata for partner neurons only
+
+  - `"query"`: Add metadata for query neurons only
+
+  - `"both"`: Add metadata for both with `.pre`/`.post` suffixes
+
+  - `"neither"`: No metadata, return minimal columns for speed
+
+  Metadata can also be added later via
+  [`cf_add_meta`](https://natverse.org/coconatfly/reference/cf_add_meta.md).
 
 - use_superclass:
 

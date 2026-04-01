@@ -230,19 +230,25 @@ this.
 # \donttest{
 # basic cosine clustering, in this case for one dataset
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"))
+#> Warning: Dropping: 120/748 neurons representing 1235/15291 synapses due to missing ids!
+#> Warning: Dropping: 155/690 neurons representing 2269/11078 synapses due to missing ids!
 
 
 # same but dropping the dataset prefix in the column labels
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"),
   drop_dataset_prefix = TRUE)
+#> Warning: Dropping: 120/748 neurons representing 1235/15291 synapses due to missing ids!
+#> Warning: Dropping: 155/690 neurons representing 2269/11078 synapses due to missing ids!
 
 
 # only cluster by inputs
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='in')
+#> Warning: Dropping: 155/690 neurons representing 2269/11078 synapses due to missing ids!
 
 
 # or outputs
 cf_cosine_plot(cf_ids(hemibrain="/type:LAL00.+"), partners='out')
+#> Warning: Dropping: 120/748 neurons representing 1235/15291 synapses due to missing ids!
 
 
 # the same but without grouping partner connectivity by type
@@ -300,11 +306,15 @@ head(lalmeta2)
 # NB with function allows cf_cosine_plot to use dataframe columns directly
 lalmeta2 %>%
  with(cf_cosine_plot(key, labRow=label))
+#> Warning: Dropping: 120/748 neurons representing 1235/15291 synapses due to missing ids!
+#> Warning: Dropping: 155/690 neurons representing 2269/11078 synapses due to missing ids!
 
 
 # bigger clustering
 lalhc=cf_cosine_plot(cf_ids(hemibrain="/type:LAL.+"), heatmap=FALSE)
+#> Warning: Dropping: 2745/17386 neurons representing 37711/331470 synapses due to missing ids!
 #> Warning: diag(V) has non-positive or non-finite entries; finite result is doubtful
+#> Warning: Dropping: 6118/23297 neurons representing 108179/435509 synapses due to missing ids!
 lalmeta=cf_meta(lalhc)
 lalmeta=coconat::add_cluster_info(lalmeta, lalhc, h=0.75, idcol='key')
 
@@ -342,10 +352,12 @@ cf_cosine_plot(cf_ids("/type:LAL.+"), interactive=TRUE)
 # only a subset of partners to be used for typing
 mct=multi_connection_table(cf_ids(hemibrain="/lLN2.+"), partners='in')
 cf_cosine_plot(mct)
+#> Warning: Dropping: 11359/63218 neurons representing 27521/412813 synapses due to missing ids!
 
 library(dplyr)
 mct2=mct %>% filter(!grepl("PN",type))
 cf_cosine_plot(mct2)
+#> Warning: Dropping: 11359/57503 neurons representing 27521/315976 synapses due to missing ids!
 
 
 mct3=cf_ids("/type:lLN2.+", datasets=c("hemibrain", "flywire")) %>%
@@ -364,7 +376,7 @@ mct3=cf_ids("/type:lLN2.+", datasets=c("hemibrain", "flywire")) %>%
   TRUE ~ type
   ))
 #> Loading required namespace: git2r
-#> Matching types across datasets. Keeping 109639/137338 input connections with total weight 631127/868364 (73%)
+#> Matching types across datasets. Keeping 121018/137338 input connections with total weight 658686/868364 (76%)
 if (FALSE) { # \dontrun{
 mct3%>%
   # remove RN/uPN connectivity could also use the merged connectivity
@@ -378,6 +390,7 @@ mct3 %>%
   filter(query_key %in% cf_ids('/type:lLN2(T_[bde]|X08)',
     datasets = c("hemibrain", "flywire"), keys = TRUE)) %>%
   cf_cosine_plot()
+#> Warning: Dropping: 2188/21678 neurons representing 4723/113938 synapses due to missing ids!
 
 # }
 
@@ -397,11 +410,12 @@ lLN1=cf_ids("/type:lLN1_.+", datasets=c("hemibrain", "flywire")) %>%
   class=="uPN" ~ 'uPN',
   TRUE ~ type
   ))
-#> Matching types across datasets. Keeping 12842/20029 input connections with total weight 113028/237205 (48%)
+#> Matching types across datasets. Keeping 15798/20029 input connections with total weight 119560/237205 (50%)
 
 lLN1 %>%
   filter(!class %in% c("RN", "uPN")) %>%
   cf_cosine_plot()
+#> Warning: Dropping: 2956/5938 neurons representing 6532/39266 synapses due to missing ids!
 
 # }
 ```

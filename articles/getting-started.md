@@ -56,10 +56,10 @@ command.
 library(coconatfly)
 dr_coconatfly()
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/ds2BXIWXPER0oSmfj3oCd/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/PgTwpUmRHtxGrShtgB2CR/bin/python'
 #> -m pip freeze' had status 1
 #> Warning in system2(python, args, stdout = TRUE): running command
-#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/ds2BXIWXPER0oSmfj3oCd/bin/python'
+#> ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/PgTwpUmRHtxGrShtgB2CR/bin/python'
 #> -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
@@ -721,7 +721,10 @@ we suspect the downstream cell type interactions are more diagnostic for
 mbonmeta %>% 
   filter(grepl("MBON(25|34|24|26|33|35)", type)) %>% 
   cf_cosine_plot(partners = 'out')
-#> Matching types across datasets. Keeping 949/1844 output connections with total weight 25990/42677 (61%)
+#> Matching types across datasets. Keeping 1107/1844 output connections with total weight 28368/42677 (66%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =
+#> "pre_key", : Dropping: 158/1107 neurons representing 2378/28368 synapses due to
+#> missing ids!
 ```
 
 ![](getting-started_files/figure-html/unnamed-chunk-7-1.png)

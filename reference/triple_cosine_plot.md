@@ -108,7 +108,8 @@ triple_cosine_plot('AOTU063', partners = 'o')
 # neurons but expanded to the regex "(LAL074|LAL084)" in order to find
 # both hemibrain types
 triple_cosine_plot('LAL074,LAL084', partners = 'i')
-#> Matching types across datasets. Keeping 866/1276 input connections with total weight 19664/26346 (75%)
+#> Matching types across datasets. Keeping 1136/1276 input connections with total weight 24358/26346 (92%)
+#> Warning: Dropping: 270/1136 neurons representing 4694/24358 synapses due to missing ids!
 
 # }
 ```

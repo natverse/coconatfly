@@ -63,8 +63,14 @@ aotu63
 ``` r
 aotu63 %>%
   cf_cosine_plot()
-#> Matching types across datasets. Keeping 247/445 output connections with total weight 7771/11012 (71%)
-#> Matching types across datasets. Keeping 660/1082 input connections with total weight 13072/18107 (72%)
+#> Matching types across datasets. Keeping 320/445 output connections with total weight 8726/11012 (79%)
+#> Matching types across datasets. Keeping 720/1082 input connections with total weight 13850/18107 (76%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =
+#> "pre_key", : Dropping: 73/320 neurons representing 955/8726 synapses due to
+#> missing ids!
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =
+#> groupcol, : Dropping: 60/720 neurons representing 778/13850 synapses due to
+#> missing ids!
 ```
 
 ![](AOTU063_files/figure-html/unnamed-chunk-5-1.png)
@@ -73,8 +79,14 @@ We can get the dendrogram for this clustering
 
 ``` r
 aotu63.hc = cf_cosine_plot(aotu63, heatmap = FALSE)
-#> Matching types across datasets. Keeping 247/445 output connections with total weight 7771/11012 (71%)
-#> Matching types across datasets. Keeping 660/1082 input connections with total weight 13072/18107 (72%)
+#> Matching types across datasets. Keeping 320/445 output connections with total weight 8726/11012 (79%)
+#> Matching types across datasets. Keeping 720/1082 input connections with total weight 13850/18107 (76%)
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =
+#> "pre_key", : Dropping: 73/320 neurons representing 955/8726 synapses due to
+#> missing ids!
+#> Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =
+#> groupcol, : Dropping: 60/720 neurons representing 778/13850 synapses due to
+#> missing ids!
 plot(aotu63.hc)
 ```
 
@@ -120,20 +132,22 @@ aotu63v2=aotu63 %>%
   ))
 aotu63in <- cf_partners(aotu63, partners = 'in', threshold = 10)
 aotu63in
-#> # A tibble: 657 × 10
-#>     pre_id post_id weight side  type    dataset tissue sex   pre_key    post_key
-#>    <int64> <int64>  <int> <chr> <chr>   <chr>   <chr>  <chr> <chr>      <chr>   
-#>  1    7e17    7e17    118 R     LT52    flywire brain  F     fw:720575… fw:7205…
-#>  2    7e17    7e17    109 R     LT52    flywire brain  F     fw:720575… fw:7205…
-#>  3    7e17    7e17    109 R     AOTU041 flywire brain  F     fw:720575… fw:7205…
-#>  4    7e17    7e17     96 L     LT52    flywire brain  F     fw:720575… fw:7205…
-#>  5    7e17    7e17     95 R     LT52    flywire brain  F     fw:720575… fw:7205…
-#>  6    7e17    7e17     90 L     AOTU042 flywire brain  F     fw:720575… fw:7205…
-#>  7    7e17    7e17     87 R     SIP034  flywire brain  F     fw:720575… fw:7205…
-#>  8    7e17    7e17     83 R     LT52    flywire brain  F     fw:720575… fw:7205…
-#>  9    7e17    7e17     83 R     AOTU041 flywire brain  F     fw:720575… fw:7205…
-#> 10    7e17    7e17     82 R     AOTU014 flywire brain  F     fw:720575… fw:7205…
+#> # A tibble: 657 × 16
+#>     pre_id post_id weight dataset tissue sex   pre_key      post_key side  class
+#>    <int64> <int64>  <int> <chr>   <chr>  <chr> <chr>        <chr>    <chr> <chr>
+#>  1    7e17    7e17    118 flywire brain  F     fw:72057594… fw:7205… R     visu…
+#>  2    7e17    7e17    109 flywire brain  F     fw:72057594… fw:7205… R     visu…
+#>  3    7e17    7e17    109 flywire brain  F     fw:72057594… fw:7205… R     cent…
+#>  4    7e17    7e17     96 flywire brain  F     fw:72057594… fw:7205… L     visu…
+#>  5    7e17    7e17     95 flywire brain  F     fw:72057594… fw:7205… R     visu…
+#>  6    7e17    7e17     90 flywire brain  F     fw:72057594… fw:7205… L     cent…
+#>  7    7e17    7e17     87 flywire brain  F     fw:72057594… fw:7205… R     cent…
+#>  8    7e17    7e17     83 flywire brain  F     fw:72057594… fw:7205… R     visu…
+#>  9    7e17    7e17     83 flywire brain  F     fw:72057594… fw:7205… R     cent…
+#> 10    7e17    7e17     82 flywire brain  F     fw:72057594… fw:7205… R     cent…
 #> # ℹ 647 more rows
+#> # ℹ 6 more variables: subclass <chr>, subsubclass <chr>, type <chr>,
+#> #   lineage <chr>, group <chr>, instance <chr>
 ```
 
 ``` r
@@ -192,20 +206,20 @@ aotu63in %>%
 #> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
 #> ℹ Use `summarise(.by = c(qtype, dataset, type))` for per-operation grouping
 #>   (`?dplyr::dplyr_by`) instead.
-#> # A tibble: 49 × 5
+#> # A tibble: 43 × 5
 #>    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb
 #>    <chr>         <dbl>       <dbl>       <dbl>       <dbl>
 #>  1 LC10             56          48          56          45
 #>  2 LT52              7          30          11          26
 #>  3 SIP034            7           0           5           0
-#>  4 NA                6           3           0           0
+#>  4 NA                6           3           1           6
 #>  5 AOTU041           5           2           5           1
 #>  6 AOTU042           4           3           3           2
 #>  7 AOTU014           0           5           0           5
 #>  8 VES041            3           0           3           0
 #>  9 AOTU065           2           1           2           2
 #> 10 AOTU028           2           0           2           0
-#> # ℹ 39 more rows
+#> # ℹ 33 more rows
 ```
 
 So we can see that the top few cell types already suggest a number of
@@ -244,20 +258,20 @@ aotu63out %>%
 #> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
 #> ℹ Use `summarise(.by = c(qtype, dataset, type))` for per-operation grouping
 #>   (`?dplyr::dplyr_by`) instead.
-#> # A tibble: 77 × 5
-#>    type    AOTU063a_fw AOTU063b_fw AOTU063a_hb AOTU063b_hb
+#> # A tibble: 57 × 5
+#>    type    AOTU063a_fw AOTU063a_hb AOTU063b_fw AOTU063b_hb
 #>    <chr>         <dbl>       <dbl>       <dbl>       <dbl>
-#>  1 IB008            15          11          14           9
-#>  2 DNa10            12          11           9           7
-#>  3 IB010            11           5           8           5
-#>  4 AOTU007           8           7           6           8
-#>  5 DNde002           3           9           0           0
-#>  6 VES064            7           4           5           4
-#>  7 DNae011           7           3           0           0
-#>  8 DNbe004           6           0           0           0
-#>  9 NA                5           0           0           0
-#> 10 AOTU024           1           6           1           2
-#> # ℹ 67 more rows
+#>  1 IB008            15          14          11           9
+#>  2 NA                5          22           0           7
+#>  3 DNa10            12           9          11           7
+#>  4 IB010            11           8           5           5
+#>  5 AOTU007           8           6           7           8
+#>  6 DNde002           3           0           9           0
+#>  7 VES064            7           5           4           4
+#>  8 DNae011           7           0           3           0
+#>  9 DNbe004           6           0           0           0
+#> 10 AOTU024           1           1           6           2
+#> # ℹ 47 more rows
 ```
 
 Here things are not quite obvious but IB008/IB010 look different and

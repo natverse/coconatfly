@@ -18,6 +18,8 @@ Fetch neuron metadata and synaptic partner information
 
 - [`cf_meta()`](https://natverse.org/coconatfly/reference/cf_meta.md) :
   Fetch metadata for neurons from connectome datasets
+- [`cf_add_meta()`](https://natverse.org/coconatfly/reference/cf_add_meta.md)
+  : Add metadata to a dataframe containing neuron keys
 - [`cf_partners()`](https://natverse.org/coconatfly/reference/cf_partners.md)
   : Flexible function for fetching partner data across datasets
 - [`cf_partner_summary()`](https://natverse.org/coconatfly/reference/cf_partner_summary.md)
