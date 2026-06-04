@@ -1,6 +1,8 @@
 # private function taking a list of input and output connection tables
-# and turning them into a cosine matrix
-multi_cosine_matrix <- function(x, partners, nas, group='type') {
+# and turning them into a similarity matrix
+multi_cosine_matrix <- function(x, partners, nas, group='type',
+                                metric=c("cosine", "jaccard", "weighted_jaccard", "tanimoto")) {
+  metric=match.arg(metric)
   if(is.data.frame(x)) {
     x=split(x, x$partners)
     partners=names(x)
@@ -19,7 +21,7 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
       inputcol = 'pre_key',
       outputcol = groupcol,
       inputids = ids)
-    cm[['cout']] = coconat::cosine_sim(oam, transpose = T)
+    cm[['cout']] = coconat::connectivity_similarity(oam, metric = metric, transpose = T)
     cm[['wout']]=sum(x[['outputs']]$weight)
   }
   if('inputs' %in% partners) {
@@ -27,10 +29,10 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
     iam <- coconat::partner_summary2adjacency_matrix(
       x[['inputs']],
       inputcol = groupcol, outputcol = 'post_key', outputids = ids)
-    cm[['cin']] = coconat::cosine_sim(iam, transpose = F)
+    cm[['cin']] = coconat::connectivity_similarity(iam, metric = metric, transpose = F)
     cm[['win']]=sum(x[['inputs']]$weight)
   }
-  cm <- coconat::prepare_cosine_matrix(cm, partners = partners, action=nas)
+  cm <- coconat::prepare_similarity_matrix(cm, partners = partners, action=nas)
   cm
 }
 
@@ -85,6 +87,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   limitation in the second case.
 #' @param matrix Whether to return the raw cosine matrix (rather than a
 #'   heatmap/dendrogram)
+#' @param metric Similarity metric to use. One of \code{"cosine"},
+#'   \code{"jaccard"}, \code{"weighted_jaccard"}, or \code{"tanimoto"}.
 #' @param drop_dataset_prefix Whether to remove dataset prefix such as
 #'   \code{hb:} or \code{fw:} from dendrograms. This is useful when reviewing
 #'   neurons in interactive mode.
@@ -240,6 +244,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            group='type',
                            heatmap=TRUE,
                            matrix=FALSE,
+                           metric=c("cosine", "jaccard", "weighted_jaccard", "tanimoto"),
                            interactive=FALSE,
                            drop_dataset_prefix=FALSE,
                            keep.all.meta=TRUE,
@@ -248,6 +253,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            method=c("ward.D", "single", "complete", "average",
                                     "mcquitty", "median", "centroid", "ward.D2")) {
   method=match.arg(method)
+  metric=match.arg(metric)
   partners=match.arg(partners, several.ok = T)
   if(is.mct(ids)) {
     x=ids
@@ -255,7 +261,7 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
   } else
     x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group, min_datasets = min_datasets)
 
-  cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
+  cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas, metric=metric)
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
     tm=cf_meta(colnames(cm), keep.all = keep.all.meta)
@@ -291,8 +297,8 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
     colnames(cm)=sub("^[a-z]+:","", colnames(cm))
   if(isTRUE(matrix))
     return(cm)
-  coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
-                           method = method, heatmap=heatmap, ...)
+  coconat:::connectivity_heatmap(cm, interactive = interactive, labRow = labRow,
+                                 method = method, heatmap=heatmap, ...)
 }
 
 
@@ -406,4 +412,3 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
 is.mct <- function(x) {
   is.data.frame(x) && all(c("pre_id", "post_id", "dataset", "partners") %in% colnames(x))
 }
-

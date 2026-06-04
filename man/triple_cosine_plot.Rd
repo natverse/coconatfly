@@ -14,6 +14,7 @@ triple_cosine_plot(
   labRow = "{type}_{abbreviate_datasets(dataset)}{side}",
   group = "type",
   heatmap = TRUE,
+  metric = c("cosine", "jaccard", "weighted_jaccard", "tanimoto"),
   interactive = FALSE,
   nas = c("zero", "drop"),
   method = c("ward.D", "single", "complete", "average", "mcquitty", "median", "centroid",
@@ -46,6 +47,9 @@ resultant heatmap}
 \emph{OR} a function to plot the heatmap whose argument names are
 compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
 good example.}
+
+\item{metric}{Similarity metric to use. One of \code{"cosine"},
+\code{"jaccard"}, \code{"weighted_jaccard"}, or \code{"tanimoto"}.}
 
 \item{interactive}{When \code{TRUE} returns a shiny-based interactive heatmap}
 

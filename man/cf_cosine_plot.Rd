@@ -14,6 +14,7 @@ cf_cosine_plot(
   group = "type",
   heatmap = TRUE,
   matrix = FALSE,
+  metric = c("cosine", "jaccard", "weighted_jaccard", "tanimoto"),
   interactive = FALSE,
   drop_dataset_prefix = FALSE,
   keep.all.meta = TRUE,
@@ -65,6 +66,9 @@ with \code{stats::\link{heatmap}}.}
 
 \item{matrix}{Whether to return the raw cosine matrix (rather than a
 heatmap/dendrogram)}
+
+\item{metric}{Similarity metric to use. One of \code{"cosine"},
+\code{"jaccard"}, \code{"weighted_jaccard"}, or \code{"tanimoto"}.}
 
 \item{interactive}{Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.}
