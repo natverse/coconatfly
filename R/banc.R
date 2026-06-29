@@ -6,7 +6,7 @@ banc_error <- function() {
   if(inherits(bv, 'try-error') || bv<'0.3.2')
     stop("To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` ",
          call. = FALSE)
-  stop("Please run `bancr::register_banc_coconat()` to use the banc dataset",
+  stop(cli::format_inline("Please run {.run bancr::register_banc_coconat()} to use the banc dataset"),
        call. = FALSE)
 }
 

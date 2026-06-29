@@ -32,7 +32,8 @@ Imports:
     methods,
     withr,
     utils,
-    tibble
+    tibble,
+    cli
 Suggests:
     malevnc (> 0.3.1),
     malecns (>= 0.4.2),
@@ -42,7 +43,6 @@ Suggests:
     ComplexHeatmap,
     InteractiveComplexHeatmap,
     arrow,
-    cli,
     git2r,
     knitr,
     rmarkdown,
