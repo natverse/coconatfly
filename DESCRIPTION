@@ -59,7 +59,7 @@ Remotes:
     natverse/neuprintr,
     catmaid=natverse/rcatmaid,
     natverse/nat.h5reg,
-    natverse/coconat
+    natverse/coconat@feature/connectivity-similarity
 RoxygenNote: 7.3.3
 URL: https://github.com/natverse/coconatfly,
     https://natverse.org/coconatfly/
