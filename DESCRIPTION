@@ -35,7 +35,7 @@ Imports:
     tibble
 Suggests:
     malevnc (> 0.3.1),
-    malecns (>= 0.3.3),
+    malecns (>= 0.4.2),
     snakecase,
     fancr (>= 0.5.0),
     testthat (>= 3.0.0),
