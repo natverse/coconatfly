@@ -3,7 +3,7 @@
 # because that will override the built-in banc_* functions
 banc_error <- function() {
   bv=try(utils::packageVersion('bancr'), silent = TRUE)
-  if(inherits(bv, 'try-error') || bv<'0.2.1')
+  if(inherits(bv, 'try-error') || bv<'0.3.2')
     stop("To use the banc dataset please do `natmanager::install(pkgs = 'flyconnectome/bancr')` ",
          call. = FALSE)
   stop("Please run `bancr::register_banc_coconat()` to use the banc dataset",
