@@ -8,8 +8,9 @@ test_that("dataset functions work", {
 
 test_that("match_datasets suggests close matches", {
   # Typo should suggest correct dataset
-  expect_error(match_datasets("hemibran"), "Did you mean 'hemibrain'")
-  expect_error(match_datasets("flywie"), "Did you mean 'flywire'")
+  expect_error(match_datasets("hemb"), "Did you mean 'hemibrain'")
+  expect_error(match_datasets("flyb"), "Did you mean 'flywire'")
+  expect_error(match_datasets("opic"), "Did you mean 'opticlobe'")
 })
 
 test_that("match_datasets shows no suggestion for unrelated names", {

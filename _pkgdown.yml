@@ -14,6 +14,7 @@ reference:
   desc: Fetch neuron metadata and synaptic partner information
   contents:
   - cf_meta
+  - cf_add_meta
   - cf_partners
   - cf_partner_summary
   - multi_connection_table
