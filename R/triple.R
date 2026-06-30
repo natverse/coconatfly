@@ -74,6 +74,8 @@ triple_meta <- function(ids, version=fafbseg::flywire_connectome_data_version())
 #'   \emph{OR} a function to plot the heatmap whose argument names are
 #'   compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
 #'   good example.
+#' @param metric Similarity metric to use. One of \code{"cosine"},
+#'   \code{"jaccard"}, \code{"weighted_jaccard"}, or \code{"tanimoto"}.
 #' @param nas What to do with rows/columns with NAs when computing cosine
 #'   matrix. Dropping may be more mathematically satisfactory but eliminates
 #'   neurons from the comparison, so the default is to set NA elements to do 0
@@ -105,18 +107,20 @@ triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
                                labRow='{type}_{abbreviate_datasets(dataset)}{side}',
                                group='type',
                                heatmap=TRUE,
+                               metric=c("cosine", "jaccard", "weighted_jaccard", "tanimoto"),
                                interactive=FALSE,
                                nas=c('zero','drop'),
                                method=c("ward.D", "single", "complete", "average",
                                         "mcquitty", "median", "centroid", "ward.D2")) {
   method=match.arg(method)
+  metric=match.arg(metric)
   partners=match.arg(partners, several.ok = T)
   if(is.null(version))
     version=flywire_connectome_data_version()
   if(!is.data.frame(x))
     x=triple_connection_table(x, fwtype, partners = partners, threshold = threshold, version = version, group=group)
 
-  cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
+  cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas, metric=metric)
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
     tm=cf_meta(colnames(cm))
@@ -128,6 +132,6 @@ triple_cosine_plot <- function(x, fwtype=x, version=NULL, ..., threshold=5,
       stop("Please install/update suggested package coconat.\n",
            "natmanager::install(pkgs = 'coconat')\n","is a good way to do this")
   }
-  coconat:::cosine_heatmap(cm, interactive = interactive, labRow = labRow,
-                           method = method, heatmap=heatmap, ...)
+  coconat:::connectivity_heatmap(cm, interactive = interactive, labRow = labRow,
+                                 method = method, heatmap=heatmap, ...)
 }
