@@ -18,7 +18,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
       x[['outputs']],
       inputcol = 'pre_key',
       outputcol = groupcol,
-      inputids = ids)
+      inputids = ids,
+      standardise_input = FALSE)
     cm[['cout']] = coconat::cosine_sim(oam, transpose = T)
     cm[['wout']]=sum(x[['outputs']]$weight)
   }
@@ -26,7 +27,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
     groupcol <- if(isFALSE(group)) "pre_key" else group
     iam <- coconat::partner_summary2adjacency_matrix(
       x[['inputs']],
-      inputcol = groupcol, outputcol = 'post_key', outputids = ids)
+      inputcol = groupcol, outputcol = 'post_key', outputids = ids,
+      standardise_input = FALSE)
     cm[['cin']] = coconat::cosine_sim(iam, transpose = F)
     cm[['win']]=sum(x[['inputs']]$weight)
   }
@@ -52,6 +54,21 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   \code{group} can be set to other metadata columns such as \code{class} or
 #'   \code{hemilineage}, \code{serial} (serially homologous cell group) if
 #'   available. This can reveal other interesting features of organisation.
+#'
+#'   \bold{Multihop (effective) connectivity}. By default (\code{nhops=0})
+#'   neurons are clustered by their direct partners. Setting \code{nhops>0}
+#'   instead clusters them by their \emph{effective} connectivity onto partners
+#'   reached through one or more intermediate interneuron layers, following the
+#'   method of Schlegel et al. (2021). At each step the connectivity is
+#'   input-normalised (so the inputs to every postsynaptic cell sum to 1) and
+#'   the successive matrices are multiplied, computed separately within each
+#'   dataset. \code{nhops=1} corresponds to their \dQuote{one-hop} (2nd-order)
+#'   pathways, \code{nhops=2} to 3rd-order and so on. Because the intermediate
+#'   partner sets grow quickly, \code{min_frac} prunes each layer to types that
+#'   receive at least that fraction of effective input (per-type, applied at
+#'   every hop including the final one); it defaults to a small non-zero value
+#'   when \code{nhops>0}. A grouping column (e.g. the default \code{group="type"})
+#'   is required for \code{nhops>0}.
 #'
 #'   The \code{labRow} argument is most conveniently specified as a length 1
 #'   string to be interpolated by \code{\link[glue]{glue}}; this will happen in
@@ -79,6 +96,17 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @param group The name or the grouping column for partner connectivity
 #'   (defaults to \code{"type"}) or a logical where \code{group=FALSE} means no
 #'   grouping (see details).
+#' @param nhops Number of intermediate interneuron layers to traverse when
+#'   computing effective connectivity. \code{0} (the default) uses direct
+#'   partners; \code{1} is the \dQuote{one-hop} (2nd-order) case, etc. See
+#'   \bold{details}.
+#' @param min_frac Per-type fractional threshold (default \code{0.005}) used
+#'   when \code{nhops>0} to prune each layer (including the final one) to partner
+#'   types receiving at least this fraction of effective input. A scalar or a
+#'   vector with one value per hop. Ignored when \code{nhops=0}.
+#' @param remove_query Whether to exclude the query neurons from the partners at
+#'   every hop, both as intermediate interneurons and as final targets (default
+#'   \code{FALSE}). Only relevant when \code{nhops>0}.
 #' @param labRow Optionally, either string that can be interpolated by
 #'   \code{\link[glue]{glue}} \emph{or} a character vector matching the number
 #'   of neurons specified by \code{ids}. See \bold{details} for an important
@@ -236,6 +264,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' }
 cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
                            partners = c("outputs", "inputs"),
+                           nhops=0L, min_frac=0.005,
+                           remove_query=FALSE,
                            labRow='{type}_{coconatfly::abbreviate_datasets(dataset)}{side}',
                            group='type',
                            heatmap=TRUE,
@@ -253,7 +283,10 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
     x=ids
     partners=unique(x$partners)
   } else
-    x=multi_connection_table(ids, partners = partners, threshold = threshold, group=group, min_datasets = min_datasets)
+    x=multi_connection_table(ids, partners = partners, threshold = threshold,
+                             group=group, min_datasets = min_datasets,
+                             nhops=nhops, min_frac=min_frac,
+                             remove_query=remove_query)
 
   cm <- multi_cosine_matrix(x, partners = partners, group=group, nas=nas)
 
@@ -342,6 +375,8 @@ cf_cosine_plot <- function(ids=NULL, ..., threshold=5,
 #'  output neurons.
 multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
                                    threshold=1L, group='type',
+                                   nhops=0L, min_frac=0.005,
+                                   remove_query=FALSE,
                                    check_missing=TRUE,
                                    min_datasets=Inf,
                                    prefer.foreign=NA,
@@ -352,10 +387,15 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
   if(isTRUE(group))
     group='type'
   partners=match.arg(partners, several.ok = T)
+  if(nhops>0 && !is.character(group))
+    stop("Multihop connectivity (nhops>0) requires a grouping column ",
+         "(e.g. group='type') to define partner layers across hops.")
   kk=keys(ids)
   if(length(partners)>1) {
     l=sapply(partners, simplify = F, function(p)
       multi_connection_table(kk, partners=p, threshold = threshold, group=group,
+                             nhops=nhops, min_frac=min_frac,
+                             remove_query=remove_query,
                              check_missing=F, min_datasets = min_datasets,
                              prefer.foreign=prefer.foreign, MoreArgs=MoreArgs,
                              keep.all=keep.all, ...))
@@ -383,8 +423,14 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
        ((length(datasets)>1 && "malecns" %in% datasets) && is.na(prefer.foreign)))
       MoreArgs=list(malecns=list(prefer.foreign=TRUE))
   }
-  x <- cf_partners(kk, threshold = threshold, partners = partners,
-                   MoreArgs = MoreArgs, keep.all=keep.all, ...)
+  x <- if(nhops>0)
+    multihop_partner_summary(kk, partners=partners, nhops=nhops,
+                             threshold=threshold, min_frac=min_frac,
+                             group=group, remove_query=remove_query,
+                             MoreArgs=MoreArgs)
+  else
+    cf_partners(kk, threshold = threshold, partners = partners,
+                MoreArgs = MoreArgs, keep.all=keep.all, ...)
   if(is.character(group))
     x <- match_types(x, group, partners=partners, min_datasets = min_datasets)
   # mark which column was used for the query

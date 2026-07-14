@@ -10,6 +10,9 @@ cf_cosine_plot(
   ...,
   threshold = 5,
   partners = c("outputs", "inputs"),
+  nhops = 0L,
+  min_frac = 0.005,
+  remove_query = FALSE,
   labRow = "{type}_{coconatfly::abbreviate_datasets(dataset)}{side}",
   group = "type",
   heatmap = TRUE,
@@ -28,6 +31,9 @@ multi_connection_table(
   partners = c("inputs", "outputs"),
   threshold = 1L,
   group = "type",
+  nhops = 0L,
+  min_frac = 0.005,
+  remove_query = FALSE,
   check_missing = TRUE,
   min_datasets = Inf,
   prefer.foreign = NA,
@@ -47,6 +53,20 @@ wrapped by \code{\link{cf_ids}} \emph{or} a dataframe compatible with the
 option since neuprint sometimes returns 0 weight edges.}
 
 \item{partners}{Whether to return inputs or outputs}
+
+\item{nhops}{Number of intermediate interneuron layers to traverse when
+computing effective connectivity. \code{0} (the default) uses direct
+partners; \code{1} is the \dQuote{one-hop} (2nd-order) case, etc. See
+\bold{details}.}
+
+\item{min_frac}{Per-type fractional threshold (default \code{0.005}) used
+when \code{nhops>0} to prune each layer (including the final one) to partner
+types receiving at least this fraction of effective input. A scalar or a
+vector with one value per hop. Ignored when \code{nhops=0}.}
+
+\item{remove_query}{Whether to exclude the query neurons from the partners at
+every hop, both as intermediate interneurons and as final targets (default
+\code{FALSE}). Only relevant when \code{nhops>0}.}
 
 \item{labRow}{Optionally, either string that can be interpolated by
 \code{\link[glue]{glue}} \emph{or} a character vector matching the number
@@ -136,6 +156,21 @@ examples.
   \code{group} can be set to other metadata columns such as \code{class} or
   \code{hemilineage}, \code{serial} (serially homologous cell group) if
   available. This can reveal other interesting features of organisation.
+
+  \bold{Multihop (effective) connectivity}. By default (\code{nhops=0})
+  neurons are clustered by their direct partners. Setting \code{nhops>0}
+  instead clusters them by their \emph{effective} connectivity onto partners
+  reached through one or more intermediate interneuron layers, following the
+  method of Schlegel et al. (2021). At each step the connectivity is
+  input-normalised (so the inputs to every postsynaptic cell sum to 1) and
+  the successive matrices are multiplied, computed separately within each
+  dataset. \code{nhops=1} corresponds to their \dQuote{one-hop} (2nd-order)
+  pathways, \code{nhops=2} to 3rd-order and so on. Because the intermediate
+  partner sets grow quickly, \code{min_frac} prunes each layer to types that
+  receive at least that fraction of effective input (per-type, applied at
+  every hop including the final one); it defaults to a small non-zero value
+  when \code{nhops>0}. A grouping column (e.g. the default \code{group="type"})
+  is required for \code{nhops>0}.
 
   The \code{labRow} argument is most conveniently specified as a length 1
   string to be interpolated by \code{\link[glue]{glue}}; this will happen in
