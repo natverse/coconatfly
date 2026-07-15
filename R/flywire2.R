@@ -40,6 +40,7 @@ register_flywire2 <- function(name='fx', ..., showerror=TRUE){
     metafun=function(ids, ...) {
       .flywire_meta(ids, ...)
     },
+    sex = "F",
     ...
   )
 }
