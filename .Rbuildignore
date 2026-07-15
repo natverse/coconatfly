@@ -14,3 +14,5 @@ package-secrets.txt
 ^vignettes/MZ_lv2PN\.Rmd$
 ^vignettes/TuBu-orig\.Rmd$
 ^vignettes/TuBu\.Rmd$
+^\.claude$
+^.*-plan\.md$

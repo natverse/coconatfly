@@ -8,3 +8,4 @@ samples/
 package-secrets.txt
 docs
 inst/doc
+*-plan.md
