@@ -138,7 +138,7 @@ Other ids: [`keys()`](https://natverse.org/coconatfly/reference/keys.md)
 ``` r
 # \donttest{
 cf_ids("DA2_lPN", datasets='brain')
-#> Using malecns dataset `male-cns:v0.9`.
+#> Using malecns dataset `male-cns:v1.0`.
 #> See ?malecns section Package Options for details.
 #> For high-quality h5 bridging registrations (malecns <-> JRC2018U),
 #> run mcns_download_xforms2() once to download, then

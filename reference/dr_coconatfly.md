@@ -19,8 +19,6 @@ A dataframe containing status information for connectome datasets
 # \donttest{
 dr_coconatfly()
 #> # Dataset details
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/PgTwpUmRHtxGrShtgB2CR/bin/python' -m pip freeze' had status 1
-#> Warning: running command ''/home/runner/.cache/R/reticulate/uv/cache/archive-v0/PgTwpUmRHtxGrShtgB2CR/bin/python' -m pip freeze' had status 1
 #>     dataset installed
 #> 1 hemibrain      TRUE
 #> 2      manc      TRUE
@@ -40,7 +38,7 @@ dr_coconatfly()
 #>             version
 #> 1  hemibrain:v1.2.1
 #> 2       manc:v1.2.3
-#> 3     male-cns:v0.9
+#> 3     male-cns:v1.0
 #> 4 optic-lobe:v1.0.1
 #> 5               783
 #> 6              <NA>

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3. Clustering TuTu neurons • coconatfly</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="3. Clustering TuTu neurons">
 </head>
@@ -54,7 +54,7 @@
       <h1>3. Clustering TuTu neurons</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/cf-add-meta/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/vignettes/TuTu.Rmd" class="external-link"><code>vignettes/TuTu.Rmd</code></a></small>
       <div class="d-none name"><code>TuTu.Rmd</code></div>
     </div>
 
@@ -187,14 +187,8 @@ cosine connectivity clustering on these neurons like so:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Keeping 672/2063 output connections with total weight 13837/35096 (39%)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Keeping 997/2536 input connections with total weight 20209/44807 (45%)</span></span>
-<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =</span></span>
-<span><span class="co">#&gt; "pre_key", : Dropping: 34/672 neurons representing 335/13837 synapses due to</span></span>
-<span><span class="co">#&gt; missing ids!</span></span>
-<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =</span></span>
-<span><span class="co">#&gt; groupcol, : Dropping: 89/997 neurons representing 1583/20209 synapses due to</span></span>
-<span><span class="co">#&gt; missing ids!</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Keeping 638/2063 output connections with total weight 13502/35096 (38%)</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Keeping 908/2536 input connections with total weight 18626/44807 (42%)</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
@@ -220,10 +214,7 @@ things resolve:</p>
 <code class="sourceCode R"><span><span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"TuTuA"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Keeping 958/1843 input connections with total weight 19159/36231 (53%)</span></span>
-<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =</span></span>
-<span><span class="co">#&gt; groupcol, : Dropping: 83/958 neurons representing 1523/19159 synapses due to</span></span>
-<span><span class="co">#&gt; missing ids!</span></span></code></pre></div>
+<span><span class="co">#&gt; Matching types across datasets. Keeping 875/1843 input connections with total weight 17636/36231 (49%)</span></span></code></pre></div>
 <p><img src="TuTu_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <p>Hmm the situation is still the same. Since the two flywire groups are
 so well-separated this is almost certainly a real split. In fact there
@@ -252,14 +243,8 @@ we will observe this split in future connectomes though.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tutus.hc</span> <span class="op">&lt;-</span> <span class="va">tutus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cf_cosine_plot.html">cf_cosine_plot</a></span><span class="op">(</span>heatmap <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Keeping 672/2063 output connections with total weight 13837/35096 (39%)</span></span>
-<span><span class="co">#&gt; Matching types across datasets. Keeping 997/2536 input connections with total weight 20209/44807 (45%)</span></span>
-<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["outputs"]], inputcol =</span></span>
-<span><span class="co">#&gt; "pre_key", : Dropping: 34/672 neurons representing 335/13837 synapses due to</span></span>
-<span><span class="co">#&gt; missing ids!</span></span>
-<span><span class="co">#&gt; Warning in coconat::partner_summary2adjacency_matrix(x[["inputs"]], inputcol =</span></span>
-<span><span class="co">#&gt; groupcol, : Dropping: 89/997 neurons representing 1583/20209 synapses due to</span></span>
-<span><span class="co">#&gt; missing ids!</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Keeping 638/2063 output connections with total weight 13502/35096 (38%)</span></span>
+<span><span class="co">#&gt; Matching types across datasets. Keeping 908/2536 input connections with total weight 18626/44807 (42%)</span></span>
 <span><span class="co">#&gt; Warning in Matrix::cov2cor(cpx): diag(V) has non-positive or non-finite</span></span>
 <span><span class="co">#&gt; entries; finite result is doubtful</span></span>
 <span><span class="co"># nb as a convenience cf_meta accepts an hclust object as input</span></span>
@@ -368,7 +353,7 @@ summarised as follows:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

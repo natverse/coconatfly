@@ -37,7 +37,7 @@ function returns these standard columns:
 ``` r
 mbon01 <- cf_meta(cf_ids("MBON01", datasets = c("flywire", "malecns")))
 #> Loading required namespace: git2r
-#> Using malecns dataset `male-cns:v0.9`.
+#> Using malecns dataset `male-cns:v1.0`.
 #> See ?malecns section Package Options for details.
 #> For high-quality h5 bridging registrations (malecns <-> JRC2018U),
 #> run mcns_download_xforms2() once to download, then
@@ -158,8 +158,8 @@ an_meta <- cf_meta(cf_ids("AN07B004", datasets = c("manc", "malecns")))
 an_meta %>%
   select(type, class, side, dataset)
 #>       type            class side dataset
-#> 1 AN07B004 ascending_neuron    L malecns
-#> 2 AN07B004 ascending_neuron    R malecns
+#> 1 AN07B004 ascending_neuron    R malecns
+#> 2 AN07B004 ascending_neuron    L malecns
 #> 3 AN07B004 ascending neuron    R    manc
 #> 4 AN07B004 ascending neuron    L    manc
 ```
@@ -172,8 +172,8 @@ an_meta_h <- cf_meta(cf_ids("AN07B004", datasets = c("manc", "malecns")),
 an_meta_h %>%
   select(type, class, side, dataset)
 #>       type            class side dataset
-#> 1 AN07B004 ascending_neuron    L malecns
-#> 2 AN07B004 ascending_neuron    R malecns
+#> 1 AN07B004 ascending_neuron    R malecns
+#> 2 AN07B004 ascending_neuron    L malecns
 #> 3 AN07B004 ascending_neuron    R    manc
 #> 4 AN07B004 ascending_neuron    L    manc
 ```
