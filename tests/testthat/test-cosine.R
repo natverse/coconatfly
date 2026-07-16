@@ -35,6 +35,22 @@ test_that("cosine plots work", {
 })
 
 
+test_that("cf_cosine_plot supports alternative similarity metrics", {
+  ids <- cf_ids(hemibrain="/type:LAL00.+")
+  ref <- cf_cosine_plot(ids, group = FALSE, heatmap = FALSE, matrix = TRUE)
+
+  for(metric in c("jaccard", "weighted_jaccard", "tanimoto")) {
+    cm <- cf_cosine_plot(ids, group = FALSE, heatmap = FALSE, matrix = TRUE,
+                         metric = metric)
+    expect_true(is.matrix(cm), info = metric)
+    expect_equal(dim(cm), dim(ref), info = metric)
+    expect_equal(rownames(cm), rownames(ref), info = metric)
+    expect_equal(colnames(cm), colnames(ref), info = metric)
+    expect_equal(unname(diag(cm)), rep(1, nrow(cm)), info = metric)
+  }
+})
+
+
 test_that("cosine plot with no partners", {
   op <- options(fafbseg.use_static_celltypes=T)
   on.exit(options(op))
