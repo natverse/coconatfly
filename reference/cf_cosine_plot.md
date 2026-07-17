@@ -16,6 +16,9 @@ cf_cosine_plot(
   ...,
   threshold = 5,
   partners = c("outputs", "inputs"),
+  nhops = 0L,
+  min_frac = 0.005,
+  remove_query = FALSE,
   labRow = "{type}_{coconatfly::abbreviate_datasets(dataset)}{side}",
   group = "type",
   heatmap = TRUE,
@@ -34,6 +37,9 @@ multi_connection_table(
   partners = c("inputs", "outputs"),
   threshold = 1L,
   group = "type",
+  nhops = 0L,
+  min_frac = 0.005,
+  remove_query = FALSE,
   check_missing = TRUE,
   min_datasets = Inf,
   prefer.foreign = NA,
@@ -67,6 +73,25 @@ multi_connection_table(
 - partners:
 
   Whether to return inputs or outputs
+
+- nhops:
+
+  Number of intermediate interneuron layers to traverse when computing
+  effective connectivity. `0` (the default) uses direct partners; `1` is
+  the “one-hop” (2nd-order) case, etc. See **details**.
+
+- min_frac:
+
+  Per-type fractional threshold (default `0.005`) used when `nhops>0` to
+  prune each layer (including the final one) to partner types receiving
+  at least this fraction of effective input. A scalar or a vector with
+  one value per hop. Ignored when `nhops=0`.
+
+- remove_query:
+
+  Whether to exclude the query neurons from the partners at every hop,
+  both as intermediate interneurons and as final targets (default
+  `FALSE`). Only relevant when `nhops>0`.
 
 - labRow:
 
@@ -179,6 +204,21 @@ metadata support in FANC so `group=FALSE` is the only option there.
 `group` can be set to other metadata columns such as `class` or
 `hemilineage`, `serial` (serially homologous cell group) if available.
 This can reveal other interesting features of organisation.
+
+**Multihop (effective) connectivity**. By default (`nhops=0`) neurons
+are clustered by their direct partners. Setting `nhops>0` instead
+clusters them by their *effective* connectivity onto partners reached
+through one or more intermediate interneuron layers, following the
+method of Schlegel et al. (2021). At each step the connectivity is
+input-normalised (so the inputs to every postsynaptic cell sum to 1) and
+the successive matrices are multiplied, computed separately within each
+dataset. `nhops=1` corresponds to their “one-hop” (2nd-order) pathways,
+`nhops=2` to 3rd-order and so on. Because the intermediate partner sets
+grow quickly, `min_frac` prunes each layer to types that receive at
+least that fraction of effective input (per-type, applied at every hop
+including the final one); it defaults to a small non-zero value when
+`nhops>0`. A grouping column (e.g. the default `group="type"`) is
+required for `nhops>0`.
 
 The `labRow` argument is most conveniently specified as a length 1
 string to be interpolated by

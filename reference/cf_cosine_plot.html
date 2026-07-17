@@ -44,7 +44,7 @@ multi_connection_table fetches partner connectivity data
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Multi dataset cosine clustering</h1>
-      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/master/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/coconatfly/blob/feature/multihop-connectivity/R/cosine.R" class="external-link"><code>R/cosine.R</code></a></small>
       <div class="d-none name"><code>cf_cosine_plot.Rd</code></div>
     </div>
 
@@ -66,6 +66,9 @@ examples.</p>
 <span>  <span class="va">...</span>,</span>
 <span>  threshold <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"outputs"</span>, <span class="st">"inputs"</span><span class="op">)</span>,</span>
+<span>  nhops <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  min_frac <span class="op">=</span> <span class="fl">0.005</span>,</span>
+<span>  remove_query <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  labRow <span class="op">=</span> <span class="st">"{type}_{coconatfly::abbreviate_datasets(dataset)}{side}"</span>,</span>
 <span>  group <span class="op">=</span> <span class="st">"type"</span>,</span>
 <span>  heatmap <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -84,6 +87,9 @@ examples.</p>
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inputs"</span>, <span class="st">"outputs"</span><span class="op">)</span>,</span>
 <span>  threshold <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  group <span class="op">=</span> <span class="st">"type"</span>,</span>
+<span>  nhops <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  min_frac <span class="op">=</span> <span class="fl">0.005</span>,</span>
+<span>  remove_query <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  min_datasets <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  prefer.foreign <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -114,6 +120,26 @@ option since neuprint sometimes returns 0 weight edges.</p></dd>
 
 <dt id="arg-partners">partners<a class="anchor" aria-label="anchor" href="#arg-partners"></a></dt>
 <dd><p>Whether to return inputs or outputs</p></dd>
+
+
+<dt id="arg-nhops">nhops<a class="anchor" aria-label="anchor" href="#arg-nhops"></a></dt>
+<dd><p>Number of intermediate interneuron layers to traverse when
+computing effective connectivity. <code>0</code> (the default) uses direct
+partners; <code>1</code> is the “one-hop” (2nd-order) case, etc. See
+<b>details</b>.</p></dd>
+
+
+<dt id="arg-min-frac">min_frac<a class="anchor" aria-label="anchor" href="#arg-min-frac"></a></dt>
+<dd><p>Per-type fractional threshold (default <code>0.005</code>) used
+when <code>nhops&gt;0</code> to prune each layer (including the final one) to partner
+types receiving at least this fraction of effective input. A scalar or a
+vector with one value per hop. Ignored when <code>nhops=0</code>.</p></dd>
+
+
+<dt id="arg-remove-query">remove_query<a class="anchor" aria-label="anchor" href="#arg-remove-query"></a></dt>
+<dd><p>Whether to exclude the query neurons from the partners at
+every hop, both as intermediate interneurons and as final targets (default
+<code>FALSE</code>). Only relevant when <code>nhops&gt;0</code>.</p></dd>
 
 
 <dt id="arg-labrow">labRow<a class="anchor" aria-label="anchor" href="#arg-labrow"></a></dt>
@@ -221,6 +247,20 @@ columns).</p></dd>
 <p><code>group</code> can be set to other metadata columns such as <code>class</code> or
   <code>hemilineage</code>, <code>serial</code> (serially homologous cell group) if
   available. This can reveal other interesting features of organisation.</p>
+<p><b>Multihop (effective) connectivity</b>. By default (<code>nhops=0</code>)
+  neurons are clustered by their direct partners. Setting <code>nhops&gt;0</code>
+  instead clusters them by their <em>effective</em> connectivity onto partners
+  reached through one or more intermediate interneuron layers, following the
+  method of Schlegel et al. (2021). At each step the connectivity is
+  input-normalised (so the inputs to every postsynaptic cell sum to 1) and
+  the successive matrices are multiplied, computed separately within each
+  dataset. <code>nhops=1</code> corresponds to their “one-hop” (2nd-order)
+  pathways, <code>nhops=2</code> to 3rd-order and so on. Because the intermediate
+  partner sets grow quickly, <code>min_frac</code> prunes each layer to types that
+  receive at least that fraction of effective input (per-type, applied at
+  every hop including the final one); it defaults to a small non-zero value
+  when <code>nhops&gt;0</code>. A grouping column (e.g. the default <code>group="type"</code>)
+  is required for <code>nhops&gt;0</code>.</p>
 <p>The <code>labRow</code> argument is most conveniently specified as a length 1
   string to be interpolated by <code><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></code>; this will happen in
   the context of a data frame generated by <code><a href="cf_meta.html">cf_meta</a></code>. One reason
