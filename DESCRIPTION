@@ -25,6 +25,7 @@ Imports:
     checkmate,
     dplyr,
     coconat (> 0.1.2),
+    Matrix,
     stringr,
     magrittr,
     bit64,
