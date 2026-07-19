@@ -85,6 +85,43 @@ test_that("remove_query drops query neurons from the target set", {
   expect_false("Q" %in% colnames(eff1))
 })
 
+test_that("group=FALSE keeps targets at neuron resolution", {
+  testthat::local_mocked_bindings(cf_partners = mock_cf_partners)
+  # same network/values as the hand-computed one-hop test, but ungrouped: the
+  # single X neuron is fw:21 and the single Y neuron is fw:22
+  eff <- coconatfly:::multihop_effective_matrix(
+    c("fw:1","fw:2"), partners="outputs", nhops=1L,
+    threshold=1L, min_frac=0, group=FALSE)
+  m <- as.matrix(eff)
+  expect_setequal(colnames(m), c("fw:21","fw:22"))
+  m <- m[c("fw:1","fw:2"), c("fw:21","fw:22")]
+  expect_equal(unname(m), matrix(c(2/3, 2/9, 1/3, 7/9), nrow=2, byrow=TRUE))
+})
+
+test_that("group=FALSE prunes the frontier per neuron", {
+  testthat::local_mocked_bindings(cf_partners = mock_cf_partners)
+  # per-neuron effective input fractions to the interneurons: i11 max 2/3,
+  # i12 max 1. min_frac 0.7 prunes i11, leaving only q2 -> i12 -> fw:22
+  eff <- coconatfly:::multihop_effective_matrix(
+    c("fw:1","fw:2"), partners="outputs", nhops=1L,
+    threshold=1L, min_frac=0.7, group=FALSE)
+  m <- as.matrix(eff)
+  expect_equal(colnames(m), "fw:22")
+  expect_equal(unname(m["fw:2","fw:22"]), 1)
+})
+
+test_that(".mh_matrix2df omits the grouping column when group=FALSE", {
+  m <- Matrix::Matrix(c(2/3, 1/3), nrow=1,
+    dimnames=list("fw:1", c("fw:21","fw:22")))
+  df <- coconatfly:::.mh_matrix2df(m, dataset="flywire", partners="outputs",
+                                   group=FALSE)
+  expect_false("FALSE" %in% colnames(df))
+  expect_false("type" %in% colnames(df))
+  # multi_cosine_matrix reads the ungrouped target straight from post_key
+  expect_setequal(df$post_key, c("fw:21","fw:22"))
+  expect_equal(unique(df$pre_key), "fw:1")
+})
+
 test_that("nhops=2 handles an interneuron dead end (row alignment)", {
   # q1 -> {i1(A), i2(B)} ; i1 -> j1(X) ; i2 has NO outputs (dead end) ;
   # j1 -> t1(Z). With alignment, i2's missing onward row must become zero.
