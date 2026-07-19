@@ -85,7 +85,8 @@ multi_connection_table(
   Per-type fractional threshold (default `0.005`) used when `nhops>0` to
   prune each layer (including the final one) to partner types receiving
   at least this fraction of effective input. A scalar or a vector with
-  one value per hop. Ignored when `nhops=0`.
+  one value per hop. Becomes a per-neuron cut when `group=FALSE` (see
+  **details**). Ignored when `nhops=0`.
 
 - remove_query:
 
@@ -217,8 +218,17 @@ dataset. `nhops=1` corresponds to their “one-hop” (2nd-order) pathways,
 grow quickly, `min_frac` prunes each layer to types that receive at
 least that fraction of effective input (per-type, applied at every hop
 including the final one); it defaults to a small non-zero value when
-`nhops>0`. A grouping column (e.g. the default `group="type"`) is
-required for `nhops>0`.
+`nhops>0`.
+
+`group=FALSE` works for multihop too: each neuron is then treated as its
+own group, so the features are individual n-th order partner neurons and
+`min_frac` becomes a per-neuron rather than a per-type cut. This is the
+only option for datasets without metadata (e.g. FANC) and is useful for
+columnar neurons, but as for `nhops=0` it only really makes sense within
+a single dataset, since individual neurons do not correspond across
+datasets. Note that per-neuron effective weights are smaller than their
+per-type aggregates, so you may want a smaller `min_frac` than the
+default.
 
 The `labRow` argument is most conveniently specified as a length 1
 string to be interpolated by
