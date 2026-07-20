@@ -62,12 +62,19 @@ multihop_effective_matrix <- function(dskeys, partners, nhops, threshold,
     }
 
     if (h <= nhops) {
-      # intermediate layer: prune frontier by group (selection only). With
+      # Intermediate layer: prune the frontier by group (selection only). With
       # group=FALSE the grouping is the identity so we skip the multiplication.
+      # Neurons with no group label form their own singleton groups rather than
+      # being dropped, so connectivity still propagates through a poorly typed
+      # intermediate layer to well typed neurons beyond it; they are simply
+      # thresholded per neuron instead of per type.
+      ptypes <- ntypes
+      if (anyNA(ptypes))
+        ptypes[is.na(ptypes)] <- colnames(running)[is.na(ptypes)]
       grp <- if (isFALSE(group)) running
-             else running %*% coconat::grouping_matrix(colnames(running), ntypes)
+             else running %*% coconat::grouping_matrix(colnames(running), ptypes)
       keep_types <- colnames(grp)[apply(as.matrix(grp), 2, max) >= mf[h]]
-      surviving <- colnames(running)[ntypes %in% keep_types]
+      surviving <- colnames(running)[ptypes %in% keep_types]
       if (remove_query)
         surviving <- setdiff(surviving, query_keys)
       running <- running[, surviving, drop = FALSE]

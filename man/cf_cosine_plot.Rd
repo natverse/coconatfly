@@ -172,6 +172,15 @@ examples.
   every hop including the final one); it defaults to a small non-zero value
   when \code{nhops>0}.
 
+  Partner neurons lacking a group label (e.g. an untyped neuron when
+  \code{group="type"}) are handled differently depending on where they sit. In
+  an \emph{intermediate} layer they form their own singleton groups and are
+  thresholded per neuron, so connectivity still propagates through a poorly
+  typed layer to well typed neurons beyond it - which is often the whole point
+  of looking more than one hop away. In the \emph{final} layer they are
+  dropped, since an untyped neuron cannot serve as a shared feature; this
+  matches the behaviour for direct partners when \code{nhops=0}.
+
   \code{group=FALSE} works for multihop too: each neuron is then treated as
   its own group, so the features are individual n-th order partner neurons
   and \code{min_frac} becomes a per-neuron rather than a per-type cut. This is

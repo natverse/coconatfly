@@ -85,6 +85,47 @@ test_that("remove_query drops query neurons from the target set", {
   expect_false("Q" %in% colnames(eff1))
 })
 
+test_that("untyped intermediate neurons still propagate connectivity", {
+  # q1 -> i1(type A), i2(UNTYPED) ; i1 -> t1(X) ; i2 -> t2(Y). The whole point
+  # of multihop is to reach a well typed layer through a poorly typed one, so
+  # the untyped interneuron must not silently discard the path to Y.
+  edges <- data.frame(
+    pre_key  = c("fw:1","fw:1","fw:11","fw:12"),
+    post_key = c("fw:11","fw:12","fw:21","fw:22"),
+    weight   = c(10,10,8,8), stringsAsFactors=FALSE)
+  mk <- function(typ) function(ids, threshold=1L, partners="outputs",
+                               MoreArgs=list(), ...) {
+    e <- edges[edges$pre_key %in% as.character(ids) & edges$weight>=threshold,,drop=FALSE]
+    if(nrow(e)==0) return(NULL)
+    e$type <- unname(typ[e$post_key]); e$dataset <- "flywire"; e
+  }
+
+  testthat::local_mocked_bindings(
+    cf_partners = mk(c("fw:11"="A","fw:12"=NA,"fw:21"="X","fw:22"="Y")))
+  eff <- coconatfly:::multihop_effective_matrix(
+    "fw:1", "outputs", 1L, 1L, 0, "type")
+  expect_setequal(colnames(eff), c("X","Y"))
+})
+
+test_that("untyped terminal partners are dropped (as at nhops=0)", {
+  edges <- data.frame(
+    pre_key  = c("fw:1","fw:1","fw:11","fw:12"),
+    post_key = c("fw:11","fw:12","fw:21","fw:22"),
+    weight   = c(10,10,8,8), stringsAsFactors=FALSE)
+  typ <- c("fw:11"="A","fw:12"="B","fw:21"="X","fw:22"=NA)
+  testthat::local_mocked_bindings(
+    cf_partners = function(ids, threshold=1L, partners="outputs",
+                           MoreArgs=list(), ...) {
+      e <- edges[edges$pre_key %in% as.character(ids),,drop=FALSE]
+      if(nrow(e)==0) return(NULL)
+      e$type <- unname(typ[e$post_key]); e$dataset <- "flywire"; e
+    })
+  eff <- coconatfly:::multihop_effective_matrix(
+    "fw:1", "outputs", 1L, 1L, 0, "type")
+  # an untyped target cannot serve as a shared feature, so only X remains
+  expect_equal(colnames(eff), "X")
+})
+
 test_that("group=FALSE keeps targets at neuron resolution", {
   testthat::local_mocked_bindings(cf_partners = mock_cf_partners)
   # same network/values as the hand-computed one-hop test, but ungrouped: the
