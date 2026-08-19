@@ -67,8 +67,26 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #'   partner sets grow quickly, \code{min_frac} prunes each layer to types that
 #'   receive at least that fraction of effective input (per-type, applied at
 #'   every hop including the final one); it defaults to a small non-zero value
-#'   when \code{nhops>0}. A grouping column (e.g. the default \code{group="type"})
-#'   is required for \code{nhops>0}.
+#'   when \code{nhops>0}.
+#'
+#'   Partner neurons lacking a group label (e.g. an untyped neuron when
+#'   \code{group="type"}) are handled differently depending on where they sit. In
+#'   an \emph{intermediate} layer they form their own singleton groups and are
+#'   thresholded per neuron, so connectivity still propagates through a poorly
+#'   typed layer to well typed neurons beyond it - which is often the whole point
+#'   of looking more than one hop away. In the \emph{final} layer they are
+#'   dropped, since an untyped neuron cannot serve as a shared feature; this
+#'   matches the behaviour for direct partners when \code{nhops=0}.
+#'
+#'   \code{group=FALSE} works for multihop too: each neuron is then treated as
+#'   its own group, so the features are individual n-th order partner neurons
+#'   and \code{min_frac} becomes a per-neuron rather than a per-type cut. This is
+#'   the only option for datasets without metadata (e.g. FANC) and is useful for
+#'   columnar neurons, but as for \code{nhops=0} it only really makes sense
+#'   within a single dataset, since individual neurons do not correspond across
+#'   datasets. Note that per-neuron effective weights are smaller than their
+#'   per-type aggregates, so you may want a smaller \code{min_frac} than the
+#'   default.
 #'
 #'   The \code{labRow} argument is most conveniently specified as a length 1
 #'   string to be interpolated by \code{\link[glue]{glue}}; this will happen in
@@ -103,7 +121,8 @@ multi_cosine_matrix <- function(x, partners, nas, group='type') {
 #' @param min_frac Per-type fractional threshold (default \code{0.005}) used
 #'   when \code{nhops>0} to prune each layer (including the final one) to partner
 #'   types receiving at least this fraction of effective input. A scalar or a
-#'   vector with one value per hop. Ignored when \code{nhops=0}.
+#'   vector with one value per hop. Becomes a per-neuron cut when
+#'   \code{group=FALSE} (see \bold{details}). Ignored when \code{nhops=0}.
 #' @param remove_query Whether to exclude the query neurons from the partners at
 #'   every hop, both as intermediate interneurons and as final targets (default
 #'   \code{FALSE}). Only relevant when \code{nhops>0}.
@@ -387,9 +406,6 @@ multi_connection_table <- function(ids, partners=c("inputs", "outputs"),
   if(isTRUE(group))
     group='type'
   partners=match.arg(partners, several.ok = T)
-  if(nhops>0 && !is.character(group))
-    stop("Multihop connectivity (nhops>0) requires a grouping column ",
-         "(e.g. group='type') to define partner layers across hops.")
   kk=keys(ids)
   if(length(partners)>1) {
     l=sapply(partners, simplify = F, function(p)

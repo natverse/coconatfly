@@ -35,7 +35,7 @@ multihop_effective_matrix <- function(dskeys, partners, nhops, threshold,
     tbl <- cf_partners(frontier, threshold = threshold, partners = partners,
                        MoreArgs = MoreArgs)
     if (is.null(tbl) || nrow(tbl) == 0) return(NULL)
-    if (!group %in% colnames(tbl))
+    if (is.character(group) && !group %in% colnames(tbl))
       stop("Grouping column `", group, "` not present in cf_partners result!")
 
     Mn <- coconat::colScaleM(.mh_adjacency(tbl))
@@ -50,17 +50,31 @@ multihop_effective_matrix <- function(dskeys, partners, nhops, threshold,
                else coconat::effective_connectivity(list(running, step),
                                                      normalise = FALSE)
 
-    # type of each new-frontier neuron (partner side of this hop)
-    ntypes <- tbl[[group]][!duplicated(tbl[[newfrontier_key]])]
-    names(ntypes) <- tbl[[newfrontier_key]][!duplicated(tbl[[newfrontier_key]])]
-    ntypes <- ntypes[colnames(running)]
+    # group label of each new-frontier neuron (partner side of this hop).
+    # group=FALSE means each neuron is its own group, so pruning becomes a
+    # per-neuron rather than per-type cut and the terminal layer stays ungrouped.
+    ntypes <- if (isFALSE(group)) {
+      stats::setNames(colnames(running), colnames(running))
+    } else {
+      nt <- tbl[[group]][!duplicated(tbl[[newfrontier_key]])]
+      names(nt) <- tbl[[newfrontier_key]][!duplicated(tbl[[newfrontier_key]])]
+      nt[colnames(running)]
+    }
 
     if (h <= nhops) {
-      # intermediate layer: prune frontier by type (selection only)
-      G <- coconat::grouping_matrix(colnames(running), ntypes)
-      grp <- running %*% G
+      # Intermediate layer: prune the frontier by group (selection only). With
+      # group=FALSE the grouping is the identity so we skip the multiplication.
+      # Neurons with no group label form their own singleton groups rather than
+      # being dropped, so connectivity still propagates through a poorly typed
+      # intermediate layer to well typed neurons beyond it; they are simply
+      # thresholded per neuron instead of per type.
+      ptypes <- ntypes
+      if (anyNA(ptypes))
+        ptypes[is.na(ptypes)] <- colnames(running)[is.na(ptypes)]
+      grp <- if (isFALSE(group)) running
+             else running %*% coconat::grouping_matrix(colnames(running), ptypes)
       keep_types <- colnames(grp)[apply(as.matrix(grp), 2, max) >= mf[h]]
-      surviving <- colnames(running)[ntypes %in% keep_types]
+      surviving <- colnames(running)[ptypes %in% keep_types]
       if (remove_query)
         surviving <- setdiff(surviving, query_keys)
       running <- running[, surviving, drop = FALSE]
@@ -77,16 +91,20 @@ multihop_effective_matrix <- function(dskeys, partners, nhops, threshold,
     running <- running[, keepcols, drop = FALSE]
     far_types <- far_types[keepcols]
   }
-  # group far neurons to type (per-neuron normalisation already done)
-  eff <- running %*% coconat::grouping_matrix(colnames(running), far_types)
-  # final per-type cut
+  # group far neurons to type (per-neuron normalisation already done). With
+  # group=FALSE the terminal layer is left at neuron resolution.
+  eff <- if (isFALSE(group)) running
+         else running %*% coconat::grouping_matrix(colnames(running), far_types)
+  # final cut
   eff <- Matrix::drop0(eff * (eff >= mf[nhops + 1L]))
   eff
 }
 
-# Melt an effective query x target-type matrix into a cf_partners-like long
-# table for one direction, with the query on the appropriate key column and the
-# target type in `group`. Feeds straight into multi_cosine_matrix.
+# Melt an effective query x target matrix into a cf_partners-like long table for
+# one direction, with the query on the appropriate key column and the target in
+# `group`. Feeds straight into multi_cosine_matrix. When group=FALSE the target
+# is a neuron key, which multi_cosine_matrix reads from post_key/pre_key
+# directly, so no grouping column is added.
 .mh_matrix2df <- function(eff, dataset, partners, group = "type") {
   if (is.null(eff) || length(eff) == 0 || sum(eff != 0) == 0)
     return(NULL)
@@ -94,7 +112,8 @@ multihop_effective_matrix <- function(dskeys, partners, nhops, threshold,
   qk <- rownames(eff)[s$i]
   tp <- colnames(eff)[s$j]
   df <- data.frame(stringsAsFactors = FALSE, weight = s$x)
-  df[[group]] <- tp
+  if (!isFALSE(group))
+    df[[group]] <- tp
   # query lives in pre_key for outputs, post_key for inputs
   if (partners == "outputs") {
     df$pre_key <- qk
