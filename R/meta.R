@@ -334,6 +334,113 @@ cf_meta <- function(ids, bind.rows=TRUE, integer64=FALSE, keep.all=FALSE,
   res
 }
 
+
+#' Add metadata to a dataframe containing neuron keys
+#'
+#' @description Enriches a dataframe with metadata for neurons identified by
+#'   key columns. This is useful for adding metadata to partner data or other
+#'   results that contain neuron keys.
+#'
+#' @param x A data.frame containing one or more columns with keys
+#' @param keycol Character vector of column names containing keys.
+#'   Default \code{"key"}. When multiple columns specified, metadata is joined
+#'   for each with corresponding suffixes.
+#' @param suffix Character vector of suffixes for added columns. Must match
+#'   length of keycol. Default generates \code{""} for single keycol, or
+#'   \code{".1"}, \code{".2"}, etc. for multiple. Use \code{""} for no suffix.
+#' @param cols Character vector of column names to add from metadata.
+#'   Default \code{NULL} adds all columns. Warns if any specified columns
+#'   are not found in metadata. The \code{key} column is always kept for joining.
+#' @param ... Additional arguments passed to \code{\link{cf_meta}}
+#'
+#' @return data.frame with additional metadata columns
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Add metadata to partner column only
+#' partners <- cf_partners(cf_ids(hemibrain='DA2_lPN'), threshold=10, details=FALSE)
+#' partners_meta <- cf_add_meta(partners, keycol="post_key")
+#'
+#' # Add metadata to both pre and post
+#' partners_both <- cf_add_meta(partners,
+#'   keycol = c("pre_key", "post_key"),
+#'   suffix = c(".pre", ".post"))
+#'
+#' # Add only type and side columns
+#' partners_minimal <- cf_add_meta(partners, keycol="post_key",
+#'   cols = c("type", "side"))
+#' }
+cf_add_meta <- function(x, keycol = "key", suffix = NULL, cols = NULL, ...) {
+  # Validate inputs
+  if (!is.data.frame(x) || nrow(x) == 0) {
+    return(x)
+  }
+
+  missing_cols <- setdiff(keycol, names(x))
+  if (length(missing_cols))
+    stop("keycol column(s) not found in x: ", paste(missing_cols, collapse = ", "),
+         "\nHint: use keys(x) to add a '", paste(missing_cols, collapse = "/"),
+         "' column, or set keycol= to identify the correct key column.")
+
+  # Set default suffixes
+  if (is.null(suffix)) {
+    suffix <- if (length(keycol) == 1) "" else paste0(".", seq_along(keycol))
+  }
+  if (length(suffix) != length(keycol))
+    stop("Length of suffix must match length of keycol")
+
+  # Extract unique keys and fetch metadata once
+  all_keys <- unique(unlist(x[keycol], use.names = FALSE))
+  all_keys <- all_keys[!is.na(all_keys) & nzchar(all_keys)]
+
+  if (length(all_keys) == 0) {
+    warning("No valid keys found in specified columns")
+    return(x)
+  }
+
+  meta <- cf_meta(all_keys, ...)
+
+  if (is.null(meta) || nrow(meta) == 0) {
+    warning("No metadata found for provided keys")
+    return(x)
+  }
+
+
+  # Remove columns that would conflict or are typically already present
+  meta_cols_to_drop <- c("id", "dataset", "tissue", "sex")
+  meta <- meta[, setdiff(names(meta), meta_cols_to_drop), drop = FALSE]
+
+  # Subset columns if requested (character vector)
+  if (!is.null(cols)) {
+    if (!is.character(cols)) {
+      stop("cols must be a character vector of column names")
+    }
+    missing <- setdiff(cols, names(meta))
+    if (length(missing) > 0) {
+      warning("Column(s) not found in metadata: ",
+              paste(missing, collapse = ", "))
+    }
+    keep_cols <- c("key", intersect(cols, names(meta)))
+    meta <- meta[, keep_cols, drop = FALSE]
+  }
+
+  # Join for each keycol
+  for (i in seq_along(keycol)) {
+    kc <- keycol[i]
+    sf <- suffix[i]
+
+    # Rename key column to match keycol, add suffix to other columns, then join
+    x <- meta %>%
+      dplyr::rename(!!kc := key) %>%
+      dplyr::rename_with(~paste0(.x, sf), .cols = -dplyr::all_of(kc)) %>%
+      dplyr::left_join(x, ., by = kc)
+  }
+
+  x
+}
+
+
 # Shared helper for fanc and banc metadata
 fancorbanc_meta <- function(table, ids=NULL, ...) {
   ol_classes=c("centrifugal", "distal medulla", "distal medulla dorsal rim area",

@@ -11,6 +11,7 @@ cf_partners(
   bind.rows = TRUE,
   MoreArgs = list(),
   keep.all = FALSE,
+  details = c("partner", "query", "both", "neither"),
   use_superclass = getOption("coconatfly.use_superclass", FALSE),
   harmonise_class = getOption("coconatfly.harmonise_class", FALSE)
 )
@@ -35,6 +36,15 @@ note that some columns will be dropped by unless \code{keep.all=TRUE}).}
 \item{keep.all}{Whether to keep all columns when processing multiple datasets
 rather than just those in common (default=\code{FALSE} only keeps shared
 columns).}
+
+\item{details}{Which neurons to enrich with metadata. Options:
+\itemize{
+  \item \code{"partner"} (default): Add metadata for partner neurons only
+  \item \code{"query"}: Add metadata for query neurons only
+  \item \code{"both"}: Add metadata for both with \code{.pre}/\code{.post} suffixes
+  \item \code{"neither"}: No metadata, return minimal columns for speed
+}
+Metadata can also be added later via \code{\link{cf_add_meta}}.}
 
 \item{use_superclass}{If \code{TRUE}, rename class/subclass/subsubclass
 columns to superclass/class/subclass. Can also be set via the

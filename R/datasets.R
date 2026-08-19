@@ -38,10 +38,10 @@ match_datasets <- function(ds) {
   if(length(missing_ds)>0) {
     # Try approximate matching for each missing dataset
     suggestions <- vapply(missing_ds, function(m) {
-      distances <- adist(m, dss, ignore.case = TRUE)
+      distances <- utils::adist(m, dss, ignore.case = TRUE, partial=TRUE)
       closest_idx <- which.min(distances)
       min_dist <- distances[closest_idx]
-      if (min_dist <= 3) {
+      if (min_dist <= 2) {
         paste0("Did you mean '", dss[closest_idx], "'?")
       } else {
         ""
